@@ -1,0 +1,21 @@
+== IAX
+
+=== 自動テスト実施手順
+
+Rspecのインストール
+
+  $ gem install rspec
+
+自動テスト実施
+
+  $ rake test
+
+テスト結果確認
+
+  結果はtest/reports/*.htmlに出力されるので、それを参照
+
+
+一つのケースだけテストしたい場合は
+
+  $ rspec test/cases/xxx.rb
+
