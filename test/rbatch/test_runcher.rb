@@ -1,5 +1,5 @@
 require 'test/unit'
-require './lib/rbatch/runcher'
+require 'rbatch/runcher'
 
 class RuncherTest < Test::Unit::TestCase
   def setup
