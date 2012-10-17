@@ -6,6 +6,7 @@ module RBatch
   def auto_logger
     file = Time.now.strftime("%Y%m%d_%H%M%S_") + Pathname(File.basename($0)).sub_ext(".log").to_s
     dir = File.join(File.join(File.dirname($0),".."),"log")
+    raise Errno::ENOENT if ! Dir.exist? dir
     log = Logger.new(File.join(dir,file))
     begin
       yield log
@@ -13,6 +14,8 @@ module RBatch
       log.fatal("Caught exception; existing 1")
       log.fatal(e)
       exit 1
+    ensure
+      log.close
     end
   end
 end
