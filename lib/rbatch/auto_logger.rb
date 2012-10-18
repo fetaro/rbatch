@@ -7,6 +7,12 @@ module RBatch
     @@default_output_dir  = File.join(File.dirname($0), "..", "log")
     @@debug = false
 
+    #
+    # param: option
+    #  :file_prefix
+    #  :output_dir
+    #  :path
+    #  :formatter   : input directory to "Logger#formatter= "
     def initialize(opt = nil)
       file_prefix = @@default_file_prefix
       output_dir = @@default_output_dir

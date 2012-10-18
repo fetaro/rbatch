@@ -78,5 +78,12 @@ class LoggerTest < Test::Unit::TestCase
     assert_match /bar/, open(path).read
   end
 
+  def test_change_formatte
+    path = File.join( @log_dir , ".." , "log2" , "test.log" )
+    RBatch::Log.new({:path => path , :formatter => proc { |severity, datetime, progname, msg| "hogehoge#{msg}\n" }}) do | log |
+      log.info("bar")
+    end
+    assert_match /hogehogebar/, open(path).read
+  end
 end
 
