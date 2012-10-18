@@ -5,7 +5,6 @@ class LoggerTest < Test::Unit::TestCase
   def setup
     @log_dir =  "./test/log/"
     Dir::mkdir(@log_dir)if ! Dir.exists? @log_dir
-    RBatch::Log::reset
   end
 
   def teardown
@@ -17,8 +16,8 @@ class LoggerTest < Test::Unit::TestCase
     end
   end
 
-  def test_infolog
-    RBatch::Log::record do | log |
+  def test_log
+    RBatch::Log.new do | log |
       log.info("hoge")
     end
     Dir::foreach(@log_dir) do |f|
@@ -27,37 +26,24 @@ class LoggerTest < Test::Unit::TestCase
       end
     end
   end
-
   def test_log_dir_doesnot_exist
     Dir::rmdir(@log_dir)
     assert_raise(Errno::ENOENT){
-      RBatch::Log::record {|log|}
+      RBatch::Log.new {|log|}
     }
     Dir::mkdir(@log_dir)
   end
 
-  def test_change_file_prefix_by_method
-    RBatch::Log::file_prefix = "testprefix_"
-    assert_equal "testprefix_",RBatch::Log::file_prefix
-    RBatch::Log::record do | log |
+  def test_change_log_format
+    RBatch::Log.new({:file_prefix => "testprefix_"}) do | log |
       log.info("hoge")
     end
     assert_match /hoge/, open(@log_dir + "testprefix_test_auto_logger.log").read
   end
 
-  def test_change_log_format_by_args
-    RBatch::Log::record({:file_prefix => "testprefix_"}) do | log |
-      log.info("hoge")
-    end
-    assert_match /hoge/, open(@log_dir + "testprefix_test_auto_logger.log").read
-  end
-
-  def test_change_log_dir_by_method
+  def test_change_log_dir
     log_dir2 = File.join( @log_dir , ".." , "log2")
-    Dir::mkdir(log_dir2) if ! Dir::exist?(log_dir2)
-    RBatch::Log::output_dir = log_dir2
-    assert_equal log_dir2,RBatch::Log::output_dir
-    RBatch::Log::record do | log |
+    RBatch::Log.new({:output_dir=> log_dir2 }) do | log |
       log.info("hoge")
     end
     Dir::foreach(log_dir2) do |f|
@@ -67,33 +53,29 @@ class LoggerTest < Test::Unit::TestCase
     end
   end
 
-  def test_change_log_dir_by_args
-    log_dir2 = File.join( @log_dir , ".." , "log2")
-    RBatch::Log::record({:output_dir=> log_dir2 }) do | log |
+  def test_change_path
+    path = File.join( @log_dir , ".." , "log2" , "test.log" )
+    RBatch::Log.new({:path => path }) do | log |
       log.info("hoge")
     end
-    Dir::foreach(log_dir2) do |f|
-      if ! (/\.+$/ =~ f)
-        assert_match /hoge/, open(File.join(log_dir2 , f)).read
+    assert_match /hoge/, open(path).read
+  end
+
+
+  def test_nest_block
+    path = File.join( @log_dir , ".." , "log2" , "test.log" )
+    RBatch::Log.new do | log |
+      log.info("hoge")
+      RBatch::Log.new({:path => path }) do | log |
+        log.info("bar")
       end
     end
-  end
-
-  def test_change_path_by_method
-    path = File.join( @log_dir , ".." , "log2" , "test.log" )
-    Rbatch::Log::path = path
-    RBatch::Log::record() do | log |
-      log.info("hoge")
+    Dir::foreach(@log_dir) do |f|
+      if ! (/\.+$/ =~ f)
+        assert_match /hoge/, open(@log_dir + f).read
+      end
     end
-    assert_match /hoge/, open(path).read
-  end
-
-  def test_change_path_by_arg
-    path = File.join( @log_dir , ".." , "log2" , "test.log" )
-    RBatch::Log::record({:path => path }) do | log |
-      log.info("hoge")
-    end
-    assert_match /hoge/, open(path).read
+    assert_match /bar/, open(path).read
   end
 
 end
