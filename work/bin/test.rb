@@ -1,8 +1,8 @@
-#!/usr/local/lib/ruby192/bin/ruby -I /home/fetaro/rbatch/lib
+#!/usr/local/lib/ruby192/bin/ruby -I /root/rbatch/lib
 
 require 'rbatch/auto_logger'
 
-RBatch::auto_logger{|log|
+RBatch::Log::record({:output_dir => "../work"}){|log|
  log.info( "hoge" )
-exception_hire
+  #exception_hire
 }
