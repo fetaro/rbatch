@@ -5,8 +5,7 @@ class LoggerTest < Test::Unit::TestCase
   def setup
     @log_dir =  "./test/log/"
     Dir::mkdir(@log_dir)if ! Dir.exists? @log_dir
-    RBatch::Log::file_prefix = "%Y%m%d_%H%M%S_"
-    RBatch::Log::output_dir = @log_dir
+    RBatch::Log::reset
   end
 
   def teardown
@@ -78,6 +77,23 @@ class LoggerTest < Test::Unit::TestCase
         assert_match /hoge/, open(File.join(log_dir2 , f)).read
       end
     end
+  end
+
+  def test_change_path_by_method
+    path = File.join( @log_dir , ".." , "log2" , "test.log" )
+    Rbatch::Log::path = path
+    RBatch::Log::record() do | log |
+      log.info("hoge")
+    end
+    assert_match /hoge/, open(path).read
+  end
+
+  def test_change_path_by_arg
+    path = File.join( @log_dir , ".." , "log2" , "test.log" )
+    RBatch::Log::record({:path => path }) do | log |
+      log.info("hoge")
+    end
+    assert_match /hoge/, open(path).read
   end
 
 end
