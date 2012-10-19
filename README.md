@@ -1,16 +1,19 @@
 How to Use
 =============
 
-### Step1: install
+### Step1: Install
 
 ```
-$ gem install rbatch.gem
+# git clone git@github.com:fetaro/rbatch.git
+# cd rbatch
+# rake package
+# gem install pkg/rbatch-1.0.0
 ```
 
 ### Step2: Make directories
 
 ```
-$ mkdir bin log config
+$ mkdir bin log
 ```
 
 ### Step3: Write batch script with RBatch 
