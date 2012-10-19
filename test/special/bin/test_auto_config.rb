@@ -1,11 +1,11 @@
 require 'test/unit'
-require 'rbatch/auto_config'
+require 'rbatch'
 
 class RuncherTest < Test::Unit::TestCase
   def setup
-    @config_dir =  "./test/config/"
-    @config_file = @config_dir + "test_auto_config.yaml"
-    Dir::mkdir("./test/config/") if ! Dir.exists? @config_dir
+    @config_dir =  File.join(File.dirname(RBatch.program_name), "..", "config")
+    @config_file = File.join(@config_dir , "test_auto_config.yaml")
+    Dir::mkdir(@config_dir) if ! Dir.exists? @config_dir
   end
 
   def teardown
