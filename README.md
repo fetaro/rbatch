@@ -4,7 +4,10 @@ How to Use
 ### Step1: install
 
 ```
-$ gem install rbatch.gem
+# git clone git@github.com:fetaro/rbatch.git
+# cd rbatch
+# rake package
+# gem install pkg/rbatch-1.0.0
 ```
 
 ### Step2: Make directories
