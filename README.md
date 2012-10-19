@@ -4,10 +4,13 @@ RBatch:Ruby-base Batch Script Framework
 About RBatch
 --------------
 This is a Ruby-base Batch Script Framework.
-There are 3 functions. 
+
+There are following functions. 
+
 * Auto Logging
 * Auto Config Reading
 * External Command Wrapper 
+* Directory Structure convention
 
 ### Auto Logging
 Use Auto Logging block, RBatch automatically write to logfile.
