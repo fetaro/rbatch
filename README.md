@@ -66,7 +66,9 @@ p RBatch::read_config
 ```
 
 ### External Command Wrapper 
-RBatch wrap external command (such as 'ls') 
+RBatch provide a function which wrap external command (such as 'ls').
+
+And, the function return simple hash object which contain command's STDOUT, STDERR ,and exit status.
 
 sample
 ```
@@ -75,7 +77,7 @@ p RBatch::run("ls")
 => {:stdout => "fileA\nfileB\n", :stderr => "", :status => 0}
 ```
 
-### Directory structure convention
+### Directory Structure Convention
 
 RBatch assume following directory structure.
 
@@ -83,13 +85,13 @@ RBatch assume following directory structure.
 ./
  |-bin
  |  |- hoge.rb
- |  |- bar.rb
+ |  \- bar.rb
  |-config
  |  |- hoge.yaml
- |  |- bar.yaml
- |-log
+ |  \- bar.yaml
+ \-log
     |- YYYYMMDD_HHMMSS_hoge.log
-    |- YYYYMMDD_HHMMSS_bar.log
+    \- YYYYMMDD_HHMMSS_bar.log
 ```
 
 
