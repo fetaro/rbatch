@@ -72,6 +72,24 @@ p RBatch::run("ls")
 => {:stdout => "fileA\nfileB\n", :stderr => "", :status => 0}
 ```
 
+### Directory structure convention
+
+RBatch assume following directory structure.
+
+```
+./
+ |-bin
+ |  |- hoge.rb
+ |  |- bar.rb
+ |-config
+ |  |- hoge.yaml
+ |  |- bar.yaml
+ |-log
+    |- YYYYMMDD_HHMMSS_hoge.log
+    |- YYYYMMDD_HHMMSS_bar.log
+```
+
+
 Quick Start
 --------------
 ### Step1: Install
