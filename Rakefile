@@ -46,6 +46,7 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
+desc "Special Test for auto_logger"
 task :test_logger do |t|
   $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"lib"))
   require "rbatch"
@@ -54,6 +55,7 @@ task :test_logger do |t|
   load path
 end
 
+desc "Special Test for auto_config"
 task :test_config do |t|
   $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"lib"))
   require "rbatch"
