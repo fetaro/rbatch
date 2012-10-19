@@ -39,8 +39,25 @@ Rake::RDocTask.new do |rdoc|
   rdoc.options << '--line-numbers'
 end
 
+
 Rake::TestTask.new do |t|
   t.libs << "./lib"
-  t.test_files = FileList['test/test*.rb','test/**/test*.rb']
+  t.test_files = FileList['test/test*.rb']
   t.verbose = true
+end
+
+task :test_logger do |t|
+  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"lib"))
+  require "rbatch"
+  path = File.join("test","special","bin","test_auto_logger.rb")
+  RBatch.program_name = path
+  load path
+end
+
+task :test_config do |t|
+  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"lib"))
+  require "rbatch"
+  path = File.join("test","special","bin","test_auto_config.rb")
+  RBatch.program_name = path
+  load path
 end
