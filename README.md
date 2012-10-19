@@ -1,13 +1,13 @@
 How to use
 =============
 
-#Step1: make directory
+### Step1: make directory
 
 ```
 $ mkdir bin log config
 ```
 
-#Step2: make batch script with RBatch 
+### Step2: make batch script with RBatch 
 
 for bin/backup.rb
 ```
@@ -21,13 +21,13 @@ RBatch::Log.new(){|log|
 }
 ```
 
-#Step3: Run batch script
+### Step3: Run batch script
 
 ```
 $ ruby bin/backup.rb
 ```
 
-#Step4: Check log file
+### Step4: Check log file
 
 ```
 $ cat log/YYYYMMDD_HHMMSS_backup.log
