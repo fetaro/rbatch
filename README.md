@@ -1,4 +1,4 @@
-How to Use
+RBatch:Ruby-base Batch Script Framework (ruby-base バッチスクリプト フレームワーク)
 =============
 
 ### Step1: Install
