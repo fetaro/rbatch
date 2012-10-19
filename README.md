@@ -1,13 +1,19 @@
-How to use
+How to Use
 =============
 
-### Step1: make directory
+### Step1: install
+
+```
+$ gem install rbatch.gem
+```
+
+### Step2: Make directories
 
 ```
 $ mkdir bin log config
 ```
 
-### Step2: make batch script with RBatch 
+### Step3: Write batch script with RBatch 
 
 for bin/backup.rb
 ```
@@ -21,13 +27,13 @@ RBatch::Log.new(){|log|
 }
 ```
 
-### Step3: Run batch script
+### Step4: Run batch script
 
 ```
 $ ruby bin/backup.rb
 ```
 
-### Step4: Check log file
+### Step5: Check log file
 
 ```
 $ cat log/YYYYMMDD_HHMMSS_backup.log
