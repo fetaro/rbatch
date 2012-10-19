@@ -1,7 +1,7 @@
 How to Use
 =============
 
-### Step1: install
+### Step1: Install
 
 ```
 # git clone git@github.com:fetaro/rbatch.git
@@ -13,7 +13,7 @@ How to Use
 ### Step2: Make directories
 
 ```
-$ mkdir bin log config
+$ mkdir bin log
 ```
 
 ### Step3: Write batch script with RBatch 
