@@ -1,7 +1,0 @@
-# Logfile created on 2012-10-13 11:45:14 +0900 by logger.rb/25413
-I, [2012-10-13T11:45:14.958820 #9006]  INFO -- : hoge
-F, [2012-10-13T11:45:14.958880 #9006] FATAL -- : Caught exception; existing 1
-F, [2012-10-13T11:45:14.958912 #9006] FATAL -- : undefined local variable or method `exception_hire' for main:Object (NameError)
-test.rb:7:in `block in <main>'
-/home/fetaro/rbatch/lib/rbatch/auto_logger.rb:11:in `auto_logger'
-test.rb:5:in `<main>'
