@@ -10,10 +10,9 @@ There are 3 functions.
 * External Command Wrapper 
 
 ### Auto Logging
-* Auto Logging block
- * Use Auto Logging block, RBatch automatically write to logfile (default is "../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log") automaticaly
-* Exception catch
- * If exception occuerd, then RBatch write stack trace to logfile
+Use Auto Logging block, RBatch automatically write to logfile.
+Log file default location is "../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
+If exception occuerd, then RBatch write stack trace to logfile.
 
 sample
 
@@ -43,7 +42,7 @@ test.rb:3:in `<main>'
 
 ### Auto Config Reading
 
-* RBatch easy to read config file (default is "../config/${PROG_NAME}.yaml")
+RBatch easy to read config file (located on "../config/${PROG_NAME}.yaml")
 
 sample
 
@@ -64,8 +63,9 @@ p RBatch::read_config
 ```
 
 ### External Command Wrapper 
-* RBatch wrap external command (such as 'ls') 
+RBatch wrap external command (such as 'ls') 
 
+sample
 ```
 require 'rbatch'
 p RBatch::run("ls")
