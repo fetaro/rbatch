@@ -8,22 +8,26 @@ module RBatch
     def Log.debug=(bol); @@debug = true ; end
     def Log.debug ; @@debug ; end
 
-    #
+    #=Auto Loggin Block
+    # 
     # param: option
     #  :file_prefix
     #  :output_dir
     #  :path
     #  :formatter   : input directory to "Logger#formatter= "
+    #  :
     def initialize(opt = nil)
       file_prefix = "%Y%m%d_%H%M%S_"
       output_dir  = File.join(File.dirname(RBatch.program_name), ".." , "log")
       path        = nil
       formatter   = nil
+      level       = Logger::INFO
       if ! opt.nil?
         file_prefix = opt[:file_prefix] if opt[:file_prefix]
         output_dir  = opt[:output_dir]  if opt[:output_dir]
         path        = opt[:path]        if opt[:path]
         formatter   = opt[:formatter]   if opt[:formatter]
+        level       = opt[:level]   if opt[:level]
       end
       if path.nil?
         file = Time.now.strftime(file_prefix) + Pathname(File.basename(RBatch.program_name)).sub_ext(".log").to_s
@@ -33,6 +37,7 @@ module RBatch
       puts "RBatch.program_name = " + RBatch.program_name if @@debug
       log = Logger.new(path)
       log.formatter = formatter if formatter
+      log.level = level
       begin
         yield log
       rescue => e
