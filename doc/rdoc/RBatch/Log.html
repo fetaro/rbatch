@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: RBatch::Log</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/rbatch/auto_logger_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/auto_logger.rb">lib/rbatch/auto_logger.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-c-verbose">::verbose</a></li>
+					
+					<li><a href="#method-c-verbose%3D">::verbose=</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../CHANGELOG.html">CHANGELOG</a></li>
+				
+					<li class="file"><a href="../LICENSE.html">LICENSE</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../RBatch.html">RBatch</a></li>
+				
+					<li><a href="../RBatch/Log.html">RBatch::Log</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">RBatch::Log</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(opt = nil)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Auto Logging Block.
+</p>
+<h4>Sample</h4>
+<pre>
+ RBatch::Log.new({:level =&gt; Logger::INFO}){ |log|
+   log.info &quot;info string&quot;
+   log.error &quot;error string&quot;
+   raise &quot;exception&quot;
+ }
+</pre>
+<h4>Params</h4>
+<p>
+<tt>opt</tt> = Option hash object. Hash keys is follows.
+</p>
+<ul>
+<li><p>
+<tt>:file_prefix</tt> (String) = log filename prefix format. Default is
+&#8220;%Y%m%d_%H%M%S_&#8221;.
+</p>
+</li>
+<li><p>
+<tt>:output_dir</tt> (String) = log direcotry path. Default is
+&#8220;../log&#8220;
+</p>
+</li>
+<li><p>
+<tt>:path</tt> (String) = log file path. Default is {output_dir} +
+{file_prefix} + (Program name) + &#8220;.log&#8220;
+</p>
+</li>
+<li><p>
+<tt>:formatter</tt> (String) = log formatter. &#8220;Logger#formatter=
+&#8220;
+</p>
+</li>
+<li><p>
+<tt>:level</tt> (Logger::[DEBUG|INFO|WARN|ERROR|FATAL])= log level. Default
+is Logger::INFO
+</p>
+</li>
+</ul>
+<h4>Block params</h4>
+<p>
+<tt>log</tt> = Instance of <tt>Logger</tt>
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/auto_logger.rb, line 32</span>
+32:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">opt</span> = <span class="ruby-keyword kw">nil</span>)
+33:       <span class="ruby-identifier">file_prefix</span> = <span class="ruby-value str">&quot;%Y%m%d_%H%M%S_&quot;</span>
+34:       <span class="ruby-identifier">output_dir</span>  = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>), <span class="ruby-value str">&quot;..&quot;</span> , <span class="ruby-value str">&quot;log&quot;</span>)
+35:       <span class="ruby-identifier">path</span>        = <span class="ruby-keyword kw">nil</span>
+36:       <span class="ruby-identifier">formatter</span>   = <span class="ruby-keyword kw">nil</span>
+37:       <span class="ruby-identifier">level</span>       = <span class="ruby-constant">Logger</span><span class="ruby-operator">::</span><span class="ruby-constant">INFO</span>
+38:       <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">nil?</span>
+39:         <span class="ruby-identifier">file_prefix</span> = <span class="ruby-identifier">opt</span>[<span class="ruby-value">:file_prefix</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opt</span>[<span class="ruby-value">:file_prefix</span>]
+40:         <span class="ruby-identifier">output_dir</span>  = <span class="ruby-identifier">opt</span>[<span class="ruby-value">:output_dir</span>]  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opt</span>[<span class="ruby-value">:output_dir</span>]
+41:         <span class="ruby-identifier">path</span>        = <span class="ruby-identifier">opt</span>[<span class="ruby-value">:path</span>]        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opt</span>[<span class="ruby-value">:path</span>]
+42:         <span class="ruby-identifier">formatter</span>   = <span class="ruby-identifier">opt</span>[<span class="ruby-value">:formatter</span>]   <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opt</span>[<span class="ruby-value">:formatter</span>]
+43:         <span class="ruby-identifier">level</span>       = <span class="ruby-identifier">opt</span>[<span class="ruby-value">:level</span>]   <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opt</span>[<span class="ruby-value">:level</span>]
+44:       <span class="ruby-keyword kw">end</span>
+45:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">nil?</span>
+46:         <span class="ruby-identifier">file</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-identifier">file_prefix</span>) <span class="ruby-operator">+</span> <span class="ruby-constant">Pathname</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>)).<span class="ruby-identifier">sub_ext</span>(<span class="ruby-value str">&quot;.log&quot;</span>).<span class="ruby-identifier">to_s</span>
+47:         <span class="ruby-identifier">path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">output_dir</span>,<span class="ruby-identifier">file</span>)
+48:       <span class="ruby-keyword kw">end</span>
+49:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Logfile Path = &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">@@verbose</span>
+50:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;RBatch.program_name = &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">@@verbose</span>
+51:       <span class="ruby-identifier">log</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>)
+52:       <span class="ruby-identifier">log</span>.<span class="ruby-identifier">formatter</span> = <span class="ruby-identifier">formatter</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">formatter</span>
+53:       <span class="ruby-identifier">log</span>.<span class="ruby-identifier">level</span> = <span class="ruby-identifier">level</span>
+54:       <span class="ruby-keyword kw">begin</span>
+55:         <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">log</span>
+56:       <span class="ruby-keyword kw">rescue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+57:         <span class="ruby-identifier">log</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-value str">&quot;Caught exception; existing 1&quot;</span>)
+58:         <span class="ruby-identifier">log</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-identifier">e</span>)
+59:         <span class="ruby-identifier">exit</span> <span class="ruby-value">1</span>
+60:       <span class="ruby-keyword kw">ensure</span>
+61:         <span class="ruby-identifier">log</span>.<span class="ruby-identifier">close</span>
+62:       <span class="ruby-keyword kw">end</span>
+63:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="verbose-method" class="method-detail ">
+				<a name="method-c-verbose"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">verbose</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Get verbose mode flag.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="verbose-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/auto_logger.rb, line 11</span>
+11:     <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Log</span>.<span class="ruby-identifier">verbose</span> ; <span class="ruby-identifier">@@verbose</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="verbose--method" class="method-detail ">
+				<a name="method-c-verbose%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">verbose=</span><span
+						class="method-args">(bol)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Set verbose mode flag.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="verbose--source">
+<pre>
+   <span class="ruby-comment cmt"># File lib/rbatch/auto_logger.rb, line 9</span>
+9:     <span class="ruby-keyword kw">def</span> <span class="ruby-constant">Log</span>.<span class="ruby-identifier">verbose=</span>(<span class="ruby-identifier">bol</span>); <span class="ruby-identifier">@@verbose</span> = <span class="ruby-keyword kw">true</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

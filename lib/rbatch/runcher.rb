@@ -4,15 +4,20 @@ require 'tempfile'
 module RBatch
 
   module_function
-  # Wrapper of Kernel#spawn
-  #
-  #   ex)  result = RBatch::run "ls -l"
-  #        p result[:stdout]
-  #
-  # params : *cmd_params : command string
-  #
-  # return : {:stdout => stdout , :stderr => stderr, :status => status}
-  #
+
+  # External command runcher.
+  # 
+  # * Input cmd_params into Kernel#spawn.
+  # * Write command's stdout and stderr to tmp file(located at "./").
+  # * Return hash object including stdout, stderr, and exit status.
+  # ==== Sample
+  #  require 'rbatch'
+  #  p RBatch::run("ls")
+  #  => {:stdout => "fileA\nfileB\n", :stderr => "", :status => 0}
+  # ==== Params
+  # +cmd_params+ = command string.
+  # ==== Return
+  # {:stdout => stdout , :stderr => stderr, :status => status}
   def run(*cmd_params)
     tmp_dir="."
     tmp_out = Tempfile::new("tmpout",tmp_dir)

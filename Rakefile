@@ -31,7 +31,7 @@ end
 Rake::RDocTask.new do |rdoc|
   files =['README.md', 'LICENSE', 'CHANGELOG', 'lib/**/*.rb']
   rdoc.rdoc_files.add(files)
-  rdoc.main = "README.md" # page to start on
+#  rdoc.main = "README.md" # page to start on
   rdoc.title = "RBatch Docs"
   rdoc.rdoc_dir = 'doc/rdoc' # rdoc output folder
   rdoc.options << '--line-numbers'

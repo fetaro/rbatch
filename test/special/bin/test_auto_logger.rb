@@ -9,7 +9,7 @@ class LoggerTest < Test::Unit::TestCase
     @path2 =  File.join(@log_dir , "testunit2.log")
     Dir::mkdir(@log_dir)if ! Dir.exists? @log_dir
     Dir::mkdir(@log_dir2)if ! Dir.exists? @log_dir2
-#    RBatch::Log.debug = true
+#    RBatch::Log.verbose = true
   end
 
   def teardown
