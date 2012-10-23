@@ -68,13 +68,18 @@ p RBatch::read_config
 ### External Command Wrapper 
 RBatch provide a function which wrap external command (such as 'ls').
 
-And, the function return simple hash object which contain command's STDOUT, STDERR ,and exit status.
+This function return a result object which contain command's STDOUT, STDERR ,and exit status.
 
 sample
 ```
 require 'rbatch'
-p RBatch::run("ls")
-=> {:stdout => "fileA\nfileB\n", :stderr => "", :status => 0}
+r = RBatch::cmd("ls")
+p r.stdout
+=> "fileA\nfileB\n"
+p r.stderr
+=> ""
+p r.status
+=> 0
 ```
 
 ### Directory Structure Convention
