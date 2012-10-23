@@ -7,12 +7,23 @@ module RBatch
     @stdout_file
     @stderr_file
     @status
-    def initialize(stdout_file, stderr_file,status)
+    def initialize(stdout_file, stderr_file, status)
       @stdout_file = stdout_file
       @stderr_file = stderr_file
       @status = status
     end
-
+    def stdout_file ; @stdout_file ; end
+    def stderr_file ; @stderr_file ; end
+    def status      ; @status      ; end
+    def stdout
+      File.read(@stdout_file)
+    end
+    def stderr
+      File.read(@stderr_file)
+    end
+    def to_h
+      {:stdout => stdout, :stderr => stderr, :status => status}
+    end
   end
 
   module_function
@@ -26,13 +37,14 @@ module RBatch
   # * Return hash object including stdout, stderr, and exit status.
   # ==== Sample
   #  require 'rbatch'
-  #  p RBatch::run("ls")
-  #  => {:stdout => "fileA\nfileB\n", :stderr => "", :status => 0}
+  #  r = RBatch::cmd("ls")
+  #  p r.stdout
+  #  => "fileA\nfileB\n"
   # ==== Params
-  # +cmd_params+ = command string.
+  # +cmd_params+ = command string. Directory input to Kernel#spawn
   # ==== Return
-  # {:stdout => stdout , :stderr => stderr, :status => status}
-  def run(*cmd_params)
+  # instance of RBatch::CMDResult
+  def cmd(*cmd_params)
     case RUBY_PLATFORM
     when /mswin|mingw/
       tmp_dir = ENV["TEMP"]
@@ -41,19 +53,10 @@ module RBatch
     else
       raise "Unknown RUBY_PRATFORM : " + RUBY_PLATFORM
     end
-    tmp_out = Tempfile::new("rbatch_tmpout",tmp_dir)
-    tmp_err = Tempfile::new("rbatch_tmperr",tmp_dir)
-    begin
-      pid = spawn(*cmd_params,:out => [tmp_out,"w"],:err => [tmp_err,"w"])
-      status =  Process.waitpid2(pid)[1] >> 8
-      stdout = File.read(tmp_out)
-      stderr = File.read(tmp_err)
-    ensure
-      [tmp_out,tmp_err].each do |f|
-        f.close(true)
-      end
-    end
-    return {:stdout => stdout , :stderr => stderr, :status => status}
+    stdout_file = Tempfile::new("rbatch_tmpout",tmp_dir)
+    stderr_file = Tempfile::new("rbatch_tmperr",tmp_dir)
+    pid = spawn(*cmd_params,:out => [stdout_file,"w"],:err => [stderr_file,"w"])
+    status =  Process.waitpid2(pid)[1] >> 8
+    return RBatch::CMDResult.new(stdout_file,stderr_file,status)
   end
-
 end
