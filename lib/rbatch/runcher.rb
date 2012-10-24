@@ -24,6 +24,9 @@ module RBatch
     def to_h
       {:stdout => stdout, :stderr => stderr, :status => status}
     end
+    def to_s
+      to_h.to_s
+    end
   end
 
   module_function
