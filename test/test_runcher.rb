@@ -52,4 +52,8 @@ class RuncherTest < Test::Unit::TestCase
     assert_equal "2", result.to_h[:stderr]
     assert_equal 1  , result.to_h[:status]
   end
+  def test_to_s
+    result = RBatch::cmd "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
+    assert_equal "{:stdout=>\"1\", :stderr=>\"2\", :status=>1}", result.to_s
+  end
 end
