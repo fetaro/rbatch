@@ -1,6 +1,9 @@
 RBatch:Ruby-base Batch Script Framework
 =============
 
+[link]: README.ja.md "japanese"
+[link]: README.md "english"
+
 About RBatch
 --------------
 This is a Ruby-base Batch Script Framework.
