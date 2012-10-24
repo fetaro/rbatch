@@ -1,4 +1,4 @@
-[[English]](README.md "english") [[Japanese]](README.ja.md "japanese")
+[[English]](https://github.com/fetaro/rbatch/blob/master/README.md "english") [[Japanese]](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese")
 
 RBatch:Ruby-base バッチスクリプトフレームワーク
 =============
