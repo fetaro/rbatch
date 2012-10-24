@@ -86,7 +86,7 @@ p r.status
 
 ### Directory Structure Convention
 
-RBatch restrict file naming rule and directory structure.
+Follow the axiom of "convention over configuration", RBatch restrict file naming rule and directory structure.
 
 For exsample, If you make "bin/hoge.rb", you should name config file to "conf/hoge.yaml". And the name of log file is decided on "log/YYYYMMDD_HHMMSS_hoge.rb"
 
