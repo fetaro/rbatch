@@ -17,9 +17,9 @@ module RBatch
   #   - item3
   # script : ./bin/sample2.rb
   #  require 'rbatch'
-  #  p RBatch::read_config
+  #  p RBatch::config
   #  => {"key" => "value", "array" => ["item1", "item2", "item3"]}
-  def read_config
+  def config
     file = Pathname(File.basename(RBatch.program_name)).sub_ext(".yaml").to_s
     dir = File.join(File.join(File.dirname(RBatch.program_name),".."),"config")
     return YAML::load_file(File.join(dir,file))

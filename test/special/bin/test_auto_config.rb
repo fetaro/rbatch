@@ -15,20 +15,20 @@ class RuncherTest < Test::Unit::TestCase
   def test_require
   end
 
-  def test_read_config
+  def test_config
     open( @config_file  , "w" ){|f| f.write("key: value")}
-    assert_equal "value",  RBatch.read_config["key"]
+    assert_equal "value",  RBatch.config["key"]
   end
 
   def test_read_error
     assert_raise(Errno::ENOENT){
-      RBatch.read_config
+      RBatch.config
     }
   end
 
   def test_double_read
     open( @config_file  , "w" ){|f| f.write("key: value")}
-    assert_equal "value",  RBatch.read_config["key"]
-    assert_equal "value",  RBatch.read_config["key"]
+    assert_equal "value",  RBatch.config["key"]
+    assert_equal "value",  RBatch.config["key"]
   end
 end
