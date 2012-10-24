@@ -1,3 +1,5 @@
+[[English]](README.md "english") [[Japanese]](README.ja.md "japanese")
+
 RBatch:Ruby-base バッチスクリプトフレームワーク
 =============
 
