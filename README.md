@@ -1,8 +1,7 @@
+[[English]](README.md "english") [[Japanese]](README.ja.md "japanese")
+
 RBatch:Ruby-base Batch Script Framework
 =============
-
-[link]: README.ja.md "japanese"
-[link]: README.md "english"
 
 About RBatch
 --------------
