@@ -5,7 +5,7 @@ RBatch:Ruby-base Batch Script Framework
 
 About RBatch
 --------------
-This is a Ruby-base Batch Script Framework.
+This is a Ruby-base Batch Script Framework. RBatch offer a convenient function as a framework, when you write a batch script such as "data backup script" or "proccess start script".
 
 There are following functions. 
 
