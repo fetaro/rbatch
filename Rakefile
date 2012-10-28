@@ -19,13 +19,16 @@ spec = Gem::Specification.new do |s|
   s.author = 'fetaro'
   s.email = 'fetaro@gmail.com'
   s.homepage = 'https://github.com/fetaro/rbatch'
+  s.files = %w(LICENSE README.md README.ja.md Rakefile) + Dir.glob("{bin,lib,spec}/**/*")
   s.require_path = "lib"
+
 end
 
 Rake::GemPackageTask.new(spec) do |p|
   p.gem_spec = spec
-  p.need_tar = true
-  p.need_zip = true
+  p.package_files.include("lib/**/*")
+  p.need_tar = false
+  p.need_zip = false
 end
 
 Rake::RDocTask.new do |rdoc|
