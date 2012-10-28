@@ -111,7 +111,7 @@ Quick Start
 ### Step1: Install
 
 ```
-# git clone git@github.com:fetaro/rbatch.git
+# git clone https://github.com/fetaro/rbatch.git
 # cd rbatch
 # rake package
 # gem install pkg/rbatch-1.0.0
