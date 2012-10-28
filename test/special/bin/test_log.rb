@@ -49,7 +49,7 @@ class LoggerTest < Test::Unit::TestCase
     RBatch::Log.new({:file_prefix => "testprefix_"}) do | log |
       log.info("hoge")
     end
-    assert_match /hoge/, open(File.join(@log_dir , "testprefix_test_auto_logger.log")).read
+    assert_match /hoge/, open(File.join(@log_dir , "testprefix_test_log.log")).read
   end
 
   def test_change_log_dir
