@@ -114,7 +114,7 @@ RBatchでは、「設定より規約」(convention over configuration)という�
 ### ステップ1: インストール
 
 ```
-# git clone git@github.com:fetaro/rbatch.git
+# git clone https://github.com/fetaro/rbatch.git
 # cd rbatch
 # rake package
 # gem install pkg/rbatch-1.0.0
