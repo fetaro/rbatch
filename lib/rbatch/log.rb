@@ -4,6 +4,16 @@ require 'pathname'
 module RBatch
   class Log
     @@verbose = false
+    @@def_opt = {
+      :file_prefix => "%Y%m%d_%H%M%S_",
+      :file_suffix => ".log",
+      :output_dir  => File.join(File.dirname(RBatch.program_name), ".." , "log"),
+      :path        => nil,
+      :formatter   => nil,
+      :level       => Logger::INFO
+    }
+
+    @opt
 
     # Set verbose mode flag.
     def Log.verbose=(bol); @@verbose = true ; end
@@ -30,27 +40,23 @@ module RBatch
     # ==== Block params
     # +log+ = Instance of +Logger+
     def initialize(opt = nil)
-      file_prefix = "%Y%m%d_%H%M%S_"
-      output_dir  = File.join(File.dirname(RBatch.program_name), ".." , "log")
-      path        = nil
-      formatter   = nil
-      level       = Logger::INFO
-      if ! opt.nil?
-        file_prefix = opt[:file_prefix] if opt[:file_prefix]
-        output_dir  = opt[:output_dir]  if opt[:output_dir]
-        path        = opt[:path]        if opt[:path]
-        formatter   = opt[:formatter]   if opt[:formatter]
-        level       = opt[:level]   if opt[:level]
+      @opt = @@def_opt
+      @@def_opt.each_key do |key|
+        if ! opt.nil? && opt[key]
+          @opt[key] = opt[key]
+        end
       end
-      if path.nil?
-        file = Time.now.strftime(file_prefix) + Pathname(File.basename(RBatch.program_name)).sub_ext(".log").to_s
-        path = File.join(output_dir,file)
+      if @opt[:path].nil?
+        file = Time.now.strftime(@opt[:file_prefix]) + Pathname(File.basename(RBatch.program_name)).sub_ext(@opt[:file_suffix]).to_s
+        path = File.join(@opt[:output_dir],file)
+      else
+        path = @opt[:path]
       end
       puts "Logfile Path = " + path if @@verbose
       puts "RBatch.program_name = " + RBatch.program_name if @@verbose
       log = Logger.new(path)
-      log.formatter = formatter if formatter
-      log.level = level
+      log.formatter = @opt[:formatter] if @opt[:formatter]
+      log.level = @opt[:level]
       begin
         yield log
       rescue => e
