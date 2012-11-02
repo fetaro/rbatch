@@ -40,24 +40,29 @@ module RBatch
     # ==== Block params
     # +log+ = Instance of +Logger+
     def initialize(opt = nil)
-      @opt = @@def_opt
+      # parse option
+      @opt = @@def_opt.clone
       @@def_opt.each_key do |key|
-        if ! opt.nil? && opt[key]
+        if opt != nil  && opt[key]
           @opt[key] = opt[key]
+        elsif RBatch.common_config != nil && RBatch.common_config["log"] && RBatch.common_config["log"][key.to_s]
+          @opt[key] = RBatch.common_config[:log][key]
         end
       end
+      # determine log file name
       if @opt[:path].nil?
         file = Time.now.strftime(@opt[:file_prefix]) + Pathname(File.basename(RBatch.program_name)).sub_ext(@opt[:file_suffix]).to_s
         path = File.join(@opt[:output_dir],file)
       else
         path = @opt[:path]
       end
+      # create Logger instance
       puts "Logfile Path = " + path if @@verbose
       puts "RBatch.program_name = " + RBatch.program_name if @@verbose
       log = Logger.new(path)
-      log.formatter = @opt[:formatter] if @opt[:formatter]
-      log.level = @opt[:level]
       begin
+        log.formatter = @opt[:formatter] if @opt[:formatter]
+        log.level = @opt[:level]
         yield log
       rescue => e
         log.fatal("Caught exception; existing 1")
