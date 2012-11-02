@@ -1,18 +1,23 @@
 require 'test/unit'
+require 'fileutils'
 require 'rbatch'
-
 class LoggerTest < Test::Unit::TestCase
   def setup
     @log_dir  = File.join(File.dirname(RBatch.program_name), "..", "log")
     @log_dir2 = File.join(File.dirname(RBatch.program_name), "..", "log2")
     @path  =  File.join(@log_dir , "testunit.log")
     @path2 =  File.join(@log_dir , "testunit2.log")
+    @path3 =  File.join(@log_dir , "testunit3.log")
+    @common_config  = File.join(File.dirname(RBatch.program_name), "..", "config", "rbatch_common.yaml")
+
     Dir::mkdir(@log_dir)if ! Dir.exists? @log_dir
     Dir::mkdir(@log_dir2)if ! Dir.exists? @log_dir2
+
 #    RBatch::Log.verbose = true
   end
 
   def teardown
+    File::delete(@common_config) if File.exists?(@common_config)
     if Dir.exists? @log_dir
       Dir::foreach(@log_dir) do |f|
         File::delete(File.join(@log_dir , f)) if ! (/\.+$/ =~ f)
@@ -33,7 +38,11 @@ class LoggerTest < Test::Unit::TestCase
     end
     Dir::foreach(@log_dir) do |f|
       if ! (/\.+$/ =~ f)
-        assert_match /hoge/, open(File.join(@log_dir , f)).read
+
+        File::open(File.join(@log_dir , f)) {|f|
+          assert_match /hoge/, f.read
+        }
+        #assert_match /hoge/, open(File.join(@log_dir , f)).read
       end
     end
   end
@@ -49,7 +58,9 @@ class LoggerTest < Test::Unit::TestCase
     RBatch::Log.new({:file_prefix => "testprefix_"}) do | log |
       log.info("hoge")
     end
-    assert_match /hoge/, open(File.join(@log_dir , "testprefix_test_log.log")).read
+    File::open(File.join(@log_dir , "testprefix_test_log.log")) {|f|
+      assert_match /hoge/, f.read
+    }
   end
 
   def test_change_log_dir
@@ -58,7 +69,9 @@ class LoggerTest < Test::Unit::TestCase
     end
     Dir::foreach(@log_dir2) do |f|
       if ! (/\.+$/ =~ f)
-        assert_match /hoge/, open(File.join(@log_dir2 , f)).read
+        File::open(File.join(@log_dir2 , f)) {|f|
+          assert_match /hoge/, f.read
+        }
       end
     end
   end
@@ -67,7 +80,9 @@ class LoggerTest < Test::Unit::TestCase
     RBatch::Log.new({:path => @path }) do | log |
       log.info("hoge")
     end
-    assert_match /hoge/, open(@path).read
+    File::open(@path) {|f|
+      assert_match /hoge/, f.read
+    }
   end
 
 
@@ -78,15 +93,23 @@ class LoggerTest < Test::Unit::TestCase
         log.info("bar")
       end
     end
-    assert_match /hoge/, open(@path).read
-    assert_match /bar/, open(@path2).read
+    File::open(@path) {|f| assert_match /hoge/, f.read }
+    File::open(@path2) {|f| assert_match /bar/, f.read }
   end
 
   def test_change_formatte
     RBatch::Log.new({:path => @path , :formatter => proc { |severity, datetime, progname, msg| "hogehoge#{msg}\n" }}) do | log |
       log.info("bar")
     end
-    assert_match /hogehogebar/, open(@path).read
+    File::open(@path) {|f| assert_match /hogehogebar/, f.read }
   end
+
+ # def test_common_config_path
+ #   open( @common_config  , "w" ){|f| f.write("log.path: " + @path3)}
+ #   RBatch::Log.new() do | log |
+ #     log.info("fuga")
+ #   end
+ #   File::open(@path3) {|f| assert_match /fuga/, f.read }
+ # end
 end
 
