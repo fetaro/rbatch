@@ -16,7 +16,7 @@ module RBatch
     @opt
 
     # Set verbose mode flag.
-    def Log.verbose=(bol); @@verbose = true ; end
+    def Log.verbose=(bol); @@verbose = bol ; end
     # Get verbose mode flag.
     def Log.verbose ; @@verbose ; end
 
@@ -40,16 +40,23 @@ module RBatch
     # ==== Block params
     # +log+ = Instance of +Logger+
     def initialize(opt = nil)
+
       # parse option
+
       @opt = @@def_opt.clone
       @@def_opt.each_key do |key|
         if opt != nil  && opt[key]
           @opt[key] = opt[key]
         elsif RBatch.common_config != nil && RBatch.common_config["log"] && RBatch.common_config["log"][key.to_s]
-          @opt[key] = RBatch.common_config[:log][key]
+          @opt[key] = RBatch.common_config["log"][key.to_s]
+        else
+          # use default
         end
       end
+      puts "option = " + @opt.to_s if @@verbose
+
       # determine log file name
+
       if @opt[:path].nil?
         file = Time.now.strftime(@opt[:file_prefix]) + Pathname(File.basename(RBatch.program_name)).sub_ext(@opt[:file_suffix]).to_s
         path = File.join(@opt[:output_dir],file)
