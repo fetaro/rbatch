@@ -104,12 +104,16 @@ class LoggerTest < Test::Unit::TestCase
     File::open(@path) {|f| assert_match /hogehogebar/, f.read }
   end
 
- # def test_common_config_path
- #   open( @common_config  , "w" ){|f| f.write("log.path: " + @path3)}
- #   RBatch::Log.new() do | log |
- #     log.info("fuga")
- #   end
- #   File::open(@path3) {|f| assert_match /fuga/, f.read }
- # end
+  def test_common_config_path
+    open( @common_config  , "w" ){|f| f.write("log:\n  path: " + @path3)}
+p "--------------"
+RBatch::Log.verbose = true
+File::open(@common_config) {|f| puts f.read }
+    RBatch::Log.new() do | log |
+      log.info("fuga")
+    end
+RBatch::Log.verbose = false
+    File::open(@path3) {|f| assert_match /fuga/, f.read }
+  end
 end
 
