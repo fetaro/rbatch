@@ -8,7 +8,6 @@ class LoggerTest < Test::Unit::TestCase
     @path  =  File.join(@log_dir , "testunit.log")
     @path2 =  File.join(@log_dir , "testunit2.log")
     @path3 =  File.join(@log_dir , "testunit3.log")
-    @common_config  = File.join(File.dirname(RBatch.program_name), "..", "config", "rbatch_common.yaml")
 
     Dir::mkdir(@log_dir)if ! Dir.exists? @log_dir
     Dir::mkdir(@log_dir2)if ! Dir.exists? @log_dir2
@@ -17,7 +16,7 @@ class LoggerTest < Test::Unit::TestCase
   end
 
   def teardown
-    File::delete(@common_config) if File.exists?(@common_config)
+    File::delete(RBatch.common_config_path) if File.exists?(RBatch.common_config_path)
     if Dir.exists? @log_dir
       Dir::foreach(@log_dir) do |f|
         File::delete(File.join(@log_dir , f)) if ! (/\.+$/ =~ f)
@@ -105,14 +104,10 @@ class LoggerTest < Test::Unit::TestCase
   end
 
   def test_common_config_path
-    open( @common_config  , "w" ){|f| f.write("log:\n  path: " + @path3)}
-p "--------------"
-RBatch::Log.verbose = true
-File::open(@common_config) {|f| puts f.read }
+    open( RBatch.common_config_path  , "w" ){|f| f.write("log:\n  path: " + @path3)}
     RBatch::Log.new() do | log |
       log.info("fuga")
     end
-RBatch::Log.verbose = false
     File::open(@path3) {|f| assert_match /fuga/, f.read }
   end
 end
