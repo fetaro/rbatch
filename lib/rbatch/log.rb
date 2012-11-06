@@ -44,18 +44,13 @@ module RBatch
       @opt = @@def_opt.clone
       @@def_opt.each_key do |key|
         if opt != nil  && opt[key]
-          puts "use argument_option, " + key.to_s + " : " \
-          +  opt[key].to_s if @@verbose
           @opt[key] = opt[key]
         elsif RBatch.common_config != nil \
           && RBatch.common_config["log"] \
           && RBatch.common_config["log"][key.to_s]
-          puts "use common_config, " + key.to_s + " : "  \
-          + RBatch.common_config["log"][key.to_s].to_s if @@verbose
           @opt[key] = RBatch.common_config["log"][key.to_s]
         else
-          puts "use default, " + key.to_s + " : "  \
-          + @opt[key].to_s if @@verbose
+          # use default
         end
       end
       puts "option = " + @opt.to_s if @@verbose
