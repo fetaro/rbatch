@@ -5,10 +5,12 @@ module RBatch
   module_function
   def program_name=(f) ; @@program_name = f ; end
   def program_name ; @@program_name ; end
+  def common_config_path
+    File.join(File.dirname(RBatch.program_name),"..","config","rbatch.yaml")
+  end
   def common_config
-    path = File.join(File.dirname(RBatch.program_name),"..","config","rbatch.yaml")
-    if File.exist?(path)
-      return YAML::load_file(path)
+    if File.exist?(RBatch.common_config_path)
+      return YAML::load_file(RBatch.common_config_path)
     else
       return nil
     end
