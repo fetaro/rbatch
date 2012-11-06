@@ -40,25 +40,29 @@ module RBatch
     # ==== Block params
     # +log+ = Instance of +Logger+
     def initialize(opt = nil)
-
       # parse option
-
       @opt = @@def_opt.clone
       @@def_opt.each_key do |key|
         if opt != nil  && opt[key]
+          puts "use argument_option, " + key.to_s + " : " \
+          +  opt[key].to_s if @@verbose
           @opt[key] = opt[key]
-        elsif RBatch.common_config != nil && RBatch.common_config["log"] && RBatch.common_config["log"][key.to_s]
+        elsif RBatch.common_config != nil \
+          && RBatch.common_config["log"] \
+          && RBatch.common_config["log"][key.to_s]
+          puts "use common_config, " + key.to_s + " : "  \
+          + RBatch.common_config["log"][key.to_s].to_s if @@verbose
           @opt[key] = RBatch.common_config["log"][key.to_s]
         else
-          # use default
+          puts "use default, " + key.to_s + " : "  \
+          + @opt[key].to_s if @@verbose
         end
       end
       puts "option = " + @opt.to_s if @@verbose
-
       # determine log file name
-
       if @opt[:path].nil?
-        file = Time.now.strftime(@opt[:file_prefix]) + Pathname(File.basename(RBatch.program_name)).sub_ext(@opt[:file_suffix]).to_s
+        file = Time.now.strftime(@opt[:file_prefix]) \
+        + Pathname(File.basename(RBatch.program_name)).sub_ext(@opt[:file_suffix]).to_s
         path = File.join(@opt[:output_dir],file)
       else
         path = @opt[:path]
