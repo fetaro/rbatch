@@ -44,10 +44,12 @@ module RBatch
       @opt = @@def_opt.clone
       @@def_opt.each_key do |key|
         if opt != nil  && opt[key]
+          # use argument
           @opt[key] = opt[key]
         elsif RBatch.common_config != nil \
           && RBatch.common_config["log"] \
           && RBatch.common_config["log"][key.to_s]
+          # use config
           @opt[key] = RBatch.common_config["log"][key.to_s]
         else
           # use default
