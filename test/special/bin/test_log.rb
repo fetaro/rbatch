@@ -97,7 +97,6 @@ class LoggerTest < Test::Unit::TestCase
   def test_change_prefix_by_config
     confstr = "log_file_prefix: pref_"
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
-    open( RBatch.common_config_path  , "w" ){|f| p f.read }
     RBatch::Log.new() do | log |
       log.info("test_change_prefix_by_config")
     end
