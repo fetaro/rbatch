@@ -47,10 +47,9 @@ module RBatch
           # use argument
           @opt[key] = opt[key]
         elsif RBatch.common_config != nil \
-          && RBatch.common_config["log"] \
-          && RBatch.common_config["log"][key.to_s]
+          && RBatch.common_config["log_" + key.to_s]
           # use config
-          @opt[key] = RBatch.common_config["log"][key.to_s]
+          @opt[key] = RBatch.common_config["log_" + key.to_s]
         else
           # use default
         end
