@@ -55,7 +55,7 @@ class LoggerTest < Test::Unit::TestCase
   end
 
   def test_opt_overwite_config
-    confstr = "log:\n  path: " + @path3
+    confstr = "log_path: " + @path3
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
     RBatch::Log.new({:path => @path }) do | log |
       log.info("test_opt_overwite_config")
@@ -75,7 +75,7 @@ class LoggerTest < Test::Unit::TestCase
   end
 
   def test_change_path_by_config
-    confstr = "log:\n  path: " + @path3
+    confstr = "log_path: " + @path3
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
     RBatch::Log.new() do | log |
       log.info("test_change_path_by_config")
@@ -84,22 +84,24 @@ class LoggerTest < Test::Unit::TestCase
   end
 
 
+
   def test_change_prefix_by_opt
-    RBatch::Log.new({:file_prefix => "testprefix_"}) do | log |
+    RBatch::Log.new({:file_prefix => "%Y%m_"}) do | log |
       log.info("test_change_prefix_by_opt")
     end
-    File::open(File.join(@log_dir , "testprefix_test_log.log")) {|f|
+    File::open(File.join(@log_dir , Time.now.strftime("%Y%m_") + "test_log.log")) {|f|
       assert_match /test_change_prefix_by_opt/, f.read
     }
   end
 
   def test_change_prefix_by_config
-    confstr = "log:\n  file_prefix: testprefix_"
+    confstr = "log_file_prefix: %Y%m_"
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
+    open( RBatch.common_config_path  , "w" ){|f| p f.read }
     RBatch::Log.new() do | log |
       log.info("test_change_prefix_by_config")
     end
-    File::open(File.join(@log_dir , "testprefix_test_log.log")) {|f| assert_match /test_change_prefix_by_config/, f.read }
+    File::open(File.join(@log_dir , Time.now.strftime("%Y%m_") + "test_log.log")) {|f| assert_match /test_change_prefix_by_config/, f.read }
   end
 
   def test_change_suffix_by_opt
@@ -117,7 +119,7 @@ class LoggerTest < Test::Unit::TestCase
   end
 
   def test_change_suffix_by_config
-    confstr = "log:\n  file_suffix: .testsuffix"
+    confstr = "log_file_suffix: .testsuffix"
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
     RBatch::Log.new() do | log |
       log.info("test_change_suffix_by_config")
@@ -146,7 +148,7 @@ class LoggerTest < Test::Unit::TestCase
   end
 
   def test_change_log_dir_by_config
-    confstr = "log:\n  output_dir: " + @log_dir2
+    confstr = "log_output_dir: " + @log_dir2
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
     RBatch::Log.new({:output_dir=> @log_dir2 }) do | log |
       log.info("test_change_log_dir_by_config")
