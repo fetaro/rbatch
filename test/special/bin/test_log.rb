@@ -86,22 +86,22 @@ class LoggerTest < Test::Unit::TestCase
 
 
   def test_change_prefix_by_opt
-    RBatch::Log.new({:file_prefix => "%Y%m_"}) do | log |
+    RBatch::Log.new({:file_prefix => "pref_"}) do | log |
       log.info("test_change_prefix_by_opt")
     end
-    File::open(File.join(@log_dir , Time.now.strftime("%Y%m_") + "test_log.log")) {|f|
+    File::open(File.join(@log_dir , Time.now.strftime("pref_") + "test_log.log")) {|f|
       assert_match /test_change_prefix_by_opt/, f.read
     }
   end
 
   def test_change_prefix_by_config
-    confstr = "log_file_prefix: %Y%m_"
+    confstr = "log_file_prefix: pref_"
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
     open( RBatch.common_config_path  , "w" ){|f| p f.read }
     RBatch::Log.new() do | log |
       log.info("test_change_prefix_by_config")
     end
-    File::open(File.join(@log_dir , Time.now.strftime("%Y%m_") + "test_log.log")) {|f| assert_match /test_change_prefix_by_config/, f.read }
+    File::open(File.join(@log_dir , Time.now.strftime("pref_") + "test_log.log")) {|f| assert_match /test_change_prefix_by_config/, f.read }
   end
 
   def test_change_suffix_by_opt
