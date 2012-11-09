@@ -5,10 +5,8 @@ module RBatch
   class Log
     @@verbose = false
     @@def_opt = {
-      :file_prefix => "%Y%m%d_%H%M%S_",
-      :file_suffix => ".log",
-      :output_dir  => File.join(File.dirname(RBatch.program_name), ".." , "log"),
-      :path        => nil,
+      :name => "<date>_<time>_<prog>.log",
+      :dir  => File.join(File.dirname(RBatch.program_name), ".." , "log"),
       :formatter   => nil,
       :level       => Logger::INFO
     }
@@ -31,9 +29,8 @@ module RBatch
     #
     # ==== Params
     # +opt+ = Option hash object. Hash keys is follows.
-    # - +:file_prefix+ (String) = log filename prefix format. Default is "%Y%m%d_%H%M%S_".
-    # - +:output_dir+ (String) = log direcotry path. Default is "../log"
-    # - +:path+ (String) = log file path. Default is {output_dir} + {file_prefix} + (Program name) + ".log"
+    # - +:name+ (String) = log file name. Default is "<date>_<time>_<prog>.log".
+    # - +:dir+ (String) = log direcotry path. Default is "../log"
     # - +:formatter+ (String) = log formatter. "Logger#formatter= "
     # - +:level+ (Logger::[DEBUG|INFO|WARN|ERROR|FATAL])= log level. Default is Logger::INFO
     # 
@@ -56,16 +53,13 @@ module RBatch
       end
       puts "option = " + @opt.to_s if @@verbose
       # determine log file name
-      if @opt[:path].nil?
-        file = Time.now.strftime(@opt[:file_prefix]) \
-        + Pathname(File.basename(RBatch.program_name)).sub_ext(@opt[:file_suffix]).to_s
-        path = File.join(@opt[:output_dir],file)
-      else
-        path = @opt[:path]
-      end
+      file = @opt[:name]
+      file.gsub!("<date>", Time.now.strftime("%Y%m%d"))
+      file.gsub!("<time>", Time.now.strftime("%H%M%S"))
+      file.gsub!("<prog>", Pathname(File.basename(RBatch.program_name)).sub_ext("").to_s)
+      path = File.join(@opt[:dir],file)
       # create Logger instance
       puts "Logfile Path = " + path if @@verbose
-      puts "RBatch.program_name = " + RBatch.program_name if @@verbose
       log = Logger.new(path)
       begin
         log.formatter = @opt[:formatter] if @opt[:formatter]

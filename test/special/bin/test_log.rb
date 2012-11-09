@@ -3,143 +3,91 @@ require 'fileutils'
 require 'rbatch'
 class LoggerTest < Test::Unit::TestCase
   def setup
-    @log_dir  = File.join(File.dirname(RBatch.program_name), "..", "log")
-    @log_dir2 = File.join(File.dirname(RBatch.program_name), "..", "log2")
-    @path  =  File.join(@log_dir , "testunit.log")
-    @path2 =  File.join(@log_dir , "testunit2.log")
-    @path3 =  File.join(@log_dir , "testunit3.log")
+    @dir  = File.join(File.dirname(RBatch.program_name), "..", "log")
+    @dir2 = File.join(File.dirname(RBatch.program_name), "..", "log2")
+    @dir3 = File.join(File.dirname(RBatch.program_name), "..", "log3")
 
-    Dir::mkdir(@log_dir)if ! Dir.exists? @log_dir
-    Dir::mkdir(@log_dir2)if ! Dir.exists? @log_dir2
+    Dir::mkdir(@dir)if ! Dir.exists? @dir
+    Dir::mkdir(@dir2)if ! Dir.exists? @dir2
 
 #    RBatch::Log.verbose = true
   end
 
   def teardown
     File::delete(RBatch.common_config_path) if File.exists?(RBatch.common_config_path)
-    if Dir.exists? @log_dir
-      Dir::foreach(@log_dir) do |f|
-        File::delete(File.join(@log_dir , f)) if ! (/\.+$/ =~ f)
+    if Dir.exists? @dir
+      Dir::foreach(@dir) do |f|
+        File::delete(File.join(@dir , f)) if ! (/\.+$/ =~ f)
       end
-      Dir::rmdir(@log_dir)
+      Dir::rmdir(@dir)
     end
-    if Dir.exists? @log_dir2
-      Dir::foreach(@log_dir2) do |f|
-        File::delete(File.join(@log_dir2 , f)) if ! (/\.+$/ =~ f)
+    if Dir.exists? @dir2
+      Dir::foreach(@dir2) do |f|
+        File::delete(File.join(@dir2 , f)) if ! (/\.+$/ =~ f)
       end
-      Dir::rmdir(@log_dir2)
+      Dir::rmdir(@dir2)
     end
   end
 
   def test_log
     RBatch::Log.new do | log |
-      log.info("hoge")
+      log.info("test_log")
     end
-    Dir::foreach(@log_dir) do |f|
+    Dir::foreach(@dir) do |f|
       if ! (/\.+$/ =~ f)
-
-        File::open(File.join(@log_dir , f)) {|f|
-          assert_match /hoge/, f.read
+        File::open(File.join(@dir , f)) {|f|
+          assert_match /test_log/, f.read
         }
-        #assert_match /hoge/, open(File.join(@log_dir , f)).read
       end
     end
   end
 
   def test_log_dir_doesnot_exist
-    Dir::rmdir(@log_dir)
+    Dir::rmdir(@dir)
     assert_raise(Errno::ENOENT){
       RBatch::Log.new {|log|}
     }
-    Dir::mkdir(@log_dir)
+    Dir::mkdir(@dir)
   end
 
-  def test_opt_overwite_config
-    confstr = "log_path: " + @path3
-    open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
-    RBatch::Log.new({:path => @path }) do | log |
-      log.info("test_opt_overwite_config")
+  def test_change_name_by_opt
+    RBatch::Log.new({:name => "name1.log" }) do | log |
+      log.info("test_change_name_by_opt")
     end
-    File::open(@path) {|f|
-      assert_match /test_opt_overwite_config/, f.read
+    File::open(File.join(@dir , "name1.log")) {|f|
+      assert_match /test_change_name_by_opt/, f.read
     }
   end
 
-  def test_change_path_by_opt
-    RBatch::Log.new({:path => @path }) do | log |
-      log.info("test_change_path_by_opt")
+  def test_change_name_by_opt2
+    RBatch::Log.new({:name => "<prog><date>name.log" }) do | log |
+      log.info("test_change_name_by_opt2")
     end
-    File::open(@path) {|f|
-      assert_match /test_change_path_by_opt/, f.read
+    File::open(File.join(@dir ,  "test_log" + Time.now.strftime("%Y%m%d") + "name.log")) {|f|
+      assert_match /test_change_name_by_opt2/, f.read
     }
   end
 
-  def test_change_path_by_config
-    confstr = "log_path: " + @path3
+
+  def test_change_name_by_config
+    confstr = "log_name: name1"
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
-    RBatch::Log.new() do | log |
-      log.info("test_change_path_by_config")
+    RBatch::Log.new({:name => "name1.log" }) do | log |
+      log.info("test_change_name_by_config")
     end
-    File::open(@path3) {|f| assert_match /test_change_path_by_config/, f.read }
-  end
-
-
-
-  def test_change_prefix_by_opt
-    RBatch::Log.new({:file_prefix => "pref_"}) do | log |
-      log.info("test_change_prefix_by_opt")
-    end
-    File::open(File.join(@log_dir , Time.now.strftime("pref_") + "test_log.log")) {|f|
-      assert_match /test_change_prefix_by_opt/, f.read
+    File::open(File.join(@dir , "name1.log")) {|f|
+      assert_match /test_change_name_by_config/, f.read
     }
   end
 
-  def test_change_prefix_by_config
-    confstr = "log_file_prefix: pref_"
-    open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
-    RBatch::Log.new() do | log |
-      log.info("test_change_prefix_by_config")
-    end
-    File::open(File.join(@log_dir , Time.now.strftime("pref_") + "test_log.log")) {|f| assert_match /test_change_prefix_by_config/, f.read }
-  end
-
-  def test_change_suffix_by_opt
-    RBatch::Log.new({:file_suffix => ".testsuffix"}) do | log |
-      log.info("test_change_suffix_by_opt")
-    end
-    Dir::foreach(@log_dir) do |file|
-      if ! (/\.+$/ =~ file)
-        assert_match /test_log.testsuffix/ , file
-        File::open(File.join(@log_dir , file)) {|f|
-          assert_match /test_change_suffix_by_opt/, f.read
-        }
-      end
-    end
-  end
-
-  def test_change_suffix_by_config
-    confstr = "log_file_suffix: .testsuffix"
-    open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
-    RBatch::Log.new() do | log |
-      log.info("test_change_suffix_by_config")
-    end
-    Dir::foreach(@log_dir) do |file|
-      if ! (/\.+$/ =~ file)
-        assert_match /test_log.testsuffix/ , file
-        File::open(File.join(@log_dir , file)) {|f|
-          assert_match /test_change_suffix_by_config/, f.read
-        }
-      end
-    end
-  end
 
   def test_change_log_dir_by_opt
-    RBatch::Log.new({:output_dir=> @log_dir2 }) do | log |
+    RBatch::Log.new({:output_dir=> @dir2 }) do | log |
       log.info("test_change_log_dir_by_opt")
     end
-    Dir::foreach(@log_dir2) do |f|
+    Dir::foreach(@dir2) do |f|
       if ! (/\.+$/ =~ f)
-        File::open(File.join(@log_dir2 , f)) {|f|
+        File::open(File.join(@dir2 , f)) {|f|
           assert_match /test_change_log_dir_by_opt/, f.read
         }
       end
@@ -147,14 +95,14 @@ class LoggerTest < Test::Unit::TestCase
   end
 
   def test_change_log_dir_by_config
-    confstr = "log_output_dir: " + @log_dir2
+    confstr = "log_dir: " + @dir2
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
-    RBatch::Log.new({:output_dir=> @log_dir2 }) do | log |
+    RBatch::Log.new({:output_dir=> @dir2 }) do | log |
       log.info("test_change_log_dir_by_config")
     end
-    Dir::foreach(@log_dir2) do |f|
+    Dir::foreach(@dir2) do |f|
       if ! (/\.+$/ =~ f)
-        File::open(File.join(@log_dir2 , f)) {|f|
+        File::open(File.join(@dir2 , f)) {|f|
           assert_match /test_change_log_dir_by_config/, f.read
         }
       end
@@ -162,23 +110,32 @@ class LoggerTest < Test::Unit::TestCase
   end
 
   def test_change_formatte
-    RBatch::Log.new({:path => @path , :formatter => proc { |severity, datetime, progname, msg| "hogehoge#{msg}\n" }}) do | log |
+    RBatch::Log.new({:name => "file" , :formatter => proc { |severity, datetime, progname, msg| "test_change_formatte#{msg}\n" }}) do | log |
       log.info("bar")
     end
-    File::open(@path) {|f| assert_match /hogehogebar/, f.read }
+    File::open(File.join(@dir,"file")) {|f| assert_match /test_change_formatte/, f.read }
   end
 
   def test_nest_block
-    RBatch::Log.new({:path => @path }) do | log |
-      log.info("hoge")
-      RBatch::Log.new({:path => @path2 }) do | log |
-        log.info("bar")
+    RBatch::Log.new({:name => "name1" }) do | log |
+      log.info("name1")
+      RBatch::Log.new({:name => "name2" }) do | log |
+        log.info("name2")
       end
     end
-    File::open(@path) {|f| assert_match /hoge/, f.read }
-    File::open(@path2) {|f| assert_match /bar/, f.read }
+    File::open(File.join(@dir,"name1")) {|f| assert_match /name1/, f.read }
+    File::open(File.join(@dir,"name2")) {|f| assert_match /name2/, f.read }
   end
 
-
+  def test_opt_overwite_config
+    confstr = "log_name: " + "name1"
+    open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
+    RBatch::Log.new({:name => "name2" }) do | log |
+      log.info("test_opt_overwite_config")
+    end
+    File::open(File.join(@dir , "name2")) {|f|
+      assert_match /test_opt_overwite_config/, f.read
+    }
+  end
 end
 
