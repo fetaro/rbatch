@@ -5,11 +5,18 @@ module RBatch
   class Log
     @@verbose = false
     @@def_opt = {
-      :name     => "<date>_<time>_<prog>.log",
-      :dir      => File.join(File.dirname(RBatch.program_name), ".." , "log"),
+      :name      => "<date>_<time>_<prog>.log",
+      :dir       => File.join(File.dirname(RBatch.program_name), ".." , "log"),
       :formatter => nil,
-      :append   => false,
-      :level    => Logger::INFO
+      :append    => false,
+      :level     => "info"
+    }
+    @@log_level_map = {
+      "debug" => Logger::DEBUG,
+      "info"  => Logger::INFO,
+      "warn"  => Logger::WARN,
+      "error" => Logger::ERROR,
+      "fatal" => Logger::FATAL
     }
 
     @opt
@@ -35,7 +42,7 @@ module RBatch
     # - +:name+ (String) = log file name. Default is "<date>_<time>_<prog>.log".
     # - +:dir+ (String) = log direcotry path. Default is "../log"
     # - +:formatter+ (String) = log formatter. "Logger#formatter= "
-    # - +:level+ (Logger::[DEBUG|INFO|WARN|ERROR|FATAL])= log level. Default is Logger::INFO
+    # - +:level+ (String) = log level. ["debug"|"info"|"warn"|"error"|"fatal"] . Default is "info".
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
     # ==== Block params
     # +log+ = Instance of +Logger+
@@ -70,7 +77,7 @@ module RBatch
       end
       begin
         log.formatter = @opt[:formatter] if @opt[:formatter]
-        log.level = @opt[:level]
+        log.level = @@log_level_map[@opt[:level]]
         yield log
       rescue => e
         log.fatal("Caught exception; existing 1")
