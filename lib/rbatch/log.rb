@@ -5,10 +5,11 @@ module RBatch
   class Log
     @@verbose = false
     @@def_opt = {
-      :name => "<date>_<time>_<prog>.log",
-      :dir  => File.join(File.dirname(RBatch.program_name), ".." , "log"),
-      :formatter   => nil,
-      :level       => Logger::INFO
+      :name     => "<date>_<time>_<prog>.log",
+      :dir      => File.join(File.dirname(RBatch.program_name), ".." , "log"),
+      :formatter => nil,
+      :append   => false,
+      :level    => Logger::INFO
     }
 
     @opt
@@ -17,6 +18,8 @@ module RBatch
     def Log.verbose=(bol); @@verbose = bol ; end
     # Get verbose mode flag.
     def Log.verbose ; @@verbose ; end
+    # Get Option
+    def opt; @opt ; end
 
     # Auto Logging Block.
     # 
@@ -33,7 +36,7 @@ module RBatch
     # - +:dir+ (String) = log direcotry path. Default is "../log"
     # - +:formatter+ (String) = log formatter. "Logger#formatter= "
     # - +:level+ (Logger::[DEBUG|INFO|WARN|ERROR|FATAL])= log level. Default is Logger::INFO
-    # 
+    # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
     # ==== Block params
     # +log+ = Instance of +Logger+
     def initialize(opt = nil)
@@ -60,7 +63,11 @@ module RBatch
       path = File.join(@opt[:dir],file)
       # create Logger instance
       puts "Logfile Path = " + path if @@verbose
-      log = Logger.new(path)
+      if @opt[:append] && File.exist?(path)
+        log = Logger.new(open(path,"a"))
+      else
+        log = Logger.new(open(path,"w"))
+      end
       begin
         log.formatter = @opt[:formatter] if @opt[:formatter]
         log.level = @opt[:level]
