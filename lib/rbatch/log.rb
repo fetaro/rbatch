@@ -23,15 +23,17 @@ module RBatch
 
     # Set verbose mode flag.
     def Log.verbose=(bol); @@verbose = bol ; end
+
     # Get verbose mode flag.
     def Log.verbose ; @@verbose ; end
+
     # Get Option
     def opt; @opt ; end
 
     # Auto Logging Block.
     # 
     # ==== Sample
-    #  RBatch::Log.new({:level => Logger::INFO}){ |log|
+    #  RBatch::Log.new({:level => "info"}){ |log|
     #    log.info "info string"
     #    log.error "error string"
     #    raise "exception"
@@ -39,13 +41,14 @@ module RBatch
     #
     # ==== Params
     # +opt+ = Option hash object. Hash keys is follows.
-    # - +:name+ (String) = log file name. Default is "<date>_<time>_<prog>.log".
+    # - +:name+ (String) = log file name. Default is "<date>_<time>_<prog>.log"
     # - +:dir+ (String) = log direcotry path. Default is "../log"
-    # - +:formatter+ (String) = log formatter. "Logger#formatter= "
     # - +:level+ (String) = log level. ["debug"|"info"|"warn"|"error"|"fatal"] . Default is "info".
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
+    # - +:formatter+ (Logger#formatter) = log formatter. instance of Logger#formatter
     # ==== Block params
     # +log+ = Instance of +Logger+
+    #
     def initialize(opt = nil)
       # parse option
       @opt = @@def_opt.clone
