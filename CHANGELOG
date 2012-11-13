@@ -6,3 +6,8 @@ initial
 -----
 * make common config file
 * change log option
+
+1.2.0(2012/11/13)
+-----
+* change log level option format
+* make log append option
