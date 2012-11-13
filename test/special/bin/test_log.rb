@@ -137,5 +137,68 @@ class LoggerTest < Test::Unit::TestCase
       assert_match /test_opt_overwite_config/, f.read
     }
   end
+
+  def test_append_by_opt
+    RBatch::Log.new({:append => true, :name =>  "test_append" }) do | log |
+      log.info("test_append1")
+    end
+    RBatch::Log.new({:append => true, :name =>  "test_append" }) do | log |
+      log.info("test_append2")
+    end
+    File::open(File.join(@dir , "test_append")) {|f|
+      str = f.read
+      assert_match /test_append1/, str
+      assert_match /test_append2/, str
+    }
+  end
+
+  def test_no_append_by_opt
+    RBatch::Log.new({:append => false, :name =>  "test_append" }) do | log |
+      log.info("test_append1")
+    end
+    RBatch::Log.new({:append => false, :name =>  "test_append" }) do | log |
+      log.info("test_append2")
+    end
+    File::open(File.join(@dir , "test_append")) {|f|
+      str = f.read
+      assert_match /test_append2/, str
+    }
+  end
+
+
+  def test_append_by_conf
+    confstr = "log_append: true"
+    open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
+
+    RBatch::Log.new({:name =>  "test_append" }) do | log |
+      log.info("test_append1")
+    end
+    RBatch::Log.new({:name =>  "test_append" }) do | log |
+      log.info("test_append2")
+    end
+    File::open(File.join(@dir , "test_append")) {|f|
+      str = f.read
+      assert_match /test_append1/, str
+      assert_match /test_append2/, str
+    }
+  end
+
+  def test_no_append_by_conf
+    confstr = "log_append: false"
+    open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
+
+    RBatch::Log.new({ :name =>  "test_append" }) do | log |
+      log.info("test_append1")
+    end
+    RBatch::Log.new({ :name =>  "test_append" }) do | log |
+      log.info("test_append2")
+    end
+    File::open(File.join(@dir , "test_append")) {|f|
+      str = f.read
+      assert_match /test_append2/, str
+    }
+  end
+
+
 end
 
