@@ -2,6 +2,39 @@ require 'logger'
 require 'pathname'
 
 module RBatch
+  #=== About RBatch::Log
+  #
+  #Use Auto Logging block, RBatch automatically write to logfile.
+  #
+  #Log file default location is "../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
+  #
+  #If exception occuerd, then RBatch write stack trace to logfile.
+  #
+  #=== Sample
+  #
+  #script : ./bin/sample1.rb
+  #
+  # require 'rbatch'
+  # 
+  # RBatch::Log.new(){ |log|  # Logging block
+  #   log.info "info string"
+  #   log.error "error string"
+  #   raise "exception"
+  # }
+  #
+  #
+  #logfile : ./log/20121020_005953_sample1.log
+  #
+  # # Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
+  # I, [2012-10-20T00:59:53.895528 #3208]  INFO -- : info string
+  # E, [2012-10-20T00:59:53.895582 #3208] ERROR -- : error string
+  # F, [2012-10-20T00:59:53.895629 #3208] FATAL -- : Caught exception; existing 1
+  # F, [2012-10-20T00:59:53.895667 #3208] FATAL -- : exception (RuntimeError)
+  # test.rb:6:in `block in <main>'
+  # /usr/local/lib/ruby192/lib/ruby/gems/1.9.1/gems/rbatch-1.0.0/lib/rbatch/auto_logger.rb:37:in `initialize'
+  # test.rb:3:in `new'
+  # test.rb:3:in `<main>'
+  #
   class Log
     @@verbose = false
     @@def_opt = {
@@ -32,13 +65,6 @@ module RBatch
 
     # Auto Logging Block.
     # 
-    # ==== Sample
-    #  RBatch::Log.new({:level => "info"}){ |log|
-    #    log.info "info string"
-    #    log.error "error string"
-    #    raise "exception"
-    #  }
-    #
     # ==== Params
     # +opt+ = Option hash object. Hash keys is follows.
     # - +:name+ (String) = log file name. Default is "<date>_<time>_<prog>.log"
@@ -48,6 +74,10 @@ module RBatch
     # - +:formatter+ (Logger#formatter) = log formatter. instance of Logger#formatter
     # ==== Block params
     # +log+ = Instance of +Logger+
+    # ==== Sample
+    #  RBatch::Log.new({:dir => "/tmp", :level => "info"}){ |log|
+    #    log.info "info string"
+    #  }
     #
     def initialize(opt = nil)
       # parse option
