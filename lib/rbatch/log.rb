@@ -41,7 +41,7 @@ module RBatch
       :name      => "<date>_<time>_<prog>.log",
       :dir       => File.join(File.dirname(RBatch.program_name), ".." , "log"),
       :formatter => nil,
-      :append    => false,
+      :append    => true,
       :level     => "info"
     }
     @@log_level_map = {
@@ -83,11 +83,11 @@ module RBatch
       # parse option
       @opt = @@def_opt.clone
       @@def_opt.each_key do |key|
-        if opt != nil  && opt[key]
+        if opt != nil  && opt[key] != nil
           # use argument
           @opt[key] = opt[key]
         elsif RBatch.common_config != nil \
-          && RBatch.common_config["log_" + key.to_s]
+          && RBatch.common_config["log_" + key.to_s] != nil
           # use config
           @opt[key] = RBatch.common_config["log_" + key.to_s]
         else
