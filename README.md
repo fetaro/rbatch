@@ -155,3 +155,45 @@ I, [2012-10-20T00:19:23.422876 #2357]  INFO -- : start backup
 I, [2012-10-20T00:19:23.424773 #2357]  INFO -- : {:stdout=>"", :stderr=>"cp: cannot stat `/var/log/message': No such file or directory\n", :status=>1}
 E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 ```
+
+
+Manual
+--------------
+
+### Common Config File
+
+If you make follow config file, option value effect to all scripts.
+
+```
+(script file path)/../config/rbatch.yaml
+```
+
+Config file sample
+```
+# Log File Name
+#   Default : "<date>_<time>_<prog>.log"
+#
+#   Reservation words
+#   <data> --> replace to YYYYMMDD date string
+#   <time> --> replace to hhmmss time string
+#   <prog> --> Program file base name (except extention)
+#
+log_name : "<date>_<time>_<prog>.log"
+
+# Log Output Directory
+#   Default : "(Script path)/../log"
+#
+log_dir : "/tmp/log"
+
+# Append log or not
+#   Default : ture
+#
+log_append : true
+
+# Log Level
+#   Default : "info"
+#
+#   Value   : "debug","info","wran","error","fatal"
+#
+log_level : "info"
+```
