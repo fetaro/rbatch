@@ -12,7 +12,7 @@ require 'rake/testtask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'rbatch'
-  s.version = '1.2.1'
+  s.version = '1.3.0'
   s.extra_rdoc_files = ['README.md', 'LICENSE']
   s.summary = 'batch framework'
   s.description = ''
