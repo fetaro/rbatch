@@ -158,3 +158,49 @@ I, [2012-10-20T00:19:23.422876 #2357]  INFO -- : start backup
 I, [2012-10-20T00:19:23.424773 #2357]  INFO -- : {:stdout=>"", :stderr=>"cp: cannot stat `/var/log/message': No such file or directory\n", :status=>1}
 E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 ```
+
+
+マニュアル
+--------------
+
+### RBatch全体設定ファイル
+
+以下の場所にRBatch全体設定ファイルを配置すると、全てのスクリプトにてオプションが適用される。
+
+```
+(スクリプトのパス)/../config/rbatch.yaml
+```
+
+設定ファイルのサンプルは以下の通り
+```
+# ログファイル名
+#   Default : "<date>_<time>_<prog>.log"
+#
+#   以下の文字列は予約文字列であり、動作時に置き換わる
+#   <data> --> YYYYMMDD形式の日付に置き換わる
+#   <time> --> hhmmss形式の時刻に置き換わる
+#   <prog> --> プログラム名から拡張子を除いたものに置き換わる
+#
+log_name : "<date>_<time>_<prog>.log"
+
+# ログ出力ディレクトリ
+#   Default : "(スクリプトのパス)/../log"
+#
+log_dir : "/tmp/log"
+
+# ログに追記するかどうか
+#   Default : ture
+#
+#   同じファイル名でログを作成するときに、trueであればログに追記する。
+#   falseであれば、既存のログを上書きする。
+#
+log_append : true
+
+# ログレベル
+#   Default : "info"
+#
+#   指摘できるのは"debug","info","wran","error","fatal"の５つ。
+#   指定したログレベル以上のメッセージしか出力しない。
+#
+log_level : "info"
+```
