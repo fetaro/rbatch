@@ -124,11 +124,11 @@ module RBatch
       end
     end
 
-    def fatal(*a) ; @log.fatal(a) ; end
-    def error(*a) ; @log.error(a) ; end
-    def warn(*a)  ; @log.warn(a)  ; end
-    def info(*a)  ; @log.info(a)  ; end
-    def debug(*a) ; @log.debug(a) ; end
+    def fatal(a) ; @log.fatal(a) ; end
+    def error(a) ; @log.error(a) ; end
+    def warn(a)  ; @log.warn(a)  ; end
+    def info(a)  ; @log.info(a)  ; end
+    def debug(a) ; @log.debug(a) ; end
     def close ; @log.close ; end
 
   end # end class
