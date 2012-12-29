@@ -53,6 +53,7 @@ module RBatch
     }
 
     @opt
+    @log
 
     # Set verbose mode flag.
     def Log.verbose=(bol); @@verbose = bol ; end
@@ -104,22 +105,32 @@ module RBatch
       # create Logger instance
       puts "Logfile Path = " + path if @@verbose
       if @opt[:append] && File.exist?(path)
-        log = Logger.new(open(path,"a"))
+        @log = Logger.new(open(path,"a"))
       else
-        log = Logger.new(open(path,"w"))
+        @log = Logger.new(open(path,"w"))
       end
-      begin
-        log.formatter = @opt[:formatter] if @opt[:formatter]
-        log.level = @@log_level_map[@opt[:level]]
-        yield log
-      rescue => e
-        log.fatal("Caught exception; existing 1")
-        log.fatal(e)
-        exit 1
-      ensure
-        log.close
+        @log.formatter = @opt[:formatter] if @opt[:formatter]
+        @log.level = @@log_level_map[@opt[:level]]
+      if block_given?
+        begin
+          yield @log
+        rescue => e
+          @log.fatal("Caught exception; existing 1")
+          @log.fatal(e)
+          exit 1
+        ensure
+          @log.close
+        end
       end
     end
-  end
-end
+
+    def fatal(*a) ; @log.fatal(a) ; end
+    def error(*a) ; @log.error(a) ; end
+    def warn(*a)  ; @log.warn(a)  ; end
+    def info(*a)  ; @log.info(a)  ; end
+    def debug(*a) ; @log.debug(a) ; end
+    def close ; @log.close ; end
+
+  end # end class
+end # end module
 
