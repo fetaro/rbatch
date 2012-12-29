@@ -1,4 +1,4 @@
-1.0.0
+0;136;0c1.0.0
 -----
 initial
 
@@ -11,3 +11,7 @@ initial
 -----
 * change log level option format
 * make log append option
+
+1.3.0(2012/12/30)
+-----
+* add RBatch::Log to instance interface

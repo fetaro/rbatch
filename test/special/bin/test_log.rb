@@ -413,5 +413,107 @@ class LoggerTest < Test::Unit::TestCase
   end
 
 
+  def test_i_log
+    log = RBatch::Log.new
+    assert_not_nil log
+    log.info("test_log")
+    log.close
+    Dir::foreach(@dir) do |f|
+      if ! (/\.+$/ =~ f)
+        File::open(File.join(@dir , f)) {|f|
+          assert_match /test_log/, f.read
+        }
+      end
+    end
+  end
+
+  def test_i_log_dir_doesnot_exist
+    Dir::rmdir(@dir)
+    assert_raise(Errno::ENOENT){
+      log = RBatch::Log.new
+      log.close
+    }
+    Dir::mkdir(@dir)
+  end
+
+  def test_i_change_name_by_opt
+    log = RBatch::Log.new({:name => "name1.log" })
+    log.info("test_change_name_by_opt")
+    log.close
+    File::open(File.join(@dir , "name1.log")) {|f|
+      assert_match /test_change_name_by_opt/, f.read
+    }
+  end
+
+  def test_i_change_name_by_opt2
+    log = RBatch::Log.new({:name => "<prog><date>name.log" })
+    log.info("test_change_name_by_opt2")
+    log.close
+    File::open(File.join(@dir ,  "test_log" + Time.now.strftime("%Y%m%d") + "name.log")) {|f|
+      assert_match /test_change_name_by_opt2/, f.read
+    }
+  end
+
+  
+  def test_i_log_level_default
+    log = RBatch::Log.new({ :name =>  "test_level" })
+    log.debug("test_debug")
+    log.info("test_info")
+    log.warn("test_warn")
+    log.error("test_error")
+    log.fatal("test_fatal")
+    log.close
+
+    File::open(File.join(@dir , "test_level")) {|f|
+      str = f.read
+      assert_no_match /test_debug/, str
+      assert_match /test_info/, str
+      assert_match /test_warn/, str
+      assert_match /test_error/, str
+      assert_match /test_fatal/, str
+    }
+  end
+
+  def test_i_log_level_debug_by_opt
+    log = RBatch::Log.new({ :level => "debug",:name =>  "test_level" })
+    log.debug("test_debug")
+    log.info("test_info")
+    log.warn("test_warn")
+    log.error("test_error")
+    log.fatal("test_fatal")
+    log.close
+    File::open(File.join(@dir , "test_level")) {|f|
+      str = f.read
+      assert_match /test_debug/, str
+      assert_match /test_info/, str
+      assert_match /test_warn/, str
+      assert_match /test_error/, str
+      assert_match /test_fatal/, str
+    }
+  end
+
+
+  def test_i_log_level_debug_by_conf
+    confstr = "log_level: debug"
+    open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
+
+    log = RBatch::Log.new({ :name =>  "test_level" })
+    log.debug("test_debug")
+    log.info("test_info")
+    log.warn("test_warn")
+    log.error("test_error")
+    log.fatal("test_fatal")
+    log.close
+    File::open(File.join(@dir , "test_level")) {|f|
+      str = f.read
+      assert_match /test_debug/, str
+      assert_match /test_info/, str
+      assert_match /test_warn/, str
+      assert_match /test_error/, str
+      assert_match /test_fatal/, str
+    }
+  end
+
+
 end
 
