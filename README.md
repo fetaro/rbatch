@@ -13,6 +13,7 @@ There are following functions.
 * Auto Config Reading
 * External Command Wrapper 
 * Directory Structure convention
+* Double Run Check
 
 ### Auto Logging
 Use Auto Logging block, RBatch automatically write to logfile.
@@ -105,6 +106,9 @@ In this way, maintainability and readability of batch script get higher.
     |- YYYYMMDD_HHMMSS_bar.log
 ```
 
+### Double Run Check
+
+Forbit double run of the RBatch script by writing option "forbid_double_run: true" to the common configuration file.
 
 Quick Start
 --------------
@@ -170,6 +174,10 @@ If you make follow config file, option value effect to all scripts.
 
 Config file sample
 ```
+# Forbit Double Run
+#
+forbid_double_run: true
+
 # Log File Name
 #   Default : "<date>_<time>_<prog>.log"
 #
