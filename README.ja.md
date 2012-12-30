@@ -14,6 +14,7 @@ RBatchについて
 * 自動設定ファイル読み込み
 * 外部コマンド実行 
 * ファイル名・ディレクトリ構造制約
+* 二重起動チェック
 
 ### 自動ログ出力
 Logging blockを使うことで、自動的にログファイルに出力することができます。
@@ -108,6 +109,9 @@ RBatchでは、「設定より規約」(convention over configuration)という�
     |- YYYYMMDD_HHMMSS_bar.log
 ```
 
+### 二重起動チェック
+
+RBatchの共通設定ファイルに"forbid_double_run: true"の設定を書けば、RBatchを利用したスクリプトの二重起動チェックができます。
 
 クイックスタート
 --------------
@@ -173,6 +177,10 @@ E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 
 設定ファイルのサンプルは以下の通り
 ```
+# 二重起動禁止
+#
+forbid_double_run: true
+
 # ログファイル名
 #   Default : "<date>_<time>_<prog>.log"
 #
@@ -203,4 +211,5 @@ log_append : true
 #   指定したログレベル以上のメッセージしか出力しない。
 #
 log_level : "info"
+
 ```
