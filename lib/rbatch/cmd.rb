@@ -48,16 +48,8 @@ module RBatch
   # ==== Return
   # instance of RBatch::CMDResult
   def cmd(*cmd_params)
-    case RUBY_PLATFORM
-    when /mswin|mingw/
-      tmp_dir = ENV["TEMP"]
-    when /cygwin|linux/
-      tmp_dir = "/tmp/"
-    else
-      raise "Unknown RUBY_PRATFORM : " + RUBY_PLATFORM
-    end
-    stdout_file = Tempfile::new("rbatch_tmpout",tmp_dir)
-    stderr_file = Tempfile::new("rbatch_tmperr",tmp_dir)
+    stdout_file = Tempfile::new("rbatch_tmpout",RBatch::tmp_dir)
+    stderr_file = Tempfile::new("rbatch_tmperr",RBatch::tmp_dir)
     pid = spawn(*cmd_params,:out => [stdout_file,"w"],:err => [stderr_file,"w"])
     status =  Process.waitpid2(pid)[1] >> 8
     return RBatch::CMDResult.new(stdout_file,stderr_file,status)
