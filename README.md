@@ -172,13 +172,29 @@ If you make follow config file, option value effect to all scripts.
 (script file path)/../config/rbatch.yaml
 ```
 
-Config file sample
+Config Sample
 ```
+# RBatch config
+#
+# This file format is YAML
+#
+
+# -------------------
+# Global setting
+# -------------------
+
 # Forbit Double Run
 #
-forbid_double_run: true
+#   Default : false
+#
+#forbid_double_run: true
+
+# -------------------
+# Log setting
+# -------------------
 
 # Log File Name
+#
 #   Default : "<date>_<time>_<prog>.log"
 #
 #   Reservation words
@@ -186,22 +202,31 @@ forbid_double_run: true
 #   <time> --> replace to hhmmss time string
 #   <prog> --> Program file base name (except extention)
 #
-log_name : "<date>_<time>_<prog>.log"
+#log_name : "<date>_<time>_<prog>.log"
+#log_name : "<date>_<prog>.log"
 
 # Log Output Directory
+#
 #   Default : "(Script path)/../log"
 #
-log_dir : "/tmp/log"
+#log_dir : "/tmp/log"
 
 # Append log or not
+#
 #   Default : ture
 #
-log_append : true
+#log_append : false
 
 # Log Level
-#   Default : "info"
 #
+#   Default : "info"
 #   Value   : "debug","info","wran","error","fatal"
 #
-log_level : "info"
+#log_level : "debug"
+
+# Print log-string both file and STDOUT
+#
+#   Default : true
+#
+#log_stdout : false
 ```

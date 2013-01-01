@@ -1,0 +1,55 @@
+# RBatch config
+#
+# This file format is YAML
+#
+
+# -------------------
+# Global setting
+# -------------------
+
+# Forbit Double Run
+#
+#   Default : false
+#
+#forbid_double_run: true
+
+# -------------------
+# Log setting
+# -------------------
+
+# Log File Name
+#
+#   Default : "<date>_<time>_<prog>.log"
+#
+#   Reservation words
+#   <data> --> replace to YYYYMMDD date string
+#   <time> --> replace to hhmmss time string
+#   <prog> --> Program file base name (except extention)
+#
+#log_name : "<date>_<time>_<prog>.log"
+#log_name : "<date>_<prog>.log"
+
+# Log Output Directory
+#
+#   Default : "(Script path)/../log"
+#
+#log_dir : "/tmp/log"
+
+# Append log or not
+#
+#   Default : ture
+#
+#log_append : false
+
+# Log Level
+#
+#   Default : "info"
+#   Value   : "debug","info","wran","error","fatal"
+#
+#log_level : "debug"
+
+# Print log-string both file and STDOUT
+#
+#   Default : true
+#
+#log_stdout : false
