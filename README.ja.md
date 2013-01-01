@@ -16,6 +16,8 @@ RBatchについて
 * ファイル名・ディレクトリ構造制約
 * 二重起動チェック
 
+このフレームワークはRuby 1.9.x以降のみで動作します。
+
 ### 自動ログ出力
 Logging blockを使うことで、自動的にログファイルに出力することができます。
 ログファイルはデフォルトで"../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log"に出力されます。
@@ -235,4 +237,13 @@ E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 #
 #log_stdout : false
 
+```
+
+
+テスト方法
+--------------
+```
+ruby -I lib/ test/test_cmd.rb
+ruby -I lib/ test/special/bin/test_log.rb
+ruby -I lib/ test/special/bin/test_config.rb
 ```

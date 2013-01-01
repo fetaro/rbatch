@@ -15,6 +15,8 @@ There are following functions.
 * Directory Structure convention
 * Double Run Check
 
+This work on only Ruby 1.9.x or more later.
+
 ### Auto Logging
 Use Auto Logging block, RBatch automatically write to logfile.
 Log file default location is "../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
@@ -229,4 +231,13 @@ Config Sample
 #   Default : true
 #
 #log_stdout : false
+```
+
+
+How to Test
+--------------
+```
+ruby -I lib/ test/test_cmd.rb
+ruby -I lib/ test/special/bin/test_log.rb
+ruby -I lib/ test/special/bin/test_config.rb
 ```
