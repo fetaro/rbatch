@@ -20,7 +20,13 @@ module RBatch
   end
   def common_config
     if File.exist?(RBatch.common_config_path)
-      return YAML::load_file(RBatch.common_config_path)
+      yaml = YAML::load_file(RBatch.common_config_path)
+      if yaml
+        return yaml
+      else
+        # If file is emply , YAML::load_file is false
+        return nil
+      end
     else
       return nil
     end
