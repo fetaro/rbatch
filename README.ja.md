@@ -177,39 +177,62 @@ E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 
 設定ファイルのサンプルは以下の通り
 ```
-# 二重起動禁止
+# RBatch 全体設定
 #
-forbid_double_run: true
+# 設定ファイルの形式はYAML形式です
+#
+
+# -------------------
+# 全体
+# -------------------
+
+# スクリプトの二重起動を可能にするかどうか
+#
+# trueにすると、requireしたタイミングで例外を投げます。
+#
+#   Default : false
+#
+#forbid_double_run: true
+
+# -------------------
+# ログ関連
+# -------------------
 
 # ログファイル名
+#
 #   Default : "<date>_<time>_<prog>.log"
 #
-#   以下の文字列は予約文字列であり、動作時に置き換わる
-#   <data> --> YYYYMMDD形式の日付に置き換わる
-#   <time> --> hhmmss形式の時刻に置き換わる
-#   <prog> --> プログラム名から拡張子を除いたものに置き換わる
+#   予約語
+#   <data> --> YYYYMMDDの日付形式に置換されます
+#   <time> --> hhmmssの時刻形式に置換されます
+#   <prog> --> 拡張子を除いたファイル名に置換されます
 #
-log_name : "<date>_<time>_<prog>.log"
+#log_name : "<date>_<time>_<prog>.log"
+#log_name : "<date>_<prog>.log"
 
 # ログ出力ディレクトリ
-#   Default : "(スクリプトのパス)/../log"
 #
-log_dir : "/tmp/log"
+#   Default : "(スクリプトの配置パス)/../log"
+#
+#log_dir : "/tmp/log"
 
-# ログに追記するかどうか
+# ログを追記するかどうか
+#
 #   Default : ture
 #
-#   同じファイル名でログを作成するときに、trueであればログに追記する。
-#   falseであれば、既存のログを上書きする。
-#
-log_append : true
+#log_append : false
 
 # ログレベル
+#
 #   Default : "info"
+#   Value   : "debug","info","wran","error","fatal"
 #
-#   指摘できるのは"debug","info","wran","error","fatal"の５つ。
-#   指定したログレベル以上のメッセージしか出力しない。
+#log_level : "debug"
+
+# 標準出力とログの両方に文字列を出力するかどうか
 #
-log_level : "info"
+#   Default : true
+#
+#log_stdout : false
 
 ```

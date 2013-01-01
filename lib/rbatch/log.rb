@@ -42,7 +42,8 @@ module RBatch
       :dir       => File.join(File.dirname(RBatch.program_name), ".." , "log"),
       :formatter => nil,
       :append    => true,
-      :level     => "info"
+      :level     => "info",
+      :stdout    => true
     }
     @@log_level_map = {
       "debug" => Logger::DEBUG,
@@ -54,7 +55,7 @@ module RBatch
 
     @opt
     @log
-
+    @stdout_log
     # Set verbose mode flag.
     def Log.verbose=(bol); @@verbose = bol ; end
 
@@ -73,6 +74,7 @@ module RBatch
     # - +:level+ (String) = log level. ["debug"|"info"|"warn"|"error"|"fatal"] . Default is "info".
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
     # - +:formatter+ (Logger#formatter) = log formatter. instance of Logger#formatter
+    # - +:stdout+ (Boolean) = print string both logfile and STDOUT. Default is true.
     # ==== Block params
     # +log+ = Instance of +Logger+
     # ==== Sample
@@ -109,27 +111,51 @@ module RBatch
       else
         @log = Logger.new(open(path,"w"))
       end
-        @log.formatter = @opt[:formatter] if @opt[:formatter]
-        @log.level = @@log_level_map[@opt[:level]]
+      @log.formatter = @opt[:formatter] if @opt[:formatter]
+      @log.level = @@log_level_map[@opt[:level]]
+      if @opt[:stdout]
+        # ccreate Logger instance for STDOUT
+        @stdout_log = Logger.new(STDOUT)
+        @stdout_log.formatter = @opt[:formatter] if @opt[:formatter]
+        @stdout_log.level = @@log_level_map[@opt[:level]]
+      end
       if block_given?
         begin
-          yield @log
+          yield self
         rescue => e
-          @log.fatal("Caught exception; existing 1")
-          @log.fatal(e)
+          self.fatal("Caught exception; existing 1")
+          self.fatal(e)
           exit 1
         ensure
-          @log.close
+          self.close
         end
       end
     end
 
-    def fatal(a) ; @log.fatal(a) ; end
-    def error(a) ; @log.error(a) ; end
-    def warn(a)  ; @log.warn(a)  ; end
-    def info(a)  ; @log.info(a)  ; end
-    def debug(a) ; @log.debug(a) ; end
-    def close ; @log.close ; end
+    def fatal(a)
+      @stdout_log.fatal(a) if @opt[:stdout]
+      @log.fatal(a)
+    end
+    def error(a)
+      @stdout_log.error(a) if @opt[:stdout]
+      @log.error(a)
+    end
+    def warn(a)
+      @stdout_log.warn(a) if @opt[:stdout]
+      @log.warn(a)
+    end
+    def info(a)
+      @stdout_log.info(a) if @opt[:stdout]
+      @log.info(a)
+    end
+    def debug(a)
+      @stdout_log.debug(a) if @opt[:stdout]
+      @log.debug(a)
+    end
+    def close
+      @stdout_log.close if @opt[:stdout]
+      @log.close
+    end
 
   end # end class
 end # end module

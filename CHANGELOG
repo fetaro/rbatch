@@ -16,3 +16,8 @@ initial
 -----
 * add RBatch::Log to instance interface
 * add double run check option
+
+1.4.0(2013/1/1)
+----
+* add log_stdout option
+* add sample code
