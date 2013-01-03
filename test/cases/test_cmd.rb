@@ -58,7 +58,7 @@ class RuncherTest < Test::Unit::TestCase
   end
   def test_to_s
     result = RBatch::cmd "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
-    assert_equal "{:stdout=>\"1\", :stderr=>\"2\", :status=>1}", result.to_s
+    assert_equal "{:cmd_str=>\"ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'\", :stdout=>\"1\", :stderr=>\"2\", :status=>1}", result.to_s
   end
   def test_nil_command
     assert_raise(RBatch::CMDException){
