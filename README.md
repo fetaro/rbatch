@@ -192,6 +192,19 @@ Config Sample
 #forbid_double_run: true
 
 # -------------------
+# Cmd setting
+# -------------------
+
+# Raise Exception
+#
+#   Default : false
+#
+# If command exit status is not 0, raise exception.
+#
+#cmd_raise : true
+
+
+# -------------------
 # Log setting
 # -------------------
 
