@@ -233,9 +233,9 @@ E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 
 # 標準出力とログの両方に文字列を出力するかどうか
 #
-#   Default : true
+#   Default : false
 #
-#log_stdout : false
+#log_stdout : true
 
 ```
 
