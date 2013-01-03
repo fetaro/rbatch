@@ -228,9 +228,9 @@ Config Sample
 
 # Print log-string both file and STDOUT
 #
-#   Default : true
+#   Default : false
 #
-#log_stdout : false
+#log_stdout : true
 ```
 
 

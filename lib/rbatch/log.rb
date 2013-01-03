@@ -43,7 +43,7 @@ module RBatch
       :formatter => nil,
       :append    => true,
       :level     => "info",
-      :stdout    => true
+      :stdout    => false
     }
     @@log_level_map = {
       "debug" => Logger::DEBUG,
@@ -53,9 +53,10 @@ module RBatch
       "fatal" => Logger::FATAL
     }
 
-    @opt
-    @log
-    @stdout_log
+    @opt # option
+    @log # log instance for file
+    @stdout_log # log instance for STDOUT
+
     # Set verbose mode flag.
     def Log.verbose=(bol); @@verbose = bol ; end
 
@@ -74,7 +75,7 @@ module RBatch
     # - +:level+ (String) = log level. ["debug"|"info"|"warn"|"error"|"fatal"] . Default is "info".
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
     # - +:formatter+ (Logger#formatter) = log formatter. instance of Logger#formatter
-    # - +:stdout+ (Boolean) = print string both logfile and STDOUT. Default is true.
+    # - +:stdout+ (Boolean) = print string both logfile and STDOUT. Default is false.
     # ==== Block params
     # +log+ = Instance of +Logger+
     # ==== Sample
@@ -105,12 +106,17 @@ module RBatch
       file.gsub!("<prog>", Pathname(File.basename(RBatch.program_name)).sub_ext("").to_s)
       path = File.join(@opt[:dir],file)
       # create Logger instance
-      puts "Logfile Path = " + path if @@verbose
-      if @opt[:append] && File.exist?(path)
-        @log = Logger.new(open(path,"a"))
-      else
-        @log = Logger.new(open(path,"w"))
+      begin
+        if @opt[:append] && File.exist?(path)
+          @log = Logger.new(open(path,"a"))
+        else
+          @log = Logger.new(open(path,"w"))
+        end
+      rescue Errno::ENOENT => e
+        STDERR.puts "RBatch ERROR: Can not open log file  - #{path}"
+        raise e
       end
+      # set logger option
       @log.formatter = @opt[:formatter] if @opt[:formatter]
       @log.level = @@log_level_map[@opt[:level]]
       if @opt[:stdout]
@@ -119,6 +125,7 @@ module RBatch
         @stdout_log.formatter = @opt[:formatter] if @opt[:formatter]
         @stdout_log.level = @@log_level_map[@opt[:level]]
       end
+      puts "Log file: " + path
       if block_given?
         begin
           yield self
@@ -136,22 +143,27 @@ module RBatch
       @stdout_log.fatal(a) if @opt[:stdout]
       @log.fatal(a)
     end
+
     def error(a)
       @stdout_log.error(a) if @opt[:stdout]
       @log.error(a)
     end
+
     def warn(a)
       @stdout_log.warn(a) if @opt[:stdout]
       @log.warn(a)
     end
+
     def info(a)
       @stdout_log.info(a) if @opt[:stdout]
       @log.info(a)
     end
+
     def debug(a)
       @stdout_log.debug(a) if @opt[:stdout]
       @log.debug(a)
     end
+
     def close
       @stdout_log.close if @opt[:stdout]
       @log.close
