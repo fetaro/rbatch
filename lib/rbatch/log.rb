@@ -43,7 +43,8 @@ module RBatch
       :formatter => nil,
       :append    => true,
       :level     => "info",
-      :stdout    => false
+      :stdout    => false,
+      :quiet     => false
     }
     @@log_level_map = {
       "debug" => Logger::DEBUG,
@@ -76,6 +77,7 @@ module RBatch
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
     # - +:formatter+ (Logger#formatter) = log formatter. instance of Logger#formatter
     # - +:stdout+ (Boolean) = print string both logfile and STDOUT. Default is false.
+    # - +:quiet+ (Boolean) = run quiet mode. print STDOUT nothing.  Default is true.
     # ==== Block params
     # +log+ = Instance of +Logger+
     # ==== Sample
@@ -113,7 +115,7 @@ module RBatch
           @log = Logger.new(open(path,"w"))
         end
       rescue Errno::ENOENT => e
-        STDERR.puts "RBatch ERROR: Can not open log file  - #{path}"
+        STDERR.puts "RBatch ERROR: Can not open log file  - #{path}" if ! @opt[:quiet]
         raise e
       end
       # set logger option
@@ -125,7 +127,7 @@ module RBatch
         @stdout_log.formatter = @opt[:formatter] if @opt[:formatter]
         @stdout_log.level = @@log_level_map[@opt[:level]]
       end
-      puts "Log file: " + path
+      puts "Log file: " + path if ! @opt[:quiet]
       if block_given?
         begin
           yield self
