@@ -176,7 +176,7 @@ If you make follow config file, option value effect to all scripts.
 
 Config Sample
 ```
-# RBatch config
+# RBatch Common Config
 #
 # This file format is YAML
 #
