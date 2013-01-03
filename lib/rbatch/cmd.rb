@@ -69,7 +69,7 @@ module RBatch
       stderr_file = Tempfile::new("rbatch_tmperr",RBatch::tmp_dir)
       pid = spawn(@cmd_str,:out => [stdout_file,"w"],:err => [stderr_file,"w"])
       status =  Process.waitpid2(pid)[1] >> 8
-      result = RBatch::CMDResult.new(stdout_file,stderr_file,status)
+      result = RBatch::CMDResult.new(stdout_file,stderr_file,status,@cmd_str)
       if @opt[:raise] && status != 0
         raise(CMDException,"Command exit status is not 0. result: " + result.to_s)
       end
@@ -81,14 +81,17 @@ module RBatch
     @stdout_file
     @stderr_file
     @status
-    def initialize(stdout_file, stderr_file, status)
+    @cmd_str
+    def initialize(stdout_file, stderr_file, status, cmd_str)
       @stdout_file = stdout_file
       @stderr_file = stderr_file
       @status = status
+      @cmd_str = cmd_str
     end
     def stdout_file ; @stdout_file ; end
     def stderr_file ; @stderr_file ; end
     def status      ; @status      ; end
+    def cmd_str     ; @cmd_str     ; end
     def stdout
       File.read(@stdout_file)
     end
@@ -96,7 +99,7 @@ module RBatch
       File.read(@stderr_file)
     end
     def to_h
-      {:stdout => stdout, :stderr => stderr, :status => status}
+      {:cmd_str => @cmd_str,:stdout => stdout, :stderr => stderr, :status => status}
     end
     def to_s
       to_h.to_s
