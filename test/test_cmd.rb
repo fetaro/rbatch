@@ -56,4 +56,53 @@ class RuncherTest < Test::Unit::TestCase
     result = RBatch::cmd "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
     assert_equal "{:stdout=>\"1\", :stderr=>\"2\", :status=>1}", result.to_s
   end
+  def test_nil_command
+    assert_raise(RBatch::CMDException){
+      RBatch::CMD.new(nil)
+    }
+  end
+  def test_fullcmd_exists
+    result = RBatch::CMD.new("ruby -e 'STDOUT.print 1; STDERR.print 2; exit 0;'").run
+    assert_equal "1", result.stdout.chomp
+    assert_equal "2", result.stderr.chomp
+    assert_equal 0, result.status
+  end
+  def test_opt_raise_true_status_1
+    cmd_str = "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
+    opt = {:raise => true}
+    assert_raise(RBatch::CMDException){
+      RBatch::CMD.new(cmd_str,opt).run
+    }
+  end
+  def test_opt_raise_false_status_1
+    cmd_str = "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
+    opt = {:raise => false}
+    result = RBatch::CMD.new(cmd_str,opt).run
+    assert_equal "1", result.stdout.chomp
+    assert_equal "2", result.stderr.chomp
+    assert_equal 1, result.status
+  end
+  def test_opt_raise_true_status_0
+    cmd_str = "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 0;'"
+    opt = {:raise => true}
+    result = RBatch::CMD.new(cmd_str,opt).run
+    assert_equal "1", result.stdout.chomp
+    assert_equal "2", result.stderr.chomp
+    assert_equal 0, result.status
+  end
+  def test_opt_raise_false_status_0
+    cmd_str = "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 0;'"
+    opt = {:raise => false}
+    result = RBatch::CMD.new(cmd_str,opt).run
+    assert_equal "1", result.stdout.chomp
+    assert_equal "2", result.stderr.chomp
+    assert_equal 0, result.status
+  end
+  def test_opt_raise_true_status_1_shortcut
+    cmd_str = "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
+    opt = {:raise => true}
+    assert_raise(RBatch::CMDException){
+      RBatch::cmd(cmd_str,opt)
+    }
+  end
 end
