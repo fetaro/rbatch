@@ -243,7 +243,7 @@ E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 テスト方法
 --------------
 ```
-ruby -I lib/ test/test_cmd.rb
-ruby -I lib/ test/special/bin/test_log.rb
-ruby -I lib/ test/special/bin/test_config.rb
+ruby -I lib test/cases/test_config.rb
+ruby -I lib test/cases/test_cmd.rb
+ruby -I lib test/cases/test_log.rb
 ```
