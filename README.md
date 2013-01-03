@@ -237,7 +237,7 @@ Config Sample
 How to Test
 --------------
 ```
-ruby -I lib/ test/test_cmd.rb
-ruby -I lib/ test/special/bin/test_log.rb
-ruby -I lib/ test/special/bin/test_config.rb
+ruby -I lib test/cases/test_config.rb
+ruby -I lib test/cases/test_cmd.rb
+ruby -I lib test/cases/test_log.rb
 ```

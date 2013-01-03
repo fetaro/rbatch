@@ -3,6 +3,10 @@ require 'rbatch'
 
 class RuncherTest < Test::Unit::TestCase
   def setup
+    @config_dir =  File.join(File.dirname(RBatch.program_name), "..", "config")
+    Dir::mkdir(@config_dir) if ! Dir.exists? @config_dir
+    confstr = ""
+    open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
   end
 
   def test_cmd_exists
@@ -97,6 +101,14 @@ class RuncherTest < Test::Unit::TestCase
     assert_equal "1", result.stdout.chomp
     assert_equal "2", result.stderr.chomp
     assert_equal 0, result.status
+  end
+  def test_opt_raise_true_status_1_by_conf
+    confstr = "cmd_raise: true "
+    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    cmd_str = "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
+    assert_raise(RBatch::CMDException){
+      RBatch::CMD.new(cmd_str).run
+    }
   end
   def test_opt_raise_true_status_1_shortcut
     cmd_str = "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
