@@ -12,7 +12,8 @@ class LoggerTest < Test::Unit::TestCase
     Dir::mkdir(@config_dir) if ! Dir.exists? @config_dir
 #    RBatch::Log.verbose = true
     # set STDOUT Logger stop
-    confstr = "log_stdout: false\n"
+    confstr = ""
+    #confstr = "log_stdout: false\n"
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
 
   end
