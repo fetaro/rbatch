@@ -21,3 +21,4 @@ initial
 ----
 * add log_stdout option
 * add sample code
+* add RBatch::CMD raise option
