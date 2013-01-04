@@ -13,13 +13,13 @@ module RBatch
   #
   # ==== Sample 1
   #  require 'rbatch'
-  #  cmd = RBatch::CMD("ls")
+  #  cmd = RBatch::Cmd("ls")
   #  r = cmd.run
   #  p r.stdout
   #  => "fileA\nfileB\n"
   #
   # ==== Sample 2 ( Use option)
-  #  cmd = RBatch::CMD("ls", {:verbose => true})
+  #  cmd = RBatch::Cmd("ls", {:verbose => true})
   #  r = cmd.run
   #
   # ==== Sample 3 ( Use alias)
@@ -28,21 +28,21 @@ module RBatch
   #  p r.stdout
   #  => "fileA\nfileB\n"
   #
-  class CMD
+  class Cmd
     @@def_opt = {
       :raise     => false
     }
     @cmd_str
     @opt
 
-    # CMD instance
+    # Cmd instance
     #
     # ==== Params
     # +cmd_str+ = Command string. Such ad "ls -l"
     # +opt+ = Option hash object. Hash keys is follows.
     # - +:raise+ (Boolean) = If command exit status is not 0, raise exception. Default is false.
     def initialize(cmd_str,opt = nil)
-      raise(CMDException,"Command string is nil") if cmd_str.nil?
+      raise(CmdException,"Command string is nil") if cmd_str.nil?
       @cmd_str = cmd_str
       # parse option
       @opt = @@def_opt.clone
@@ -63,21 +63,21 @@ module RBatch
     # Run command
     #
     # ==== Return
-    # instance of RBatch::CMDResult
+    # instance of RBatch::CmdResult
     def run()
       stdout_file = Tempfile::new("rbatch_tmpout",RBatch::tmp_dir)
       stderr_file = Tempfile::new("rbatch_tmperr",RBatch::tmp_dir)
       pid = spawn(@cmd_str,:out => [stdout_file,"w"],:err => [stderr_file,"w"])
       status =  Process.waitpid2(pid)[1] >> 8
-      result = RBatch::CMDResult.new(stdout_file,stderr_file,status,@cmd_str)
+      result = RBatch::CmdResult.new(stdout_file,stderr_file,status,@cmd_str)
       if @opt[:raise] && status != 0
-        raise(CMDException,"Command exit status is not 0. result: " + result.to_s)
+        raise(CmdException,"Command exit status is not 0. result: " + result.to_s)
       end
       return result
     end
   end
 
-  class CMDResult
+  class CmdResult
     @stdout_file
     @stderr_file
     @status
@@ -106,13 +106,13 @@ module RBatch
     end
   end
 
-  class CMDException < Exception ; end
+  class CmdException < Exception ; end
 
   module_function
 
-  # shortcut of RBatch::CMD
+  # shortcut of RBatch::Cmd
   def cmd(cmd_str,opt = nil)
-    CMD.new(cmd_str,opt).run
+    Cmd.new(cmd_str,opt).run
   end
 
 end
