@@ -1,4 +1,4 @@
-0;136;0c1.0.0
+1.0.0
 -----
 initial
 
@@ -17,8 +17,9 @@ initial
 * add RBatch::Log to instance interface
 * add double run check option
 
-1.4.0(2013/1/1)
+1.4.0(2013/1/5)
 ----
 * add log_stdout option
 * add sample code
-* add RBatch::Cmd raise option
+* add cmd_raise option
+* add log_delete_old_log option
