@@ -244,6 +244,30 @@ Config Sample
 #   Default : false
 #
 #log_stdout : true
+
+# 標準出力とログの両方に文字列を出力するかどうか
+#
+#   Default : false
+#
+#log_stdout : true
+
+# Delete old log files
+#
+# If this is true, delete old log file when RBatch::Log.new is called.
+# A log file to delete is a log file which was made by the RBatch::Log instance, 
+# and log filename format include "<date>".
+#
+#   Default : false
+#
+#log_delete_old_log: true
+
+# The day of leaving log files
+#
+#   Default : 7
+#
+#log_delete_old_log_date: 14
+
+
 ```
 
 

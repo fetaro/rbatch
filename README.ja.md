@@ -249,6 +249,25 @@ E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 #
 #log_stdout : true
 
+# 古いログを削除するかどうか
+#
+# trueの場合、RBatch::Log.newを呼んだタイミングで、古いログを削除する。
+# 削除対象のログは、そのRBatch::Logのインスタンスが出力するログファイルと
+# 同じファイル名フォーマットであり、かつログファイル名のフォーマットに<date>が
+# 含まれるもの。
+# 例えば、RBatch::Logで出力するログファイルが「20120105_hoge.log」だった場合、
+# 削除対象のログは「YYYYMMDD_hoge.log」のログとなる。
+#
+#   Default : false
+#
+#log_delete_old_log: true
+
+# 古いログの残す日数
+#
+#   Default : 7
+#
+#log_delete_old_log_date: 14
+
 ```
 
 
