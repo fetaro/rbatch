@@ -38,14 +38,14 @@
 				<div class="section-body">
 					<ul>
 					
-						<li><a href="./lib/rbatch/auto_config_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="lib/rbatch/auto_config.rb">lib/rbatch/auto_config.rb</a></li>
+						<li><a href="./lib/rbatch/log_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/log.rb">lib/rbatch/log.rb</a></li>
 					
-						<li><a href="./lib/rbatch/runcher_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="lib/rbatch/runcher.rb">lib/rbatch/runcher.rb</a></li>
+						<li><a href="./lib/rbatch/config_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/config.rb">lib/rbatch/config.rb</a></li>
 					
-						<li><a href="./lib/rbatch/auto_logger_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="lib/rbatch/auto_logger.rb">lib/rbatch/auto_logger.rb</a></li>
+						<li><a href="./lib/rbatch/cmd_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/cmd.rb">lib/rbatch/cmd.rb</a></li>
 					
 						<li><a href="./lib/rbatch_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
 							class="thickbox" title="lib/rbatch.rb">lib/rbatch.rb</a></li>
@@ -68,7 +68,11 @@
 				<h3 class="section-header">Namespace</h3>
 				<ul class="link-list">
 					
-					<li><span class="type">CLASS</span> <a href="RBatch/CMDResult.html">RBatch::CMDResult</a></li>
+					<li><span class="type">CLASS</span> <a href="RBatch/Cmd.html">RBatch::Cmd</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/CmdException.html">RBatch::CmdException</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/CmdResult.html">RBatch::CmdResult</a></li>
 					
 					<li><span class="type">CLASS</span> <a href="RBatch/Log.html">RBatch::Log</a></li>
 					
@@ -84,11 +88,17 @@
 					
 					<li><a href="#method-i-cmd">#cmd</a></li>
 					
+					<li><a href="#method-i-common_config">#common_config</a></li>
+					
+					<li><a href="#method-i-common_config_path">#common_config_path</a></li>
+					
 					<li><a href="#method-i-config">#config</a></li>
 					
 					<li><a href="#method-i-program_name">#program_name</a></li>
 					
 					<li><a href="#method-i-program_name%3D">#program_name=</a></li>
+					
+					<li><a href="#method-i-tmp_dir">#tmp_dir</a></li>
 					
 				</ul>
 			</div>
@@ -130,7 +140,11 @@
 				
 					<li><a href="./RBatch.html">RBatch</a></li>
 				
-					<li><a href="./RBatch/CMDResult.html">RBatch::CMDResult</a></li>
+					<li><a href="./RBatch/Cmd.html">RBatch::Cmd</a></li>
+				
+					<li><a href="./RBatch/CmdException.html">RBatch::CmdException</a></li>
+				
+					<li><a href="./RBatch/CmdResult.html">RBatch::CmdResult</a></li>
 				
 					<li><a href="./RBatch/Log.html">RBatch::Log</a></li>
 				
@@ -167,7 +181,7 @@
 				<div class="method-heading">
 				
 					<span class="method-name">cmd</span><span
-						class="method-args">(*cmd_params)</span>
+						class="method-args">(cmd_str,opt = nil)</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
 				</div>
@@ -175,42 +189,7 @@
 				<div class="method-description">
 					
 					<p>
-External command runcher.
-</p>
-<ul>
-<li><p>
-Input cmd_params into Kernel#spawn.
-</p>
-</li>
-<li><p>
-Write command&#8217;s stdout and stderr to tmp file.
-</p>
-</li>
-</ul>
-<pre>
- * If Platform is &quot;mswin&quot; or &quot;mingw&quot; , then temp directory is ENV[&quot;TEMP&quot;]
- * If Platform is &quot;linux&quot; or &quot;cygwin&quot; , then temp directory is &quot;/tmp/&quot;
-</pre>
-<ul>
-<li><p>
-Return hash object including stdout, stderr, and exit status.
-</p>
-</li>
-</ul>
-<h4>Sample</h4>
-<pre>
- require 'rbatch'
- r = RBatch::cmd(&quot;ls&quot;)
- p r.stdout
- =&gt; &quot;fileA\nfileB\n&quot;
-</pre>
-<h4>Params</h4>
-<p>
-<tt>cmd_params</tt> = command string. Directory input to Kernel#spawn
-</p>
-<h4>Return</h4>
-<p>
-instance of <a href="RBatch/CMDResult.html">RBatch::CMDResult</a>
+shortcut of <a href="RBatch/Cmd.html">RBatch::Cmd</a>
 </p>
 					
 
@@ -218,22 +197,88 @@ instance of <a href="RBatch/CMDResult.html">RBatch::CMDResult</a>
 					<div class="method-source-code"
 						id="cmd-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/runcher.rb, line 50</span>
-50:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cmd</span>(*<span class="ruby-identifier">cmd_params</span>)
-51:     <span class="ruby-keyword kw">case</span> <span class="ruby-constant">RUBY_PLATFORM</span>
-52:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/mswin|mingw/</span>
-53:       <span class="ruby-identifier">tmp_dir</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>]
-54:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/cygwin|linux/</span>
-55:       <span class="ruby-identifier">tmp_dir</span> = <span class="ruby-value str">&quot;/tmp/&quot;</span>
-56:     <span class="ruby-keyword kw">else</span>
-57:       <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;Unknown RUBY_PRATFORM : &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">RUBY_PLATFORM</span>
-58:     <span class="ruby-keyword kw">end</span>
-59:     <span class="ruby-identifier">stdout_file</span> = <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;rbatch_tmpout&quot;</span>,<span class="ruby-identifier">tmp_dir</span>)
-60:     <span class="ruby-identifier">stderr_file</span> = <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;rbatch_tmperr&quot;</span>,<span class="ruby-identifier">tmp_dir</span>)
-61:     <span class="ruby-identifier">pid</span> = <span class="ruby-identifier">spawn</span>(*<span class="ruby-identifier">cmd_params</span>,<span class="ruby-value">:out</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">stdout_file</span>,<span class="ruby-value str">&quot;w&quot;</span>],<span class="ruby-value">:err</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">stderr_file</span>,<span class="ruby-value str">&quot;w&quot;</span>])
-62:     <span class="ruby-identifier">status</span> =  <span class="ruby-constant">Process</span>.<span class="ruby-identifier">waitpid2</span>(<span class="ruby-identifier">pid</span>)[<span class="ruby-value">1</span>] <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">8</span>
-63:     <span class="ruby-keyword kw">return</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">CMDResult</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">stdout_file</span>,<span class="ruby-identifier">stderr_file</span>,<span class="ruby-identifier">status</span>)
-64:   <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 114</span>
+114:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cmd</span>(<span class="ruby-identifier">cmd_str</span>,<span class="ruby-identifier">opt</span> = <span class="ruby-keyword kw">nil</span>)
+115:     <span class="ruby-constant">Cmd</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cmd_str</span>,<span class="ruby-identifier">opt</span>).<span class="ruby-identifier">run</span>
+116:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="common-config-method" class="method-detail ">
+				<a name="method-i-common_config"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">common_config</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="common-config-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 21</span>
+21:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">common_config</span>
+22:     <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">common_config_path</span>)
+23:       <span class="ruby-identifier">yaml</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">common_config_path</span>)
+24:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">yaml</span>
+25:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">yaml</span>
+26:       <span class="ruby-keyword kw">else</span>
+27:         <span class="ruby-comment cmt"># If file is emply , YAML::load_file is false</span>
+28:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>
+29:       <span class="ruby-keyword kw">end</span>
+30:     <span class="ruby-keyword kw">else</span>
+31:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>
+32:     <span class="ruby-keyword kw">end</span>
+33:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="common-config-path-method" class="method-detail ">
+				<a name="method-i-common_config_path"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">common_config_path</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="common-config-path-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 18</span>
+18:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">common_config_path</span>
+19:     <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>,<span class="ruby-value str">&quot;config&quot;</span>,<span class="ruby-value str">&quot;rbatch.yaml&quot;</span>)
+20:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -287,7 +332,7 @@ script : ./bin/sample2.rb
 					<div class="method-source-code"
 						id="config-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/auto_config.rb, line 22</span>
+    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 22</span>
 22:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">config</span>
 23:     <span class="ruby-identifier">file</span> = <span class="ruby-constant">Pathname</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>)).<span class="ruby-identifier">sub_ext</span>(<span class="ruby-value str">&quot;.yaml&quot;</span>).<span class="ruby-identifier">to_s</span>
 24:     <span class="ruby-identifier">dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>),<span class="ruby-value str">&quot;config&quot;</span>)
@@ -357,6 +402,47 @@ script : ./bin/sample2.rb
 <pre>
    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 6</span>
 6:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_name=</span>(<span class="ruby-identifier">f</span>) ; <span class="ruby-identifier">@@program_name</span> = <span class="ruby-identifier">f</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="tmp-dir-method" class="method-detail ">
+				<a name="method-i-tmp_dir"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">tmp_dir</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="tmp-dir-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 8</span>
+ 8:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tmp_dir</span>
+ 9:     <span class="ruby-keyword kw">case</span> <span class="ruby-constant">RUBY_PLATFORM</span>
+10:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/mswin|mingw/</span>
+11:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>]
+12:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/cygwin|linux/</span>
+13:       <span class="ruby-keyword kw">return</span> <span class="ruby-value str">&quot;/tmp/&quot;</span>
+14:     <span class="ruby-keyword kw">else</span>
+15:       <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;Unknown RUBY_PRATFORM : &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">RUBY_PLATFORM</span>
+16:     <span class="ruby-keyword kw">end</span>
+17:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
