@@ -72,6 +72,15 @@ class LoggerTest < Test::Unit::TestCase
     }
   end
 
+  def test_change_name_by_opt3
+    RBatch::Log.new({:name => "<prog>-<date>-name.log" }) do | log |
+      log.info("test_change_name_by_opt2")
+    end
+    File::open(File.join(@dir ,  "test_log-" + Time.now.strftime("%Y%m%d") + "-name.log")) {|f|
+      assert_match /test_change_name_by_opt2/, f.read
+    }
+  end
+
 
   def test_change_name_by_config
     confstr = "log_name: name1"
@@ -515,6 +524,69 @@ class LoggerTest < Test::Unit::TestCase
       assert_match /test_error/, str
       assert_match /test_fatal/, str
     }
+  end
+
+  def test_delete_old_log_by_opt
+    loglist = [*0..20].map do |day|
+      File.join(@dir , (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
+    end
+    FileUtils.touch(loglist)
+     log = RBatch::Log.new({ :name =>  "<date>_test_delete.log",:delete_old_log => true})
+    loglist[1..6].each do |filename|
+      assert File.exists?(filename), "log file \"#{filename}\" should be exist"
+    end
+    loglist[7..20].each do |filename|
+      assert ! File.exists?(filename), "log file \"#{filename}\" should NOT be exist"
+    end
+  end
+  def test_delete_old_log_by_config
+    confstr = "log_delete_old_log: true"
+    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+
+    loglist = [*0..20].map do |day|
+      File.join(@dir , (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
+    end
+    FileUtils.touch(loglist)
+     log = RBatch::Log.new({ :name =>  "<date>_test_delete.log"})
+    loglist[1..6].each do |filename|
+      assert File.exists?(filename), "log file \"#{filename}\" should be exist"
+    end
+    loglist[7..20].each do |filename|
+      assert ! File.exists?(filename), "log file \"#{filename}\" should NOT be exist"
+    end
+  end
+
+  def test_delete_old_log_file_format_change_with_time
+    loglist = [*0..20].map do |day|
+      File.join(@dir , "235959-" + (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
+    end
+    FileUtils.touch(loglist)
+     log = RBatch::Log.new({ :name =>  "<time>-<date>_test_delete.log",:delete_old_log => true})
+    loglist[1..6].each do |filename|
+      assert File.exists?(filename), "log file \"#{filename}\" should be exist"
+    end
+    loglist[7..20].each do |filename|
+      assert ! File.exists?(filename), "log file \"#{filename}\" should NOT be exist"
+    end
+  end
+
+  def test_delete_old_log_file_format_change_no_date
+    log = RBatch::Log.new({ :name =>  "test_delete.log",:delete_old_log => true})
+    assert File.exists?(File.join(@dir,"test_delete.log")), "log file \"test_delete.log\" should be exist"
+  end
+
+  def test_delete_old_log_date
+    loglist = [*0..20].map do |day|
+      File.join(@dir , (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
+    end
+    FileUtils.touch(loglist)
+    log = RBatch::Log.new({ :name =>  "<date>_test_delete.log",:delete_old_log => true,:delete_old_log_date => 5})
+    loglist[1..4].each do |filename|
+      assert File.exists?(filename), "log file \"#{filename}\" should be exist"
+    end
+    loglist[5..20].each do |filename|
+      assert ! File.exists?(filename), "log file \"#{filename}\" should NOT be exist"
+    end
   end
 
 

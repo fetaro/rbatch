@@ -1,4 +1,5 @@
 require 'logger'
+require 'fileutils'
 require 'pathname'
 
 module RBatch
@@ -44,7 +45,9 @@ module RBatch
       :append    => true,
       :level     => "info",
       :stdout    => false,
-      :quiet     => false
+      :quiet     => false,
+      :delete_old_log => false,
+      :delete_old_log_date => 7
     }
     @@log_level_map = {
       "debug" => Logger::DEBUG,
@@ -57,6 +60,8 @@ module RBatch
     @opt # option
     @log # log instance for file
     @stdout_log # log instance for STDOUT
+    @prog_base # program file name base
+    @file_name # log file name
 
     # Set verbose mode flag.
     def Log.verbose=(bol); @@verbose = bol ; end
@@ -102,11 +107,12 @@ module RBatch
       end
       puts "option = " + @opt.to_s if @@verbose
       # determine log file name
-      file = @opt[:name]
-      file.gsub!("<date>", Time.now.strftime("%Y%m%d"))
-      file.gsub!("<time>", Time.now.strftime("%H%M%S"))
-      file.gsub!("<prog>", Pathname(File.basename(RBatch.program_name)).sub_ext("").to_s)
-      path = File.join(@opt[:dir],file)
+      @prog_base = Pathname(File.basename(RBatch.program_name)).sub_ext("").to_s
+      @file_name = @opt[:name].clone
+      @file_name.gsub!("<date>", Time.now.strftime("%Y%m%d"))
+      @file_name.gsub!("<time>", Time.now.strftime("%H%M%S"))
+      @file_name.gsub!("<prog>", @prog_base)
+      path = File.join(@opt[:dir],@file_name)
       # create Logger instance
       begin
         if @opt[:append] && File.exist?(path)
@@ -128,6 +134,8 @@ module RBatch
         @stdout_log.level = @@log_level_map[@opt[:level]]
       end
       puts "Log file: " + path if ! @opt[:quiet]
+      # delete old log
+      self.delete_old_log(@opt[:delete_old_log_date]) if @opt[:delete_old_log]
       if block_given?
         begin
           yield self
@@ -171,6 +179,27 @@ module RBatch
       @log.close
     end
 
+    # Delete old log files.
+    # If @opt[:name] is not include "<date>", then do nothing.
+    #
+    # ==== Params
+    # - +date+ (Integer): The day of leaving log files
+    #
+    def delete_old_log(date = 7)
+      if Dir.exists?(@opt[:dir]) && @opt[:name].include?("<date>")
+        Dir::foreach(@opt[:dir]) do |file|
+          r = Regexp.new("^" \
+                         + @opt[:name].gsub("<prog>",@prog_base)\
+                           .gsub("<time>","[0-2][0-9][0-5][0-9][0-5][0-9]")\
+                           .gsub("<date>","([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])")\
+                         + "$")
+          if r =~ file && Date.strptime($1,"%Y%m%d") <= Date.today - date
+            puts "Delete old log file: " + File.join(@opt[:dir] , file) if ! @opt[:quiet]
+            File::delete(File.join(@opt[:dir]  , file))
+          end
+        end
+      end
+    end
   end # end class
 end # end module
 
