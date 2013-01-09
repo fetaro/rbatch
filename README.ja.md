@@ -120,10 +120,7 @@ RBatchの共通設定ファイルに"forbid_double_run: true"の設定を書け�
 ### ステップ1: インストール
 
 ```
-# git clone https://github.com/fetaro/rbatch.git
-# cd rbatch
-# rake package
-# gem install pkg/rbatch-1.0.0
+# gem install rbatch
 ```
 
 ### ステップ2: ディレクトリ作成
