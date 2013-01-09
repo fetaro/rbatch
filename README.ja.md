@@ -266,12 +266,3 @@ E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 #log_delete_old_log_date: 14
 
 ```
-
-
-テスト方法
---------------
-```
-ruby -I lib test/cases/test_config.rb
-ruby -I lib test/cases/test_cmd.rb
-ruby -I lib test/cases/test_log.rb
-```

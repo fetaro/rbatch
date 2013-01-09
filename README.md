@@ -163,7 +163,7 @@ E, [2012-10-20T00:19:23.424882 #2357] ERROR -- : backup failed
 Manual
 --------------
 
-### Common Config File
+### RBatch Grobal Config File
 
 If you make follow config file, option value effect to all scripts.
 
@@ -267,11 +267,3 @@ Config Sample
 
 ```
 
-
-How to Test
---------------
-```
-ruby -I lib test/cases/test_config.rb
-ruby -I lib test/cases/test_cmd.rb
-ruby -I lib test/cases/test_log.rb
-```
