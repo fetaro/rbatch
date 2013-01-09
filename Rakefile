@@ -41,26 +41,3 @@ Rake::RDocTask.new do |rdoc|
 end
 
 
-Rake::TestTask.new do |t|
-  t.libs << "./lib"
-  t.test_files = FileList['test/test*.rb']
-  t.verbose = true
-end
-
-desc "Special Test for RBatch::log"
-task :test_log do |t|
-  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"lib"))
-  require "rbatch"
-  path = File.join("test","special","bin","test_log.rb")
-  RBatch.program_name = path
-  load path
-end
-
-desc "Special Test for RBatch.config"
-task :test_config do |t|
-  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"lib"))
-  require "rbatch"
-  path = File.join("test","special","bin","test_config.rb")
-  RBatch.program_name = path
-  load path
-end
