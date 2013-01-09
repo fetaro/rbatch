@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = "rbatch"
+  s.name = %q{rbatch}
   s.version = "1.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["fetaro"]
-  s.date = "2013-01-09"
-  s.description = "Ruby-based batch framework"
-  s.email = "fetaro@gmail.com"
+  s.date = %q{2013-01-09}
+  s.description = %q{Ruby-based batch framework}
+  s.email = %q{fetaro@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
     "README.ja.md",
@@ -80,11 +80,11 @@ Gem::Specification.new do |s|
     "test/mocks/PrintArgs.exe",
     "test/mocks/win_cmd.exe"
   ]
-  s.homepage = "http://github.com/fetaro/rbatch"
+  s.homepage = %q{http://github.com/fetaro/rbatch}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
-  s.summary = "Ruby-based batch framework"
+  s.rubygems_version = %q{1.7.1}
+  s.summary = %q{Ruby-based batch framework}
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
