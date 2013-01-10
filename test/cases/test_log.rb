@@ -33,7 +33,7 @@ class LoggerTest < Test::Unit::TestCase
     end
   end
 
-  def test_log
+  def testlog
     RBatch::Log.new do | log |
       log.info("test_log")
     end
@@ -531,7 +531,8 @@ class LoggerTest < Test::Unit::TestCase
       File.join(@dir , (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
     end
     FileUtils.touch(loglist)
-     log = RBatch::Log.new({ :name =>  "<date>_test_delete.log",:delete_old_log => true})
+    log = RBatch::Log.new({ :name =>  "<date>_test_delete.log",:delete_old_log => true})
+    log.close
     loglist[1..6].each do |filename|
       assert File.exists?(filename), "log file \"#{filename}\" should be exist"
     end
@@ -547,7 +548,8 @@ class LoggerTest < Test::Unit::TestCase
       File.join(@dir , (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
     end
     FileUtils.touch(loglist)
-     log = RBatch::Log.new({ :name =>  "<date>_test_delete.log"})
+    log = RBatch::Log.new({ :name =>  "<date>_test_delete.log"})
+    log.close
     loglist[1..6].each do |filename|
       assert File.exists?(filename), "log file \"#{filename}\" should be exist"
     end
@@ -561,7 +563,8 @@ class LoggerTest < Test::Unit::TestCase
       File.join(@dir , "235959-" + (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
     end
     FileUtils.touch(loglist)
-     log = RBatch::Log.new({ :name =>  "<time>-<date>_test_delete.log",:delete_old_log => true})
+    log = RBatch::Log.new({ :name =>  "<time>-<date>_test_delete.log",:delete_old_log => true})
+    log.close
     loglist[1..6].each do |filename|
       assert File.exists?(filename), "log file \"#{filename}\" should be exist"
     end
@@ -572,6 +575,7 @@ class LoggerTest < Test::Unit::TestCase
 
   def test_delete_old_log_file_format_change_no_date
     log = RBatch::Log.new({ :name =>  "test_delete.log",:delete_old_log => true})
+    log.close
     assert File.exists?(File.join(@dir,"test_delete.log")), "log file \"test_delete.log\" should be exist"
   end
 
@@ -581,6 +585,7 @@ class LoggerTest < Test::Unit::TestCase
     end
     FileUtils.touch(loglist)
     log = RBatch::Log.new({ :name =>  "<date>_test_delete.log",:delete_old_log => true,:delete_old_log_date => 5})
+    log.close
     loglist[1..4].each do |filename|
       assert File.exists?(filename), "log file \"#{filename}\" should be exist"
     end
