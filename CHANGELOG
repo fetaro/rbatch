@@ -24,10 +24,7 @@ initial
 * add cmd_raise option
 * add log_delete_old_log option
 
-1.4.2(2013/1/10)
-----
-* enhance document
-
 1.5.0(2013/1/11)
 ----
 * change default config dir "../config" -> "../conf"
+
