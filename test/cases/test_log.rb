@@ -6,7 +6,7 @@ class LoggerTest < Test::Unit::TestCase
     @dir  = File.join(File.dirname(RBatch.program_name), "..", "log")
     @dir2 = File.join(File.dirname(RBatch.program_name), "..", "log2")
     @dir3 = File.join(File.dirname(RBatch.program_name), "..", "log3")
-    @config_dir =  File.join(File.dirname(RBatch.program_name), "..", "config")
+    @config_dir =  File.join(File.dirname(RBatch.program_name), "..", "conf")
     Dir::mkdir(@dir)if ! Dir.exists? @dir
     Dir::mkdir(@dir2)if ! Dir.exists? @dir2
     Dir::mkdir(@config_dir) if ! Dir.exists? @config_dir
