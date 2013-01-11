@@ -3,7 +3,7 @@ require 'rbatch'
 
 class RuncherTest < Test::Unit::TestCase
   def setup
-    @config_dir =  File.join(File.dirname(RBatch.program_name), "..", "config")
+    @config_dir =  File.join(File.dirname(RBatch.program_name), "..", "conf")
     Dir::mkdir(@config_dir) if ! Dir.exists? @config_dir
     confstr = ""
     open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}

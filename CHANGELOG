@@ -1,4 +1,4 @@
-1.0.0
+B0;136;0c1.0.0
 -----
 initial
 
@@ -27,3 +27,7 @@ initial
 1.4.2(2013/1/10)
 ----
 * enhance document
+
+1.5.0(2013/1/11)
+----
+* change default config dir "../config" -> "../conf"

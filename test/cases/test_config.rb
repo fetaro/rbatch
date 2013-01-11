@@ -3,7 +3,7 @@ require 'rbatch'
 
 class RuncherTest < Test::Unit::TestCase
   def setup
-    @config_dir =  File.join(File.dirname(RBatch.program_name), "..", "config")
+    @config_dir =  File.join(File.dirname(RBatch.program_name), "..", "conf")
     @config_file = File.join(@config_dir , "test_config.yaml")
     Dir::mkdir(@config_dir) if ! Dir.exists? @config_dir
   end

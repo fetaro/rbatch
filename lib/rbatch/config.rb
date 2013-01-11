@@ -21,7 +21,7 @@ module RBatch
   #  => {"key" => "value", "array" => ["item1", "item2", "item3"]}
   def config
     file = Pathname(File.basename(RBatch.program_name)).sub_ext(".yaml").to_s
-    dir = File.join(File.join(File.dirname(RBatch.program_name),".."),"config")
+    dir = File.join(File.join(File.dirname(RBatch.program_name),".."),"conf")
     return YAML::load_file(File.join(dir,file))
   end
 
