@@ -277,7 +277,7 @@ shortcut of <a href="RBatch/Cmd.html">RBatch::Cmd</a>
 <pre>
     <span class="ruby-comment cmt"># File lib/rbatch.rb, line 18</span>
 18:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">common_config_path</span>
-19:     <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>,<span class="ruby-value str">&quot;config&quot;</span>,<span class="ruby-value str">&quot;rbatch.yaml&quot;</span>)
+19:     <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>,<span class="ruby-value str">&quot;conf&quot;</span>,<span class="ruby-value str">&quot;rbatch.yaml&quot;</span>)
 20:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
@@ -335,7 +335,7 @@ script : ./bin/sample2.rb
     <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 22</span>
 22:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">config</span>
 23:     <span class="ruby-identifier">file</span> = <span class="ruby-constant">Pathname</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>)).<span class="ruby-identifier">sub_ext</span>(<span class="ruby-value str">&quot;.yaml&quot;</span>).<span class="ruby-identifier">to_s</span>
-24:     <span class="ruby-identifier">dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>),<span class="ruby-value str">&quot;config&quot;</span>)
+24:     <span class="ruby-identifier">dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>),<span class="ruby-value str">&quot;conf&quot;</span>)
 25:     <span class="ruby-keyword kw">return</span> <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>,<span class="ruby-identifier">file</span>))
 26:   <span class="ruby-keyword kw">end</span></pre>
 					</div>

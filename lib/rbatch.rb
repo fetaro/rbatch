@@ -16,7 +16,7 @@ module RBatch
     end
   end
   def common_config_path
-    File.join(File.dirname(RBatch.program_name),"..","config","rbatch.yaml")
+    File.join(File.dirname(RBatch.program_name),"..","conf","rbatch.yaml")
   end
   def common_config
     if File.exist?(RBatch.common_config_path)

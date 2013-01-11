@@ -19,7 +19,7 @@ This work on only Ruby 1.9.x or more later.
 
 ### Auto Logging
 Use Auto Logging block, RBatch automatically write to logfile.
-Log file default location is "../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
+Log file default location is "(script file path)/../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
 If exception occuerd, then RBatch write stack trace to logfile.
 
 sample
@@ -50,11 +50,11 @@ test.rb:3:in `<main>'
 
 ### Auto Config Reading
 
-RBatch easy to read config file (located on "../config/${PROG_NAME}.yaml")
+RBatch easy to read config file (located on "(script file path)/../conf/${PROG_NAME}.yaml")
 
 sample
 
-config : ./config/sample2.yaml
+config : ./conf/sample2.yaml
 ```
 key: value
 array:
@@ -100,7 +100,7 @@ In this way, maintainability and readability of batch script get higher.
  |-bin
  |  |- hoge.rb
  |  |- bar.rb
- |-config
+ |-conf
  |  |- hoge.yaml
  |  |- bar.yaml
  |-log
@@ -123,7 +123,7 @@ Quick Start
 ### Step2: Make directories
 
 ```
-$ mkdir bin log config
+$ mkdir bin log conf
 ```
 
 ### Step3: Write batch script 
@@ -168,7 +168,7 @@ Manual
 If you make follow config file, option value effect to all scripts.
 
 ```
-(script file path)/../config/rbatch.yaml
+(script file path)/../conf/rbatch.yaml
 ```
 
 Config Sample
