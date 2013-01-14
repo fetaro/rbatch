@@ -1,0 +1,5 @@
+work_dir : "/tmp/"
+local_backup_dir  : "/tmp/mysql_backup/"
+remote_backup_dir : "/share/tmp/mysql_backup/"
+local_delete_date : 7
+gpg_passphrase_filepath : "/tmp/gpg.txt"
