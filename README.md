@@ -68,6 +68,12 @@ script : ./bin/sample2.rb
 require 'rbatch'
 p RBatch::config
 => {"key" => "value", "array" => ["item1", "item2", "item3"]}
+p RBatch::config["key"]
+=> "value"
+
+# If key does not exist , raise exception
+p RBatch::config["not_exist"]
+=> Raise Exception
 ```
 
 ### External Command Wrapper 

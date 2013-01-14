@@ -70,6 +70,12 @@ array:
 require 'rbatch'
 p RBatch::config
 => {"key" => "value", "array" => ["item1", "item2", "item3"]}
+p RBatch::config["key"]
+=> "value"
+
+# もしキーが存在しない場合は自動的に例外が発生します
+p RBatch::config["not_exist"]
+=> Raise Exception
 ```
 
 ### 外部コマンド実行 
