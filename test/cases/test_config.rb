@@ -31,4 +31,11 @@ class RuncherTest < Test::Unit::TestCase
     assert_equal "value",  RBatch.config["key"]
     assert_equal "value",  RBatch.config["key"]
   end
+
+  def test_not_exist_key
+    open( @config_file  , "w" ){|f| f.write("key: value")}
+    assert_raise(RBatch::Config::Exception){
+      RBatch.config["not_exist"]
+    }
+  end
 end
