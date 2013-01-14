@@ -74,6 +74,8 @@
 					
 					<li><span class="type">CLASS</span> <a href="RBatch/CmdResult.html">RBatch::CmdResult</a></li>
 					
+					<li><span class="type">CLASS</span> <a href="RBatch/Config.html">RBatch::Config</a></li>
+					
 					<li><span class="type">CLASS</span> <a href="RBatch/Log.html">RBatch::Log</a></li>
 					
 				</ul>
@@ -145,6 +147,10 @@
 					<li><a href="./RBatch/CmdException.html">RBatch::CmdException</a></li>
 				
 					<li><a href="./RBatch/CmdResult.html">RBatch::CmdResult</a></li>
+				
+					<li><a href="./RBatch/Config.html">RBatch::Config</a></li>
+				
+					<li><a href="./RBatch/Config/Exception.html">RBatch::Config::Exception</a></li>
 				
 					<li><a href="./RBatch/Log.html">RBatch::Log</a></li>
 				
@@ -303,41 +309,16 @@ shortcut of <a href="RBatch/Cmd.html">RBatch::Cmd</a>
 				<div class="method-description">
 					
 					<p>
-Read config file and return hash opject.
+Alias of RBatch::Config.new
 </p>
-<p>
-Default config file path is &#8220;../config/(Program name).yaml&#8220;
-</p>
-<h4>Sample</h4>
-<p>
-config : ./config/sample2.yaml
-</p>
-<pre>
- key: value
- array:
-  * item1
-  * item2
-  * item3
-</pre>
-<p>
-script : ./bin/sample2.rb
-</p>
-<pre>
- require 'rbatch'
- p RBatch::config
- =&gt; {&quot;key&quot; =&gt; &quot;value&quot;, &quot;array&quot; =&gt; [&quot;item1&quot;, &quot;item2&quot;, &quot;item3&quot;]}</pre>
 					
 
 					
 					<div class="method-source-code"
 						id="config-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 22</span>
-22:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">config</span>
-23:     <span class="ruby-identifier">file</span> = <span class="ruby-constant">Pathname</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>)).<span class="ruby-identifier">sub_ext</span>(<span class="ruby-value str">&quot;.yaml&quot;</span>).<span class="ruby-identifier">to_s</span>
-24:     <span class="ruby-identifier">dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>),<span class="ruby-value str">&quot;conf&quot;</span>)
-25:     <span class="ruby-keyword kw">return</span> <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>,<span class="ruby-identifier">file</span>))
-26:   <span class="ruby-keyword kw">end</span></pre>
+   <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 9</span>
+9:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">config</span> ; <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>

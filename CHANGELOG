@@ -28,3 +28,6 @@ initial
 ----
 * change default config dir "../config" -> "../conf"
 
+1.6.0(2013/1/14)
+----
+* add config key check
