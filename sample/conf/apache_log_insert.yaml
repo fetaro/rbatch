@@ -1,0 +1,6 @@
+apache_log_path : "/root/rbatch/sample/data/access.log"
+mysql_server : "localhost"
+mysql_user : "root"
+mysql_password : ""
+mysql_db_name : "test"
+mysql_table_name : "apache_log"
