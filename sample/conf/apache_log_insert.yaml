@@ -1,4 +1,4 @@
-apache_log_path : "/root/rbatch/sample/data/access.log"
+apache_log_path : "/root/rbatch/sample/data/access_log.2012-07-10"
 mysql_server : "localhost"
 mysql_user : "root"
 mysql_password : ""
