@@ -2,31 +2,25 @@
 require 'rbatch'
 require 'mysql'
 
+#
+# OpenAMの認証アクセスログと認証エラーログを解析してMySQLに挿入する
+#   2013/1 NRI 渡部
+#
 
-# parse OpenAM AuthLogfile and insert into MySQL
-#
-#   expecting log format sample:
-# 
-#   "2012-07-10 20:59:55"   "Login Success|module_instance|DataStore"       id=amadmin,ou=user,dc=opensso,dc=java,dc=net       e63d790b51cf40f501      192.175.204.59  INFO    dc=opensso,dc=java,dc=net  "cn=dsameuser,ou=DSAME Users,dc=opensso,dc=java,dc=net" AUTHENTICATION-105      DataStore       "Not Available"    192.175.204.59
-#
-# 0  "2012-07-10 20:59:55"
-# 1  "Login Success|module_instance|DataStore"
-# 2  id=amadmin,ou=user,dc=opensso,dc=java,dc=net
-# 3  e63d790b51cf40f501
-# 4  192.175.204.59
-# 5  INFO
-# 6  dc=opensso,dc=java,dc=net
-# 7  "cn=dsameuser,ou=DSAME Users,dc=opensso,dc=java,dc=net"
-# 8  AUTHENTICATION-105
-# 9  DataStore
-# 10 "Not Available"
-# 11 192.175.204.59
+
+# ログの1行を表すクラス
 #
 class Entry
   @entry = nil
 
   # ログの1行を解析してEntryクラスを作る。
   # 解析できない時は例外を発生させる。
+  #
+  # 期待しているフォーマットは以下の通り。
+  #
+  # "YYYY-MM-DD HH-MM-SS" \t "xxx" \t id=xxx,ou=xx,dc=xx \t xxxx \t d.d.d.d 
+  #    \t xxx \t xxx \t "xxx" \t AUTHENTICATION-XXX \t xxx \t "xxx" \t d.d.d.d
+  #
   def initialize(line)
     if ! ( line =~ /^\#.*/ )
       array = line.chop.split("\t")
@@ -82,36 +76,50 @@ end
 
 ##########
 # メイン
+RBatch::Log.new do |log|
+  log.info("Start -----------------");
+  entries = []
 
-entries = []
-
-# 認証アクセスログ読み込み
-File.foreach(RBatch::config["openam_access_log_path"]) do |line|
-  begin
-     entries << Entry.new(line)
-  rescue => e
+  # 認証アクセスログ読み込み
+  File.foreach(RBatch::config["openam_access_log_path"]) do |line|
+    begin
+      entries << Entry.new(line)
+    rescue => e
+    end
   end
-end
 
-# 認証エラーログ読み込み
-File.foreach(RBatch::config["openam_error_log_path"]) do |line|
-  begin
-     entries << Entry.new(line)
-  rescue => e
+  # 認証エラーログ読み込み
+  File.foreach(RBatch::config["openam_error_log_path"]) do |line|
+    begin
+      entries << Entry.new(line)
+    rescue => e
+    end
   end
-end
 
-# MySQLに接続
-client= Mysql.connect(RBatch::config["mysql_server"],
-                      RBatch::config["mysql_user"],
-                      RBatch::config["mysql_password"],
-                      RBatch::config["mysql_db_name"])
-
-# MySQLに挿入
-table_name=RBatch::config["mysql_table_name"]
-entries.each do |entry|
-  sql = entry.insert_sql(table_name,"hostname","company_id")
-  p sql
-  # client.query(sql)
+  # MySQLに接続
+  con = Mysql.new(RBatch::config["mysql_server"],
+                  RBatch::config["mysql_user"],
+                  RBatch::config["mysql_password"],
+                  RBatch::config["mysql_db_name"])
+  con.autocommit(false)
+  # MySQLに挿入
+  begin
+    log.info("start transaction")
+    con.query("START TRANSACTION;")
+    entries.each do |entry|
+      sql = entry.insert_sql(RBatch::config["mysql_table_name"],
+                             RBatch::config["host_name"],
+                             RBatch::config["company_id"])
+      log.info("exec sql: " + sql);
+      con.query(sql)
+    end
+    # コミット
+    con.commit
+    log.info("Sucess Commit");
+  rescue => e
+    con.rollback
+    log.error(e);
+    log.info("MySQL Error Occuerred. Rollback done.");
+  end
 end
 

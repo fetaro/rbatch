@@ -1,10 +1,12 @@
-openam_access_log_path : "/root/rbatch/sample/data/amAuthentication.access.2012-07-10"
-openam_error_log_path : "/root/rbatch/sample/data/amAuthentication.error.2012-07-10"
 mysql_server : "localhost"
 mysql_user : "root"
 mysql_password : ""
 mysql_db_name : "test"
 mysql_table_name : "authentication_log"
+company_id : "sample.co"
+host_name : "server1"
+openam_access_log_path : "/root/rbatch/sample/data/amAuthentication.access.2012-07-10"
+openam_error_log_path : "/root/rbatch/sample/data/amAuthentication.error.2012-07-10"
 auth_status:
   AUTHENTICATION-100 : Login Success
   AUTHENTICATION-101 : Login Success
