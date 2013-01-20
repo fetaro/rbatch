@@ -1,14 +1,16 @@
+# -*- coding: utf-8 -*-
 require 'rbatch'
 require 'mysql'
 
 
-# parse apache logfile and insert into mysql
+
 #
-#   expecting log format:
-#   %h %{X-Forwarded-For}i %l %u %t %T %D \"%r\" %>s %b \"%{User-Agent}i\" \"%{Referer}i\"
+# Apacheのアクセスログを解析してMySQLに挿入する
 #
 
+# ログの1行を表すクラス
 class Entry
+  # 行をマッチさせる正規表現
   @@reg=/^
         (\S+)       # 0 ip_address
         \s+
@@ -37,6 +39,13 @@ class Entry
 
   @entry
 
+  # ログの1行を解析してEntryクラスを作る。
+  # 解析できない時は例外を発生させる。
+  #
+  # 期待しているフォーマットは以下の通り。
+  #
+  #   %h %{X-Forwarded-For}i %l %u %t %T %D \"%r\" %>s %b \"%{User-Agent}i\" \"%{Referer}i\"
+  #
   def initialize(line)
     match = line.match(@@reg)
     raise "parse error. line: <#{line}> " if match.nil?
@@ -53,36 +62,60 @@ class Entry
     }
   end
 
-  def insert_sql(table_name,hostname)
-p @entry[:datetime].strftime("%Y/%m/%d %H:%M:%S") 
-    "INSERT INTO #{table_name} (date,login_id,access_ip,host_name,access_url,forward_time,httpstatus,user_agent,referer) VALUES ("\
-      + "'" + @entry[:datetime].strftime("%Y/%m/%d %H:%M:%S") + "'"  + ","\
-      + "'" + @entry[:user] + "'"  + ","\
-      + "'" + @entry[:ip_address] + "'"  + ","\
-      + "'" + hostname + "'"  + ","\
-      + "'" + @entry[:request] + "'"  + ","\
-      + @entry[:sec].to_s + ","\
-      + @entry[:status].to_s  + ","   \
-      + "'" + @entry[:user_agent]  + "'" + ","\
-      + "'" + @entry[:referer] + "'" \
-      + ")"
+  # Insert用のSQLを返す
+  def insert_sql(table_name,host_name,company_id)
+    value = [ "'" + company_id + "'"  ,
+              "'" + @entry[:datetime].strftime("%Y/%m/%d %H:%M:%S") + "'",
+              "'" + @entry[:user] + "'"  ,
+              "'" + @entry[:ip_address] + "'",
+              "'" + host_name + "'" ,
+              "'" + @entry[:request] + "'" ,
+              @entry[:sec].to_s,
+              @entry[:status].to_s,
+              "'" + @entry[:user_agent]  + "'" ,
+              "'" + @entry[:referer]  + "'"
+            ].join(",")
+
+    return "INSERT INTO #{table_name} (companyId,date,login_id,access_ip,host_name,access_url,forward_time,httpstatus,user_agent,referer) VALUES (#{value})"
   end
 end
 
-entries = []
-File.foreach(RBatch::config["apache_log_path"]) do |line|
-  entries << Entry.new(line.chomp)
-end
+# メイン
 
+RBatch::Log.new do |log|
+  log.info("Start -----------------");
+  entries = []
 
-apache_log_path = RBatch::config["apache_log_path"]
-client= Mysql.connect(RBatch::config["mysql_server"],
-                      RBatch::config["mysql_user"],
-                      RBatch::config["mysql_password"],
-                      RBatch::config["mysql_db_name"])
-entries.each do |entry|
-  sql = entry.insert_sql(RBatch::config["mysql_table_name"],"hoge")
-  p sql
-  client.query(sql)
+  # アクセスログ読み込み
+  File.foreach(RBatch::config["apache_log_path"]) do |line|
+    entries << Entry.new(line.chomp)
+  end
+
+  # MySQLに接続
+  con = Mysql.new(RBatch::config["mysql_server"],
+                  RBatch::config["mysql_user"],
+                  RBatch::config["mysql_password"],
+                  RBatch::config["mysql_db_name"])
+  con.autocommit(false)
+  # MySQLに挿入
+  begin
+    log.info("start transaction")
+    con.query("START TRANSACTION;")
+    entries.each do |entry|
+      sql = entry.insert_sql(RBatch::config["mysql_table_name"],
+                             RBatch::config["host_name"],
+                             RBatch::config["company_id"])
+      log.info("exec sql: " + sql);
+      con.query(sql)
+    end
+    # コミット
+    con.commit
+    log.info("Sucess Commit");
+  rescue => e
+    # ロールバック
+    con.rollback
+    log.error(e);
+    log.info("MySQL Error Occuerred. Rollback done.");
+  end
 end
 
