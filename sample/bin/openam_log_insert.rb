@@ -4,12 +4,10 @@ require 'mysql'
 
 #
 # OpenAMの認証アクセスログと認証エラーログを解析してMySQLに挿入する
-#   2013/1 NRI 渡部
 #
 
 
 # ログの1行を表すクラス
-#
 class Entry
   @entry = nil
 
@@ -74,8 +72,8 @@ class Entry
   end
 end
 
-##########
 # メイン
+
 RBatch::Log.new do |log|
   log.info("Start -----------------");
   entries = []
@@ -117,6 +115,7 @@ RBatch::Log.new do |log|
     con.commit
     log.info("Sucess Commit");
   rescue => e
+    # ロールバック
     con.rollback
     log.error(e);
     log.info("MySQL Error Occuerred. Rollback done.");
