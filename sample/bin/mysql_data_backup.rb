@@ -13,7 +13,6 @@ RBatch::Log.new do | log |
   file_gpg = file_targz + ".gpg"
   # main
   cmd1 = "mysqldump --single-transaction --flush-logs --master-data=2 --all-databases  > #{file_dump}"
-  cmd1 = "touch #{file_dump}"
   log.info(cmd1)
   RBatch::cmd(cmd1)
 
