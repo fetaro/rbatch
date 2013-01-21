@@ -99,26 +99,13 @@ RBatch::Log.new do |log|
                   RBatch::config["mysql_user"],
                   RBatch::config["mysql_password"],
                   RBatch::config["mysql_db_name"])
-  con.autocommit(false)
   # MySQLに挿入
-  begin
-    log.info("start transaction")
-    con.query("START TRANSACTION;")
-    entries.each do |entry|
-      sql = entry.insert_sql(RBatch::config["mysql_table_name"],
-                             RBatch::config["host_name"],
-                             RBatch::config["company_id"])
-      log.info("exec sql: " + sql);
-      con.query(sql)
-    end
-    # コミット
-    con.commit
-    log.info("Sucess Commit");
-  rescue => e
-    # ロールバック
-    con.rollback
-    log.error(e);
-    log.info("MySQL Error Occuerred. Rollback done.");
+  entries.each do |entry|
+    sql = entry.insert_sql(RBatch::config["mysql_table_name"],
+                           RBatch::config["host_name"],
+                           RBatch::config["company_id"])
+    log.info("exec sql: " + sql);
+    con.query(sql)
   end
 end
 
