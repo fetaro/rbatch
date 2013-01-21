@@ -2,4 +2,4 @@ file_list:
   - /etc/hosts
   - /etc/ntp.conf
   - notexist-file
-backup_dir: /tmp
+target_dir: /tmp
