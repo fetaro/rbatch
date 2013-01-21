@@ -9,54 +9,47 @@ require 'mysql'
 
 # ログの1行を表すクラス
 class Entry
-  @entry = nil
 
-  # ログの1行を解析してEntryクラスを作る。
-  # 解析できない時は例外を発生させる。
-  #
-  # 期待しているフォーマットは以下の通り。
-  #
-  # "YYYY-MM-DD HH-MM-SS" \t "xxx" \t id=xxx,ou=xx,dc=xx \t xxxx \t d.d.d.d 
-  #    \t xxx \t xxx \t "xxx" \t AUTHENTICATION-XXX \t xxx \t "xxx" \t d.d.d.d
-  #
+  # 行をマッチさせる正規表現
+  @@reg=/^
+        \"(\S+\s\S+)\"  #  0 "YYYY-MM-DD HH:MM:SS"
+        \t          #   タブ
+        \S+         #   xxx
+        \t          #   タブ
+        (\S+)       # 1 "DN"
+        \t          #   タブ
+        \S+         #   xxx
+        \t          #   タブ
+        (\S+)       # 2 IP
+        \t          #   タブ
+        \S+         #   xxx
+        \t          #   タブ
+        \S+         #   xxx
+        \t          #   タブ
+        \S+         #   xxx
+        \t          #   タブ
+        (\S+)       # 3 ステータス
+        \t          #   タブ
+        \S+         #   xxx
+        \t          #   タブ
+        \S+         #   xxx
+        \t          #   タブ
+        \S+         #   xxx
+        $/x
+
+  @entry
+
   def initialize(line)
-    if ! ( line =~ /^\#.*/ )
-      array = line.chop.split("\t")
-      if array.size == 12
-        # date
-        date = DateTime.strptime(array[0].delete("\""), '%Y-%m-%d %H:%M:%S')
-        # login_id
-        login_id = "-"
-        array[2].split(",").each do | str |
-          # OpenLDAP 認証モジュールの場合の、ユーザIDは、
-          # "uid="で始まる為、それも取り込む
-          # また、パスワード未入力や、存在しないユーザIDの場合も、
-          # "uid="で出力されるように認証モジュール側を修正したので、
-          # 以下のコードで取り込まれる。
-          if str =~ /^uid=|id=/
-            login_id = str.split("=")[1]
-          end
-        end
-        # access_ip
-        access_ip = array[4]
-        # status
-        begin
-          status = RBatch::config["auth_status"][array[8]]
-        rescue => e
-          # 設定ファイルに定義していない認証ステータスの場合は、
-          # RBatchが例外を出すので、ここでキャッチする
-          status = nil
-        end
-        if ! date.nil? && ! access_ip.nil? && ! status.nil?
-          @entry = {
-            :date      => date,
-            :login_id  => login_id,
-            :access_ip => access_ip,
-            :status    => status}
-        end
-      end
-    end
-    raise "Cannot parse line: #{line}" if @entry.nil?
+    match = line.match(@@reg)
+    raise "parse error. line: <#{line}> " if match.nil?
+    captures = match.captures
+    captures[1] = "-" if !  captures[1] =~ /uid=|id=/
+    @entry = {
+      :date      => DateTime.strptime(captures[0], '%Y-%m-%d %H:%M:%S'),
+      :login_id  => captures[1].split(",")[0].split("=")[1],
+      :access_ip => captures[2],
+      :status    => RBatch::config["auth_status"][captures[3]]
+    }
   end
 
   # Insert用のSQLを返す
@@ -83,6 +76,7 @@ RBatch::Log.new do |log|
     begin
       entries << Entry.new(line)
     rescue => e
+p e
     end
   end
 
