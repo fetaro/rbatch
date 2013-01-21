@@ -5,12 +5,12 @@ mysql_db_name : "test"
 mysql_table_name : "authorization_log"
 company_id : "sample.co"
 host_name : "server1"
-log_path : "/root/rbatch/sample/data/amAgent_localhost_80.2012-07-10"
-ignore_extentions: 
-  - jpg
-  - gif
-  - html
-  - css
-  - js
-  - jpeg
-  - ico
+log_path : "/root/rbatch/sample/data/amAgent_localhost_80.log.2012-07-10"
+url_ignore_keywords: 
+  - ".jpg"
+  - ".gif"
+  - ".html"
+  - ".css"
+  - ".js"
+  - ".jpeg"
+  - ".ico"
