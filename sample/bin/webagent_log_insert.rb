@@ -10,7 +10,8 @@ require 'mysql'
 class Entry
   # 行をマッチさせる正規表現
   @@reg=/^
-        (\S+\s\S+)  # 0 YYYY-MM-DD HH:MM:SS.sss
+        (\S+\s\S+)  #  0 YYYY-MM-DD HH:MM:SS
+        \.\d\d\d    #   .sss
         \s          #   半角スペース
         \s          #   半角スペース
         \s          #   半角スペース
@@ -36,7 +37,7 @@ class Entry
         (\S+)       # 3 request
         $/x
 
-  @@status_map = {"access" => "ALLOW","denied" => "DISALLOW"}
+  @@status_map = {"allowed" => "ALLOW","denied" => "DISALLOW"}
   @entry
 
   # ログの1行を解析してEntryクラスを作る。
@@ -46,18 +47,33 @@ class Entry
   #
   #   2012-07-20 11:04:45.059    Info 24006:16ed0460 LocalAuditLog: User amadmin was allowed access to http://www.fx.develop.jp:80/.
   #
-  def initialize(line)
+  def initialize(line,url_ignore_keywords)
     match = line.match(@@reg)
     raise "parse error. line: <#{line}> " if match.nil?
     captures = match.captures
+    url_ignore_keywords.each do | keyword |
+      raise "ignore keyword include in access_url: <#{line}}>" if captures[3].include?(keyword)
+    end
     @entry = {
-      :datetime        => DateTime.strptime( captures[0], '%Y-%M-%D %H:%H:%M.%L'),
-      :user_id         => captures[1],
+      :datetime        => DateTime.strptime( captures[0], '%Y-%m-%d %H:%M:%S'),
+      :login_id        => captures[1],
       :status          => @@status_map[captures[2]],
-      :url             => capture[3]
+      :access_url      => captures[3]
     }
   end
 
+  # Insert用のSQLを返す
+  def insert_sql(table_name,host_name,company_id)
+    value = [ company_id ,
+              @entry[:datetime].strftime("%Y/%m/%d %H:%M:%S"),
+              @entry[:login_id],
+              host_name,
+              @entry[:access_url],
+              @entry[:status]
+            ].map{|s| "'#{s}'"}.join(",")
+
+    return "INSERT INTO #{table_name} (companyId,date,login_id,host_name,access_url,status) VALUES (#{value})"
+  end
 end
 
 
@@ -66,11 +82,11 @@ end
 RBatch::Log.new do |log|
   log.info("Start -----------------");
   entries = []
-
+  url_ignore_keywords =  RBatch::config["url_ignore_keywords"]
   # ログ読み込み
   File.foreach(RBatch::config["log_path"]) do |line|
     begin
-      entries << Entry.new(line)
+      entries << Entry.new(line,url_ignore_keywords)
     rescue => e
     end
   end
@@ -81,8 +97,6 @@ RBatch::Log.new do |log|
                   RBatch::config["mysql_password"],
                   RBatch::config["mysql_db_name"])
   # MySQLに挿入
-  log.info("start transaction")
-  con.query("START TRANSACTION;")
   entries.each do |entry|
     sql = entry.insert_sql(RBatch::config["mysql_table_name"],
                            RBatch::config["host_name"],
