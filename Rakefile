@@ -7,14 +7,14 @@ require 'rake/testtask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'rbatch'
-  s.version = '1.6.3'
+  s.version = '1.6.4'
   s.extra_rdoc_files = ['README.md', 'LICENSE']
   s.summary = 'batch framework'
   s.description = ''
   s.author = 'fetaro'
   s.email = 'fetaro@gmail.com'
   s.homepage = 'https://github.com/fetaro/rbatch'
-  s.files = %w(LICENSE README.md README.ja.md Rakefile) + Dir.glob("{bin,lib,spec}/**/*")
+  s.files = %w(LICENSE README.md README.ja.md Rakefile) + Dir.glob("{lib,test,sample,doc}/**/*")
   s.require_path = "lib"
 
 end
@@ -22,9 +22,6 @@ end
 Rake::GemPackageTask.new(spec) do |p|
   p.gem_spec = spec
   p.package_files.include("lib/**/*")
-  p.package_files.include("sample/**/*")
-  p.package_files.include("test/**/*")
-  p.package_files.include("doc/**/*")
   p.need_tar = false
   p.need_zip = false
 end
