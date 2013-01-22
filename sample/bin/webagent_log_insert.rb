@@ -89,7 +89,7 @@ RBatch::Log.new do |log|
       entries << Entry.new(line,url_ignore_keywords)
     rescue => e
       # 解析に失敗した場合
-      log.warn("parse error: " + e )
+      log.warn("parse error: " + e.message )
     end
   end
 
