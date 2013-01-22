@@ -11,28 +11,28 @@ class Entry
   # 行をマッチさせる正規表現
   @@reg=/^
         (\S+\s\S+)  #  0 YYYY-MM-DD HH:MM:SS
-        \.\d\d\d    #   .sss
+        \.\d\d\d    #   ミリ秒
         \s          #   半角スペース
         \s          #   半角スペース
         \s          #   半角スペース
         \s          #   半角スペース
-        Info
+        Info        #   固定文言
         \s          #   半角スペース
         \S+         #   xxxxxx:xxxxxx
         \s          #   半角スペース
-        LocalAuditLog:
+        LocalAuditLog: #   固定文言
         \s          #   半角スペース
-        User
+        User        #   固定文言
         \s          #   半角スペース
         (\S+)       # 1 user_id
         \s          #   半角スペース
-        was
+        was         #   固定文言
         \s          #   半角スペース
         (\S+)       # 2 allowed or denied
         \s          #   半角スペース
-        access
+        access      #   固定文言
         \s          #   半角スペース
-        to
+        to          #   固定文言
         \s          #   半角スペース
         (\S+)       # 3 request
         $/x
@@ -88,6 +88,8 @@ RBatch::Log.new do |log|
     begin
       entries << Entry.new(line,url_ignore_keywords)
     rescue => e
+      # 解析に失敗した場合
+      log.warn("parse error: " + e )
     end
   end
 
