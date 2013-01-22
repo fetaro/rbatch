@@ -88,7 +88,7 @@ RBatch::Log.new do |log|
       entries << Entry.new(line,status_map)
     rescue => e
       # 解析に失敗した場合
-      p e.backtrace
+      log.warn("parse error: " + e )
     end
   end
 
