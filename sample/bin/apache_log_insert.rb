@@ -88,7 +88,12 @@ RBatch::Log.new do |log|
 
   # アクセスログ読み込み
   File.foreach(RBatch::config["apache_log_path"]) do |line|
-    entries << Entry.new(line.chomp)
+    begin
+      entries << Entry.new(line.chomp)
+    rescue => e
+      # 解析に失敗した場合
+      log.warn("parse error: " + e )
+    end
   end
 
   # MySQLに接続
