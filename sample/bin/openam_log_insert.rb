@@ -12,43 +12,54 @@ class Entry
 
   # 行をマッチさせる正規表現
   @@reg=/^
-        \"(\S+\s\S+)\"  #  0 "YYYY-MM-DD HH:MM:SS"
+        \"          #   "
+        (\S+\s\S+)  # 0 YYYY-MM-DD HH:MM:SS
+        \"          #   "
         \t          #   タブ
-        \S+         #   xxx
+        .+          #   任意の文字列
         \t          #   タブ
-        (\S+)       # 1 "DN"
+        (.+)        # 1 "DN"
         \t          #   タブ
-        \S+         #   xxx
+        .+          #   任意の文字列
         \t          #   タブ
-        (\S+)       # 2 IP
+        (.+)        # 2 IP
         \t          #   タブ
-        \S+         #   xxx
+        .+          #   任意の文字列
         \t          #   タブ
-        \S+         #   xxx
+        .+          #   任意の文字列
         \t          #   タブ
-        \S+         #   xxx
+        .+          #   任意の文字列
         \t          #   タブ
-        (\S+)       # 3 ステータス
+        (.+)        # 3 ステータス
         \t          #   タブ
-        \S+         #   xxx
+        .+          #   任意の文字列
         \t          #   タブ
-        \S+         #   xxx
+        .+          #   任意の文字列
         \t          #   タブ
-        \S+         #   xxx
+        .+          #   任意の文字列
         $/x
 
   @entry
 
-  def initialize(line)
+  def initialize(line,status_map)
     match = line.match(@@reg)
     raise "parse error. line: <#{line}> " if match.nil?
     captures = match.captures
-    captures[1] = "-" if !  captures[1] =~ /uid=|id=/
+    if captures[1] =~ /uid=|id=/
+      login_id = captures[1].split(",")[0].split("=")[1]
+    else
+      login_id = "-"
+    end
+    if status_map.has_key?(captures[3])
+      status = status_map[captures[3]]
+    else
+      status = "-"
+    end
     @entry = {
       :date      => DateTime.strptime(captures[0], '%Y-%m-%d %H:%M:%S'),
-      :login_id  => captures[1].split(",")[0].split("=")[1],
+      :login_id  => login_id,
       :access_ip => captures[2],
-      :status    => RBatch::config["auth_status"][captures[3]]
+      :status    => status
     }
   end
 
@@ -70,21 +81,24 @@ end
 RBatch::Log.new do |log|
   log.info("Start -----------------");
   entries = []
-
+  status_map = RBatch::config["auth_status"]
   # 認証アクセスログ読み込み
   File.foreach(RBatch::config["openam_access_log_path"]) do |line|
     begin
-      entries << Entry.new(line)
+      entries << Entry.new(line,status_map)
     rescue => e
-p e
+      # 解析に失敗した場合
+      p e.backtrace
     end
   end
 
   # 認証エラーログ読み込み
   File.foreach(RBatch::config["openam_error_log_path"]) do |line|
     begin
-      entries << Entry.new(line)
+      entries << Entry.new(line,status_map)
     rescue => e
+      # 解析に失敗した場合
+      p e.backtrace
     end
   end
 
