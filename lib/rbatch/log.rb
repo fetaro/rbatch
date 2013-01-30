@@ -41,7 +41,6 @@ module RBatch
     @@def_opt = {
       :name      => "<date>_<time>_<prog>.log",
       :dir       => File.join(File.dirname(RBatch.program_name), ".." , "log"),
-      :formatter => nil,
       :append    => true,
       :level     => "info",
       :stdout    => false,
@@ -80,7 +79,6 @@ module RBatch
     # - +:dir+ (String) = log direcotry path. Default is "../log"
     # - +:level+ (String) = log level. ["debug"|"info"|"warn"|"error"|"fatal"] . Default is "info".
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
-    # - +:formatter+ (Logger#formatter) = log formatter. instance of Logger#formatter
     # - +:stdout+ (Boolean) = print string both logfile and STDOUT. Default is false.
     # - +:quiet+ (Boolean) = run quiet mode. print STDOUT nothing.  Default is true.
     # ==== Block params
@@ -125,23 +123,35 @@ module RBatch
         raise e
       end
       # set logger option
+      formatter = proc do |severity, datetime, progname, msg|
+        head = "[#{datetime}] [" + sprintf("%-5s",severity) +"]"
+        if msg.is_a? Exception
+          "#{head} #{msg}\n" + msg.backtrace.map{|s| "    [backtrace] #{s}"}.join("\n") + "\n"
+        else
+          "#{head} #{msg}\n"
+        end
+      end
       @log.formatter = @opt[:formatter] if @opt[:formatter]
       @log.level = @@log_level_map[@opt[:level]]
+      @log.formatter = formatter
       if @opt[:stdout]
         # ccreate Logger instance for STDOUT
         @stdout_log = Logger.new(STDOUT)
         @stdout_log.formatter = @opt[:formatter] if @opt[:formatter]
         @stdout_log.level = @@log_level_map[@opt[:level]]
+        @stdout_log.formatter = formatter
       end
       puts "Log file: " + path if ! @opt[:quiet]
       # delete old log
       self.delete_old_log(@opt[:delete_old_log_date]) if @opt[:delete_old_log]
+      # Start logging
+      self.info("Start Logging. (PID=#{$$.to_s})") if ! @opt[:quiet]
       if block_given?
         begin
           yield self
         rescue => e
-          self.fatal("Caught exception; existing 1")
           self.fatal(e)
+          self.fatal("Caught exception. Exit 1")
           exit 1
         ensure
           self.close

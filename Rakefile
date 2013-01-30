@@ -7,9 +7,9 @@ require 'rake/testtask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'rbatch'
-  s.version = '1.6.6'
+  s.version = '1.7.0'
   s.extra_rdoc_files = ['README.md', 'LICENSE']
-  s.summary = 'batch framework'
+  s.summary = 'simple batch framework'
   s.description = ''
   s.author = 'fetaro'
   s.email = 'fetaro@gmail.com'
