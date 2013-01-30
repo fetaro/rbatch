@@ -1,10 +1,11 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
-
+require 'digest'
 module RBatch
   @@program_name = $PROGRAM_NAME
   module_function
   def program_name=(f) ; @@program_name = f ; end
   def program_name ; @@program_name ; end
+  def double_run_lock_file ; "rbatch_lock_" + Digest::MD5.hexdigest(@@program_name) ; end
   def tmp_dir
     case RUBY_PLATFORM
     when /mswin|mingw/
@@ -33,6 +34,9 @@ module RBatch
   end
 end
 
+# RBatch Exception
+class RBatchException < Exception ; end
+
 require 'rbatch/log'
 require 'rbatch/config'
 require 'rbatch/cmd'
@@ -41,11 +45,11 @@ require 'rbatch/cmd'
 if ( RBatch::common_config != nil && RBatch::common_config["forbid_double_run"] )
   if Dir.exists? RBatch::tmp_dir
     Dir::foreach(RBatch::tmp_dir) do |f|
-      if (/rbatch_lock/ =~ f)
-        raise "Can not start RBatch. RBatch lock file exists (#{RBatch::tmp_dir}#{f})."
+      if (Regexp.new(RBatch::double_run_lock_file) =~ f)
+        raise RBatchException, "The double run is forbid about \"#{RBatch::program_name}\""
       end
     end
   end
   # make lockfile
-  Tempfile::new("rbatch_lock",RBatch::tmp_dir)
+  Tempfile::new(RBatch::double_run_lock_file,RBatch::tmp_dir)
 end
