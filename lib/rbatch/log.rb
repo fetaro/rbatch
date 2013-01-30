@@ -26,15 +26,14 @@ module RBatch
   #
   #logfile : ./log/20121020_005953_sample1.log
   #
-  # # Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
-  # I, [2012-10-20T00:59:53.895528 #3208]  INFO -- : info string
-  # E, [2012-10-20T00:59:53.895582 #3208] ERROR -- : error string
-  # F, [2012-10-20T00:59:53.895629 #3208] FATAL -- : Caught exception; existing 1
-  # F, [2012-10-20T00:59:53.895667 #3208] FATAL -- : exception (RuntimeError)
-  # test.rb:6:in `block in <main>'
-  # /usr/local/lib/ruby192/lib/ruby/gems/1.9.1/gems/rbatch-1.0.0/lib/rbatch/auto_logger.rb:37:in `initialize'
-  # test.rb:3:in `new'
-  # test.rb:3:in `<main>'
+  # [2012-10-20 00:59:53 +900] [INFO ] info string
+  # [2012-10-20 00:59:53 +900] [ERROR] error string
+  # [2012-10-20 00:59:53 +900] [FATAL] Caught exception; existing 1
+  # [2012-10-20 00:59:53 +900] [FATAL] exception (RuntimeError)
+  #     [backtrace] test.rb:6:in `block in <main>'
+  #     [backtrace] /usr/local/lib/ruby192/lib/ruby/gems/1.9.1/gems/rbatch-1.0.0/lib/rbatch/auto_logger.rb:37:in `initialize'
+  #     [backtrace] test.rb:3:in `new'
+  #     [backtrace] test.rb:3:in `<main>'
   #
   class Log
     @@verbose = false
