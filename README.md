@@ -188,11 +188,14 @@ Config Sample
 # Global setting
 # -------------------
 
-# Forbit Double Run
+# Forbit Script Double Run
 #
 #   Default : false
 #
+# If this option is true, two same script cannot start at the same time. 
+#
 #forbid_double_run: true
+#forbid_double_run: false
 
 # -------------------
 # Cmd setting
@@ -205,6 +208,7 @@ Config Sample
 # If command exit status is not 0, raise exception.
 #
 #cmd_raise : true
+#cmd_raise : false
 
 
 # -------------------
@@ -233,6 +237,7 @@ Config Sample
 #
 #   Default : ture
 #
+#log_append : true
 #log_append : false
 
 # Log Level
@@ -241,18 +246,17 @@ Config Sample
 #   Value   : "debug","info","wran","error","fatal"
 #
 #log_level : "debug"
+#log_level : "info"
+#log_level : "warn"
+#log_level : "error"
+#log_level : "fatal"
 
 # Print log-string both file and STDOUT
 #
 #   Default : false
 #
 #log_stdout : true
-
-# 標準出力とログの両方に文字列を出力するかどうか
-#
-#   Default : false
-#
-#log_stdout : true
+#log_stdout : false
 
 # Delete old log files
 #
@@ -263,6 +267,7 @@ Config Sample
 #   Default : false
 #
 #log_delete_old_log: true
+#log_delete_old_log: false
 
 # The day of leaving log files
 #

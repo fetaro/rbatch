@@ -5,7 +5,7 @@ RBatch:Ruby-base バッチスクリプトフレームワーク
 
 RBatchについて
 --------------
-これはRubyで書かれたバッチスクリプトのフレームワークです。
+これはRubyで書かれたシンプルなバッチスクリプトのフレームワークです。
 バッチスクリプト（バックアップやプロセスリロード等）を書く際に便利な機能をフレームワークとして提供しています。
 
 主な機能は以下のとおり。 
@@ -193,11 +193,12 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 
 # スクリプトの二重起動を可能にするかどうか
 #
-# trueにすると、requireしたタイミングで例外を投げます。
+# trueにすると、同じスクリプトは二つ同時に起動できなくなります。
 #
 #   Default : false
 #
 #forbid_double_run: true
+#forbid_double_run: false
 
 # -------------------
 # 外部コマンド実行関連
@@ -210,6 +211,7 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 # trueの場合、コマンドの終了ステータスが0でない場合に例外を発生する。
 #
 #cmd_raise: true
+#cmd_raise: false
 
 # -------------------
 # ログ関連
@@ -237,6 +239,7 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 #
 #   Default : ture
 #
+#log_append : true
 #log_append : false
 
 # ログレベル
@@ -245,12 +248,17 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 #   Value   : "debug","info","wran","error","fatal"
 #
 #log_level : "debug"
+#log_level : "info"
+#log_level : "warn"
+#log_level : "error"
+#log_level : "fatal"
 
 # 標準出力とログの両方に文字列を出力するかどうか
 #
 #   Default : false
 #
 #log_stdout : true
+#log_stdout : false
 
 # 古いログを削除するかどうか
 #
@@ -264,6 +272,7 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 #   Default : false
 #
 #log_delete_old_log: true
+#log_delete_old_log: false
 
 # 古いログの残す日数
 #
