@@ -5,7 +5,6 @@ module RBatch
   module_function
   def program_name=(f) ; @@program_name = f ; end
   def program_name ; @@program_name ; end
-  def double_run_lock_file ; "rbatch_lock_" + Digest::MD5.hexdigest(@@program_name) ; end
   def tmp_dir
     case RUBY_PLATFORM
     when /mswin|mingw/
@@ -32,24 +31,31 @@ module RBatch
       return nil
     end
   end
+  def double_run_check
+    # double run check
+    if ( RBatch::common_config != nil && RBatch::common_config["forbid_double_run"] )
+      lock_file="rbatch_lock_" + Digest::MD5.hexdigest(@@program_name)
+      if Dir.exists? RBatch::tmp_dir
+        Dir::foreach(RBatch::tmp_dir) do |f|
+          if (Regexp.new(lock_file) =~ f)
+            raise RBatchException, "Script double run is forbid about \"#{RBatch::program_name}\""
+          end
+        end
+      end
+      # make lockfile
+      Tempfile::new(lock_file,RBatch::tmp_dir)
+    end
+  end
+
+  def double_run_lock_file ;  ; end
 end
 
 # RBatch Exception
 class RBatchException < Exception ; end
 
+# main
 require 'rbatch/log'
 require 'rbatch/config'
 require 'rbatch/cmd'
 
-# double run check
-if ( RBatch::common_config != nil && RBatch::common_config["forbid_double_run"] )
-  if Dir.exists? RBatch::tmp_dir
-    Dir::foreach(RBatch::tmp_dir) do |f|
-      if (Regexp.new(RBatch::double_run_lock_file) =~ f)
-        raise RBatchException, "The double run is forbid about \"#{RBatch::program_name}\""
-      end
-    end
-  end
-  # make lockfile
-  Tempfile::new(RBatch::double_run_lock_file,RBatch::tmp_dir)
-end
+RBatch::double_run_check
