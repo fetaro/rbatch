@@ -122,13 +122,6 @@ class LoggerTest < Test::Unit::TestCase
     end
   end
 
-  def test_change_formatte
-    RBatch::Log.new({:name => "file" , :formatter => proc { |severity, datetime, progname, msg| "test_change_formatte#{msg}\n" }}) do | log |
-      log.info("bar")
-    end
-    File::open(File.join(@dir,"file")) {|f| assert_match /test_change_formatte/, f.read }
-  end
-
   def test_nest_block
     RBatch::Log.new({:name => "name1" }) do | log |
       log.info("name1")
