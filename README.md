@@ -1,6 +1,6 @@
 [[English]](https://github.com/fetaro/rbatch/blob/master/README.md "english") [[Japanese]](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese")
 
-RBatch:Ruby-base Simple Batch Script Framework
+RBatch:Ruby-base Simple Batch Framework
 =============
 
 About RBatch
