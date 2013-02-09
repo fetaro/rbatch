@@ -30,7 +30,8 @@ module RBatch
   #
   class Cmd
     @@def_opt = {
-      :raise     => false
+      :raise     => false,
+      :timeout   => 0
     }
     @cmd_str
     @opt
@@ -41,6 +42,7 @@ module RBatch
     # +cmd_str+ = Command string. Such ad "ls -l"
     # +opt+ = Option hash object. Hash keys is follows.
     # - +:raise+ (Boolean) = If command exit status is not 0, raise exception. Default is false.
+    # - +:timeout+ (Integer) = If command timeout , raise exception. Default is 0 sec ( 0 means disable) .
     def initialize(cmd_str,opt = nil)
       raise(CmdException,"Command string is nil") if cmd_str.nil?
       @cmd_str = cmd_str
@@ -68,7 +70,17 @@ module RBatch
       stdout_file = Tempfile::new("rbatch_tmpout",RBatch::tmp_dir)
       stderr_file = Tempfile::new("rbatch_tmperr",RBatch::tmp_dir)
       pid = spawn(@cmd_str,:out => [stdout_file,"w"],:err => [stderr_file,"w"])
-      status =  Process.waitpid2(pid)[1] >> 8
+      if @opt[:timeout] != 0
+        timeout(@opt[:timeout]) do
+          begin
+            status =  Process.waitpid2(pid)[1] >> 8
+          rescue Timeout::Error => e
+            raise(CmdException,"Command timeout (over " + @opt[:timeout] + " sec)" )
+          end
+        end
+      else
+        status =  Process.waitpid2(pid)[1] >> 8
+      end
       result = RBatch::CmdResult.new(stdout_file,stderr_file,status,@cmd_str)
       if @opt[:raise] && status != 0
         raise(CmdException,"Command exit status is not 0. result: " + result.to_s)
