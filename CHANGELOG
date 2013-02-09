@@ -36,3 +36,8 @@ initial
 * change log format
 * delete change log format option
 
+1.8.0(2013/02/10)
+----
+* add log_send_mail option
+* add cmd_timeout option
+
