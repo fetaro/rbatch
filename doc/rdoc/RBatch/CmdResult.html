@@ -188,13 +188,13 @@
 					<div class="method-source-code"
 						id="new-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 85</span>
-85:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">stdout_file</span>, <span class="ruby-identifier">stderr_file</span>, <span class="ruby-identifier">status</span>, <span class="ruby-identifier">cmd_str</span>)
-86:       <span class="ruby-ivar">@stdout_file</span> = <span class="ruby-identifier">stdout_file</span>
-87:       <span class="ruby-ivar">@stderr_file</span> = <span class="ruby-identifier">stderr_file</span>
-88:       <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
-89:       <span class="ruby-ivar">@cmd_str</span> = <span class="ruby-identifier">cmd_str</span>
-90:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 97</span>
+ 97:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">stdout_file</span>, <span class="ruby-identifier">stderr_file</span>, <span class="ruby-identifier">status</span>, <span class="ruby-identifier">cmd_str</span>)
+ 98:       <span class="ruby-ivar">@stdout_file</span> = <span class="ruby-identifier">stdout_file</span>
+ 99:       <span class="ruby-ivar">@stderr_file</span> = <span class="ruby-identifier">stderr_file</span>
+100:       <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+101:       <span class="ruby-ivar">@cmd_str</span> = <span class="ruby-identifier">cmd_str</span>
+102:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -231,8 +231,8 @@
 					<div class="method-source-code"
 						id="cmd-str-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 94</span>
-94:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cmd_str</span>     ; <span class="ruby-ivar">@cmd_str</span>     ; <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 106</span>
+106:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cmd_str</span>     ; <span class="ruby-ivar">@cmd_str</span>     ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -263,8 +263,8 @@
 					<div class="method-source-code"
 						id="status-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 93</span>
-93:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">status</span>      ; <span class="ruby-ivar">@status</span>      ; <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 105</span>
+105:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">status</span>      ; <span class="ruby-ivar">@status</span>      ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -295,10 +295,10 @@
 					<div class="method-source-code"
 						id="stderr-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 98</span>
- 98:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stderr</span>
- 99:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-ivar">@stderr_file</span>)
-100:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 110</span>
+110:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stderr</span>
+111:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-ivar">@stderr_file</span>)
+112:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -329,8 +329,8 @@
 					<div class="method-source-code"
 						id="stderr-file-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 92</span>
-92:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stderr_file</span> ; <span class="ruby-ivar">@stderr_file</span> ; <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 104</span>
+104:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stderr_file</span> ; <span class="ruby-ivar">@stderr_file</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -361,10 +361,10 @@
 					<div class="method-source-code"
 						id="stdout-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 95</span>
-95:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stdout</span>
-96:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-ivar">@stdout_file</span>)
-97:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 107</span>
+107:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stdout</span>
+108:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-ivar">@stdout_file</span>)
+109:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -395,8 +395,8 @@
 					<div class="method-source-code"
 						id="stdout-file-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 91</span>
-91:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stdout_file</span> ; <span class="ruby-ivar">@stdout_file</span> ; <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 103</span>
+103:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stdout_file</span> ; <span class="ruby-ivar">@stdout_file</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -427,10 +427,10 @@
 					<div class="method-source-code"
 						id="to-h-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 101</span>
-101:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_h</span>
-102:       {<span class="ruby-value">:cmd_str</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@cmd_str</span>,<span class="ruby-value">:stdout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">stdout</span>, <span class="ruby-value">:stderr</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">stderr</span>, <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>}
-103:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 113</span>
+113:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_h</span>
+114:       {<span class="ruby-value">:cmd_str</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@cmd_str</span>,<span class="ruby-value">:stdout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">stdout</span>, <span class="ruby-value">:stderr</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">stderr</span>, <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>}
+115:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -461,10 +461,10 @@
 					<div class="method-source-code"
 						id="to-s-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 104</span>
-104:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>
-105:       <span class="ruby-identifier">to_h</span>.<span class="ruby-identifier">to_s</span>
-106:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 116</span>
+116:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>
+117:       <span class="ruby-identifier">to_h</span>.<span class="ruby-identifier">to_s</span>
+118:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>

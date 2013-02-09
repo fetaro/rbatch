@@ -184,7 +184,7 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 ```
 # RBatch 全体設定
 #
-# 設定ファイルの形式はYAML形式です
+#   設定ファイルの形式はYAML形式です
 #
 
 # -------------------
@@ -193,9 +193,8 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 
 # スクリプトの二重起動を可能にするかどうか
 #
-# trueにすると、同じスクリプトは二つ同時に起動できなくなります。
-#
-#   Default : false
+#   デフォルト値はfalse。
+#   trueにすると、同じスクリプトは二つ同時に起動できなくなります。
 #
 #forbid_double_run: true
 #forbid_double_run: false
@@ -206,9 +205,8 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 
 # 例外発生機能を有効にするかどうか
 #
-#   Default : false
-#
-# trueの場合、コマンドの終了ステータスが0でない場合に例外を発生する。
+#   デフォルト値はfalse。
+#   trueの場合、コマンドの終了ステータスが0でない場合に例外を発生する。
 #
 #cmd_raise: true
 #cmd_raise: false
@@ -219,9 +217,8 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 
 # ログファイル名
 #
-#   Default : "<date>_<time>_<prog>.log"
-#
-#   予約語
+#   デフォルト値は"<date>_<time>_<prog>.log"。
+#   以下の文字列は予約語
 #   <data> --> YYYYMMDDの日付形式に置換されます
 #   <time> --> hhmmssの時刻形式に置換されます
 #   <prog> --> 拡張子を除いたファイル名に置換されます
@@ -231,21 +228,21 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 
 # ログ出力ディレクトリ
 #
-#   Default : "(スクリプトの配置パス)/../log"
+#   デフォルト値は"(スクリプトの配置パス)/../log"。
 #
 #log_dir : "/tmp/log"
 
 # ログを追記するかどうか
 #
-#   Default : ture
+#   デフォルト値はture。
 #
 #log_append : true
 #log_append : false
 
 # ログレベル
 #
-#   Default : "info"
-#   Value   : "debug","info","wran","error","fatal"
+#   デフォルト値は"info"。
+#   設定できる値は"debug","info","wran","error","fatal"。
 #
 #log_level : "debug"
 #log_level : "info"
@@ -255,29 +252,42 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 
 # 標準出力とログの両方に文字列を出力するかどうか
 #
-#   Default : false
+#   デフォルト値はfalse。
 #
 #log_stdout : true
 #log_stdout : false
 
 # 古いログを削除するかどうか
 #
-# trueの場合、RBatch::Log.newを呼んだタイミングで、古いログを削除する。
-# 削除対象のログは、そのRBatch::Logのインスタンスが出力するログファイルと
-# 同じファイル名フォーマットであり、かつログファイル名のフォーマットに<date>が
-# 含まれるもの。
-# 例えば、RBatch::Logで出力するログファイルが「20120105_hoge.log」だった場合、
-# 削除対象のログは「YYYYMMDD_hoge.log」のログとなる。
-#
-#   Default : false
+#   デフォルト値はfalse。
+#   trueの場合、RBatch::Log.newを呼んだタイミングで、古いログを削除する。
+#   削除対象のログは、そのRBatch::Logのインスタンスが出力するログファイルと
+#   同じファイル名フォーマットであり、かつログファイル名のフォーマットに<date>が
+#   含まれるもの。
+#   例えば、RBatch::Logで出力するログファイルが「20120105_hoge.log」だった場合、
+#   削除対象のログは「YYYYMMDD_hoge.log」のログとなる。
 #
 #log_delete_old_log: true
 #log_delete_old_log: false
 
 # 古いログの残す日数
 #
-#   Default : 7
+#   デフォルト値は 7
 #
 #log_delete_old_log_date: 14
+
+# メール送信するかどうか
+# 
+#   デフォルト値は false。
+#   log.error(msg)かlog.fatal(msg) を呼び出したときに,"msg"の内容をメールで送信する。
+#
+#send_mail : true
+
+# メール送信のパラメータ
+#
+#mail_to   : "xxx@sample.com"
+#mail_from : "xxx@sample.com"
+#mail_server_host : "localhost"
+#mail_server_port : 25
 
 ```
