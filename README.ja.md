@@ -22,6 +22,7 @@ RBatchについて
 Logging blockを使うことで、自動的にログファイルに出力することができます。
 ログファイルはデフォルトで"../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log"に出力されます。
 例外が発生した場合でも、ログにスタックトレースを出力することができます。
+また、エラーが発生した場合に自動でメールを送信することもできます。
 
 サンプル
 
@@ -281,13 +282,13 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 #   デフォルト値は false。
 #   log.error(msg)かlog.fatal(msg) を呼び出したときに,"msg"の内容をメールで送信する。
 #
-#send_mail : true
+#log_send_mail : true
 
 # メール送信のパラメータ
 #
-#mail_to   : "xxx@sample.com"
-#mail_from : "xxx@sample.com"
-#mail_server_host : "localhost"
-#mail_server_port : 25
+#log_mail_to   : "xxx@sample.com"
+#log_mail_from : "xxx@sample.com"
+#log_mail_server_host : "localhost"
+#log_mail_server_port : 25
 
 ```
