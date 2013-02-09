@@ -1,6 +1,7 @@
 require 'logger'
 require 'fileutils'
 require 'pathname'
+require 'net/smtp'
 
 module RBatch
   #=== About RBatch::Log
@@ -45,7 +46,13 @@ module RBatch
       :stdout    => false,
       :quiet     => false,
       :delete_old_log => false,
-      :delete_old_log_date => 7
+      :delete_old_log_date => 7,
+      :send_mail => false,
+      :mail_to   => nil,
+      :mail_from => "rbatch.localhost",
+      :mail_server_host => "localhost",
+      :mail_server_port => 25,
+      :mail_domain      => "localdomain"
     }
     @@log_level_map = {
       "debug" => Logger::DEBUG,
@@ -161,11 +168,13 @@ module RBatch
     def fatal(a)
       @stdout_log.fatal(a) if @opt[:stdout]
       @log.fatal(a)
+      send_mail(a) if @opt[:send_mail]
     end
 
     def error(a)
       @stdout_log.error(a) if @opt[:stdout]
       @log.error(a)
+      send_mail(a) if @opt[:send_mail]
     end
 
     def warn(a)
@@ -208,6 +217,39 @@ module RBatch
           end
         end
       end
+    end
+
+    private
+
+    # send mail
+    def send_mail(msg)
+      body = <<EOT
+From: <#{@opt[:mail_from]}>
+To: <#{@opt[:mail_to]}>
+Subject: [RBatch] #{RBatch.program_name} has error
+Date: #{Time::now.strftime("%a, %d %b %Y %X %z")}
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
+
+#{msg}
+EOT
+      Net::SMTP.start(@opt[:mail_server_host],@opt[:mail_server_port] ) {|smtp|
+        smtp.send_mail(body,
+                       @opt[:mail_from],
+                       @opt[:mail_to])
+      }
+      # Mail.deliver do
+      #   to      @opt[:mail_to]
+      #   from    @opt[:mail_from]
+      #   subject '[RBatch] #{RBatch.program_name} failed'
+      #   body msg
+      #   delivery_method :smtp, {
+      #     :address              => @opt[:mail_server_host],
+      #     :port                 => @opt[:mail_server_port],
+      #     :domain               => @opt[:mail_domain]
+      #   }
+      # end
     end
   end # end class
 end # end module
