@@ -21,6 +21,7 @@ This work on only Ruby 1.9.x or more later.
 Use Auto Logging block, RBatch automatically write to logfile.
 Log file default location is "(script file path)/../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
 If exception occuerd, then RBatch write stack trace to logfile.
+When an error occurs, there is also a function to send an error by e-mail automatically. 
 
 sample
 
@@ -276,14 +277,14 @@ Config Sample
 #   Default is false.
 #   When log.error(msg) or log.fatal(msg) called , send e-mail including "msg". 
 #
-#send_mail : true
+#log_send_mail : true
 
 # Send mail parameters
 #
-#mail_to   : "xxx@sample.com"
-#mail_from : "xxx@sample.com"
-#mail_server_host : "localhost"
-#mail_server_port : 25
+#log_mail_to   : "xxx@sample.com"
+#log_mail_from : "xxx@sample.com"
+#log_mail_server_host : "localhost"
+#log_mail_server_port : 25
 
 ```
 
