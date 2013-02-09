@@ -181,7 +181,7 @@ Config Sample
 ```
 # RBatch Common Config
 #
-# This file format is YAML
+#   This file format is YAML.
 #
 
 # -------------------
@@ -190,9 +190,8 @@ Config Sample
 
 # Forbit Script Double Run
 #
-#   Default : false
-#
-# If this option is true, two same script cannot start at the same time. 
+#   Default is false.
+#   If this option is true, two same script cannot start at the same time. 
 #
 #forbid_double_run: true
 #forbid_double_run: false
@@ -203,9 +202,8 @@ Config Sample
 
 # Raise Exception
 #
-#   Default : false
-#
-# If command exit status is not 0, raise exception.
+#   Default is false.
+#   If command exit status is not 0, raise exception.
 #
 #cmd_raise : true
 #cmd_raise : false
@@ -217,9 +215,8 @@ Config Sample
 
 # Log File Name
 #
-#   Default : "<date>_<time>_<prog>.log"
-#
-#   Reservation words
+#   Default is "<date>_<time>_<prog>.log".
+#   Reservation words are follows.
 #   <data> --> replace to YYYYMMDD date string
 #   <time> --> replace to hhmmss time string
 #   <prog> --> Program file base name (except extention)
@@ -229,21 +226,21 @@ Config Sample
 
 # Log Output Directory
 #
-#   Default : "(Script path)/../log"
+#   Default is "(Script path)/../log".
 #
 #log_dir : "/tmp/log"
 
 # Append log or not
 #
-#   Default : ture
+#   Default is ture.
 #
 #log_append : true
 #log_append : false
 
 # Log Level
 #
-#   Default : "info"
-#   Value   : "debug","info","wran","error","fatal"
+#   Default is "info".
+#   Effective values are "debug","info","wran","error",and "fatal".
 #
 #log_level : "debug"
 #log_level : "info"
@@ -253,28 +250,40 @@ Config Sample
 
 # Print log-string both file and STDOUT
 #
-#   Default : false
+#   Default is false.
 #
 #log_stdout : true
 #log_stdout : false
 
 # Delete old log files
 #
-# If this is true, delete old log file when RBatch::Log.new is called.
-# A log file to delete is a log file which was made by the RBatch::Log instance, 
-# and log filename format include "<date>".
-#
-#   Default : false
+#   Default is false.
+#   If this is true, delete old log file when RBatch::Log.new is called.
+#   A log file to delete is a log file which was made by the RBatch::Log instance, 
+#   and log filename format include "<date>".
 #
 #log_delete_old_log: true
 #log_delete_old_log: false
 
 # The day of leaving log files
 #
-#   Default : 7
+#   Default is 7.
 #
 #log_delete_old_log_date: 14
 
+# Send mail or not
+# 
+#   Default is false.
+#   When log.error(msg) or log.fatal(msg) called , send e-mail including "msg". 
+#
+#send_mail : true
+
+# Send mail parameters
+#
+#mail_to   : "xxx@sample.com"
+#mail_from : "xxx@sample.com"
+#mail_server_host : "localhost"
+#mail_server_port : 25
 
 ```
 
