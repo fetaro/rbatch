@@ -117,4 +117,16 @@ class RuncherTest < Test::Unit::TestCase
       RBatch::cmd(cmd_str,opt)
     }
   end
+  def test_opt_timeout
+    cmd_str = "ruby -e 'sleep 2'"
+    opt = {:timeout => 1}
+    assert_raise(RBatch::CmdException){
+      RBatch::cmd(cmd_str,opt)
+    }
+  end
+  def test_opt_timeout
+    cmd_str = "ruby -e 'sleep 1'"
+    opt = {:timeout => 2}
+    RBatch::cmd(cmd_str,opt)
+  end
 end
