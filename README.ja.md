@@ -16,7 +16,7 @@ RBatchについて
 * ファイル名・ディレクトリ構造制約
 * 二重起動チェック
 
-このフレームワークはRuby 1.9.x以降のみで動作します。
+このフレームワークはRuby 1.9.x以降で動作します。また、Rubyプラットフォームは"linux","mswin","mingw","cygwin"で動作します。
 
 ### 自動ログ出力
 Logging blockを使うことで、自動的にログファイルに出力することができます。
@@ -223,6 +223,7 @@ $ cat log/YYYYMMDD_HHMMSS_backup.log
 #   <data> --> YYYYMMDDの日付形式に置換されます
 #   <time> --> hhmmssの時刻形式に置換されます
 #   <prog> --> 拡張子を除いたファイル名に置換されます
+#   <host> --> ホスト名に置換されます
 #
 #log_name : "<date>_<time>_<prog>.log"
 #log_name : "<date>_<prog>.log"

@@ -15,7 +15,7 @@ There are following functions.
 * Directory Structure convention
 * Double Run Check
 
-This work on only Ruby 1.9.x or more later.
+This work on Ruby 1.9.x or later, and on Ruby platform of "linux","mswin","mingw","cygwin".
 
 ### Auto Logging
 Use Auto Logging block, RBatch automatically write to logfile.
@@ -218,9 +218,10 @@ Config Sample
 #
 #   Default is "<date>_<time>_<prog>.log".
 #   Reservation words are follows.
-#   <data> --> replace to YYYYMMDD date string
-#   <time> --> replace to hhmmss time string
-#   <prog> --> Program file base name (except extention)
+#   <data> --> Replace to YYYYMMDD date string
+#   <time> --> Replace to HHMMSS time string
+#   <prog> --> Replace to Program file base name (except extention).
+#   <host> --> Replace to Hostname.
 #
 #log_name : "<date>_<time>_<prog>.log"
 #log_name : "<date>_<prog>.log"

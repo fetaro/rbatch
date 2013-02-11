@@ -80,7 +80,7 @@ module RBatch
     # 
     # ==== Params
     # +opt+ = Option hash object. Hash keys is follows.
-    # - +:name+ (String) = log file name. Default is "<date>_<time>_<prog>.log"
+    # - +:name+ (String) = log file name. Default is "<date>_<time>_<prog>.log".Reservation words are "<date>","<time>","<prog>","<host>".
     # - +:dir+ (String) = log direcotry path. Default is "../log"
     # - +:level+ (String) = log level. ["debug"|"info"|"warn"|"error"|"fatal"] . Default is "info".
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
@@ -115,6 +115,7 @@ module RBatch
       @file_name.gsub!("<date>", Time.now.strftime("%Y%m%d"))
       @file_name.gsub!("<time>", Time.now.strftime("%H%M%S"))
       @file_name.gsub!("<prog>", @prog_base)
+      @file_name.gsub!("<host>", RBatch::hostname)
       path = File.join(@opt[:dir],@file_name)
       # create Logger instance
       begin

@@ -5,12 +5,28 @@ module RBatch
   module_function
   def program_name=(f) ; @@program_name = f ; end
   def program_name ; @@program_name ; end
+  # Hostname
+  def hostname
+    case RUBY_PLATFORM
+    when /mswin|mingw/
+      return ENV["COMPUTERNAME"] ? ENV["COMPUTERNAME"] : "unknownhost"
+    when /cygwin|linux/
+      return ENV["HOSTNAME"] ? ENV["HOSTNAME"] : "unknownhost"
+    else
+      raise "Unknown RUBY_PRATFORM : " + RUBY_PLATFORM
+    end
+  end
+  # tmp dir
   def tmp_dir
     case RUBY_PLATFORM
     when /mswin|mingw/
-      return ENV["TEMP"]
+      if ENV["TEMP"].nil?
+        raise "Cannot use temporary directory, because ENV[\"TEMP\"] is not defined"
+      else
+        return ENV["TEMP"]
+      end
     when /cygwin|linux/
-      return "/tmp/"
+      return ENV["TMPDIR"] ? ENV["TMPDIR"] : "/tmp"
     else
       raise "Unknown RUBY_PRATFORM : " + RUBY_PLATFORM
     end

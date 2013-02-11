@@ -459,6 +459,15 @@ class LoggerTest < Test::Unit::TestCase
     }
   end
 
+  def test_i_change_name_by_opt_with_host
+    log = RBatch::Log.new({:name => "<prog><date><host>name.log" })
+    log.info("test_change_name_by_opt_with_host")
+    log.close
+    File::open(File.join(@dir ,  "test_log" + Time.now.strftime("%Y%m%d") + RBatch::hostname + "name.log")) {|f|
+      assert_match /test_change_name_by_opt_with_host/, f.read
+    }
+  end
+
   
   def test_i_log_level_default
     log = RBatch::Log.new({ :name =>  "test_level" })
