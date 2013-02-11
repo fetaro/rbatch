@@ -123,12 +123,9 @@ Quick Start
 --------------
 
     $ sudo gem install rbatch
-
     $ rbatch-init    # => make directories and sample scripts
-
     $ ruby bin/hello_world.rb
-
-    $ cat log/YYYYMMDD_HHMMSS_backup.log
+    $ cat log/YYYYMMDD_HHMMSS_hello_world.log
 
 Config
 --------------
