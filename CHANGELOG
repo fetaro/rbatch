@@ -45,3 +45,7 @@ initial
 ----
 * add "<host>" keyword to log_name option
 * Environmental variables ($TMPDIR and $HOSTNAME) are checked strictly 
+
+1.10.0(2013/02/12)
+----
+* add rbatch-init command
