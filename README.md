@@ -127,10 +127,21 @@ Quick Start
     $ ruby bin/hello_world.rb
     $ cat log/YYYYMMDD_HHMMSS_hello_world.log
 
-Config
+Option
 --------------
 
-### RBatch Grobal Config File
+The optional designated way has following two in RBatch.
+
+1. Global configuration file (conf/rbatch.yaml)
+2. Argument of the constructer
+
+If you write an option to the global configuration file, all scripts are effective. On the other hand, if you set it in the argument of the constructer, there is an effect in only the instance.
+
+When the same option is set, the argument of the constructer is given priority to over the global configuration.
+
+The name of the key to global configuration file and the name of the key to constructer option have correspondency. The key name in global configuration file is "(class name)_(key name)".
+
+#### Set by Grobal Configuration File
 
 If you make follow config file, option value effect to all scripts.
 
@@ -249,3 +260,30 @@ Config Sample
 
 ```
 
+### Set by argument of the constracter
+
+#### class RBatch::Log 
+
+    RBatch::Log.new(opt = nil)
+    opt = {
+          :name      => "<date>_<time>_<prog>.log",
+          :dir       => "/var/log/",
+          :append    => true,
+          :level     => "info",
+          :stdout    => false,
+          :delete_old_log => false,
+          :delete_old_log_date => 7,
+          :send_mail => false,
+          :mail_to   => nil,
+          :mail_from => "rbatch.localhost",
+          :mail_server_host => "localhost",
+          :mail_server_port => 25
+    }
+
+#### class RBatch::Cmd
+
+    RBatch::Log.new(cmd_str, opt = nil)
+    opt = {
+          :raise     => false,
+          :timeout   => 0
+          }
