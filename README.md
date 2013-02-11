@@ -121,53 +121,16 @@ Forbit double run of the RBatch script by writing option "forbid_double_run: tru
 
 Quick Start
 --------------
-### Step1: Install
 
-```
-# gem install rbatch
-```
+    $ sudo gem install rbatch
 
-### Step2: Make directories
+    $ rbatch-init    # => make directories and sample scripts
 
-```
-$ mkdir bin log conf
-```
+    $ ruby bin/hello_world.rb
 
-### Step3: Write batch script 
+    $ cat log/YYYYMMDD_HHMMSS_backup.log
 
-for bin/backup.rb
-```
-require 'rbatch'
-
-RBatch::Log.new(){|log|
-  log.info( "start backup" )
-  result = RBatch::cmd( "cp -p /var/log/message /backup")
-  log.info( result )
-  log.error ( "backup failed") if result.status != 0
-}
-```
-
-### Step4: Run
-
-```
-$ ruby bin/backup.rb
-```
-
-### Step5: Check
-
-Log file is generated automatically. 
-
-```
-$ cat log/YYYYMMDD_HHMMSS_backup.log
-
-# Logfile created on 2012-10-20 00:19:23 +0900 by logger.rb/25413
-[2012-10-20 00:19:23 +0900] [INFO ] start backup
-[2012-10-20 00:19:23 +0900] [INFO ] {:stdout=>"", :stderr=>"cp: cannot stat `/var/log/message': No such file or directory\n", :status=>1}
-[2012-10-20 00:19:23 +0900] [ERROR] backup failed
-```
-
-
-Manual
+Config
 --------------
 
 ### RBatch Grobal Config File

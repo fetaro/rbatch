@@ -1,0 +1,147 @@
+#!/usr/local/bin/ruby
+
+contents = {}
+contents["bin/hello_world.rb"] = <<EOF
+require 'rbatch'
+
+RBatch::Log.new{|log|
+  log.info("hello world")
+  log.info("config value: " + RBatch::config["key1"])
+  result = RBatch.cmd("ls")
+  log.info(result)
+}
+
+EOF
+
+contents["conf/hello_world.yaml"] = <<EOF
+key1 : value1
+EOF
+
+contents["conf/rbatch.yaml"] = <<EOF
+# RBatch Common Config
+#
+#   This file format is YAML.
+#
+
+# -------------------
+# Global setting
+# -------------------
+
+# Forbit Script Double Run
+#
+#   Default is false.
+#   If this option is true, two same script cannot start at the same time. 
+#
+#forbid_double_run: true
+#forbid_double_run: false
+
+# -------------------
+# Cmd setting
+# -------------------
+
+# Raise Exception
+#
+#   Default is false.
+#   If command exit status is not 0, raise exception.
+#
+#cmd_raise : true
+#cmd_raise : false
+
+
+# -------------------
+# Log setting
+# -------------------
+
+# Log File Name
+#
+#   Default is "<date>_<time>_<prog>.log".
+#   Reservation words are follows.
+#   <data> --> Replace to YYYYMMDD date string
+#   <time> --> Replace to HHMMSS time string
+#   <prog> --> Replace to Program file base name (except extention).
+#   <host> --> Replace to Hostname.
+#
+#log_name : "<date>_<time>_<prog>.log"
+#log_name : "<date>_<prog>.log"
+
+# Log Output Directory
+#
+#   Default is "(Script path)/../log".
+#
+#log_dir : "/tmp/log"
+
+# Append log or not
+#
+#   Default is ture.
+#
+#log_append : true
+#log_append : false
+
+# Log Level
+#
+#   Default is "info".
+#   Effective values are "debug","info","wran","error",and "fatal".
+#
+#log_level : "debug"
+#log_level : "info"
+#log_level : "warn"
+#log_level : "error"
+#log_level : "fatal"
+
+# Print log-string both file and STDOUT
+#
+#   Default is false.
+#
+#log_stdout : true
+#log_stdout : false
+
+# Delete old log files
+#
+#   Default is false.
+#   If this is true, delete old log file when RBatch::Log.new is called.
+#   A log file to delete is a log file which was made by the RBatch::Log instance, 
+#   and log filename format include "<date>".
+#
+#log_delete_old_log: true
+#log_delete_old_log: false
+
+# The day of leaving log files
+#
+#   Default is 7.
+#
+#log_delete_old_log_date: 14
+
+# Send mail or not
+# 
+#   Default is false.
+#   When log.error(msg) or log.fatal(msg) called , send e-mail including "msg". 
+#
+#log_send_mail : true
+
+# Send mail parameters
+#
+#log_mail_to   : "xxx@sample.com"
+#log_mail_from : "xxx@sample.com"
+#log_mail_server_host : "localhost"
+#log_mail_server_port : 25
+
+EOF
+
+require 'fileutils'
+["bin","conf","log"].each do | dir |
+  if ! Dir.exists?(dir)
+    FileUtils.mkdir(dir)
+    puts "create ./" + dir
+  else
+    puts "exist ./" + dir + " (not create)"
+  end
+end
+["bin/hello_world.rb","conf/hello_world.yaml","conf/rbatch.yaml"].each do | file |
+  if ! File.exists?(file)
+    File.open(file, "w") { |f| f.puts contents[file] }
+    puts "create ./" + file
+  else
+    puts "exist ./" + file + "  (not create)"
+  end
+end
+

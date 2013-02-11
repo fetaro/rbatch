@@ -124,53 +124,17 @@ RBatchの共通設定ファイルに"forbid_double_run: true"の設定を書け�
 
 クイックスタート
 --------------
-### ステップ1: インストール
 
-```
-# gem install rbatch
-```
+    $ sudo gem install rbatch
 
-### ステップ2: ディレクトリ作成
+    $ rbatch-init    # => ディレクトリとサンプルスクリプトが作られます
 
-```
-$ mkdir bin log conf
-```
+    $ ruby bin/hello_world.rb
 
-### ステップ3: バッチスクリプト作成 
-
-bin/backup.rbは以下の通り。
-```
-require 'rbatch'
-
-RBatch::Log.new(){|log|
-  log.info( "start backup" )
-  result = RBatch::cmd( "cp -p /var/log/message /backup")
-  log.info( result )
-  log.error ( "backup failed") if result.status != 0
-}
-```
-
-### ステップ4: 実行
-
-```
-$ ruby bin/backup.rb
-```
-
-### ステップ5: 確認
-
-自動的にlog/YYYYMMDD_HHMMSS_backup.logにログファイルが出ます。 
-
-```
-$ cat log/YYYYMMDD_HHMMSS_backup.log
-
-# Logfile created on 2012-10-20 00:19:23 +0900 by logger.rb/25413
-[2012-10-20 00:19:23 +0900] [INFO ] start backup
-[2012-10-20 00:19:23 +0900] [INFO ] {:stdout=>"", :stderr=>"cp: cannot stat `/var/log/message': No such file or directory\n", :status=>1}
-[2012-10-20 00:19:23 +0900] [ERROR] backup failed
-```
+    $ cat log/YYYYMMDD_HHMMSS_backup.log
 
 
-マニュアル
+設定ファイル
 --------------
 
 ### RBatch全体設定ファイル
