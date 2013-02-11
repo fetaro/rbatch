@@ -41,3 +41,7 @@ initial
 * add log_send_mail option
 * add cmd_timeout option
 
+1.9.0(2013/02/11)
+----
+* add "<host>" keyword to log_name option
+* Environmental variables ($TMPDIR and $HOSTNAME) are checked strictly 
