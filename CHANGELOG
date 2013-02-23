@@ -49,3 +49,7 @@ initial
 1.10.0(2013/02/12)
 ----
 * add rbatch-init command
+
+1.11.0(2013/02/24)
+----
+* support MAC environment (change handling of the environment variable about hostname and temporary directory)
