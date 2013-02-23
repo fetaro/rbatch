@@ -13,7 +13,7 @@ module RBatch
     when /cygwin|linux/
       return ENV["HOSTNAME"] ? ENV["HOSTNAME"] : "unknownhost"
     else
-      raise "Unknown RUBY_PRATFORM : " + RUBY_PLATFORM
+      return "unknownhost"
     end
   end
   # tmp dir
@@ -28,7 +28,11 @@ module RBatch
     when /cygwin|linux/
       return ENV["TMPDIR"] ? ENV["TMPDIR"] : "/tmp"
     else
-      raise "Unknown RUBY_PRATFORM : " + RUBY_PLATFORM
+      if ENV["TMPDIR"].nil? && ENV["TEMP"].nil?
+        raise "Unknown RUBY_PRATFORM : " + RUBY_PLATFORM
+      else
+        return ENV["TMPDIR"] || ENV["TEMP"]
+      end
     end
   end
   def common_config_path
