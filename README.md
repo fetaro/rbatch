@@ -15,7 +15,7 @@ There are following functions.
 * Directory Structure convention
 * Double Run Check
 
-This work on Ruby 1.9.x or later, and on Ruby platform of "linux","mswin","mingw","cygwin".
+This work on Ruby 1.9.x or later.
 
 ### Auto Logging
 Use Auto Logging block, RBatch automatically write to logfile.
@@ -287,3 +287,16 @@ Config Sample
           :raise     => false,
           :timeout   => 0
           }
+
+
+Limitaion
+--------------
+
+* By RBatch::Cmd and the option to forbid Double Run, RBatch is necessary to make a temporary file in OS's temporary directory. So RBatch can not work when the following OS's temporary directories do not exist.
+    * When ruby platform is "mswin" or "mingw"
+        * The directory which "TEMP" environment variable shows
+    * When ruby platform is "linux" or "cygwin"
+        * The directory which "TMPDIR" environment variable shows
+        * Or "/tmp" directory
+    * Other platforms
+        * The directory which "TMPDIR" or "TEMP" environment variable shows
