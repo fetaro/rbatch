@@ -52,10 +52,10 @@ module RBatch
         if opt != nil  && opt[key] != nil
           # use argument
           @opt[key] = opt[key]
-        elsif RBatch.common_config != nil \
-          && RBatch.common_config["cmd_" + key.to_s] != nil
+        elsif RBatch.rbatch_config != nil \
+          && RBatch.rbatch_config["cmd_" + key.to_s] != nil
           # use config
-          @opt[key] = RBatch.common_config["cmd_" + key.to_s]
+          @opt[key] = RBatch.rbatch_config["cmd_" + key.to_s]
         else
           # use default
         end

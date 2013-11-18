@@ -35,12 +35,12 @@ module RBatch
       end
     end
   end
-  def common_config_path
+  def rbatch_config_path
     File.join(File.dirname(RBatch.program_name),"..","conf","rbatch.yaml")
   end
-  def common_config
-    if File.exist?(RBatch.common_config_path)
-      yaml = YAML::load_file(RBatch.common_config_path)
+  def rbatch_config
+    if File.exist?(RBatch.rbatch_config_path)
+      yaml = YAML::load_file(RBatch.rbatch_config_path)
       if yaml
         return yaml
       else
@@ -53,7 +53,7 @@ module RBatch
   end
   def double_run_check
     # double run check
-    if ( RBatch::common_config != nil && RBatch::common_config["forbid_double_run"] )
+    if ( RBatch::rbatch_config != nil && RBatch::rbatch_config["forbid_double_run"] )
       lock_file="rbatch_lock_" + Digest::MD5.hexdigest(@@program_name)
       if Dir.exists? RBatch::tmp_dir
         Dir::foreach(RBatch::tmp_dir) do |f|
@@ -76,6 +76,7 @@ class RBatchException < Exception ; end
 # main
 require 'rbatch/log'
 require 'rbatch/config'
+require 'rbatch/common_config'
 require 'rbatch/cmd'
 
 RBatch::double_run_check

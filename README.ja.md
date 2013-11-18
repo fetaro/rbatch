@@ -6,27 +6,55 @@ RBatch:Ruby-base バッチスクリプトフレームワーク
 RBatchについて
 --------------
 これはRubyで書かれたシンプルなバッチスクリプトのフレームワークです。
-バッチスクリプト（バックアップやプロセス起動等）を書く際に便利な機能をフレームワークとして提供しています。
+バッチスクリプト（バックアップやプロセスリロード等）を書く際に便利な機能をフレームワークとして提供しています。
 
 主な機能は以下のとおり。 
 
 * 自動ログ出力
+* 自動メール送信
 * 自動設定ファイル読み込み
 * 外部コマンド実行 
-* ファイル名・ディレクトリ構造制約
 * 二重起動チェック
 
-このフレームワークはRuby 1.9.x以降で動作します。
+注意：このフレームワークはRuby 1.9.x以降で動作します。また、Rubyプラットフォームは"linux","mswin","mingw","cygwin"で動作します。
+
+### はじめに
+
+RBatchでは、実行スクリプト、設定ファイルおよびログファイルについて、
+配置場所および命名規則が規約で決まっています。
+
+具体的には、"bin/hoge.rb"というバッチスクリプトでは、"conf/hoge.yaml"という設定ファイルを読み、
+"log/YYYYMMDD_HHMMSS_hoge.rb"というログを出力するという規則です。
+
+例を示すと以下の通りです。
+
+```
+$RB_HOME
+ |-bin             ←実行スクリプト配置場所
+ |  |- A.rb
+ |  |- B.rb
+ |
+ |-conf            ←設定ファイル配置場所
+ |  |- A.yaml
+ |  |- B.yaml
+ |  |- rbatch.yaml ←RBatch全体設定ファイル
+ |
+ |-log             ←ログ出力場所
+    |- YYYYMMDD_HHMMSS_A.log
+    |- YYYYMMDD_HHMMSS_B.log
+```
+
+注意：$RB_HOMEは環境変数として定義する必要はありません。$RB_HOMEは"(実行するスクリプトのパス)/../"として定義されています
 
 ### 自動ログ出力
+
 Logging blockを使うことで、自動的にログファイルに出力することができます。
-ログファイルはデフォルトで"../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log"に出力されます。
+ログファイルはデフォルトで"$RB_HOME/log/YYYYMMDD_HHMMSS_${PROG_NAME}.log"に出力されます。
 例外が発生した場合でも、ログにスタックトレースを出力することができます。
-また、エラーが発生した場合に自動でメールを送信することもできます。
 
 サンプル
 
-スクリプト : ./bin/sample1.rb
+スクリプト : $RB_HOME/bin/sample1.rb
 ```
 require 'rbatch'
 
@@ -37,7 +65,7 @@ RBatch::Log.new(){ |log|  # Logging block
 }
 ```
 
-ログファイル : ./log/20121020_005953_sample1.log
+ログファイル : $RB_HOME/log/20121020_005953_sample1.log
 ```
 # Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
 [2012-10-20 00:59:53 +900] [INFO ] info string
@@ -50,6 +78,10 @@ RBatch::Log.new(){ |log|  # Logging block
     [backtrace] test.rb:3:in `<main>'
 ```
 
+### 自動メール送信
+
+"log_send_mail"オプションを使う事により、スクリプトでエラーが発生した場合に、自動でメールを送信することができます。
+
 ### 自動設定ファイル読み込み
 
 RBatchは簡単にデフォルトの位置の設定ファイルを読み込めます。
@@ -57,7 +89,7 @@ RBatchは簡単にデフォルトの位置の設定ファイルを読み込め�
 
 サンプル
 
-設定ファイル : ./conf/sample2.yaml
+設定ファイル : $RB_HOME/conf/sample2.yaml
 ```
 key: value
 array:
@@ -66,7 +98,7 @@ array:
  - item3
 ```
 
-スクリプト : ./bin/sample2.rb
+スクリプト : $RB_HOME/bin/sample2.rb
 ```
 require 'rbatch'
 p RBatch::config
@@ -96,28 +128,6 @@ p r.status
 => 0
 ```
 
-### ファイル名・ディレクトリ構造制約
-
-RBatchでは、「設定より規約」(convention over configuration)という原則に従い、バッチスクリプトで必要になるファイル群に、ファイル名とディレクトリ構造の制約をもたせます。
-
-具体的には、"bin/hoge.rb"というバッチスクリプトでは、"conf/hoge.yaml"という設定ファイルを読み、
-"log/YYYYMMDD_HHMMSS_hoge.rb"というログを出力するという規則です。
-
-これにより、バッチスクリプトの可読性・保守性が向上します。
-
-```
-./
- |-bin
- |  |- hoge.rb
- |  |- bar.rb
- |-conf
- |  |- hoge.yaml
- |  |- bar.yaml
- |-log
-    |- YYYYMMDD_HHMMSS_hoge.log
-    |- YYYYMMDD_HHMMSS_bar.log
-```
-
 ### 二重起動チェック
 
 RBatchの共通設定ファイルに"forbid_double_run: true"の設定を書けば、RBatchを利用したスクリプトの二重起動チェックができます。
@@ -136,7 +146,7 @@ RBatchの共通設定ファイルに"forbid_double_run: true"の設定を書け�
 
 RBatchではオプションの指定の仕方は以下の二つがあります。
 
-1. 全体設定ファイル(conf/rbatch.yaml)に書く
+1. 全体設定ファイル($RB_HOME/conf/rbatch.yaml)に書く
 2. コンストラクタの引数に指定する
 
 全体設定ファイルにオプションを書くと、全てのスクリプトに効果がありますが、コンストラクタの引数に指定した場合はそのインスタンスのみ効果があります。
@@ -151,7 +161,7 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 以下の場所にRBatch全体設定ファイルを配置すると、全てのスクリプトにてオプションが適用されます。
 
 
-    (スクリプトのパス)/../conf/rbatch.yaml
+     $RB_HOME/conf/rbatch.yaml
 
 
 設定ファイルのサンプルは以下の通り
@@ -295,15 +305,3 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
           :raise     => false,
           :timeout   => 0
           }
-
-使用上の制約
---------------
-
-* RBarchの二重起動防止機能およびRBatch::Cmdでは、OSのTMPディレクトリに一時ファイルを作ります。そのため、以下の一時ディレクトリが存在しない場合は動作しません。
-    * Rubyプラットフォームが「mswin」もしくは「mingw」の場合
-        * 環境変数"TEMP"で示すディレクトリ
-    * Rubyプラットフォームが「linux」もしくは「cygwin」の場合
-        * 環境変数"TMPDIR"で示すディレクトリ
-        * それがない場合は"/tmp"ディレクトリ
-    * それ以外のプラットフォーム
-        * 環境変数"TMPDIR"もしくは"TEMP"で示すディレクトリ

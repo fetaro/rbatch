@@ -5,27 +5,54 @@ RBatch:Ruby-base Simple Batch Framework
 
 About RBatch
 --------------
-This is a Ruby-base Batch Script Framework. RBatch offer a convenient function as a framework, when you write a batch script such as "data backup script" or "proccess start script".
+This is Ruby-base Batch Script Framework. RBatch offers convenient functions, when you write batch scripts such as "data backup script" or "proccess starting script".
 
 There are following functions. 
 
 * Auto Logging
+* Auto Mail Sending
 * Auto Config Reading
 * External Command Wrapper 
-* Directory Structure convention
 * Double Run Check
 
-This work on Ruby 1.9.x or later.
+
+Note: RBatch works on Ruby 1.9.x or later, and on Ruby platform of "linux","mswin","mingw","cygwin".
+
+### First
+
+RBach has convention of file naming and directorory structure.
+
+If you make "$RB_HOME/bin/hoge.rb", you should name config file to "$RB_HOME/conf/hoge.yaml". And the name of log file is decided on "$RB_HOME/log/YYYYMMDD_HHMMSS_hoge.rb"
+
+For example
+```
+$RB_HOME/         <--- RBatch home
+ |-bin            <--- Scripts
+ |  |- A.rb
+ |  |- B.rb
+ |
+ |-conf           <--- Configuration files
+ |  |- A.yaml
+ |  |- B.yaml
+ |  |- rbatch.yaml  <--- RBatch global config
+ |
+ |-log            <--- Log files
+    |- YYYYMMDD_HHMMSS_A.log
+    |- YYYYMMDD_HHMMSS_B.log
+```
+
+Note: It is not necessary to define $RB_HOME as an environment variable. $RB_HOME is defined as "(running script path)/../"
+
 
 ### Auto Logging
-Use Auto Logging block, RBatch automatically write to logfile.
-Log file default location is "(script file path)/../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
-If exception occuerd, then RBatch write stack trace to logfile.
-When an error occurs, there is also a function to send an error by e-mail automatically. 
+
+Use "Auto Logging block", RBatch automatically writes to logfile.
+The default location of log file is $RB_HOME/log/YYYYMMDD_HHMMSS_${PROG_NAME}.log .
+If an exception occuerd, then RBatch write a stack trace to logfile.
 
 sample
 
-script : ./bin/sample1.rb
+script : $RB_HOME/bin/sample1.rb
 ```
 require 'rbatch'
 
@@ -36,7 +63,7 @@ RBatch::Log.new(){ |log|  # Logging block
 }
 ```
 
-logfile : ./log/20121020_005953_sample1.log
+logfile : $RB_HOME/log/20121020_005953_sample1.log
 ```
 # Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
 [2012-10-20 00:59:53 +900] [INFO ] info string
@@ -49,13 +76,21 @@ logfile : ./log/20121020_005953_sample1.log
     [backtrace] test.rb:3:in `<main>'
 ```
 
+### Auto Mail Sending
+
+By using "log_send_mail" option, when an error occurs in script, RBatch sends an error-mail automatically. 
+
+
 ### Auto Config Reading
 
-RBatch easy to read config file (located on "(script file path)/../conf/${PROG_NAME}.yaml")
+By using RBatch, your script read a configuration file easily.
+First you make configuration file which is named "(script base name).yaml" ,
+Then, put it to $RB_HOME/conf/ .
+So your script read it automatically.
 
 sample
 
-config : ./conf/sample2.yaml
+config : $RB_HOME/conf/sample2.yaml
 ```
 key: value
 array:
@@ -64,7 +99,7 @@ array:
  - item3
 ```
 
-script : ./bin/sample2.rb
+script : $RB_HOME/bin/sample2.rb
 ```
 require 'rbatch'
 p RBatch::config
@@ -77,7 +112,11 @@ p RBatch::config["not_exist"]
 => Raise Exception
 ```
 
+If you can use common configuration file which is read from all scripts,
+you make "$RB_HOME/conf/common.yaml" .
+
 ### External Command Wrapper 
+
 RBatch provide a function which wrap external command (such as 'ls').
 
 This function return a result object which contain command's STDOUT, STDERR ,and exit status.
@@ -94,30 +133,10 @@ p r.status
 => 0
 ```
 
-### Directory Structure Convention
-
-Follow the axiom of "convention over configuration", RBatch restrict file naming rule and directory structure.
-
-For exsample, If you make "bin/hoge.rb", you should name config file to "conf/hoge.yaml". And the name of log file is decided on "log/YYYYMMDD_HHMMSS_hoge.rb"
-
-In this way, maintainability and readability of batch script get higher.
-
-```
-./
- |-bin
- |  |- hoge.rb
- |  |- bar.rb
- |-conf
- |  |- hoge.yaml
- |  |- bar.yaml
- |-log
-    |- YYYYMMDD_HHMMSS_hoge.log
-    |- YYYYMMDD_HHMMSS_bar.log
-```
-
 ### Double Run Check
 
-Forbit double run of the RBatch script by writing option "forbid_double_run: true" to the common configuration file.
+Using "forbid_double_run" option, you forbit double run of the RBatch script.
+
 
 Quick Start
 --------------
@@ -146,7 +165,7 @@ The name of the key to global configuration file and the name of the key to cons
 If you make follow config file, option value effect to all scripts.
 
 ```
-(script file path)/../conf/rbatch.yaml
+$RB_HOME/conf/rbatch.yaml
 ```
 
 Config Sample
@@ -287,16 +306,3 @@ Config Sample
           :raise     => false,
           :timeout   => 0
           }
-
-
-Limitaion
---------------
-
-* By RBatch::Cmd and the option to forbid Double Run, RBatch is necessary to make a temporary file in OS's temporary directory. So RBatch can not work when the following OS's temporary directories do not exist.
-    * When ruby platform is "mswin" or "mingw"
-        * The directory which "TEMP" environment variable shows
-    * When ruby platform is "linux" or "cygwin"
-        * The directory which "TMPDIR" environment variable shows
-        * Or "/tmp" directory
-    * Other platforms
-        * The directory which "TMPDIR" or "TEMP" environment variable shows

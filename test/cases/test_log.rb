@@ -13,12 +13,12 @@ class LoggerTest < Test::Unit::TestCase
 #    RBatch::Log.verbose = true
     # set STDOUT Logger stop
     confstr = "log_quiet: true\n"
-    open( RBatch.common_config_path  , "w" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "w" ){|f| f.write(confstr)}
 
   end
 
   def teardown
-    File::delete(RBatch.common_config_path) if File.exists?(RBatch.common_config_path)
+    File::delete(RBatch.rbatch_config_path) if File.exists?(RBatch.rbatch_config_path)
     if Dir.exists? @dir
       Dir::foreach(@dir) do |f|
         File::delete(File.join(@dir , f)) if ! (/\.+$/ =~ f)
@@ -84,7 +84,7 @@ class LoggerTest < Test::Unit::TestCase
 
   def test_change_name_by_config
     confstr = "log_name: name1"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
     RBatch::Log.new({:name => "name1.log" }) do | log |
       log.info("test_change_name_by_config")
     end
@@ -109,7 +109,7 @@ class LoggerTest < Test::Unit::TestCase
 
   def test_change_log_dir_by_config
     confstr = "log_dir: " + @dir2
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
     RBatch::Log.new({:output_dir=> @dir2 }) do | log |
       log.info("test_change_log_dir_by_config")
     end
@@ -135,7 +135,7 @@ class LoggerTest < Test::Unit::TestCase
 
   def test_opt_overwite_config
     confstr = "log_name: " + "name1"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
     RBatch::Log.new({:name => "name2" }) do | log |
       log.info("test_opt_overwite_config")
     end
@@ -175,7 +175,7 @@ class LoggerTest < Test::Unit::TestCase
 
   def test_append_by_conf
     confstr = "log_append: true"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
 
     RBatch::Log.new({:name =>  "test_append" }) do | log |
       log.info("test_append1")
@@ -192,7 +192,7 @@ class LoggerTest < Test::Unit::TestCase
 
   def test_no_append_by_conf
     confstr = "log_append: false"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
 
     RBatch::Log.new({ :name =>  "test_append" }) do | log |
       log.info("test_append1")
@@ -318,7 +318,7 @@ class LoggerTest < Test::Unit::TestCase
 
   def test_log_level_debug_by_conf
     confstr = "log_level: debug"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
 
     RBatch::Log.new({ :name =>  "test_level" }) do | log |
       log.debug("test_debug")
@@ -339,7 +339,7 @@ class LoggerTest < Test::Unit::TestCase
 
  def test_log_level_info_by_conf
     confstr = "log_level: info"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
     RBatch::Log.new({ :name =>  "test_level" }) do | log |
       log.debug("test_debug")
       log.info("test_info")
@@ -359,7 +359,7 @@ class LoggerTest < Test::Unit::TestCase
 
  def test_log_level_warn_by_conf
     confstr = "log_level: warn"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
     RBatch::Log.new({ :name =>  "test_level" }) do | log |
       log.debug("test_debug")
       log.info("test_info")
@@ -379,7 +379,7 @@ class LoggerTest < Test::Unit::TestCase
 
  def test_log_level_error_by_conf
     confstr = "log_level: error"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
     RBatch::Log.new({ :name =>  "test_level" }) do | log |
       log.debug("test_debug")
       log.info("test_info")
@@ -399,7 +399,7 @@ class LoggerTest < Test::Unit::TestCase
 
  def test_log_level_fatal_by_conf
     confstr = "log_level: fatal"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
     RBatch::Log.new({ :name =>  "test_level" }) do | log |
       log.debug("test_debug")
       log.info("test_info")
@@ -509,7 +509,7 @@ class LoggerTest < Test::Unit::TestCase
 
   def test_i_log_level_debug_by_conf
     confstr = "log_level: debug"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
 
     log = RBatch::Log.new({ :name =>  "test_level" })
     log.debug("test_debug")
@@ -544,7 +544,7 @@ class LoggerTest < Test::Unit::TestCase
   end
   def test_delete_old_log_by_config
     confstr = "log_delete_old_log: true"
-    open( RBatch.common_config_path  , "a" ){|f| f.write(confstr)}
+    open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
 
     loglist = [*0..20].map do |day|
       File.join(@dir , (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
