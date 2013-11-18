@@ -90,9 +90,9 @@
 					
 					<li><a href="#method-i-cmd">#cmd</a></li>
 					
-					<li><a href="#method-i-common_config">#common_config</a></li>
+					<li><a href="#method-i-rbatch_config">#rbatch_config</a></li>
 					
-					<li><a href="#method-i-common_config_path">#common_config_path</a></li>
+					<li><a href="#method-i-rbatch_config_path">#rbatch_config_path</a></li>
 					
 					<li><a href="#method-i-config">#config</a></li>
 					
@@ -224,11 +224,11 @@ shortcut of <a href="RBatch/Cmd.html">RBatch::Cmd</a>
 
 		
 			<div id="common-config-method" class="method-detail ">
-				<a name="method-i-common_config"></a>
+				<a name="method-i-rbatch_config"></a>
 
 				<div class="method-heading">
 				
-					<span class="method-name">common_config</span><span
+					<span class="method-name">rbatch_config</span><span
 						class="method-args">()</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
@@ -244,9 +244,9 @@ shortcut of <a href="RBatch/Cmd.html">RBatch::Cmd</a>
 						id="common-config-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/rbatch.rb, line 21</span>
-21:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">common_config</span>
-22:     <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">common_config_path</span>)
-23:       <span class="ruby-identifier">yaml</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">common_config_path</span>)
+21:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rbatch_config</span>
+22:     <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config_path</span>)
+23:       <span class="ruby-identifier">yaml</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config_path</span>)
 24:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">yaml</span>
 25:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">yaml</span>
 26:       <span class="ruby-keyword kw">else</span>
@@ -268,11 +268,11 @@ shortcut of <a href="RBatch/Cmd.html">RBatch::Cmd</a>
 
 		
 			<div id="common-config-path-method" class="method-detail ">
-				<a name="method-i-common_config_path"></a>
+				<a name="method-i-rbatch_config_path"></a>
 
 				<div class="method-heading">
 				
-					<span class="method-name">common_config_path</span><span
+					<span class="method-name">rbatch_config_path</span><span
 						class="method-args">()</span>
 					<span class="method-click-advice">click to toggle source</span>
 				
@@ -288,7 +288,7 @@ shortcut of <a href="RBatch/Cmd.html">RBatch::Cmd</a>
 						id="common-config-path-source">
 <pre>
     <span class="ruby-comment cmt"># File lib/rbatch.rb, line 18</span>
-18:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">common_config_path</span>
+18:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rbatch_config_path</span>
 19:     <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>,<span class="ruby-value str">&quot;conf&quot;</span>,<span class="ruby-value str">&quot;rbatch.yaml&quot;</span>)
 20:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
@@ -358,7 +358,7 @@ Alias of RBatch::Config.new
     <span class="ruby-comment cmt"># File lib/rbatch.rb, line 34</span>
 34:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">double_run_check</span>
 35:     <span class="ruby-comment cmt"># double run check</span>
-36:     <span class="ruby-keyword kw">if</span> ( <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">common_config</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">common_config</span>[<span class="ruby-value str">&quot;forbid_double_run&quot;</span>] )
+36:     <span class="ruby-keyword kw">if</span> ( <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">rbatch_config</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">rbatch_config</span>[<span class="ruby-value str">&quot;forbid_double_run&quot;</span>] )
 37:       <span class="ruby-identifier">lock_file</span>=<span class="ruby-value str">&quot;rbatch_lock_&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">@@program_name</span>)
 38:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>
 39:         <span class="ruby-constant">Dir</span><span class="ruby-operator">::</span><span class="ruby-identifier">foreach</span>(<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>

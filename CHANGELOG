@@ -53,3 +53,8 @@ initial
 1.11.0(2013/02/24)
 ----
 * support MAC environment (change handling of the environment variable about hostname and temporary directory)
+
+1.12.0(2013/11/19)
+----
+* add Common Config Function
+* document enhance
