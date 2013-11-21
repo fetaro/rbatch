@@ -58,3 +58,8 @@ initial
 ----
 * add Common Config Function
 * document enhance
+
+1.12.1(2013/11/21)
+----
+* bug fix. Before, RBatch::Log block only rescue the exception which is extended StandardError (not Exception). Now fix it.
+

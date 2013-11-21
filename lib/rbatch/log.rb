@@ -155,7 +155,7 @@ module RBatch
       if block_given?
         begin
           yield self
-        rescue => e
+        rescue Exception => e
           self.fatal(e)
           self.fatal("Caught exception. Exit 1")
           exit 1
