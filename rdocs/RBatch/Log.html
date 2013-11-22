@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="harset=UTF-8 "?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+	<meta content="text/html; charset=harset=UTF-8 " http-equiv="Content-Type" />
 
 	<title>Class: RBatch::Log</title>
 
@@ -104,17 +104,6 @@
 		<div id="project-metadata">
 			
 			
-			<div id="fileindex-section" class="section project-section">
-				<h3 class="section-header">Files</h3>
-				<ul>
-				
-					<li class="file"><a href="../CHANGELOG.html">CHANGELOG</a></li>
-				
-					<li class="file"><a href="../LICENSE.html">LICENSE</a></li>
-				
-				</ul>
-			</div>
-			
 
 			<div id="classindex-section" class="section project-section">
 				<h3 class="section-header">Class Index
@@ -139,6 +128,10 @@
 				
 					<li><a href="../RBatch/CmdResult.html">RBatch::CmdResult</a></li>
 				
+					<li><a href="../RBatch/CommonConfig.html">RBatch::CommonConfig</a></li>
+				
+					<li><a href="../RBatch/CommonConfig/Exception.html">RBatch::CommonConfig::Exception</a></li>
+				
 					<li><a href="../RBatch/Config.html">RBatch::Config</a></li>
 				
 					<li><a href="../RBatch/Config/Exception.html">RBatch::Config::Exception</a></li>
@@ -146,6 +139,8 @@
 					<li><a href="../RBatch/Log.html">RBatch::Log</a></li>
 				
 					<li><a href="../RBatchException.html">RBatchException</a></li>
+				
+					<li><a href="../Rbatch.html">Rbatch</a></li>
 				
 				</ul>
 				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
@@ -235,7 +230,8 @@ Auto Logging Block.
 <ul>
 <li><p>
 <tt>:name</tt> (String) = log file name. Default is
-&#8220;<date>_<time>_<prog>.log&#8220;
+&#8220;<date>_<time>_<prog>.log&#8221;.Reservation words are
+&#8220;<date>&#8221;,&#8221;<time>&#8221;,&#8221;<prog>&#8221;,&#8221;<host>&#8221;.
 </p>
 </li>
 <li><p>
@@ -302,54 +298,55 @@ is true.
 114:       <span class="ruby-ivar">@file_name</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-value str">&quot;&lt;date&gt;&quot;</span>, <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-value str">&quot;%Y%m%d&quot;</span>))
 115:       <span class="ruby-ivar">@file_name</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-value str">&quot;&lt;time&gt;&quot;</span>, <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-value str">&quot;%H%M%S&quot;</span>))
 116:       <span class="ruby-ivar">@file_name</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-value str">&quot;&lt;prog&gt;&quot;</span>, <span class="ruby-ivar">@prog_base</span>)
-117:       <span class="ruby-identifier">path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>],<span class="ruby-ivar">@file_name</span>)
-118:       <span class="ruby-comment cmt"># create Logger instance</span>
-119:       <span class="ruby-keyword kw">begin</span>
-120:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:append</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">path</span>)
-121:           <span class="ruby-ivar">@log</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>,<span class="ruby-value str">&quot;a&quot;</span>))
-122:         <span class="ruby-keyword kw">else</span>
-123:           <span class="ruby-ivar">@log</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>,<span class="ruby-value str">&quot;w&quot;</span>))
-124:         <span class="ruby-keyword kw">end</span>
-125:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">ENOENT</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
-126:         <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;RBatch ERROR: Can not open log file  - #{path}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:quiet</span>]
-127:         <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>
-128:       <span class="ruby-keyword kw">end</span>
-129:       <span class="ruby-comment cmt"># set logger option</span>
-130:       <span class="ruby-identifier">formatter</span> = <span class="ruby-identifier">proc</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">severity</span>, <span class="ruby-identifier">datetime</span>, <span class="ruby-identifier">progname</span>, <span class="ruby-identifier">msg</span><span class="ruby-operator">|</span>
-131:         <span class="ruby-identifier">head</span> = <span class="ruby-node">&quot;[#{datetime}] [&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">sprintf</span>(<span class="ruby-value str">&quot;%-5s&quot;</span>,<span class="ruby-identifier">severity</span>) <span class="ruby-operator">+</span><span class="ruby-value str">&quot;]&quot;</span>
-132:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Exception</span>
-133:           <span class="ruby-node">&quot;#{head} #{msg}\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;    [backtrace] #{s}&quot;</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>) <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
-134:         <span class="ruby-keyword kw">else</span>
-135:           <span class="ruby-node">&quot;#{head} #{msg}\n&quot;</span>
-136:         <span class="ruby-keyword kw">end</span>
-137:       <span class="ruby-keyword kw">end</span>
-138:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">formatter</span> = <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:formatter</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:formatter</span>]
-139:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">level</span> = <span class="ruby-identifier">@@log_level_map</span>[<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:level</span>]]
-140:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">formatter</span> = <span class="ruby-identifier">formatter</span>
-141:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
-142:         <span class="ruby-comment cmt"># ccreate Logger instance for STDOUT</span>
-143:         <span class="ruby-ivar">@stdout_log</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">STDOUT</span>)
-144:         <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">formatter</span> = <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:formatter</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:formatter</span>]
-145:         <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">level</span> = <span class="ruby-identifier">@@log_level_map</span>[<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:level</span>]]
-146:         <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">formatter</span> = <span class="ruby-identifier">formatter</span>
-147:       <span class="ruby-keyword kw">end</span>
-148:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Log file: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:quiet</span>]
-149:       <span class="ruby-comment cmt"># delete old log</span>
-150:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">delete_old_log</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:delete_old_log_date</span>]) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:delete_old_log</span>]
-151:       <span class="ruby-comment cmt"># Start logging</span>
-152:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Start Logging. (PID=#{$$.to_s})&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:quiet</span>]
-153:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
-154:         <span class="ruby-keyword kw">begin</span>
-155:           <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span>
-156:         <span class="ruby-keyword kw">rescue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
-157:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-identifier">e</span>)
-158:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-value str">&quot;Caught exception. Exit 1&quot;</span>)
-159:           <span class="ruby-identifier">exit</span> <span class="ruby-value">1</span>
-160:         <span class="ruby-keyword kw">ensure</span>
-161:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">close</span>
-162:         <span class="ruby-keyword kw">end</span>
-163:       <span class="ruby-keyword kw">end</span>
-164:     <span class="ruby-keyword kw">end</span></pre>
+117:       <span class="ruby-ivar">@file_name</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-value str">&quot;&lt;host&gt;&quot;</span>, <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">hostname</span>)
+118:       <span class="ruby-identifier">path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>],<span class="ruby-ivar">@file_name</span>)
+119:       <span class="ruby-comment cmt"># create Logger instance</span>
+120:       <span class="ruby-keyword kw">begin</span>
+121:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:append</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">path</span>)
+122:           <span class="ruby-ivar">@log</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>,<span class="ruby-value str">&quot;a&quot;</span>))
+123:         <span class="ruby-keyword kw">else</span>
+124:           <span class="ruby-ivar">@log</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>,<span class="ruby-value str">&quot;w&quot;</span>))
+125:         <span class="ruby-keyword kw">end</span>
+126:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">ENOENT</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+127:         <span class="ruby-constant">STDERR</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;RBatch ERROR: Can not open log file  - #{path}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:quiet</span>]
+128:         <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>
+129:       <span class="ruby-keyword kw">end</span>
+130:       <span class="ruby-comment cmt"># set logger option</span>
+131:       <span class="ruby-identifier">formatter</span> = <span class="ruby-identifier">proc</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">severity</span>, <span class="ruby-identifier">datetime</span>, <span class="ruby-identifier">progname</span>, <span class="ruby-identifier">msg</span><span class="ruby-operator">|</span>
+132:         <span class="ruby-identifier">head</span> = <span class="ruby-node">&quot;[#{datetime}] [&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">sprintf</span>(<span class="ruby-value str">&quot;%-5s&quot;</span>,<span class="ruby-identifier">severity</span>) <span class="ruby-operator">+</span><span class="ruby-value str">&quot;]&quot;</span>
+133:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Exception</span>
+134:           <span class="ruby-node">&quot;#{head} #{msg}\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;    [backtrace] #{s}&quot;</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>) <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;\n&quot;</span>
+135:         <span class="ruby-keyword kw">else</span>
+136:           <span class="ruby-node">&quot;#{head} #{msg}\n&quot;</span>
+137:         <span class="ruby-keyword kw">end</span>
+138:       <span class="ruby-keyword kw">end</span>
+139:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">formatter</span> = <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:formatter</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:formatter</span>]
+140:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">level</span> = <span class="ruby-identifier">@@log_level_map</span>[<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:level</span>]]
+141:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">formatter</span> = <span class="ruby-identifier">formatter</span>
+142:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
+143:         <span class="ruby-comment cmt"># ccreate Logger instance for STDOUT</span>
+144:         <span class="ruby-ivar">@stdout_log</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">STDOUT</span>)
+145:         <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">formatter</span> = <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:formatter</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:formatter</span>]
+146:         <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">level</span> = <span class="ruby-identifier">@@log_level_map</span>[<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:level</span>]]
+147:         <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">formatter</span> = <span class="ruby-identifier">formatter</span>
+148:       <span class="ruby-keyword kw">end</span>
+149:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Log file: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:quiet</span>]
+150:       <span class="ruby-comment cmt"># delete old log</span>
+151:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">delete_old_log</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:delete_old_log_date</span>]) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:delete_old_log</span>]
+152:       <span class="ruby-comment cmt"># Start logging</span>
+153:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Start Logging. (PID=#{$$.to_s})&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:quiet</span>]
+154:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+155:         <span class="ruby-keyword kw">begin</span>
+156:           <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span>
+157:         <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+158:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-identifier">e</span>)
+159:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-value str">&quot;Caught exception. Exit 1&quot;</span>)
+160:           <span class="ruby-identifier">exit</span> <span class="ruby-value">1</span>
+161:         <span class="ruby-keyword kw">ensure</span>
+162:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">close</span>
+163:         <span class="ruby-keyword kw">end</span>
+164:       <span class="ruby-keyword kw">end</span>
+165:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -454,11 +451,11 @@ Set verbose mode flag.
 					<div class="method-source-code"
 						id="close-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 194</span>
-194:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close</span>
-195:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">close</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
-196:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">close</span>
-197:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 195</span>
+195:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">close</span>
+196:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">close</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
+197:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">close</span>
+198:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -489,11 +486,11 @@ Set verbose mode flag.
 					<div class="method-source-code"
 						id="debug-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 189</span>
-189:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">debug</span>(<span class="ruby-identifier">a</span>)
-190:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
-191:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-identifier">a</span>)
-192:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 190</span>
+190:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">debug</span>(<span class="ruby-identifier">a</span>)
+191:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
+192:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-identifier">a</span>)
+193:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -534,18 +531,18 @@ then do nothing.
 					<div class="method-source-code"
 						id="delete-old-log-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 205</span>
-205:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete_old_log</span>(<span class="ruby-identifier">date</span> = <span class="ruby-value">7</span>)
-206:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:name</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-value str">&quot;&lt;date&gt;&quot;</span>)
-207:         <span class="ruby-constant">Dir</span><span class="ruby-operator">::</span><span class="ruby-identifier">foreach</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>]) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
-208:           <span class="ruby-identifier">r</span> = <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;^&quot;</span>                           <span class="ruby-operator">+</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:name</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;prog&gt;&quot;</span>,<span class="ruby-ivar">@prog_base</span>)                            .<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;time&gt;&quot;</span>,<span class="ruby-value str">&quot;[0-2][0-9][0-5][0-9][0-5][0-9]&quot;</span>)                            .<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;date&gt;&quot;</span>,<span class="ruby-value str">&quot;([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])&quot;</span>)                          <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;$&quot;</span>)
-209:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">r</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">strptime</span>(<span class="ruby-node">$1</span>,<span class="ruby-value str">&quot;%Y%m%d&quot;</span>) <span class="ruby-operator">&lt;=</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">date</span>
-210:             <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Delete old log file: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>] , <span class="ruby-identifier">file</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:quiet</span>]
-211:             <span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-identifier">delete</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>]  , <span class="ruby-identifier">file</span>))
-212:           <span class="ruby-keyword kw">end</span>
-213:         <span class="ruby-keyword kw">end</span>
-214:       <span class="ruby-keyword kw">end</span>
-215:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 206</span>
+206:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete_old_log</span>(<span class="ruby-identifier">date</span> = <span class="ruby-value">7</span>)
+207:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:name</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-value str">&quot;&lt;date&gt;&quot;</span>)
+208:         <span class="ruby-constant">Dir</span><span class="ruby-operator">::</span><span class="ruby-identifier">foreach</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>]) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+209:           <span class="ruby-identifier">r</span> = <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;^&quot;</span>                           <span class="ruby-operator">+</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:name</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;prog&gt;&quot;</span>,<span class="ruby-ivar">@prog_base</span>)                            .<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;time&gt;&quot;</span>,<span class="ruby-value str">&quot;[0-2][0-9][0-5][0-9][0-5][0-9]&quot;</span>)                            .<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;date&gt;&quot;</span>,<span class="ruby-value str">&quot;([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])&quot;</span>)                          <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;$&quot;</span>)
+210:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">r</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">strptime</span>(<span class="ruby-node">$1</span>,<span class="ruby-value str">&quot;%Y%m%d&quot;</span>) <span class="ruby-operator">&lt;=</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">date</span>
+211:             <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Delete old log file: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>] , <span class="ruby-identifier">file</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:quiet</span>]
+212:             <span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-identifier">delete</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:dir</span>]  , <span class="ruby-identifier">file</span>))
+213:           <span class="ruby-keyword kw">end</span>
+214:         <span class="ruby-keyword kw">end</span>
+215:       <span class="ruby-keyword kw">end</span>
+216:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -576,12 +573,12 @@ then do nothing.
 					<div class="method-source-code"
 						id="error-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 173</span>
-173:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">error</span>(<span class="ruby-identifier">a</span>)
-174:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
-175:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">a</span>)
-176:       <span class="ruby-identifier">send_mail</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:send_mail</span>]
-177:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 174</span>
+174:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">error</span>(<span class="ruby-identifier">a</span>)
+175:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
+176:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">a</span>)
+177:       <span class="ruby-identifier">send_mail</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:send_mail</span>]
+178:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -612,12 +609,12 @@ then do nothing.
 					<div class="method-source-code"
 						id="fatal-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 167</span>
-167:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fatal</span>(<span class="ruby-identifier">a</span>)
-168:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
-169:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-identifier">a</span>)
-170:       <span class="ruby-identifier">send_mail</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:send_mail</span>]
-171:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 168</span>
+168:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fatal</span>(<span class="ruby-identifier">a</span>)
+169:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
+170:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">fatal</span>(<span class="ruby-identifier">a</span>)
+171:       <span class="ruby-identifier">send_mail</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:send_mail</span>]
+172:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -648,11 +645,11 @@ then do nothing.
 					<div class="method-source-code"
 						id="info-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 184</span>
-184:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">info</span>(<span class="ruby-identifier">a</span>)
-185:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">info</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
-186:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">info</span>(<span class="ruby-identifier">a</span>)
-187:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 185</span>
+185:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">info</span>(<span class="ruby-identifier">a</span>)
+186:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">info</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
+187:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">info</span>(<span class="ruby-identifier">a</span>)
+188:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -717,11 +714,11 @@ Get Option
 					<div class="method-source-code"
 						id="warn-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 179</span>
-179:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">warn</span>(<span class="ruby-identifier">a</span>)
-180:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
-181:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-identifier">a</span>)
-182:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 180</span>
+180:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">warn</span>(<span class="ruby-identifier">a</span>)
+181:       <span class="ruby-ivar">@stdout_log</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-identifier">a</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:stdout</span>]
+182:       <span class="ruby-ivar">@log</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-identifier">a</span>)
+183:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -760,13 +757,13 @@ send mail
 					<div class="method-source-code"
 						id="send-mail-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 224</span>
-224:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_mail</span>(<span class="ruby-identifier">msg</span>)
-225:       <span class="ruby-identifier">body</span> = <span class="ruby-value str">From: &lt;#{@opt[:mail_from]}&gt;To: &lt;#{@opt[:mail_to]}&gt;Subject: [RBatch] #{RBatch.program_name} has errorDate: #{Time::now.strftime(&quot;%a, %d %b %Y %X %z&quot;)}Mime-Version: 1.0Content-Type: text/plain; charset=ISO-2022-JPContent-Transfer-Encoding: 7bit#{msg}</span>
-226:       <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SMTP</span>.<span class="ruby-identifier">start</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:mail_server_host</span>],<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:mail_server_port</span>] ) {<span class="ruby-operator">|</span><span class="ruby-identifier">smtp</span><span class="ruby-operator">|</span>
-227:         <span class="ruby-identifier">smtp</span>.<span class="ruby-identifier">send_mail</span>(<span class="ruby-identifier">body</span>,<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:mail_from</span>],<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:mail_to</span>])
-228:       }
-229:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/log.rb, line 225</span>
+225:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">send_mail</span>(<span class="ruby-identifier">msg</span>)
+226:       <span class="ruby-identifier">body</span> = <span class="ruby-value str">From: &lt;#{@opt[:mail_from]}&gt;To: &lt;#{@opt[:mail_to]}&gt;Subject: [RBatch] #{RBatch.program_name} has errorDate: #{Time::now.strftime(&quot;%a, %d %b %Y %X %z&quot;)}Mime-Version: 1.0Content-Type: text/plain; charset=ISO-2022-JPContent-Transfer-Encoding: 7bit#{msg}</span>
+227:       <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SMTP</span>.<span class="ruby-identifier">start</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:mail_server_host</span>],<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:mail_server_port</span>] ) {<span class="ruby-operator">|</span><span class="ruby-identifier">smtp</span><span class="ruby-operator">|</span>
+228:         <span class="ruby-identifier">smtp</span>.<span class="ruby-identifier">send_mail</span>(<span class="ruby-identifier">body</span>,<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:mail_from</span>],<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:mail_to</span>])
+229:       }
+230:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
