@@ -1,65 +1,66 @@
------
-initial
+CHANGE LOG
 
-1.1.0(2012/11/9)
+This document includes functions which is added or changed, does not include bugfix.
+About bugfix, see commit log of https://github.com/fetaro/rbatch .
+
+1.0
 -----
-* make common config file
+* initial
+
+1.1 (2012/11/9)
+-----
+* add common config file
 * change log option
 
-1.2.0(2012/11/13)
+1.2 (2012/11/13)
 -----
 * change log level option format
-* make log append option
+* add log append option
 
-1.3.0(2012/12/30)
+1.3 (2012/12/30)
 -----
 * add RBatch::Log to instance interface
 * add double run check option
 
-1.4.0(2013/1/5)
+1.4 (2013/1/5)
 ----
 * add log_stdout option
 * add sample code
 * add cmd_raise option
 * add log_delete_old_log option
 
-1.5.0(2013/1/11)
+1.5 (2013/1/11)
 ----
 * change default config dir "../config" -> "../conf"
 
-1.6.0(2013/1/14)
+1.6 (2013/1/14)
 ----
 * add config key check
 
-1.7.0(2013/01/30)
+1.7 (2013/01/30)
 ----
 * change log format
 * delete change log format option
 
-1.8.0(2013/02/10)
+1.8 (2013/02/10)
 ----
 * add log_send_mail option
 * add cmd_timeout option
 
-1.9.0(2013/02/11)
+1.9 (2013/02/11)
 ----
 * add "<host>" keyword to log_name option
-* Environmental variables ($TMPDIR and $HOSTNAME) are checked strictly 
+* change Environmental variables ($TMPDIR and $HOSTNAME) are checked strictly 
 
-1.10.0(2013/02/12)
+1.10 (2013/02/12)
 ----
 * add rbatch-init command
 
-1.11.0(2013/02/24)
+1.11 (2013/02/24)
 ----
-* support MAC environment (change handling of the environment variable about hostname and temporary directory)
+* add support for MAC-OSX environment (change handling of the environment variable about hostname and temporary directory)
 
-1.12.0(2013/11/19)
+1.12 (2013/11/19)
 ----
 * add Common Config Function
-* document enhance
-
-1.12.1(2013/11/21)
-----
-* bug fix. Before, RBatch::Log block only rescue the exception which is extended StandardError (not Exception). Now fix it.
 

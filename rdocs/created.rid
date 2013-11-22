@@ -1,6 +1,6 @@
-Sat, 23 Nov 2013 01:54:03 +0900
+Sat, 23 Nov 2013 02:26:24 +0900
 lib/rbatch/config.rb	Thu, 14 Nov 2013 10:40:28 +0900
-lib/rbatch/version.rb	Thu, 21 Nov 2013 16:54:18 +0900
+lib/rbatch/version.rb	Sat, 23 Nov 2013 02:24:25 +0900
 lib/rbatch/cmd.rb	Fri, 15 Nov 2013 09:26:12 +0900
 lib/rbatch/common_config.rb	Fri, 15 Nov 2013 15:16:25 +0900
 lib/rbatch/log.rb	Thu, 21 Nov 2013 16:48:37 +0900
