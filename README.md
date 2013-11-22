@@ -5,7 +5,7 @@ RBatch:Ruby-base Simple Batch Framework
 
 About RBatch
 --------------
-This is Ruby-base Batch Script Framework. RBatch offers convenient functions, when you write batch scripts such as "data backup script" or "proccess starting script".
+This is Ruby-base Batch Script Framework. RBatch has many fanctions to help with your making a batch script such as "data backup script" or "proccess starting script".
 
 There are following functions. 
 
@@ -17,6 +17,8 @@ There are following functions.
 
 
 Note: RBatch works on Ruby 1.9.x or later, and on Ruby platform of "linux","mswin","mingw","cygwin".
+
+Note: This software is released under the MIT License, see LICENSE.txt.
 
 ### First
 
