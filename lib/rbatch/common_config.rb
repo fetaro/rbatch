@@ -8,7 +8,9 @@ module RBatch
   # Alias of RBatch::CommonConfig.new
   def common_config ; CommonConfig.new end
 
-  # Read common config file and return hash opject.
+  # Common-config Reader
+  #
+  # Read common config file and return hash opject. If the key does not exist in config file, raise RBatch::CommonConfig::Exception.
   #
   # Default common config file path is "../conf/common.yaml"
   # ==== Sample

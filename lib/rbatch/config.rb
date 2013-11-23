@@ -8,9 +8,11 @@ module RBatch
   # Alias of RBatch::Config.new
   def config ; Config.new end
 
-  # Read config file and return hash opject.
+  # Config Reader
+  #
+  # Read config file and return hash opject. If the key does not exist in config file, raise RBatch::Config::Exception.
   # 
-  # Default config file path is "../conf/(Program Base name).yaml"
+  # Default config file path is "../conf/(base-name of Program file).yaml"
   # ==== Sample
   # config : ./conf/sample2.yaml
   #  key: value
