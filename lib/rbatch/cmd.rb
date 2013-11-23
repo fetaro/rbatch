@@ -4,12 +4,14 @@ require 'tempfile'
 module RBatch
 
   # External command runcher.
-  # 
-  # * Input cmd_params into Kernel#spawn.
-  # * Write command's stdout and stderr to tmp file.
+  #
+  #This module is a wrapper of Kernel#spawn.
+  #
+  # * Arguments(cmd_params) are inputed to Kernel#spawn directly and run command.
+  # * Command's stdout and stderr is written to tmp file.
   #  * If Platform is "mswin" or "mingw" , then temp directory is ENV["TEMP"]
   #  * If Platform is "linux" or "cygwin" , then temp directory is "/tmp/"
-  # * Return hash object including stdout, stderr, and exit status.
+  # * Return an object of RBatch::CmdResult which includes stdout, stderr, and exit status.
   #
   # ==== Sample 1
   #  require 'rbatch'
