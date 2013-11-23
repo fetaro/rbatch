@@ -24,8 +24,8 @@ task :test do
     puts "\nTest Success \n"
   else
     puts "\nTest Failed \n"
+    exit 1
   end
-  exit result
 end
 
 Rake::RDocTask.new do |rd|
@@ -33,3 +33,6 @@ Rake::RDocTask.new do |rd|
   rd.rdoc_files = FileList["lib/**/*.rb"]
   rd.options << '-charset=UTF-8 '
 end
+
+desc "Test, Make RDoc, Release"
+task :all => [:test, :rdoc, :release]
