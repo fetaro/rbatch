@@ -6,11 +6,11 @@ require 'net/smtp'
 module RBatch
   #=== About RBatch::Log
   #
-  #Use Auto Logging block, RBatch automatically write to logfile.
+  #By using Logging block, RBatch writes to logfile automatically.
   #
-  #Log file default location is "../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
+  #The default location of log file is "../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
   #
-  #If exception occuerd, then RBatch write stack trace to logfile.
+  #If an exception occuerd, then RBatch writes back trace to logfile.
   #
   #=== Sample
   #
@@ -76,16 +76,16 @@ module RBatch
     # Get Option
     def opt; @opt ; end
 
-    # Auto Logging Block.
+    # Logging Block.
     # 
     # ==== Params
-    # +opt+ = Option hash object. Hash keys is follows.
-    # - +:name+ (String) = log file name. Default is "<date>_<time>_<prog>.log".Reservation words are "<date>","<time>","<prog>","<host>".
-    # - +:dir+ (String) = log direcotry path. Default is "../log"
-    # - +:level+ (String) = log level. ["debug"|"info"|"warn"|"error"|"fatal"] . Default is "info".
+    # +opt+ = Option hash object.
+    # - +:name+ (String) = name of log file. Default is "<date>_<time>_<prog>.log". Reservation-words are "<date>","<time>","<prog>","<host>". "<date>" is replaced YYYYMMDD. "<time>" is replaced HHMMSS. "<prog>" is replaced a base-name of program file.
+    # - +:dir+ (String) = log direcotry. Default is "../log"
+    # - +:level+ (String) = log level. Default is "info". ["debug"|"info"|"warn"|"error"|"fatal"] .
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
-    # - +:stdout+ (Boolean) = print string both logfile and STDOUT. Default is false.
-    # - +:quiet+ (Boolean) = run quiet mode. print STDOUT nothing.  Default is true.
+    # - +:stdout+ (Boolean) = output both the log file and STDOUT. Default is false.
+    # - +:quiet+ (Boolean) = output only logfile, don't output to STDOUT.  Default is true.
     # ==== Block params
     # +log+ = Instance of +Logger+
     # ==== Sample
