@@ -120,8 +120,6 @@
 				
 					<li><a href="../RBatchException.html">RBatchException</a></li>
 				
-					<li><a href="../Rbatch.html">Rbatch</a></li>
-				
 				</ul>
 				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
 			</div>
@@ -134,48 +132,35 @@
 		<h1 class="class">RBatch::Cmd</h1>
 
 		<div id="description">
-			<p>
-External command runcher.
-</p>
-<ul>
-<li><p>
-Input cmd_params into Kernel#spawn.
-</p>
-</li>
-<li><p>
-Write command&#8217;s stdout and stderr to tmp file.
-</p>
-</li>
-</ul>
-<pre>
- * If Platform is &quot;mswin&quot; or &quot;mingw&quot; , then temp directory is ENV[&quot;TEMP&quot;]
- * If Platform is &quot;linux&quot; or &quot;cygwin&quot; , then temp directory is &quot;/tmp/&quot;
+			<pre>
+ External command runcher.
 </pre>
-<ul>
-<li><p>
-Return hash object including stdout, stderr, and exit status.
+<p>
+This module is a wrapper of Kernel#spawn.
 </p>
-</li>
-</ul>
-<h4>Sample 1</h4>
 <pre>
- require 'rbatch'
- cmd = RBatch::Cmd(&quot;ls&quot;)
- r = cmd.run
- p r.stdout
- =&gt; &quot;fileA\nfileB\n&quot;
-</pre>
-<h4>Sample 2 ( Use option)</h4>
-<pre>
- cmd = RBatch::Cmd(&quot;ls&quot;, {:verbose =&gt; true})
- r = cmd.run
-</pre>
-<h4>Sample 3 ( Use alias)</h4>
-<pre>
- require 'rbatch'
- r = RBatch::cmd(&quot;ls&quot;)
- p r.stdout
- =&gt; &quot;fileA\nfileB\n&quot;</pre>
+ * Arguments(cmd_params) are inputed to Kernel#spawn directly and run command.
+ * Command's stdout and stderr is written to tmp file.
+  * If Platform is &quot;mswin&quot; or &quot;mingw&quot; , then temp directory is ENV[&quot;TEMP&quot;]
+  * If Platform is &quot;linux&quot; or &quot;cygwin&quot; , then temp directory is &quot;/tmp/&quot;
+ * Return an object of RBatch::CmdResult which includes stdout, stderr, and exit status.
+
+ ==== Sample 1
+  require 'rbatch'
+  cmd = RBatch::Cmd(&quot;ls&quot;)
+  r = cmd.run
+  p r.stdout
+  =&gt; &quot;fileA\nfileB\n&quot;
+
+ ==== Sample 2 ( Use option)
+  cmd = RBatch::Cmd(&quot;ls&quot;, {:verbose =&gt; true})
+  r = cmd.run
+
+ ==== Sample 3 ( Use alias)
+  require 'rbatch'
+  r = RBatch::cmd(&quot;ls&quot;)
+  p r.stdout
+  =&gt; &quot;fileA\nfileB\n&quot;</pre>
 
 		</div>
 
@@ -230,24 +215,24 @@ is 0 sec ( 0 means disable) .
 					<div class="method-source-code"
 						id="new-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 46</span>
-46:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">cmd_str</span>,<span class="ruby-identifier">opt</span> = <span class="ruby-keyword kw">nil</span>)
-47:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-value str">&quot;Command string is nil&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cmd_str</span>.<span class="ruby-identifier">nil?</span>
-48:       <span class="ruby-ivar">@cmd_str</span> = <span class="ruby-identifier">cmd_str</span>
-49:       <span class="ruby-comment cmt"># parse option</span>
-50:       <span class="ruby-ivar">@opt</span> = <span class="ruby-identifier">@@def_opt</span>.<span class="ruby-identifier">clone</span>
-51:       <span class="ruby-identifier">@@def_opt</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
-52:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opt</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>  <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opt</span>[<span class="ruby-identifier">key</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
-53:           <span class="ruby-comment cmt"># use argument</span>
-54:           <span class="ruby-ivar">@opt</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">opt</span>[<span class="ruby-identifier">key</span>]
-55:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>            <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config</span>[<span class="ruby-value str">&quot;cmd_&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
-56:           <span class="ruby-comment cmt"># use config</span>
-57:           <span class="ruby-ivar">@opt</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config</span>[<span class="ruby-value str">&quot;cmd_&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>]
-58:         <span class="ruby-keyword kw">else</span>
-59:           <span class="ruby-comment cmt"># use default</span>
-60:         <span class="ruby-keyword kw">end</span>
-61:       <span class="ruby-keyword kw">end</span>
-62:     <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 48</span>
+48:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">cmd_str</span>,<span class="ruby-identifier">opt</span> = <span class="ruby-keyword kw">nil</span>)
+49:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-value str">&quot;Command string is nil&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cmd_str</span>.<span class="ruby-identifier">nil?</span>
+50:       <span class="ruby-ivar">@cmd_str</span> = <span class="ruby-identifier">cmd_str</span>
+51:       <span class="ruby-comment cmt"># parse option</span>
+52:       <span class="ruby-ivar">@opt</span> = <span class="ruby-identifier">@@def_opt</span>.<span class="ruby-identifier">clone</span>
+53:       <span class="ruby-identifier">@@def_opt</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+54:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opt</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>  <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opt</span>[<span class="ruby-identifier">key</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+55:           <span class="ruby-comment cmt"># use argument</span>
+56:           <span class="ruby-ivar">@opt</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">opt</span>[<span class="ruby-identifier">key</span>]
+57:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>            <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config</span>[<span class="ruby-value str">&quot;cmd_&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+58:           <span class="ruby-comment cmt"># use config</span>
+59:           <span class="ruby-ivar">@opt</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config</span>[<span class="ruby-value str">&quot;cmd_&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>]
+60:         <span class="ruby-keyword kw">else</span>
+61:           <span class="ruby-comment cmt"># use default</span>
+62:         <span class="ruby-keyword kw">end</span>
+63:       <span class="ruby-keyword kw">end</span>
+64:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -290,28 +275,28 @@ instance of <a href="CmdResult.html">RBatch::CmdResult</a>
 					<div class="method-source-code"
 						id="run-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 69</span>
-69:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run</span>()
-70:       <span class="ruby-identifier">stdout_file</span> = <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;rbatch_tmpout&quot;</span>,<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>)
-71:       <span class="ruby-identifier">stderr_file</span> = <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;rbatch_tmperr&quot;</span>,<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>)
-72:       <span class="ruby-identifier">pid</span> = <span class="ruby-identifier">spawn</span>(<span class="ruby-ivar">@cmd_str</span>,<span class="ruby-value">:out</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">stdout_file</span>,<span class="ruby-value str">&quot;w&quot;</span>],<span class="ruby-value">:err</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">stderr_file</span>,<span class="ruby-value str">&quot;w&quot;</span>])
-73:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:timeout</span>] <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
-74:         <span class="ruby-identifier">timeout</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:timeout</span>]) <span class="ruby-keyword kw">do</span>
-75:           <span class="ruby-keyword kw">begin</span>
-76:             <span class="ruby-identifier">status</span> =  <span class="ruby-constant">Process</span>.<span class="ruby-identifier">waitpid2</span>(<span class="ruby-identifier">pid</span>)[<span class="ruby-value">1</span>] <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">8</span>
-77:           <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Timeout</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
-78:             <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-value str">&quot;Command timeout (over &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:timeout</span>] <span class="ruby-operator">+</span> <span class="ruby-value str">&quot; sec)&quot;</span> )
-79:           <span class="ruby-keyword kw">end</span>
-80:         <span class="ruby-keyword kw">end</span>
-81:       <span class="ruby-keyword kw">else</span>
-82:         <span class="ruby-identifier">status</span> =  <span class="ruby-constant">Process</span>.<span class="ruby-identifier">waitpid2</span>(<span class="ruby-identifier">pid</span>)[<span class="ruby-value">1</span>] <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">8</span>
-83:       <span class="ruby-keyword kw">end</span>
-84:       <span class="ruby-identifier">result</span> = <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">CmdResult</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">stdout_file</span>,<span class="ruby-identifier">stderr_file</span>,<span class="ruby-identifier">status</span>,<span class="ruby-ivar">@cmd_str</span>)
-85:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:raise</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
-86:         <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-value str">&quot;Command exit status is not 0. result: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">to_s</span>)
-87:       <span class="ruby-keyword kw">end</span>
-88:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">result</span>
-89:     <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 71</span>
+71:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run</span>()
+72:       <span class="ruby-identifier">stdout_file</span> = <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;rbatch_tmpout&quot;</span>,<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>)
+73:       <span class="ruby-identifier">stderr_file</span> = <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;rbatch_tmperr&quot;</span>,<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>)
+74:       <span class="ruby-identifier">pid</span> = <span class="ruby-identifier">spawn</span>(<span class="ruby-ivar">@cmd_str</span>,<span class="ruby-value">:out</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">stdout_file</span>,<span class="ruby-value str">&quot;w&quot;</span>],<span class="ruby-value">:err</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">stderr_file</span>,<span class="ruby-value str">&quot;w&quot;</span>])
+75:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:timeout</span>] <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+76:         <span class="ruby-identifier">timeout</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:timeout</span>]) <span class="ruby-keyword kw">do</span>
+77:           <span class="ruby-keyword kw">begin</span>
+78:             <span class="ruby-identifier">status</span> =  <span class="ruby-constant">Process</span>.<span class="ruby-identifier">waitpid2</span>(<span class="ruby-identifier">pid</span>)[<span class="ruby-value">1</span>] <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">8</span>
+79:           <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Timeout</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+80:             <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-value str">&quot;Command timeout (over &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:timeout</span>] <span class="ruby-operator">+</span> <span class="ruby-value str">&quot; sec)&quot;</span> )
+81:           <span class="ruby-keyword kw">end</span>
+82:         <span class="ruby-keyword kw">end</span>
+83:       <span class="ruby-keyword kw">else</span>
+84:         <span class="ruby-identifier">status</span> =  <span class="ruby-constant">Process</span>.<span class="ruby-identifier">waitpid2</span>(<span class="ruby-identifier">pid</span>)[<span class="ruby-value">1</span>] <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">8</span>
+85:       <span class="ruby-keyword kw">end</span>
+86:       <span class="ruby-identifier">result</span> = <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">CmdResult</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">stdout_file</span>,<span class="ruby-identifier">stderr_file</span>,<span class="ruby-identifier">status</span>,<span class="ruby-ivar">@cmd_str</span>)
+87:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:raise</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+88:         <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-value str">&quot;Command exit status is not 0. result: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">to_s</span>)
+89:       <span class="ruby-keyword kw">end</span>
+90:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">result</span>
+91:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>

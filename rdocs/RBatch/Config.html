@@ -133,8 +133,6 @@
 				
 					<li><a href="../RBatchException.html">RBatchException</a></li>
 				
-					<li><a href="../Rbatch.html">Rbatch</a></li>
-				
 				</ul>
 				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
 			</div>
@@ -148,10 +146,16 @@
 
 		<div id="description">
 			<p>
-Read config file and return hash opject.
+<a href="Config.html">Config</a> Reader
 </p>
 <p>
-Default config file path is &#8220;../conf/(Program Base name).yaml&#8220;
+Read config file and return hash opject. If the key does not exist in
+config file, raise <a
+href="Config/Exception.html">RBatch::Config::Exception</a>.
+</p>
+<p>
+Default config file path is &#8220;../conf/(base-name of Program
+file).yaml&#8220;
 </p>
 <h4>Sample</h4>
 <p>
@@ -207,13 +211,13 @@ script : ./bin/sample2.rb
 					<div class="method-source-code"
 						id="new-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 29</span>
-29:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>
-30:       <span class="ruby-identifier">file</span> = <span class="ruby-constant">Pathname</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>)).<span class="ruby-identifier">sub_ext</span>(<span class="ruby-value str">&quot;.yaml&quot;</span>).<span class="ruby-identifier">to_s</span>
-31:       <span class="ruby-identifier">dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>),<span class="ruby-value str">&quot;conf&quot;</span>)
-32:       <span class="ruby-ivar">@path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>,<span class="ruby-identifier">file</span>)
-33:       <span class="ruby-ivar">@config</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-ivar">@path</span>)
-34:     <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 31</span>
+31:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>
+32:       <span class="ruby-identifier">file</span> = <span class="ruby-constant">Pathname</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>)).<span class="ruby-identifier">sub_ext</span>(<span class="ruby-value str">&quot;.yaml&quot;</span>).<span class="ruby-identifier">to_s</span>
+33:       <span class="ruby-identifier">dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>),<span class="ruby-value str">&quot;conf&quot;</span>)
+34:       <span class="ruby-ivar">@path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>,<span class="ruby-identifier">file</span>)
+35:       <span class="ruby-ivar">@config</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-ivar">@path</span>)
+36:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -250,11 +254,11 @@ script : ./bin/sample2.rb
 					<div class="method-source-code"
 						id="--source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 35</span>
-35:     <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]</span>(<span class="ruby-identifier">key</span>)
-36:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span><span class="ruby-operator">::</span><span class="ruby-constant">Exception</span>, <span class="ruby-node">&quot;Value of key=\&quot;#{key}\&quot; is nil&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@config</span>[<span class="ruby-identifier">key</span>].<span class="ruby-identifier">nil?</span>
-37:       <span class="ruby-ivar">@config</span>[<span class="ruby-identifier">key</span>]
-38:     <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 37</span>
+37:     <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]</span>(<span class="ruby-identifier">key</span>)
+38:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span><span class="ruby-operator">::</span><span class="ruby-constant">Exception</span>, <span class="ruby-node">&quot;Value of key=\&quot;#{key}\&quot; is nil&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@config</span>[<span class="ruby-identifier">key</span>].<span class="ruby-identifier">nil?</span>
+39:       <span class="ruby-ivar">@config</span>[<span class="ruby-identifier">key</span>]
+40:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -285,8 +289,8 @@ script : ./bin/sample2.rb
 					<div class="method-source-code"
 						id="path-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 39</span>
-39:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">path</span> ; <span class="ruby-ivar">@path</span> ; <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 41</span>
+41:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">path</span> ; <span class="ruby-ivar">@path</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -317,8 +321,8 @@ script : ./bin/sample2.rb
 					<div class="method-source-code"
 						id="to-s-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 40</span>
-40:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span> ; <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">to_s</span> ;<span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 42</span>
+42:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span> ; <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">to_s</span> ;<span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>

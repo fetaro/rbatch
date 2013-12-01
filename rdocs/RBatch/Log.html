@@ -140,8 +140,6 @@
 				
 					<li><a href="../RBatchException.html">RBatchException</a></li>
 				
-					<li><a href="../Rbatch.html">Rbatch</a></li>
-				
 				</ul>
 				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
 			</div>
@@ -156,16 +154,16 @@
 		<div id="description">
 			<h3>About <a href="Log.html">RBatch::Log</a></h3>
 <p>
-Use Auto Logging block, <a href="../RBatch.html">RBatch</a> automatically
-write to logfile.
+By using Logging block, <a href="../RBatch.html">RBatch</a> writes to
+logfile automatically.
 </p>
 <p>
-<a href="Log.html">Log</a> file default location is
+The default location of log file is
 &#8220;../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log&#8221; .
 </p>
 <p>
-If exception occuerd, then <a href="../RBatch.html">RBatch</a> write stack
-trace to logfile.
+If an exception occuerd, then <a href="../RBatch.html">RBatch</a> writes
+back trace to logfile.
 </p>
 <h3>Sample</h3>
 <p>
@@ -221,28 +219,29 @@ logfile : ./log/20121020_005953_sample1.log
 				<div class="method-description">
 					
 					<p>
-Auto Logging Block.
+Logging Block.
 </p>
 <h4>Params</h4>
 <p>
-<tt>opt</tt> = Option hash object. Hash keys is follows.
+<tt>opt</tt> = Option hash object.
 </p>
 <ul>
 <li><p>
-<tt>:name</tt> (String) = log file name. Default is
-&#8220;<date>_<time>_<prog>.log&#8221;.Reservation words are
+<tt>:name</tt> (String) = name of log file. Default is
+&#8220;<date>_<time>_<prog>.log&#8221;. Reservation-words are
 &#8220;<date>&#8221;,&#8221;<time>&#8221;,&#8221;<prog>&#8221;,&#8221;<host>&#8221;.
+&#8220;<date>&#8221; is replaced YYYYMMDD. &#8220;<time>&#8221; is replaced
+HHMMSS. &#8220;<prog>&#8221; is replaced a base-name of program file.
 </p>
 </li>
 <li><p>
-<tt>:dir</tt> (String) = log direcotry path. Default is
-&#8220;../log&#8220;
+<tt>:dir</tt> (String) = log direcotry. Default is &#8220;../log&#8220;
 </p>
 </li>
 <li><p>
-<tt>:level</tt> (String) = log level.
+<tt>:level</tt> (String) = log level. Default is &#8220;info&#8221;.
 [&#8220;debug&#8221;|&#8220;info&#8221;|&#8220;warn&#8221;|&#8220;error&#8221;|&#8220;fatal&#8221;]
-. Default is &#8220;info&#8221;.
+.
 </p>
 </li>
 <li><p>
@@ -251,13 +250,13 @@ ture.
 </p>
 </li>
 <li><p>
-<tt>:stdout</tt> (Boolean) = print string both logfile and STDOUT. Default
+<tt>:stdout</tt> (Boolean) = output both the log file and STDOUT. Default
 is false.
 </p>
 </li>
 <li><p>
-<tt>:quiet</tt> (Boolean) = run quiet mode. print STDOUT nothing.  Default
-is true.
+<tt>:quiet</tt> (Boolean) = output only logfile, don&#8217;t output to
+STDOUT.  Default is true.
 </p>
 </li>
 </ul>
