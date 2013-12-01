@@ -5,7 +5,7 @@ require 'rbatch/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "rbatch"
-  gem.version       = Rbatch::VERSION
+  gem.version       = RBatch::VERSION
   gem.authors       = ["fetaro"]
   gem.email         = ["fetaro@gmail.com"]
   gem.description   = "RBatch has many fanctions to help with your making a batch script such as \"data backup script\" or \"proccess starting script\"."
