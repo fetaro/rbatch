@@ -8,13 +8,13 @@ module RBatch
   #
   #By using Logging block, RBatch writes to logfile automatically.
   #
-  #The default location of log file is "../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log" .
+  #The default location of log file is "${RB_HOME}/log/YYYYMMDD_HHMMSS_(program base name).log" .
   #
   #If an exception occuerd, then RBatch writes back trace to logfile.
   #
   #=== Sample
   #
-  #script : ./bin/sample1.rb
+  #script : ${RB_HOME}/bin/sample1.rb
   #
   # require 'rbatch'
   # 
@@ -25,7 +25,7 @@ module RBatch
   # }
   #
   #
-  #logfile : ./log/20121020_005953_sample1.log
+  #logfile : ${RB_HOME}/log/20121020_005953_sample1.log
   #
   # [2012-10-20 00:59:53 +900] [INFO ] info string
   # [2012-10-20 00:59:53 +900] [ERROR] error string
@@ -40,7 +40,7 @@ module RBatch
     @@verbose = false
     @@def_opt = {
       :name      => "<date>_<time>_<prog>.log",
-      :dir       => File.join(File.dirname(RBatch.program_name), ".." , "log"),
+      :dir       => File.join(RBatch::home_dir , "log"),
       :append    => true,
       :level     => "info",
       :stdout    => false,
@@ -81,7 +81,7 @@ module RBatch
     # ==== Params
     # +opt+ = Option hash object.
     # - +:name+ (String) = name of log file. Default is "<date>_<time>_<prog>.log". Reservation-words are "<date>","<time>","<prog>","<host>". "<date>" is replaced YYYYMMDD. "<time>" is replaced HHMMSS. "<prog>" is replaced a base-name of program file.
-    # - +:dir+ (String) = log direcotry. Default is "../log"
+    # - +:dir+ (String) = log direcotry. Default is "${RB_HOME}/log"
     # - +:level+ (String) = log level. Default is "info". ["debug"|"info"|"warn"|"error"|"fatal"] .
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
     # - +:stdout+ (Boolean) = output both the log file and STDOUT. Default is false.

@@ -12,15 +12,15 @@ module RBatch
   #
   # Read common config file and return hash opject. If the key does not exist in config file, raise RBatch::CommonConfig::Exception.
   #
-  # Default common config file path is "../conf/common.yaml"
+  # Default common config file path is "${RB_HOME}/conf/common.yaml"
   # ==== Sample
-  # config : ./conf/common.yaml
+  # config : ${RB_HOME}/conf/common.yaml
   #  key: value
   #  array:
   #   - item1
   #   - item2
   #   - item3
-  # script : ./bin/sample.rb
+  # script : ${RB_HOME}/bin/sample.rb
   #  require 'rbatch'
   #  p RBatch::common_config
   #  => {"key" => "value", "array" => ["item1", "item2", "item3"]}
@@ -29,7 +29,7 @@ module RBatch
     @config
     def initialize
       file = "common.yaml"
-      dir = File.join(File.join(File.dirname(RBatch.program_name),".."),"conf")
+      dir = File.join(RBatch::home_dir,"conf")
       @path = File.join(dir,file)
       @config = YAML::load_file(@path)
     end

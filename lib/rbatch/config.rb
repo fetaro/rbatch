@@ -12,15 +12,15 @@ module RBatch
   #
   # Read config file and return hash opject. If the key does not exist in config file, raise RBatch::Config::Exception.
   # 
-  # Default config file path is "../conf/(base-name of Program file).yaml"
+  # Default config file path is "${RB_HOME}/conf/(program base name).yaml"
   # ==== Sample
-  # config : ./conf/sample2.yaml
+  # config : ${RB_HOME}/conf/sample2.yaml
   #  key: value
   #  array:
   #   - item1
   #   - item2
   #   - item3
-  # script : ./bin/sample2.rb
+  # script : ${RB_HOME}/bin/sample2.rb
   #  require 'rbatch'
   #  p RBatch::Config.new
   #  # or  p RBatch::config
@@ -30,7 +30,7 @@ module RBatch
     @config
     def initialize
       file = Pathname(File.basename(RBatch.program_name)).sub_ext(".yaml").to_s
-      dir = File.join(File.join(File.dirname(RBatch.program_name),".."),"conf")
+      dir = File.join(RBatch::home_dir,"conf")
       @path = File.join(dir,file)
       @config = YAML::load_file(@path)
     end
