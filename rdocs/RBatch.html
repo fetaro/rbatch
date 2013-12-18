@@ -106,6 +106,10 @@
 					
 					<li><a href="#method-i-double_run_lock_file">#double_run_lock_file</a></li>
 					
+					<li><a href="#method-i-home_dir">#home_dir</a></li>
+					
+					<li><a href="#method-i-home_dir%3D">#home_dir=</a></li>
+					
 					<li><a href="#method-i-hostname">#hostname</a></li>
 					
 					<li><a href="#method-i-program_name">#program_name</a></li>
@@ -328,22 +332,22 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="double-run-check-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 54</span>
-54:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">double_run_check</span>
-55:     <span class="ruby-comment cmt"># double run check</span>
-56:     <span class="ruby-keyword kw">if</span> ( <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">rbatch_config</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">rbatch_config</span>[<span class="ruby-value str">&quot;forbid_double_run&quot;</span>] )
-57:       <span class="ruby-identifier">lock_file</span>=<span class="ruby-value str">&quot;rbatch_lock_&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">@@program_name</span>)
-58:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>
-59:         <span class="ruby-constant">Dir</span><span class="ruby-operator">::</span><span class="ruby-identifier">foreach</span>(<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
-60:           <span class="ruby-keyword kw">if</span> (<span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">lock_file</span>) <span class="ruby-operator">=~</span> <span class="ruby-identifier">f</span>)
-61:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatchException</span>, <span class="ruby-node">&quot;Script double run is forbid about \&quot;#{RBatch::program_name}\&quot;&quot;</span>
-62:           <span class="ruby-keyword kw">end</span>
-63:         <span class="ruby-keyword kw">end</span>
-64:       <span class="ruby-keyword kw">end</span>
-65:       <span class="ruby-comment cmt"># make lockfile</span>
-66:       <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-identifier">lock_file</span>,<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>)
-67:     <span class="ruby-keyword kw">end</span>
-68:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 58</span>
+58:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">double_run_check</span>
+59:     <span class="ruby-comment cmt"># double run check</span>
+60:     <span class="ruby-keyword kw">if</span> ( <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">rbatch_config</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">rbatch_config</span>[<span class="ruby-value str">&quot;forbid_double_run&quot;</span>] )
+61:       <span class="ruby-identifier">lock_file</span>=<span class="ruby-value str">&quot;rbatch_lock_&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">@@program_name</span>)
+62:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>
+63:         <span class="ruby-constant">Dir</span><span class="ruby-operator">::</span><span class="ruby-identifier">foreach</span>(<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+64:           <span class="ruby-keyword kw">if</span> (<span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">lock_file</span>) <span class="ruby-operator">=~</span> <span class="ruby-identifier">f</span>)
+65:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatchException</span>, <span class="ruby-node">&quot;Script double run is forbid about \&quot;#{RBatch::program_name}\&quot;&quot;</span>
+66:           <span class="ruby-keyword kw">end</span>
+67:         <span class="ruby-keyword kw">end</span>
+68:       <span class="ruby-keyword kw">end</span>
+69:       <span class="ruby-comment cmt"># make lockfile</span>
+70:       <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-identifier">lock_file</span>,<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">tmp_dir</span>)
+71:     <span class="ruby-keyword kw">end</span>
+72:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -374,8 +378,72 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="double-run-lock-file-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 70</span>
-70:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">double_run_lock_file</span> ;  ; <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 74</span>
+74:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">double_run_lock_file</span> ;  ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="home-dir-method" class="method-detail ">
+				<a name="method-i-home_dir"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">home_dir</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="home-dir-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 10</span>
+10:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">home_dir</span> ; <span class="ruby-identifier">@@home_dir</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="home-dir--method" class="method-detail ">
+				<a name="method-i-home_dir%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">home_dir=</span><span
+						class="method-args">(d)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="home-dir--source">
+<pre>
+   <span class="ruby-comment cmt"># File lib/rbatch.rb, line 9</span>
+9:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">home_dir=</span>(<span class="ruby-identifier">d</span>) ; <span class="ruby-identifier">@@home_dir</span> = <span class="ruby-identifier">d</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -408,17 +476,17 @@ Hostname
 					<div class="method-source-code"
 						id="hostname-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 9</span>
- 9:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">hostname</span>
-10:     <span class="ruby-keyword kw">case</span> <span class="ruby-constant">RUBY_PLATFORM</span>
-11:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/mswin|mingw/</span>
-12:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;COMPUTERNAME&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;COMPUTERNAME&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;unknownhost&quot;</span>
-13:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/cygwin|linux/</span>
-14:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;HOSTNAME&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;HOSTNAME&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;unknownhost&quot;</span>
-15:     <span class="ruby-keyword kw">else</span>
-16:       <span class="ruby-keyword kw">return</span> <span class="ruby-value str">&quot;unknownhost&quot;</span>
-17:     <span class="ruby-keyword kw">end</span>
-18:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 13</span>
+13:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">hostname</span>
+14:     <span class="ruby-keyword kw">case</span> <span class="ruby-constant">RUBY_PLATFORM</span>
+15:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/mswin|mingw/</span>
+16:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;COMPUTERNAME&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;COMPUTERNAME&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;unknownhost&quot;</span>
+17:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/cygwin|linux/</span>
+18:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;HOSTNAME&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;HOSTNAME&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;unknownhost&quot;</span>
+19:     <span class="ruby-keyword kw">else</span>
+20:       <span class="ruby-keyword kw">return</span> <span class="ruby-value str">&quot;unknownhost&quot;</span>
+21:     <span class="ruby-keyword kw">end</span>
+22:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -449,8 +517,8 @@ Hostname
 					<div class="method-source-code"
 						id="program-name-source">
 <pre>
-   <span class="ruby-comment cmt"># File lib/rbatch.rb, line 7</span>
-7:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_name</span> ; <span class="ruby-identifier">@@program_name</span> ; <span class="ruby-keyword kw">end</span></pre>
+   <span class="ruby-comment cmt"># File lib/rbatch.rb, line 8</span>
+8:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_name</span> ; <span class="ruby-identifier">@@program_name</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -481,8 +549,8 @@ Hostname
 					<div class="method-source-code"
 						id="program-name--source">
 <pre>
-   <span class="ruby-comment cmt"># File lib/rbatch.rb, line 6</span>
-6:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_name=</span>(<span class="ruby-identifier">f</span>) ; <span class="ruby-identifier">@@program_name</span> = <span class="ruby-identifier">f</span> ; <span class="ruby-keyword kw">end</span></pre>
+   <span class="ruby-comment cmt"># File lib/rbatch.rb, line 7</span>
+7:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_name=</span>(<span class="ruby-identifier">f</span>) ; <span class="ruby-identifier">@@program_name</span> = <span class="ruby-identifier">f</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -513,20 +581,20 @@ Hostname
 					<div class="method-source-code"
 						id="rbatch-config-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 41</span>
-41:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rbatch_config</span>
-42:     <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config_path</span>)
-43:       <span class="ruby-identifier">yaml</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config_path</span>)
-44:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">yaml</span>
-45:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">yaml</span>
-46:       <span class="ruby-keyword kw">else</span>
-47:         <span class="ruby-comment cmt"># If file is emply , YAML::load_file is false</span>
-48:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>
-49:       <span class="ruby-keyword kw">end</span>
-50:     <span class="ruby-keyword kw">else</span>
-51:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>
-52:     <span class="ruby-keyword kw">end</span>
-53:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 45</span>
+45:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rbatch_config</span>
+46:     <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config_path</span>)
+47:       <span class="ruby-identifier">yaml</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">rbatch_config_path</span>)
+48:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">yaml</span>
+49:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">yaml</span>
+50:       <span class="ruby-keyword kw">else</span>
+51:         <span class="ruby-comment cmt"># If file is emply , YAML::load_file is false</span>
+52:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>
+53:       <span class="ruby-keyword kw">end</span>
+54:     <span class="ruby-keyword kw">else</span>
+55:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>
+56:     <span class="ruby-keyword kw">end</span>
+57:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -557,10 +625,10 @@ Hostname
 					<div class="method-source-code"
 						id="rbatch-config-path-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 38</span>
-38:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rbatch_config_path</span>
-39:     <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>,<span class="ruby-value str">&quot;conf&quot;</span>,<span class="ruby-value str">&quot;rbatch.yaml&quot;</span>)
-40:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 42</span>
+42:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">rbatch_config_path</span>
+43:     <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">@@home_dir</span>,<span class="ruby-value str">&quot;conf&quot;</span>,<span class="ruby-value str">&quot;rbatch.yaml&quot;</span>)
+44:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -593,25 +661,25 @@ tmp dir
 					<div class="method-source-code"
 						id="tmp-dir-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 20</span>
-20:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tmp_dir</span>
-21:     <span class="ruby-keyword kw">case</span> <span class="ruby-constant">RUBY_PLATFORM</span>
-22:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/mswin|mingw/</span>
-23:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>].<span class="ruby-identifier">nil?</span>
-24:         <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;Cannot use temporary directory, because ENV[\&quot;TEMP\&quot;] is not defined&quot;</span>
-25:       <span class="ruby-keyword kw">else</span>
-26:         <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>]
-27:       <span class="ruby-keyword kw">end</span>
-28:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/cygwin|linux/</span>
-29:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TMPDIR&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TMPDIR&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;/tmp&quot;</span>
-30:     <span class="ruby-keyword kw">else</span>
-31:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TMPDIR&quot;</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>].<span class="ruby-identifier">nil?</span>
-32:         <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;Unknown RUBY_PRATFORM : &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">RUBY_PLATFORM</span>
-33:       <span class="ruby-keyword kw">else</span>
-34:         <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TMPDIR&quot;</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>]
-35:       <span class="ruby-keyword kw">end</span>
-36:     <span class="ruby-keyword kw">end</span>
-37:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 24</span>
+24:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tmp_dir</span>
+25:     <span class="ruby-keyword kw">case</span> <span class="ruby-constant">RUBY_PLATFORM</span>
+26:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/mswin|mingw/</span>
+27:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>].<span class="ruby-identifier">nil?</span>
+28:         <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;Cannot use temporary directory, because ENV[\&quot;TEMP\&quot;] is not defined&quot;</span>
+29:       <span class="ruby-keyword kw">else</span>
+30:         <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>]
+31:       <span class="ruby-keyword kw">end</span>
+32:     <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/cygwin|linux/</span>
+33:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TMPDIR&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TMPDIR&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;/tmp&quot;</span>
+34:     <span class="ruby-keyword kw">else</span>
+35:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TMPDIR&quot;</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>].<span class="ruby-identifier">nil?</span>
+36:         <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;Unknown RUBY_PRATFORM : &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">RUBY_PLATFORM</span>
+37:       <span class="ruby-keyword kw">else</span>
+38:         <span class="ruby-keyword kw">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TMPDIR&quot;</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;TEMP&quot;</span>]
+39:       <span class="ruby-keyword kw">end</span>
+40:     <span class="ruby-keyword kw">end</span>
+41:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
