@@ -24,11 +24,11 @@ Note: This software is released under the MIT License, see LICENSE.txt.
 
 RBach has convention of file naming and directorory structure.
 
-If you make "$RB_HOME/bin/hoge.rb", you should name config file to "$RB_HOME/conf/hoge.yaml". And the name of log file is decided on "$RB_HOME/log/YYYYMMDD_HHMMSS_hoge.rb"
+If you make "${RB_HOME}/bin/hoge.rb", you should name config file to "${RB_HOME}/conf/hoge.yaml". And the name of log file is decided on "${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb"
 
 For example
 ```
-$RB_HOME/         <--- RBatch home
+${RB_HOME}/         <--- RBatch home
  |-bin            <--- Scripts
  |  |- A.rb
  |  |- B.rb
@@ -43,18 +43,22 @@ $RB_HOME/         <--- RBatch home
     |- YYYYMMDD_HHMMSS_B.log
 ```
 
-Note: It is not necessary to define $RB_HOME as an environment variable. $RB_HOME is defined as "(running script path)/../"
+### RBatch home directory
+
+When you set ${RB_HOME} environment variable, RBatch home directory is fix.
+
+When you do NOT set ${RB_HOME}, ${RB_HOME} is the parent directory of the directory which script is located at. In other words, default of ${RB_HOME} is "(script path)/../" .
 
 
 ### Auto Logging
 
 Use "Auto Logging block", RBatch automatically writes to logfile.
-The default location of log file is $RB_HOME/log/YYYYMMDD_HHMMSS_${PROG_NAME}.log .
+The default location of log file is ${RB_HOME}/log/YYYYMMDD_HHMMSS_${PROG_NAME}.log .
 If an exception occuerd, then RBatch write a stack trace to logfile.
 
 sample
 
-script : $RB_HOME/bin/sample1.rb
+script : ${RB_HOME}/bin/sample1.rb
 ```
 require 'rbatch'
 
@@ -65,7 +69,7 @@ RBatch::Log.new(){ |log|  # Logging block
 }
 ```
 
-logfile : $RB_HOME/log/20121020_005953_sample1.log
+logfile : ${RB_HOME}/log/20121020_005953_sample1.log
 ```
 # Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
 [2012-10-20 00:59:53 +900] [INFO ] info string
@@ -87,12 +91,12 @@ By using "log_send_mail" option, when an error occurs in script, RBatch sends an
 
 By using RBatch, your script read a configuration file easily.
 First you make configuration file which is named "(script base name).yaml" ,
-Then, put it to $RB_HOME/conf/ .
+Then, put it to ${RB_HOME}/conf/ .
 So your script read it automatically.
 
 sample
 
-config : $RB_HOME/conf/sample2.yaml
+config : ${RB_HOME}/conf/sample2.yaml
 ```
 key: value
 array:
@@ -101,7 +105,7 @@ array:
  - item3
 ```
 
-script : $RB_HOME/bin/sample2.rb
+script : ${RB_HOME}/bin/sample2.rb
 ```
 require 'rbatch'
 p RBatch::config
@@ -115,7 +119,7 @@ p RBatch::config["not_exist"]
 ```
 
 If you can use common configuration file which is read from all scripts,
-you make "$RB_HOME/conf/common.yaml" .
+you make "${RB_HOME}/conf/common.yaml" .
 
 ### External Command Wrapper 
 
@@ -167,7 +171,7 @@ The name of the key to global configuration file and the name of the key to cons
 If you make follow config file, option value effect to all scripts.
 
 ```
-$RB_HOME/conf/rbatch.yaml
+${RB_HOME}/conf/rbatch.yaml
 ```
 
 Config Sample
@@ -220,7 +224,7 @@ Config Sample
 
 # Log Output Directory
 #
-#   Default is "(Script path)/../log".
+#   Default is "${RB_HOME}/log".
 #
 #log_dir : "/tmp/log"
 
@@ -282,6 +286,8 @@ Config Sample
 ```
 
 ### Set by argument of the constracter
+
+If you want to set options in a script, you hand an argument of options to a constructor.
 
 #### class RBatch::Log 
 

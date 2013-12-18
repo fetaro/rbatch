@@ -2,9 +2,13 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 require 'digest'
 module RBatch
   @@program_name = $PROGRAM_NAME
+  @@home_dir = ""
   module_function
   def program_name=(f) ; @@program_name = f ; end
   def program_name ; @@program_name ; end
+  def home_dir=(d) ; @@home_dir = d ; end
+  def home_dir ; @@home_dir ; end
+
   # Hostname
   def hostname
     case RUBY_PLATFORM
@@ -36,7 +40,7 @@ module RBatch
     end
   end
   def rbatch_config_path
-    File.join(File.dirname(RBatch.program_name),"..","conf","rbatch.yaml")
+    File.join(@@home_dir,"conf","rbatch.yaml")
   end
   def rbatch_config
     if File.exist?(RBatch.rbatch_config_path)
@@ -74,6 +78,12 @@ end
 class RBatchException < Exception ; end
 
 # main
+if ENV["RB_HOME"]
+  RBatch::home_dir = ENV["RB_HOME"]
+else
+  RBatch::home_dir = File.join(File.dirname(RBatch.program_name) , "..")
+end
+
 require 'rbatch/log'
 require 'rbatch/config'
 require 'rbatch/common_config'
