@@ -25,13 +25,12 @@ RBatchについて
 RBatchでは、実行スクリプト、設定ファイルおよびログファイルについて、
 配置場所および命名規則が規約で決まっています。
 
-具体的には、"bin/hoge.rb"というバッチスクリプトでは、"conf/hoge.yaml"という設定ファイルを読み、
-"log/YYYYMMDD_HHMMSS_hoge.rb"というログを出力するという規則です。
+具体的には、"${RB_HOME}/bin/hoge.rb"というスクリプトでは、"${RB_HOME}/conf/hoge.yaml"という設定ファイルを読み、"${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb"というログを出力するという規則です。
 
 例を示すと以下の通りです。
 
 ```
-$RB_HOME
+${RB_HOME}
  |-bin             ←実行スクリプト配置場所
  |  |- A.rb
  |  |- B.rb
@@ -46,17 +45,23 @@ $RB_HOME
     |- YYYYMMDD_HHMMSS_B.log
 ```
 
-注意：$RB_HOMEは環境変数として定義する必要はありません。$RB_HOMEは"(実行するスクリプトのパス)/../"として定義されています
+### RBatchホームディレクトリ
+
+環境変数${RB_HOME}を定義する事で、その場所をRBatchのホームディレクトリに固定することができます。
+
+環境変数${RB_HOME}を定義していない場合は、「実行するスクリプトが配置されているディレクトリの親ディレクトリ」が${RB_HOME}になります。言い換えると${RB_HOME}のデフォルト値は"(実行するスクリプトのパス)/../"です。
+
+となります。
 
 ### 自動ログ出力
 
 Logging blockを使うことで、自動的にログファイルに出力することができます。
-ログファイルはデフォルトで"$RB_HOME/log/YYYYMMDD_HHMMSS_${PROG_NAME}.log"に出力されます。
+ログファイルはデフォルトで"${RB_HOME}/log/YYYYMMDD_HHMMSS_${PROG_NAME}.log"に出力されます。
 例外が発生した場合でも、ログにスタックトレースを出力することができます。
 
 サンプル
 
-スクリプト : $RB_HOME/bin/sample1.rb
+スクリプト : ${RB_HOME}/bin/sample1.rb
 ```
 require 'rbatch'
 
@@ -67,7 +72,7 @@ RBatch::Log.new(){ |log|  # Logging block
 }
 ```
 
-ログファイル : $RB_HOME/log/20121020_005953_sample1.log
+ログファイル : ${RB_HOME}/log/20121020_005953_sample1.log
 ```
 # Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
 [2012-10-20 00:59:53 +900] [INFO ] info string
@@ -87,11 +92,11 @@ RBatch::Log.new(){ |log|  # Logging block
 ### 自動設定ファイル読み込み
 
 RBatchは簡単にデフォルトの位置の設定ファイルを読み込めます。
-デフォルトの位置は"(スクリプトのパス)/../conf/${PROG_NAME}.yaml"です。
+デフォルトの位置は"${RB_HOME}/conf/${PROG_NAME}.yaml"です。
 
 サンプル
 
-設定ファイル : $RB_HOME/conf/sample2.yaml
+設定ファイル : ${RB_HOME}/conf/sample2.yaml
 ```
 key: value
 array:
@@ -100,7 +105,7 @@ array:
  - item3
 ```
 
-スクリプト : $RB_HOME/bin/sample2.rb
+スクリプト : ${RB_HOME}/bin/sample2.rb
 ```
 require 'rbatch'
 p RBatch::config
@@ -148,7 +153,7 @@ RBatchの共通設定ファイルに"forbid_double_run: true"の設定を書け�
 
 RBatchではオプションの指定の仕方は以下の二つがあります。
 
-1. 全体設定ファイル($RB_HOME/conf/rbatch.yaml)に書く
+1. 全体設定ファイル(${RB_HOME}/conf/rbatch.yaml)に書く
 2. コンストラクタの引数に指定する
 
 全体設定ファイルにオプションを書くと、全てのスクリプトに効果がありますが、コンストラクタの引数に指定した場合はそのインスタンスのみ効果があります。
@@ -163,7 +168,7 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 以下の場所にRBatch全体設定ファイルを配置すると、全てのスクリプトにてオプションが適用されます。
 
 
-     $RB_HOME/conf/rbatch.yaml
+     ${RB_HOME}/conf/rbatch.yaml
 
 
 設定ファイルのサンプルは以下の通り
@@ -216,7 +221,7 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 
 # ログ出力ディレクトリ
 #
-#   デフォルト値は"(スクリプトの配置パス)/../log"。
+#   デフォルト値は"${RB_HOME}/log"。
 #
 #log_dir : "/tmp/log"
 
@@ -281,6 +286,8 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 ```
 
 ### コンストラクタの引数によるオプション指定
+
+スクリプト内で一時的にオプションを指定したい場合は、コンストラクタの引数にオプションのハッシュを指定します。
 
 #### RBatch::Logクラス
 
