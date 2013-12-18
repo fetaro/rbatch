@@ -159,7 +159,7 @@ logfile automatically.
 </p>
 <p>
 The default location of log file is
-&#8220;../log/YYYYMMDD_HHMMSS_${PROG_NAME}.log&#8221; .
+&#8220;${RB_HOME}/log/YYYYMMDD_HHMMSS_(program base name).log&#8221; .
 </p>
 <p>
 If an exception occuerd, then <a href="../RBatch.html">RBatch</a> writes
@@ -167,7 +167,7 @@ back trace to logfile.
 </p>
 <h3>Sample</h3>
 <p>
-script : ./bin/sample1.rb
+script : ${RB_HOME}/bin/sample1.rb
 </p>
 <pre>
  require 'rbatch'
@@ -179,7 +179,7 @@ script : ./bin/sample1.rb
  }
 </pre>
 <p>
-logfile : ./log/20121020_005953_sample1.log
+logfile : ${RB_HOME}/log/20121020_005953_sample1.log
 </p>
 <pre>
  [2012-10-20 00:59:53 +900] [INFO ] info string
@@ -235,7 +235,8 @@ HHMMSS. &#8220;<prog>&#8221; is replaced a base-name of program file.
 </p>
 </li>
 <li><p>
-<tt>:dir</tt> (String) = log direcotry. Default is &#8220;../log&#8220;
+<tt>:dir</tt> (String) = log direcotry. Default is
+&#8220;${RB_HOME}/log&#8220;
 </p>
 </li>
 <li><p>

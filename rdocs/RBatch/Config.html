@@ -154,12 +154,12 @@ config file, raise <a
 href="Config/Exception.html">RBatch::Config::Exception</a>.
 </p>
 <p>
-Default config file path is &#8220;../conf/(base-name of Program
-file).yaml&#8220;
+Default config file path is &#8220;${RB_HOME}/conf/(program base
+name).yaml&#8220;
 </p>
 <h4>Sample</h4>
 <p>
-config : ./conf/sample2.yaml
+config : ${RB_HOME}/conf/sample2.yaml
 </p>
 <pre>
  key: value
@@ -169,7 +169,7 @@ config : ./conf/sample2.yaml
   * item3
 </pre>
 <p>
-script : ./bin/sample2.rb
+script : ${RB_HOME}/bin/sample2.rb
 </p>
 <pre>
  require 'rbatch'
@@ -214,7 +214,7 @@ script : ./bin/sample2.rb
     <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 31</span>
 31:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>
 32:       <span class="ruby-identifier">file</span> = <span class="ruby-constant">Pathname</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>)).<span class="ruby-identifier">sub_ext</span>(<span class="ruby-value str">&quot;.yaml&quot;</span>).<span class="ruby-identifier">to_s</span>
-33:       <span class="ruby-identifier">dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">program_name</span>),<span class="ruby-value str">&quot;..&quot;</span>),<span class="ruby-value str">&quot;conf&quot;</span>)
+33:       <span class="ruby-identifier">dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-identifier">home_dir</span>,<span class="ruby-value str">&quot;conf&quot;</span>)
 34:       <span class="ruby-ivar">@path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>,<span class="ruby-identifier">file</span>)
 35:       <span class="ruby-ivar">@config</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-ivar">@path</span>)
 36:     <span class="ruby-keyword kw">end</span></pre>
