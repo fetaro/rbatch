@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'tempfile'
+require 'tmpdir'
 
 module RBatch
 
@@ -69,8 +70,8 @@ module RBatch
     # ==== Return
     # instance of RBatch::CmdResult
     def run()
-      stdout_file = Tempfile::new("rbatch_tmpout",RBatch::tmp_dir)
-      stderr_file = Tempfile::new("rbatch_tmperr",RBatch::tmp_dir)
+      stdout_file = Tempfile::new("rbatch_tmpout",Dir.tmpdir)
+      stderr_file = Tempfile::new("rbatch_tmperr",Dir.tmpdir)
       pid = spawn(@cmd_str,:out => [stdout_file,"w"],:err => [stderr_file,"w"])
       if @opt[:timeout] != 0
         timeout(@opt[:timeout]) do
