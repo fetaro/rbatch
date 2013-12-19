@@ -1,88 +1,62 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 require 'digest'
+require 'yaml'
 module RBatch
-  @@program_name = $PROGRAM_NAME
-  @@home_dir = ""
+  @@opt = {}
+  @@rbatch_config = nil
   module_function
-  def program_name=(f) ; @@program_name = f ; end
-  def program_name ; @@program_name ; end
-  def home_dir=(d) ; @@home_dir = d ; end
-  def home_dir ; @@home_dir ; end
+  def program_name       ; @@opt[:program_name] ; end
+  def home_dir           ; @@opt[:home_dir] ; end
+  def hostname           ; @@opt[:hostname] ; end
+  def rbatch_config_path ; @@opt[:rbatch_config_path] ; end
+  def rbatch_config      ; @@rbatch_config ; end
 
-  # Hostname
-  def hostname
+  def init
+    @@opt[:program_name] = $PROGRAM_NAME
+    @@opt[:home_dir] = ENV["RB_HOME"] ? ENV["RB_HOME"] : File.join(File.dirname(@@opt[:program_name]) , "..")
     case RUBY_PLATFORM
     when /mswin|mingw/
-      return ENV["COMPUTERNAME"] ? ENV["COMPUTERNAME"] : "unknownhost"
+      @@opt[:hostname] =  ENV["COMPUTERNAME"] ? ENV["COMPUTERNAME"] : "unknownhost"
     when /cygwin|linux/
-      return ENV["HOSTNAME"] ? ENV["HOSTNAME"] : "unknownhost"
+      @@opt[:hostname] = ENV["HOSTNAME"] ? ENV["HOSTNAME"] : "unknownhost"
     else
-      return "unknownhost"
+      @@opt[:hostname] = "unknownhost"
     end
+    @@opt[:rbatch_config_path]=File.join(@@opt[:home_dir],"conf","rbatch.yaml")
+    load_rbatch_config
   end
-  # tmp dir
-  def tmp_dir
-    case RUBY_PLATFORM
-    when /mswin|mingw/
-      if ENV["TEMP"].nil?
-        raise "Cannot use temporary directory, because ENV[\"TEMP\"] is not defined"
-      else
-        return ENV["TEMP"]
-      end
-    when /cygwin|linux/
-      return ENV["TMPDIR"] ? ENV["TMPDIR"] : "/tmp"
-    else
-      if ENV["TMPDIR"].nil? && ENV["TEMP"].nil?
-        raise "Unknown RUBY_PRATFORM : " + RUBY_PLATFORM
-      else
-        return ENV["TMPDIR"] || ENV["TEMP"]
-      end
-    end
-  end
-  def rbatch_config_path
-    File.join(@@home_dir,"conf","rbatch.yaml")
-  end
-  def rbatch_config
-    if File.exist?(RBatch.rbatch_config_path)
-      yaml = YAML::load_file(RBatch.rbatch_config_path)
-      if yaml
-        return yaml
-      else
-        # If file is emply , YAML::load_file is false
-        return nil
+  def load_rbatch_config
+    if File.exist?(@@opt[:rbatch_config_path])
+      @@rbatch_config = YAML::load_file(@@opt[:rbatch_config_path])
+      if @@rbatch_config == false
+        @@rbatch_config = nil
       end
     else
-      return nil
+      @@rbatch_config = nil
     end
   end
   def double_run_check
     # double run check
-    if ( RBatch::rbatch_config != nil && RBatch::rbatch_config["forbid_double_run"] )
-      lock_file="rbatch_lock_" + Digest::MD5.hexdigest(@@program_name)
-      if Dir.exists? RBatch::tmp_dir
-        Dir::foreach(RBatch::tmp_dir) do |f|
+    if ( @@rbatch_config != nil && @@rbatch_config["forbid_double_run"] )
+      lock_file="rbatch_lock_" + Digest::MD5.hexdigest(@@opt[:program_name])
+      if Dir.exists? @@opt[:tmp_dir]
+        Dir::foreach(@@opt[:tmp_dir]) do |f|
           if (Regexp.new(lock_file) =~ f)
-            raise RBatchException, "Script double run is forbid about \"#{RBatch::program_name}\""
+            raise RBatchException, "Script double run is forbid about \"#{@@opt[:program_name]}\""
           end
         end
       end
       # make lockfile
-      Tempfile::new(lock_file,RBatch::tmp_dir)
+      Tempfile::new(lock_file,@@opt[:tmp_dir])
     end
   end
-
-  def double_run_lock_file ;  ; end
 end
 
 # RBatch Exception
 class RBatchException < Exception ; end
 
 # main
-if ENV["RB_HOME"]
-  RBatch::home_dir = ENV["RB_HOME"]
-else
-  RBatch::home_dir = File.join(File.dirname(RBatch.program_name) , "..")
-end
+RBatch::init
 
 require 'rbatch/log'
 require 'rbatch/config'
