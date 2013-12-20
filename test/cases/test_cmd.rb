@@ -7,6 +7,7 @@ class RuncherTest < Test::Unit::TestCase
     Dir::mkdir(@config_dir) if ! Dir.exists? @config_dir
     confstr = ""
     open( RBatch.rbatch_config_path  , "w" ){|f| f.write(confstr)}
+    RBatch.load_rbatch_config
   end
 
   def test_cmd_exists
@@ -105,6 +106,7 @@ class RuncherTest < Test::Unit::TestCase
   def test_opt_raise_true_status_1_by_conf
     confstr = "cmd_raise: true "
     open( RBatch.rbatch_config_path  , "a" ){|f| f.write(confstr)}
+    RBatch.load_rbatch_config
     cmd_str = "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
     assert_raise(RBatch::CmdException){
       RBatch::Cmd.new(cmd_str).run

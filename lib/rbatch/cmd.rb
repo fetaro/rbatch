@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'tempfile'
+require 'tmpdir'
 
 module RBatch
 
@@ -8,26 +9,25 @@ module RBatch
   #This module is a wrapper of Kernel#spawn.
   #
   # * Arguments(cmd_params) are inputed to Kernel#spawn directly and run command.
-  # * Command's stdout and stderr is written to tmp file.
-  #  * If Platform is "mswin" or "mingw" , then temp directory is ENV["TEMP"]
-  #  * If Platform is "linux" or "cygwin" , then temp directory is "/tmp/"
   # * Return an object of RBatch::CmdResult which includes stdout, stderr, and exit status.
   #
   # ==== Sample 1
   #  require 'rbatch'
-  #  cmd = RBatch::Cmd("ls")
-  #  r = cmd.run
-  #  p r.stdout
+  #  result = RBatch::cmd("ls")
+  #  p result.stdout
   #  => "fileA\nfileB\n"
   #
-  # ==== Sample 2 ( Use option)
-  #  cmd = RBatch::Cmd("ls", {:verbose => true})
-  #  r = cmd.run
-  #
-  # ==== Sample 3 ( Use alias)
+  # ==== Sample 2 (use option)
   #  require 'rbatch'
-  #  r = RBatch::cmd("ls")
-  #  p r.stdout
+  #  result = RBatch::cmd("ls",{:timeout => 1})
+  #  p result.stdout
+  #  => "fileA\nfileB\n"
+  #
+  # ==== Sample 3 (use instance)
+  #  require 'rbatch'
+  #  cmd = RBatch::Cmd.new("ls")
+  #  result = cmd.run
+  #  p result.stdout
   #  => "fileA\nfileB\n"
   #
   class Cmd
@@ -69,16 +69,16 @@ module RBatch
     # ==== Return
     # instance of RBatch::CmdResult
     def run()
-      stdout_file = Tempfile::new("rbatch_tmpout",RBatch::tmp_dir)
-      stderr_file = Tempfile::new("rbatch_tmperr",RBatch::tmp_dir)
+      stdout_file = Tempfile::new("rbatch_tmpout",Dir.tmpdir)
+      stderr_file = Tempfile::new("rbatch_tmperr",Dir.tmpdir)
       pid = spawn(@cmd_str,:out => [stdout_file,"w"],:err => [stderr_file,"w"])
       if @opt[:timeout] != 0
-        timeout(@opt[:timeout]) do
-          begin
+        begin
+          timeout(@opt[:timeout]) do
             status =  Process.waitpid2(pid)[1] >> 8
-          rescue Timeout::Error => e
-            raise(CmdException,"Command timeout (over " + @opt[:timeout] + " sec)" )
           end
+        rescue Timeout::Error => e
+          raise(CmdException,"Command timeout. Runtime is over " + @opt[:timeout].to_s + " sec. Command is " + @cmd_str )
         end
       else
         status =  Process.waitpid2(pid)[1] >> 8
