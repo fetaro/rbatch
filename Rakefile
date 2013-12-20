@@ -1,5 +1,4 @@
 require "bundler/gem_tasks"
-require 'rake/rdoctask'
 
 desc "Test lib/ by using test/cases/test_*.rb"
 task :test do
@@ -28,11 +27,6 @@ task :test do
   end
 end
 
-Rake::RDocTask.new do |rd|
-  rd.rdoc_dir = 'rdocs'
-  rd.rdoc_files = FileList["lib/**/*.rb"]
-  rd.options << '-charset=UTF-8 '
-end
 
 desc "Test, Make RDoc, Release"
 task :all => [:test, :rdoc, :release]

@@ -7,10 +7,10 @@ module RBatch
   module_function
   def program_name       ; @@opt[:program_name] ; end
   def home_dir           ; @@opt[:home_dir] ; end
+  def home_dir=(d)       ; @@opt[:home_dir]=d ; end
   def hostname           ; @@opt[:hostname] ; end
-  def rbatch_config_path ; @@opt[:rbatch_config_path] ; end
   def rbatch_config      ; @@rbatch_config ; end
-
+  def opt                ; @@opt ; end
   def init
     @@opt[:program_name] = $PROGRAM_NAME
     @@opt[:home_dir] = ENV["RB_HOME"] ? ENV["RB_HOME"] : File.join(File.dirname(@@opt[:program_name]) , "..")
@@ -22,12 +22,20 @@ module RBatch
     else
       @@opt[:hostname] = "unknownhost"
     end
-    @@opt[:rbatch_config_path]=File.join(@@opt[:home_dir],"conf","rbatch.yaml")
     load_rbatch_config
   end
+  def rbatch_config_path
+    File.join(@@opt[:home_dir],"conf","rbatch.yaml")
+  end
+  def config_dir
+    File.join(RBatch.home_dir,"conf")
+  end
+  def log_dir
+    File.join(RBatch.home_dir,"log")
+  end
   def load_rbatch_config
-    if File.exist?(@@opt[:rbatch_config_path])
-      @@rbatch_config = YAML::load_file(@@opt[:rbatch_config_path])
+    if File.exist?(rbatch_config_path)
+      @@rbatch_config = YAML::load_file(rbatch_config_path)
       if @@rbatch_config == false
         @@rbatch_config = nil
       end
