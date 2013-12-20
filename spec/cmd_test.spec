@@ -1,18 +1,21 @@
+require 'tmpdir'
+ENV["RB_HOME"]=Dir.tmpdir
+
 require 'rbatch'
 
 describe RBatch::Cmd do
 
   it "run command which status is 0" do
     result = RBatch::cmd "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 0;'"
-    result.stdout.chomp.should == "1"
-    result.stderr.chomp.should == "2"
-    result.status.should == 0
+    expect(result.stdout.chomp).to eq "1"
+    expect(result.stderr.chomp).to eq "2"
+    expect(result.status).to eq 0
   end
   it "run command which status is 1" do
     result = RBatch::cmd "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
-    result.stdout.chomp.should == "1"
-    result.stderr.chomp.should == "2"
-    result.status.should == 1
+    expect(result.stdout.chomp).to eq "1"
+    expect(result.stderr.chomp).to eq "2"
+    expect(result.status).to eq 1
   end
   it "raise error when command does not exist" do
     expect {
@@ -21,37 +24,37 @@ describe RBatch::Cmd do
   end
   it "run command which stdout size is greater than 65534byte" do
     result = RBatch::cmd "ruby -e '100000.times{print 0}'"
-    result.stdout.chomp.size.should == 100000
-    result.stderr.chomp.should == ""
-    result.status.should == 0
+    expect(result.stdout.chomp.size).to eq 100000
+    expect(result.stderr.chomp).to eq ""
+    expect(result.status).to eq 0
   end
   it "run command which stdout size is greater than 65534bytes with status 1" do
     result = RBatch::cmd "ruby -e '100000.times{print 0}; exit 1'"
-    result.stdout.chomp.size.should == 100000
-    result.stderr.chomp.should == ""
-    result.status.should == 1
+    expect(result.stdout.chomp.size).to eq 100000
+    expect(result.stderr.chomp).to eq ""
+    expect(result.status).to eq 1
   end
   it "run command which status is grater than 256" do
     result = RBatch::cmd  "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 300;'"
-    result.stdout.chomp.should == "1"
-    result.stderr.chomp.should == "2"
+    expect(result.stdout.chomp).to eq "1"
+    expect(result.stderr.chomp).to eq "2"
     case RUBY_PLATFORM
     when /mswin|mingw/
-      result.status.should == 300
+      expect(result.status).to eq 300
     when /cygwin|linux/
       # windos platform can not handle result code as modular 256
-      result.status.should == 4 
+      expect(result.status).to eq 44
     end
   end
   it "run to_h method" do
     result = RBatch::cmd "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
-    result.to_h[:stdout].should == "1"
-    result.to_h[:stderr].should == "2"
-    result.to_h[:status].should == 1
+    expect(result.to_h[:stdout]).to eq "1"
+    expect(result.to_h[:stderr]).to eq "2"
+    expect(result.to_h[:status]).to eq 1
   end
   it "run to_s method" do
     result = RBatch::cmd "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'"
-    result.to_s.should == "{:cmd_str=>\"ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'\", :stdout=>\"1\", :stderr=>\"2\", :status=>1}"
+    expect(result.to_s).to eq "{:cmd_str=>\"ruby -e 'STDOUT.print 1; STDERR.print 2; exit 1;'\", :stdout=>\"1\", :stderr=>\"2\", :status=>1}"
   end
   it "raise error when command is nil" do
     expect {
@@ -60,9 +63,9 @@ describe RBatch::Cmd do
   end
   it "run RBatch::Cmd.new method" do
     result = RBatch::Cmd.new("ruby -e 'STDOUT.print 1; STDERR.print 2; exit 0;'").run
-    result.stdout.chomp.should == "1"
-    result.stderr.chomp.should == "2"
-    result.status.should == 0
+    expect(result.stdout.chomp).to eq "1"
+    expect(result.stderr.chomp).to eq "2"
+    expect(result.status).to eq 0
   end
 
 
@@ -102,7 +105,6 @@ describe RBatch::Cmd do
 
   describe "option by config" do
     before :all do
-      RBatch.home_dir=Dir.tmpdir
       @config_dir=File.join(RBatch.home_dir,"conf")
       @config_file = File.join(@config_dir , "rbatch.yaml")
       Dir::mkdir @config_dir if ! Dir.exists? @config_dir
