@@ -38,21 +38,6 @@ module RBatch
   #
   class Log
     @@verbose = false
-    @@def_opt = {
-      :name      => "<date>_<time>_<prog>.log",
-      :dir       => File.join(RBatch::home_dir , "log"),
-      :append    => true,
-      :level     => "info",
-      :stdout    => false,
-      :quiet     => false,
-      :delete_old_log => false,
-      :delete_old_log_date => 7,
-      :send_mail => false,
-      :mail_to   => nil,
-      :mail_from => "rbatch.localhost",
-      :mail_server_host => "localhost",
-      :mail_server_port => 25
-    }
     @@log_level_map = {
       "debug" => Logger::DEBUG,
       "info"  => Logger::INFO,
@@ -100,10 +85,10 @@ module RBatch
         if opt != nil  && opt[key] != nil
           # use argument
           @opt[key] = opt[key]
-        elsif RBatch.rbatch_config != nil \
-          && RBatch.rbatch_config["log_" + key.to_s] != nil
+        elsif RBatch.run_conf != nil \
+          && RBatch.run_conf["log_" + key.to_s] != nil
           # use config
-          @opt[key] = RBatch.rbatch_config["log_" + key.to_s]
+          @opt[key] = RBatch.run_conf["log_" + key.to_s]
         else
           # use default
         end
