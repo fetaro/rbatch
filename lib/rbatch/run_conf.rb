@@ -1,13 +1,14 @@
 require 'tmpdir'
+require 'yaml'
 module RBatch
   class RunConf
     attr :opt,:yaml
     @@def_opt = {
       :tmp_dir       => nil,
+      :conf_dir      => "conf",
+      :log_dir       => "log",
       :forbid_double_run => false,
       :log_name      => "<date>_<time>_<prog>.log",
-      :log_conf      => "conf",
-      :log_dir       => "log",
       :log_append    => true,
       :log_level     => "info",
       :log_stdout    => false,
@@ -19,7 +20,9 @@ module RBatch
       :log_mail_to   => nil,
       :log_mail_from => "rbatch.localhost",
       :log_mail_server_host => "localhost",
-      :log_mail_server_port => 25
+      :log_mail_server_port => 25,
+      :cmd_raise     => false,
+      :cmd_timeout   => 0,
     }
 
     def initialize(path)
@@ -35,18 +38,41 @@ module RBatch
       end
       begin
         @yaml = YAML::load_file(path)
-        if @yaml
-          @yaml.each_key do |key|
-            if @@def_opt.has_key?(key.to_sym)
-              @opt[key.to_sym]=@yaml[key]
-            else
-              raise RBatch::RunConf::Exception, "\"#{key}\" is not available option"
-            end
-          end
-        end
       rescue
         # when run_conf does not exist, do nothing.
+        @yaml = false
       end
+      if @yaml
+        @yaml.each_key do |key|
+          if @@def_opt.has_key?(key.to_sym)
+            @opt[key.to_sym]=@yaml[key]
+          else
+            raise RBatch::RunConf::Exception, "\"#{key}\" is not available option"
+          end
+        end
+      end
+    end
+
+    def merge!(opt)
+      opt.each_key do |key|
+        if @opt.has_key?(key)
+          @opt[key] = opt[key]
+        else
+          raise RBatch::RunConf::Exception, "\"#{key}\" is not available option"
+        end
+      end
+    end
+
+    def merge(opt)
+      tmp = @opt.clone
+      opt.each_key do |key|
+        if tmp.has_key?(key)
+          tmp[key] = opt[key]
+        else
+          raise RBatch::RunConf::Exception, "\"#{key}\" is not available option"
+        end
+      end
+      return tmp
     end
 
     def[](key)
@@ -63,5 +89,5 @@ module RBatch
       @opt[key]=value
     end
   end
-  class RBatch::RunConf::Exception < Exception; end
+  class RunConf::Exception < Exception ; end
 end
