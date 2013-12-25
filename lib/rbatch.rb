@@ -6,22 +6,25 @@ module RBatch
   @@home_dir = nil
   @@run_conf = nil
   @@tmp_dir = nil
-
+  @@program_name = nil
   module_function
 
-  def program_name       ; $PROGRAM_NAME ; end
+  def program_name       ; @@program_name ; end
   def home_dir           ; @@home_dir ; end
   def home_dir=(d)       ; @@home_dir=d ; end
-  def rbatch_config      ; @@rbatch_config ; end
-  def rbatch_config=(f)  ; @@rbatch_config=f ; end
-  def run_conf           ; @@run_conf ; end
   def init
+    @@program_name = $PROGRAM_NAME
     @@home_dir = ENV["RB_HOME"] ? ENV["RB_HOME"] : File.join(File.dirname(@@program_name) , "..")
-    @@run_conf = RunConf.new(File.join(@@home_dir,".rbatchrc"))
+    @@run_conf_path = File.join(@@home_dir,"conf","rbatch.yaml")
+    @@run_conf = RunConf.new(@@run_conf_path)
   end
+
+  def run_conf           ; @@run_conf ; end
+  def run_conf_path      ; @@run_conf_path ; end
   def reload_run_conf
-    @@run_conf = RunConf.new(File.join(@@home_dir,".rbatchrc"))
+    @@run_conf = RunConf.new(@@run_conf_path)
   end
+
   def double_run_check
     # double run check
     if ( @@run_conf[:forbid_double_run] )
