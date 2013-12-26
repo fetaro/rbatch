@@ -4,6 +4,9 @@ ENV["RB_HOME"]=Dir.tmpdir
 require 'rbatch'
 
 describe RBatch::Cmd do
+  before :each do
+    RBatch.run_conf.reset
+  end
 
   it "run command which status is 0" do
     result = RBatch::cmd "ruby -e 'STDOUT.print 1; STDERR.print 2; exit 0;'"
@@ -110,17 +113,13 @@ describe RBatch::Cmd do
       Dir::mkdir @config_dir if ! Dir.exists? @config_dir
     end
     describe "raise" do
-      before :all do
-        open( @config_file  , "w" ){|f| f.write("cmd_raise: true")}
-        RBatch.load_rbatch_config
+      before :each do
+        RBatch.run_conf[:cmd_raise] = true
       end
       it "raise error when command status is not 0" do
         expect {
           RBatch::cmd "ruby -e 'exit 1;'"
         }.to raise_error(RBatch::CmdException)
-      end
-      after :each do
-        FileUtils.rm @config_file
       end
     end
   end

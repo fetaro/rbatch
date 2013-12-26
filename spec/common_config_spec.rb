@@ -5,7 +5,7 @@ require 'rbatch'
 
 describe RBatch::CommonConfig do
   before :all do
-    @config_dir=RBatch.config_dir
+    @config_dir=RBatch.run_conf[:conf_dir]
     @config_file = File.join(@config_dir , "common.yaml")
     Dir::mkdir @config_dir if ! Dir.exists? @config_dir
   end

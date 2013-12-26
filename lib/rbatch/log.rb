@@ -80,37 +80,34 @@ module RBatch
     #
     def initialize(opt = nil)
       # parse option
-      @opt = @@def_opt.clone
-      @@def_opt.each_key do |key|
-        if opt != nil  && opt[key] != nil
-          # use argument
-          @opt[key] = opt[key]
-        elsif RBatch.run_conf != nil \
-          && RBatch.run_conf["log_" + key.to_s] != nil
-          # use config
-          @opt[key] = RBatch.run_conf["log_" + key.to_s]
-        else
-          # use default
+      tmp = {}
+      if opt.nil?
+        @opt=RBatch.run_conf.clone
+      else
+        opt.each_key do |key|
+          tmp[("log_" + key.to_s).to_sym] = opt[key]
         end
+        @opt=RBatch.run_conf.merge(tmp)
       end
+
       puts "option = " + @opt.to_s if @@verbose
       # determine log file name
       @prog_base = Pathname(File.basename(RBatch.program_name)).sub_ext("").to_s
-      @file_name = @opt[:name].clone
+      @file_name = @opt[:log_name].clone
       @file_name.gsub!("<date>", Time.now.strftime("%Y%m%d"))
       @file_name.gsub!("<time>", Time.now.strftime("%H%M%S"))
       @file_name.gsub!("<prog>", @prog_base)
-      @file_name.gsub!("<host>", RBatch::hostname)
-      path = File.join(@opt[:dir],@file_name)
+      @file_name.gsub!("<host>", @opt[:log_hostname])
+      path = File.join(@opt[:log_dir],@file_name)
       # create Logger instance
       begin
-        if @opt[:append] && File.exist?(path)
+        if @opt[:log_append] && File.exist?(path)
           @log = Logger.new(open(path,"a"))
         else
           @log = Logger.new(open(path,"w"))
         end
       rescue Errno::ENOENT => e
-        STDERR.puts "RBatch ERROR: Can not open log file  - #{path}" if ! @opt[:quiet]
+        STDERR.puts "RBatch ERROR: Can not open log file  - #{path}" if ! @opt[:log_quiet]
         raise e
       end
       # set logger option
@@ -122,21 +119,20 @@ module RBatch
           "#{head} #{msg}\n"
         end
       end
-      @log.formatter = @opt[:formatter] if @opt[:formatter]
-      @log.level = @@log_level_map[@opt[:level]]
+      @log.level = @@log_level_map[@opt[:log_level]]
       @log.formatter = formatter
-      if @opt[:stdout]
+      if @opt[:log_stdout]
         # ccreate Logger instance for STDOUT
         @stdout_log = Logger.new(STDOUT)
-        @stdout_log.formatter = @opt[:formatter] if @opt[:formatter]
-        @stdout_log.level = @@log_level_map[@opt[:level]]
+        @stdout_log.formatter = @opt[:log_formatter] if @opt[:log_formatter]
+        @stdout_log.level = @@log_level_map[@opt[:log_level]]
         @stdout_log.formatter = formatter
       end
-      puts "Log file: " + path if ! @opt[:quiet]
+      puts "Log file: " + path if ! @opt[:log_quiet]
       # delete old log
-      self.delete_old_log(@opt[:delete_old_log_date]) if @opt[:delete_old_log]
+      self.delete_old_log(@opt[:log_delete_old_log_date]) if @opt[:log_delete_old_log]
       # Start logging
-      self.info("Start Logging. (PID=#{$$.to_s})") if ! @opt[:quiet]
+      self.info("Start Logging. (PID=#{$$.to_s})") if ! @opt[:log_quiet]
       if block_given?
         begin
           yield self
@@ -151,54 +147,54 @@ module RBatch
     end
 
     def fatal(a)
-      @stdout_log.fatal(a) if @opt[:stdout]
+      @stdout_log.fatal(a) if @opt[:log_stdout]
       @log.fatal(a)
-      send_mail(a) if @opt[:send_mail]
+      send_mail(a) if @opt[:log_send_mail]
     end
 
     def error(a)
-      @stdout_log.error(a) if @opt[:stdout]
+      @stdout_log.error(a) if @opt[:log_stdout]
       @log.error(a)
-      send_mail(a) if @opt[:send_mail]
+      send_mail(a) if @opt[:log_send_mail]
     end
 
     def warn(a)
-      @stdout_log.warn(a) if @opt[:stdout]
+      @stdout_log.warn(a) if @opt[:log_stdout]
       @log.warn(a)
     end
 
     def info(a)
-      @stdout_log.info(a) if @opt[:stdout]
+      @stdout_log.info(a) if @opt[:log_stdout]
       @log.info(a)
     end
 
     def debug(a)
-      @stdout_log.debug(a) if @opt[:stdout]
+      @stdout_log.debug(a) if @opt[:log_stdout]
       @log.debug(a)
     end
 
     def close
-      @stdout_log.close if @opt[:stdout]
+      @stdout_log.close if @opt[:log_stdout]
       @log.close
     end
 
     # Delete old log files.
-    # If @opt[:name] is not include "<date>", then do nothing.
+    # If @opt[:log_name] is not include "<date>", then do nothing.
     #
     # ==== Params
     # - +date+ (Integer): The day of leaving log files
     #
     def delete_old_log(date = 7)
-      if Dir.exists?(@opt[:dir]) && @opt[:name].include?("<date>")
-        Dir::foreach(@opt[:dir]) do |file|
+      if Dir.exists?(@opt[:log_dir]) && @opt[:log_name].include?("<date>")
+        Dir::foreach(@opt[:log_dir]) do |file|
           r = Regexp.new("^" \
-                         + @opt[:name].gsub("<prog>",@prog_base)\
+                         + @opt[:log_name].gsub("<prog>",@prog_base)\
                            .gsub("<time>","[0-2][0-9][0-5][0-9][0-5][0-9]")\
                            .gsub("<date>","([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])")\
                          + "$")
           if r =~ file && Date.strptime($1,"%Y%m%d") <= Date.today - date
-            puts "Delete old log file: " + File.join(@opt[:dir] , file) if ! @opt[:quiet]
-            File::delete(File.join(@opt[:dir]  , file))
+            puts "Delete old log file: " + File.join(@opt[:log_dir] , file) if ! @opt[:log_quiet]
+            File::delete(File.join(@opt[:log_dir]  , file))
           end
         end
       end
@@ -209,8 +205,8 @@ module RBatch
     # send mail
     def send_mail(msg)
       body = <<EOT
-From: <#{@opt[:mail_from]}>
-To: <#{@opt[:mail_to]}>
+From: <#{@opt[:log_mail_from]}>
+To: <#{@opt[:log_mail_to]}>
 Subject: [RBatch] #{RBatch.program_name} has error
 Date: #{Time::now.strftime("%a, %d %b %Y %X %z")}
 Mime-Version: 1.0
@@ -219,8 +215,8 @@ Content-Transfer-Encoding: 7bit
 
 #{msg}
 EOT
-      Net::SMTP.start(@opt[:mail_server_host],@opt[:mail_server_port] ) {|smtp|
-        smtp.send_mail(body,@opt[:mail_from],@opt[:mail_to])
+      Net::SMTP.start(@opt[:log_mail_server_host],@opt[:log_mail_server_port] ) {|smtp|
+        smtp.send_mail(body,@opt[:log_mail_from],@opt[:log_mail_to])
       }
     end
   end # end class

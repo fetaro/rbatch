@@ -2,11 +2,13 @@ require 'tmpdir'
 require 'yaml'
 module RBatch
   class RunConf
-    attr :opt,:yaml
+    @opt
+    @yaml
+    attr_reader :run_conf_path,:home_dir
     @@def_opt = {
       :tmp_dir       => nil,
-      :conf_dir      => "conf",
-      :log_dir       => "log",
+      :conf_dir      => nil,
+      :log_dir       => nil,
       :forbid_double_run => false,
       :log_name      => "<date>_<time>_<prog>.log",
       :log_append    => true,
@@ -24,8 +26,14 @@ module RBatch
       :cmd_raise     => false,
       :cmd_timeout   => 0,
     }
+    def initialize(run_conf_path,home_dir)
+      @run_conf_path = run_conf_path
+      @home_dir = home_dir
+      reset
+      load
+    end
 
-    def initialize(path)
+    def reset()
       @opt = @@def_opt.clone
       @opt[:tmp_dir] = Dir.tmpdir
       case RUBY_PLATFORM
@@ -36,8 +44,13 @@ module RBatch
       else
         @opt[:log_hostname] = "unknownhost"
       end
+      @opt[:log_dir] = File.join(@home_dir,"log")
+      @opt[:conf_dir] = File.join(@home_dir,"conf")
+    end
+
+    def load()
       begin
-        @yaml = YAML::load_file(path)
+        @yaml = YAML::load_file(@run_conf_path)
       rescue
         # when run_conf does not exist, do nothing.
         @yaml = false
@@ -51,6 +64,11 @@ module RBatch
           end
         end
       end
+    end
+
+    def reload()
+      reset
+      load
     end
 
     def merge!(opt)
@@ -89,5 +107,7 @@ module RBatch
       @opt[key]=value
     end
   end
+
   class RunConf::Exception < Exception ; end
+
 end
