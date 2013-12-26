@@ -28,9 +28,9 @@ require 'rbatch/double_run_checker'
 
 RBatch::init
 
-if ( @@run_conf[:forbid_double_run] )
-  RBatch::DoubleRunChecker.check(@@program_name) #raise error if check is NG
-  RBatch::DoubleRunChecker.make_lock_file(@@program_name)
+if ( RBatch.run_conf[:forbid_double_run] )
+  RBatch::DoubleRunChecker.check(RBatch.program_name) #raise error if check is NG
+  RBatch::DoubleRunChecker.make_lock_file(RBatch.program_name)
 end
 
 require 'rbatch/log'
