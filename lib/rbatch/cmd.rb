@@ -31,10 +31,6 @@ module RBatch
   #  => "fileA\nfileB\n"
   #
   class Cmd
-    @@def_opt = {
-      :raise     => false,
-      :timeout   => 0
-    }
     @cmd_str
     @opt
 
@@ -48,19 +44,14 @@ module RBatch
     def initialize(cmd_str,opt = nil)
       raise(CmdException,"Command string is nil") if cmd_str.nil?
       @cmd_str = cmd_str
-      # parse option
-      @opt = @@def_opt.clone
-      @@def_opt.each_key do |key|
-        if opt != nil  && opt[key] != nil
-          # use argument
-          @opt[key] = opt[key]
-        elsif RBatch.rbatch_config != nil \
-          && RBatch.rbatch_config["cmd_" + key.to_s] != nil
-          # use config
-          @opt[key] = RBatch.rbatch_config["cmd_" + key.to_s]
-        else
-          # use default
+      tmp = {}
+      if opt.nil?
+        @opt=RBatch.run_conf.clone
+      else
+        opt.each_key do |key|
+          tmp[("cmd_" + key.to_s).to_sym] = opt[key]
         end
+        @opt=RBatch.run_conf.merge(tmp)
       end
     end
 
@@ -69,22 +60,22 @@ module RBatch
     # ==== Return
     # instance of RBatch::CmdResult
     def run()
-      stdout_file = Tempfile::new("rbatch_tmpout",Dir.tmpdir)
-      stderr_file = Tempfile::new("rbatch_tmperr",Dir.tmpdir)
+      stdout_file = Tempfile::new("rbatch_tmpout",@opt[:tmp_dir])
+      stderr_file = Tempfile::new("rbatch_tmperr",@opt[:tmp_dir])
       pid = spawn(@cmd_str,:out => [stdout_file,"w"],:err => [stderr_file,"w"])
-      if @opt[:timeout] != 0
+      if @opt[:cmd_timeout] != 0
         begin
-          timeout(@opt[:timeout]) do
+          timeout(@opt[:cmd_timeout]) do
             status =  Process.waitpid2(pid)[1] >> 8
           end
         rescue Timeout::Error => e
-          raise(CmdException,"Command timeout. Runtime is over " + @opt[:timeout].to_s + " sec. Command is " + @cmd_str )
+          raise(CmdException,"Command timeout. Runtime is over " + @opt[:cmd_timeout].to_s + " sec. Command is " + @cmd_str )
         end
       else
         status =  Process.waitpid2(pid)[1] >> 8
       end
       result = RBatch::CmdResult.new(stdout_file,stderr_file,status,@cmd_str)
-      if @opt[:raise] && status != 0
+      if @opt[:cmd_raise] && status != 0
         raise(CmdException,"Command exit status is not 0. result: " + result.to_s)
       end
       return result
