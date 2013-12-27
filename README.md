@@ -1,11 +1,12 @@
 [[English]](https://github.com/fetaro/rbatch/blob/master/README.md "english") [[Japanese]](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese")
 
-RBatch:Ruby-base Simple Batch Framework
+RBatch:Ruby-base Batch-Script Framework
 =============
 
 About RBatch
 --------------
-This is Ruby-base Batch Script Framework. RBatch has many fanctions to help with your making a batch script such as "data backup script" or "proccess starting script".
+
+RBatch is Ruby-base Batch Script Framework. RBatch has many fanctions to help with your making a batch script such as "data backup" or "proccess starting".
 
 There are following functions. 
 
@@ -16,19 +17,39 @@ There are following functions.
 * Double Run Check
 
 
-Note: RBatch works on Ruby 1.9.x or later, and on Ruby platform of "linux","mswin","mingw","cygwin".
+Note: RBatch works on Ruby 1.9.
 
 Note: This software is released under the MIT License, see LICENSE.txt.
 
-### First
+Quick Start
+--------------
+
+    $ sudo gem install rbatch
+    $ rbatch-init    # => make directories and sample scripts
+    $ ruby bin/hello_world.rb
+    $ cat log/YYYYMMDD_HHMMSS_hello_world.log
+
+Manual
+--------------
+
+### RBatch home directory
+
+When you set ${RB_HOME} environment variable, RBatch home directory is fix at ${RB_HOME}.
+
+When you do NOT set ${RB_HOME}, ${RB_HOME} is the parent directory of the directory which script is located at. In other words, default of ${RB_HOME} is "(script path)/../" .
+
+### Directory Structure and Naming Convention
 
 RBach has convention of file naming and directorory structure.
 
-If you make "${RB_HOME}/bin/hoge.rb", you should name config file to "${RB_HOME}/conf/hoge.yaml". And the name of log file is decided on "${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb"
+If you make a script on "${RB_HOME}/bin/hoge.rb", script's config file is "${RB_HOME}/conf/hoge.yaml" , and log file is "${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb".
 
 For example
 ```
 ${RB_HOME}/         <--- RBatch home
+ |
+ |-.rbatchrc      <--- RBatch Run Conf
+ |
  |-bin            <--- Scripts
  |  |- A.rb
  |  |- B.rb
@@ -36,19 +57,11 @@ ${RB_HOME}/         <--- RBatch home
  |-conf           <--- Configuration files
  |  |- A.yaml
  |  |- B.yaml
- |  |- rbatch.yaml  <--- RBatch global config
  |
  |-log            <--- Log files
     |- YYYYMMDD_HHMMSS_A.log
     |- YYYYMMDD_HHMMSS_B.log
 ```
-
-### RBatch home directory
-
-When you set ${RB_HOME} environment variable, RBatch home directory is fix.
-
-When you do NOT set ${RB_HOME}, ${RB_HOME} is the parent directory of the directory which script is located at. In other words, default of ${RB_HOME} is "(script path)/../" .
-
 
 ### Auto Logging
 
@@ -86,13 +99,10 @@ logfile : ${RB_HOME}/log/20121020_005953_sample1.log
 
 By using "log_send_mail" option, when an error occurs in script, RBatch sends an error-mail automatically. 
 
-
 ### Auto Config Reading
 
 By using RBatch, your script read a configuration file easily.
-First you make configuration file which is named "(script base name).yaml" ,
-Then, put it to ${RB_HOME}/conf/ .
-So your script read it automatically.
+If you make configuration file which is located ${RB_HOME}/conf/"(program base name).yaml", this file is read automatically.
 
 sample
 
@@ -141,57 +151,53 @@ p r.status
 
 ### Double Run Check
 
-Using "forbid_double_run" option, you forbit double run of the RBatch script.
+Using "forbid_double_run: true" option, two same name scripts cannot run at the same time. 
 
-
-Quick Start
+Customize
 --------------
 
-    $ sudo gem install rbatch
-    $ rbatch-init    # => make directories and sample scripts
-    $ ruby bin/hello_world.rb
-    $ cat log/YYYYMMDD_HHMMSS_hello_world.log
+If you want to customize RBatch, you have two methods.
 
-Option
---------------
+(1) Write Run-Conf (${RB_HOME}/.rbatchrc).
+(2) Pass an option object to constructor in your script.
 
-The optional designated way has following two in RBatch.
+When an option is set in both (1) and (2), (2) is prior to (1).
 
-1. Global configuration file (conf/rbatch.yaml)
-2. Argument of the constructer
+#### Customize by writing Run-Conf (.rbatchrc)
 
-If you write an option to the global configuration file, all scripts are effective. On the other hand, if you set it in the argument of the constructer, there is an effect in only the instance.
+If you make a follow config file, configurations effect to all scripts.
 
-When the same option is set, the argument of the constructer is given priority to over the global configuration.
+    ${RB_HOME}/.rbatchrc
 
-The name of the key to global configuration file and the name of the key to constructer option have correspondency. The key name in global configuration file is "(class name)_(key name)".
-
-#### Set by Grobal Configuration File
-
-If you make follow config file, option value effect to all scripts.
-
+Run-Conf Sample
 ```
-${RB_HOME}/conf/rbatch.yaml
-```
-
-Config Sample
-```
-# RBatch Common Config
+# RBatch Run-Conf (.rbatchrc)
 #
-#   This file format is YAML.
+#   This format is YAML.
 #
 
 # -------------------
 # Global setting
 # -------------------
 
+# Conf Directory
+#
+#   Default is "<RB_HOME>/conf"
+#
+#   <RB_HOME> --> Replace to ${RB_HOME}
+#
+#conf_dir: <RB_HOME>/conf
+#conf_dir: /etc/rbatch/
+
 # Forbit Script Double Run
 #
 #   Default is false.
-#   If this option is true, two same script cannot start at the same time. 
+#   If this option is true, two same name scripts cannot run at the same time. 
 #
 #forbid_double_run: true
 #forbid_double_run: false
+
+# Conf Directory
 
 # -------------------
 # Cmd setting
@@ -205,10 +211,24 @@ Config Sample
 #cmd_raise : true
 #cmd_raise : false
 
+# Command Timeout
+#
+#   Default is 0 [sec].
+#
+#cmd_timeout: 5
 
 # -------------------
 # Log setting
 # -------------------
+
+# Log Directory
+#
+#   Default is "<RB_HOME>/log"
+#
+#   <RB_HOME> is replace to ${RB_HOME}
+#
+#log_dir: <RB_HOME>/log
+#log_dir: /var/log/rbatch/
 
 # Log File Name
 #
@@ -221,12 +241,6 @@ Config Sample
 #
 #log_name : "<date>_<time>_<prog>.log"
 #log_name : "<date>_<prog>.log"
-
-# Log Output Directory
-#
-#   Default is "${RB_HOME}/log".
-#
-#log_dir : "/tmp/log"
 
 # Append log or not
 #
@@ -246,7 +260,7 @@ Config Sample
 #log_level : "error"
 #log_level : "fatal"
 
-# Print log-string both file and STDOUT
+# Print log string both file and STDOUT
 #
 #   Default is false.
 #
@@ -276,7 +290,7 @@ Config Sample
 #
 #log_send_mail : true
 
-# Send mail parameters
+# Mail parameters
 #
 #log_mail_to   : "xxx@sample.com"
 #log_mail_from : "xxx@sample.com"
@@ -285,13 +299,12 @@ Config Sample
 
 ```
 
-### Set by argument of the constracter
+### Customize by passing option object to constructor
 
 If you want to set options in a script, you hand an argument of options to a constructor.
 
 #### class RBatch::Log 
 
-    RBatch::Log.new(opt = nil)
     opt = {
           :name      => "<date>_<time>_<prog>.log",
           :dir       => "/var/log/",
@@ -307,10 +320,13 @@ If you want to set options in a script, you hand an argument of options to a con
           :mail_server_port => 25
     }
 
+    RBatch::Log.new(opt)
+
 #### class RBatch::Cmd
 
-    RBatch::Log.new(cmd_str, opt = nil)
     opt = {
           :raise     => false,
           :timeout   => 0
           }
+
+    RBatch::Log.new(cmd_str, opt)
