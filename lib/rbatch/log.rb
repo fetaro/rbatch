@@ -125,7 +125,6 @@ module RBatch
       if @opt[:log_stdout]
         # ccreate Logger instance for STDOUT
         @stdout_log = Logger.new(STDOUT)
-        @stdout_log.formatter = @opt[:log_formatter] if @opt[:log_formatter]
         @stdout_log.level = @@log_level_map[@opt[:log_level]]
         @stdout_log.formatter = formatter
       end

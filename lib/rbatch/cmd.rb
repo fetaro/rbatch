@@ -63,6 +63,7 @@ module RBatch
       stdout_file = Tempfile::new("rbatch_tmpout",Dir.tmpdir)
       stderr_file = Tempfile::new("rbatch_tmperr",Dir.tmpdir)
       pid = spawn(@cmd_str,:out => [stdout_file,"w"],:err => [stderr_file,"w"])
+      status = nil
       if @opt[:cmd_timeout] != 0
         begin
           timeout(@opt[:cmd_timeout]) do

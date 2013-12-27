@@ -193,7 +193,7 @@ Run-Conf Sample
 #
 #   Default is "common.yaml"
 #
-#common_conf_file: share.yaml
+#common_conf_name: share.yaml
 
 # Forbit Script Double Run
 #

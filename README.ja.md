@@ -197,7 +197,7 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 #
 #   デフォルトは"common.yaml"
 #
-#common_conf_file: share.yaml
+#common_conf_name: share.yaml
 
 # スクリプトの二重起動を可能にするかどうか
 #
