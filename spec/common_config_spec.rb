@@ -5,7 +5,7 @@ require 'rbatch'
 
 describe RBatch::CommonConfig do
   before :all do
-    @config_dir=RBatch.run_conf[:conf_dir]
+    @config_dir=File.join(Dir.tmpdir,"conf")
     @config_file = File.join(@config_dir , "common.yaml")
     Dir::mkdir @config_dir if ! Dir.exists? @config_dir
   end
@@ -44,5 +44,10 @@ describe RBatch::CommonConfig do
     }.to raise_error(RBatch::CommonConfig::Exception)
   end
 
-
+  it "success when common_conf_name changed" do
+    conf=File.join(Dir.tmpdir,"global.yaml")
+    open( conf  , "w" ){|f| f.write("key4: value4")}
+    RBatch.run_conf[:common_conf_name]="global.yaml"
+    expect(RBatch.common_config["key4"]).to eq "value4"
+  end
 end

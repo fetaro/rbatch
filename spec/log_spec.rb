@@ -6,7 +6,7 @@ require 'rbatch'
 describe RBatch::Log do
 
   before :all do
-    @dir = RBatch.run_conf[:log_dir]
+    @dir = File.join(Dir.tmpdir,"log")
     Dir::mkdir(@dir)if ! Dir.exists? @dir
   end
 

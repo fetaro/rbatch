@@ -5,7 +5,7 @@ require 'rbatch'
 
 describe RBatch::Config do
   before :all do
-    @config_dir=RBatch.run_conf[:conf_dir]
+    @config_dir=File.join(Dir.tmpdir,"conf")
     @config_file = File.join(@config_dir , "rspec.yaml")
     Dir::mkdir @config_dir if ! Dir.exists? @config_dir
   end

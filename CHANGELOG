@@ -68,3 +68,9 @@ About bugfix, see commit log of https://github.com/fetaro/rbatch .
 ----
 * add customize point that can change RBatch home directory by using the environment variables, ${RB_HOME}.
 
+2.0.0 (2013/12/28)
+----
+* change Run-Conf path from "${RB_HOME}/conf/rbatch.yaml" to "${RB_HOME}/.rbatchrc"
+* add checking existence of Run-Conf keys.
+* add option. "conf_dir", "common_conf_name",  and "cmd_timeout" are added.
+* change test code from Test::Unit to RSpec.
