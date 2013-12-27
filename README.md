@@ -182,12 +182,18 @@ Run-Conf Sample
 
 # Conf Directory
 #
-#   Default is "<RB_HOME>/conf"
+#   Default is "<home>/conf"
 #
-#   <RB_HOME> --> Replace to ${RB_HOME}
+#   <home> is replaced to ${RB_HOME}
 #
-#conf_dir: <RB_HOME>/conf
+#conf_dir: <home>/config
 #conf_dir: /etc/rbatch/
+
+# Common config file name
+#
+#   Default is "common.yaml"
+#
+#common_conf_file: share.yaml
 
 # Forbit Script Double Run
 #
@@ -196,8 +202,6 @@ Run-Conf Sample
 #
 #forbid_double_run: true
 #forbid_double_run: false
-
-# Conf Directory
 
 # -------------------
 # Cmd setting
@@ -223,21 +227,21 @@ Run-Conf Sample
 
 # Log Directory
 #
-#   Default is "<RB_HOME>/log"
+#   Default is "<home>/log"
 #
-#   <RB_HOME> is replace to ${RB_HOME}
+#   <home> is replaced to ${RB_HOME}
 #
-#log_dir: <RB_HOME>/log
+#log_dir: <home>/rb_log
 #log_dir: /var/log/rbatch/
 
 # Log File Name
 #
 #   Default is "<date>_<time>_<prog>.log".
 #   Reservation words are follows.
-#   <data> --> Replace to YYYYMMDD date string
-#   <time> --> Replace to HHMMSS time string
-#   <prog> --> Replace to Program file base name (except extention).
-#   <host> --> Replace to Hostname.
+#   <data> is replaced to YYYYMMDD date string
+#   <time> is replaced to HHMMSS time string
+#   <prog> is replaced to Program file base name (except extention).
+#   <host> is replaced to Hostname.
 #
 #log_name : "<date>_<time>_<prog>.log"
 #log_name : "<date>_<prog>.log"
@@ -307,7 +311,7 @@ If you want to set options in a script, you hand an argument of options to a con
 
     opt = {
           :name      => "<date>_<time>_<prog>.log",
-          :dir       => "/var/log/",
+          :dir       => "/var/log",
           :append    => true,
           :level     => "info",
           :stdout    => false,

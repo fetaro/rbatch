@@ -28,8 +28,8 @@ module RBatch
     @path
     @config
     def initialize
-      file = "common.yaml"
-      @path = File.join(RBatch.run_conf[:conf_dir],file)
+      file = RBatch.run_conf[:common_conf_name]
+      @path = File.join(RBatch.run_conf[:conf_dir].gsub("<home>",RBatch.home_dir),file)
       @config = YAML::load_file(@path)
     end
     def[](key)

@@ -186,12 +186,18 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 
 # Conf ディレクトリ
 #
-#   デフォルトは "<RB_HOME>/conf"
+#   デフォルトは "<home>/conf"
 #
-#   <RB_HOME> は ${RB_HOME} に置き換わります
+#   <home> は ${RB_HOME} に置き換わります
 #
-#conf_dir: <RB_HOME>/conf
+#conf_dir: <home>/config
 #conf_dir: /etc/rbatch/
+
+# スクリプト間共通設定ファイル名
+#
+#   デフォルトは"common.yaml"
+#
+#common_conf_file: share.yaml
 
 # スクリプトの二重起動を可能にするかどうか
 #
@@ -225,21 +231,21 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 
 # ログディレクトリ
 #
-#   デフォルトは "<RB_HOME>/log"
+#   デフォルトは "<home>/log"
 #
-#   <RB_HOME> は ${RB_HOME} に置き換わります
+#   <home> は ${RB_HOME} に置き換わります
 #
-#log_dir: <RB_HOME>/log
+#log_dir: <home>/rb_log
 #log_dir: /var/log/rbatch/
 
 # ログファイル名
 #
 #   デフォルト値は"<date>_<time>_<prog>.log"。
 #   以下の文字列は予約語
-#   <data> --> YYYYMMDDの日付形式に置換されます
-#   <time> --> hhmmssの時刻形式に置換されます
-#   <prog> --> 拡張子を除いたファイル名に置換されます
-#   <host> --> ホスト名に置換されます
+#   <data> はYYYYMMDDの日付形式に置換されます
+#   <time> はhhmmssの時刻形式に置換されます
+#   <prog> は拡張子を除いたファイル名に置換されます
+#   <host> はホスト名に置換されます
 #
 #log_name : "<date>_<time>_<prog>.log"
 #log_name : "<date>_<prog>.log"

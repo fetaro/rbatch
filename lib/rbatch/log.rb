@@ -98,7 +98,8 @@ module RBatch
       @file_name.gsub!("<time>", Time.now.strftime("%H%M%S"))
       @file_name.gsub!("<prog>", @prog_base)
       @file_name.gsub!("<host>", @opt[:log_hostname])
-      path = File.join(@opt[:log_dir],@file_name)
+      @log_dir = @opt[:log_dir].gsub("<home>",RBatch.home_dir)
+      path = File.join(@log_dir,@file_name)
       # create Logger instance
       begin
         if @opt[:log_append] && File.exist?(path)
@@ -185,16 +186,16 @@ module RBatch
     # - +date+ (Integer): The day of leaving log files
     #
     def delete_old_log(date = 7)
-      if Dir.exists?(@opt[:log_dir]) && @opt[:log_name].include?("<date>")
-        Dir::foreach(@opt[:log_dir]) do |file|
+      if Dir.exists?(@log_dir) && @opt[:log_name].include?("<date>")
+        Dir::foreach(@log_dir) do |file|
           r = Regexp.new("^" \
                          + @opt[:log_name].gsub("<prog>",@prog_base)\
                            .gsub("<time>","[0-2][0-9][0-5][0-9][0-5][0-9]")\
                            .gsub("<date>","([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])")\
                          + "$")
           if r =~ file && Date.strptime($1,"%Y%m%d") <= Date.today - date
-            puts "Delete old log file: " + File.join(@opt[:log_dir] , file) if ! @opt[:log_quiet]
-            File::delete(File.join(@opt[:log_dir]  , file))
+            puts "Delete old log file: " + File.join(@log_dir , file) if ! @opt[:log_quiet]
+            File::delete(File.join(@log_dir  , file))
           end
         end
       end

@@ -6,10 +6,12 @@ module RBatch
     @yaml
     attr_reader :run_conf_path,:home_dir
     @@def_opt = {
-      :tmp_dir       => nil,
-      :conf_dir      => nil,
-      :log_dir       => nil,
+      :conf_dir      => "<home>/conf",
+      :common_conf_name => "common.yaml",
       :forbid_double_run => false,
+      :cmd_raise     => false,
+      :cmd_timeout   => 0,
+      :log_dir       => "<home>/log",
       :log_name      => "<date>_<time>_<prog>.log",
       :log_append    => true,
       :log_level     => "info",
@@ -22,9 +24,7 @@ module RBatch
       :log_mail_to   => nil,
       :log_mail_from => "rbatch.localhost",
       :log_mail_server_host => "localhost",
-      :log_mail_server_port => 25,
-      :cmd_raise     => false,
-      :cmd_timeout   => 0,
+      :log_mail_server_port => 25
     }
     def initialize(run_conf_path,home_dir)
       @run_conf_path = run_conf_path
@@ -35,7 +35,6 @@ module RBatch
 
     def reset()
       @opt = @@def_opt.clone
-      @opt[:tmp_dir] = Dir.tmpdir
       case RUBY_PLATFORM
       when /mswin|mingw/
         @opt[:log_hostname] =  ENV["COMPUTERNAME"] ? ENV["COMPUTERNAME"] : "unknownhost"
@@ -44,8 +43,6 @@ module RBatch
       else
         @opt[:log_hostname] = "unknownhost"
       end
-      @opt[:log_dir] = File.join(@home_dir,"log")
-      @opt[:conf_dir] = File.join(@home_dir,"conf")
     end
 
     def load()

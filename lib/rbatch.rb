@@ -17,7 +17,7 @@ module RBatch
     else
       @@home_dir =  File.join(File.dirname(@@program_name) , "..")
     end
-    @@run_conf_path = File.join(@@home_dir,"conf","rbatch.yaml")
+    @@run_conf_path = File.join(@@home_dir,".rbatchrc")
     @@run_conf = RunConf.new(@@run_conf_path,@@home_dir)
   end
 end
@@ -27,7 +27,6 @@ require 'rbatch/run_conf'
 require 'rbatch/double_run_checker'
 
 RBatch::init
-
 if ( RBatch.run_conf[:forbid_double_run] )
   RBatch::DoubleRunChecker.check(RBatch.program_name) #raise error if check is NG
   RBatch::DoubleRunChecker.make_lock_file(RBatch.program_name)
