@@ -1,39 +1,35 @@
 #!/usr/local/bin/ruby
 
 contents = {}
-contents["bin/hello_world.rb"] = <<EOF
-require 'rbatch'
 
-RBatch::Log.new{|log|
-  log.info("hello world")
-  log.info("config value: " + RBatch::config["key1"])
-  result = RBatch.cmd("ls")
-  log.info(result)
-}
-
-EOF
-
-contents["conf/hello_world.yaml"] = <<EOF
-key1 : value1
-EOF
-
-contents["conf/rbatch.yaml"] = <<EOF
-# RBatch Common Config
+contents[".rbatchrc"] = <<EOF
+# RBatch Run-Conf (.rbatchrc)
 #
-#   This file format is YAML.
+#   This format is YAML.
 #
 
 # -------------------
 # Global setting
 # -------------------
 
+# Conf Directory
+#
+#   Default is "<RB_HOME>/conf"
+#
+#   <RB_HOME> --> Replace to ${RB_HOME}
+#
+#conf_dir: <RB_HOME>/conf
+#conf_dir: /etc/rbatch/
+
 # Forbit Script Double Run
 #
 #   Default is false.
-#   If this option is true, two same script cannot start at the same time. 
+#   If this option is true, two same name scripts cannot run at the same time. 
 #
 #forbid_double_run: true
 #forbid_double_run: false
+
+# Conf Directory
 
 # -------------------
 # Cmd setting
@@ -47,10 +43,24 @@ contents["conf/rbatch.yaml"] = <<EOF
 #cmd_raise : true
 #cmd_raise : false
 
+# Command Timeout
+#
+#   Default is 0 [sec].
+#
+#cmd_timeout: 5
 
 # -------------------
 # Log setting
 # -------------------
+
+# Log Directory
+#
+#   Default is "<RB_HOME>/log"
+#
+#   <RB_HOME> is replace to ${RB_HOME}
+#
+#log_dir: <RB_HOME>/log
+#log_dir: /var/log/rbatch/
 
 # Log File Name
 #
@@ -63,12 +73,6 @@ contents["conf/rbatch.yaml"] = <<EOF
 #
 #log_name : "<date>_<time>_<prog>.log"
 #log_name : "<date>_<prog>.log"
-
-# Log Output Directory
-#
-#   Default is "(Script path)/../log".
-#
-#log_dir : "/tmp/log"
 
 # Append log or not
 #
@@ -88,7 +92,7 @@ contents["conf/rbatch.yaml"] = <<EOF
 #log_level : "error"
 #log_level : "fatal"
 
-# Print log-string both file and STDOUT
+# Print log string both file and STDOUT
 #
 #   Default is false.
 #
@@ -118,7 +122,7 @@ contents["conf/rbatch.yaml"] = <<EOF
 #
 #log_send_mail : true
 
-# Send mail parameters
+# Mail parameters
 #
 #log_mail_to   : "xxx@sample.com"
 #log_mail_from : "xxx@sample.com"
@@ -126,6 +130,23 @@ contents["conf/rbatch.yaml"] = <<EOF
 #log_mail_server_port : 25
 
 EOF
+
+contents["bin/hello_world.rb"] = <<EOF
+require 'rbatch'
+
+RBatch::Log.new{|log|
+  log.info("hello world")
+  log.info("config value: " + RBatch::config["key1"])
+  result = RBatch.cmd("ls")
+  log.info(result)
+}
+
+EOF
+
+contents["conf/hello_world.yaml"] = <<EOF
+key1 : value1
+EOF
+
 
 require 'fileutils'
 ["bin","conf","log"].each do | dir |
@@ -136,7 +157,7 @@ require 'fileutils'
     puts "exist ./" + dir + " (not create)"
   end
 end
-["bin/hello_world.rb","conf/hello_world.yaml","conf/rbatch.yaml"].each do | file |
+["bin/hello_world.rb","conf/hello_world.yaml",".rbatchrc"].each do | file |
   if ! File.exists?(file)
     File.open(file, "w") { |f| f.puts contents[file] }
     puts "create ./" + file

@@ -1,10 +1,11 @@
 [[English]](https://github.com/fetaro/rbatch/blob/master/README.md "english") [[Japanese]](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese")
 
-RBatch:Ruby-base バッチスクリプトフレームワーク
+RBatch:Ruby-base バッチ スクリプト フレームワーク
 =============
 
 RBatchについて
 --------------
+
 これはRubyで書かれたシンプルなバッチスクリプトのフレームワークです。
 バッチスクリプト（バックアップやプロセスリロード等）を書く際に便利な機能をフレームワークとして提供しています。
 
@@ -16,11 +17,28 @@ RBatchについて
 * 外部コマンド実行 
 * 二重起動チェック
 
-注意：このフレームワークはRuby 1.9.x以降で動作します。また、Rubyプラットフォームは"linux","mswin","mingw","cygwin"で動作します。
+注意：このフレームワークはRuby 1.9で動作します。
 
 このソフトウェアは、MITライセンスのもとで公開しています。LICENSE.txtを見てください。
 
-### はじめに
+クイックスタート
+--------------
+
+    $ sudo gem install rbatch
+    $ rbatch-init    # => ディレクトリとサンプルスクリプトが作られます
+    $ ruby bin/hello_world.rb
+    $ cat log/YYYYMMDD_HHMMSS_hello_world.log
+
+マニュアル
+--------------
+
+### RBatchホームディレクトリ
+
+環境変数${RB_HOME}を定義する事で、その場所をRBatchのホームディレクトリに固定することができます。
+
+環境変数${RB_HOME}を定義していない場合は、「実行するスクリプトが配置されているディレクトリの親ディレクトリ」が${RB_HOME}になります。言い換えると${RB_HOME}のデフォルト値は"(実行するスクリプトのパス)/../"です。
+
+### ディレクトリ構成と命名規則
 
 RBatchでは、実行スクリプト、設定ファイルおよびログファイルについて、
 配置場所および命名規則が規約で決まっています。
@@ -30,7 +48,10 @@ RBatchでは、実行スクリプト、設定ファイルおよびログファ�
 例を示すと以下の通りです。
 
 ```
-${RB_HOME}
+${RB_HOME}         ←RBatchホームディレクトリ
+ |
+ |-.rbatchrc       ←Run-Conf
+ |
  |-bin             ←実行スクリプト配置場所
  |  |- A.rb
  |  |- B.rb
@@ -38,20 +59,11 @@ ${RB_HOME}
  |-conf            ←設定ファイル配置場所
  |  |- A.yaml
  |  |- B.yaml
- |  |- rbatch.yaml ←RBatch全体設定ファイル
  |
  |-log             ←ログ出力場所
     |- YYYYMMDD_HHMMSS_A.log
     |- YYYYMMDD_HHMMSS_B.log
 ```
-
-### RBatchホームディレクトリ
-
-環境変数${RB_HOME}を定義する事で、その場所をRBatchのホームディレクトリに固定することができます。
-
-環境変数${RB_HOME}を定義していない場合は、「実行するスクリプトが配置されているディレクトリの親ディレクトリ」が${RB_HOME}になります。言い換えると${RB_HOME}のデフォルト値は"(実行するスクリプトのパス)/../"です。
-
-となります。
 
 ### 自動ログ出力
 
@@ -92,7 +104,7 @@ RBatch::Log.new(){ |log|  # Logging block
 ### 自動設定ファイル読み込み
 
 RBatchは簡単にデフォルトの位置の設定ファイルを読み込めます。
-デフォルトの位置は"${RB_HOME}/conf/${PROG_NAME}.yaml"です。
+デフォルトの位置は"${RB_HOME}/conf/(プログラムbase名).yaml"です。
 
 サンプル
 
@@ -118,7 +130,10 @@ p RBatch::config["not_exist"]
 => Raise Exception
 ```
 
+すべてのスクリプトから共通で読み込む設定ファイルを作りたい場合は、${RB_HOME}/conf/common.yamlというファイルを作ることで可能です。
+
 ### 外部コマンド実行 
+
 RBatchは外部コマンド（たとえば"ls -l"）を実行するラッパー関数を提供します。
 
 この関数は、実行結果をオブジェクトで返し、そのオブジェクトは標準出力、標準エラー出力、およびexitステータスを含みます。
@@ -137,44 +152,30 @@ p r.status
 
 ### 二重起動チェック
 
-RBatchの共通設定ファイルに"forbid_double_run: true"の設定を書けば、RBatchを利用したスクリプトの二重起動チェックができます。
+RBatchの共通設定ファイルに"forbid_double_run: true"の設定を書けば、RBatchを利用したプログラムの二重起動チェックができます。
 
-クイックスタート
---------------
-
-    $ sudo gem install rbatch
-    $ rbatch-init    # => ディレクトリとサンプルスクリプトが作られます
-    $ ruby bin/hello_world.rb
-    $ cat log/YYYYMMDD_HHMMSS_hello_world.log
-
-
-オプション
+カスタマイズ
 --------------
 
 RBatchではオプションの指定の仕方は以下の二つがあります。
 
-1. 全体設定ファイル(${RB_HOME}/conf/rbatch.yaml)に書く
-2. コンストラクタの引数に指定する
+(1) Run-Conf(${RB_HOME}/.rbatchrc)に書く
+(2) スクリプト内でオプションオブジェクトをコンストラクタの引数に渡す
 
-全体設定ファイルにオプションを書くと、全てのスクリプトに効果がありますが、コンストラクタの引数に指定した場合はそのインスタンスのみ効果があります。
+同じオプションを(1)と(2)の両方で指定すると、(2)が優先されます。
 
-全体設定ファイルとコンストラクタの引数に同じオプションが指定された場合、コンストラクタの引数が優先されます。
-
-全体設定ファイルのキーの名前と、コンストラクタオプションのキーの名前は、対応関係があります。全体設定ファイルのキー名は「(クラス名)_(キー名)」となります。
-たとえばRBatch::Logクラスのコンストラクタオプションで「:name」というキーは、全体設定ファイルでは「log_name」というキーになります。
-
-### 全体設定ファイルによるオプション指定
+### Run-Conf(.rbatchrc)によるカスタマイズ
 
 以下の場所にRBatch全体設定ファイルを配置すると、全てのスクリプトにてオプションが適用されます。
 
 
-     ${RB_HOME}/conf/rbatch.yaml
+     ${RB_HOME}/.rbatchrc
 
 
 設定ファイルのサンプルは以下の通り
 
 ```
-# RBatch 全体設定
+# RBatch Run-Conf (.rbatchrc)
 #
 #   設定ファイルの形式はYAML形式です
 #
@@ -182,6 +183,15 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 # -------------------
 # 全体
 # -------------------
+
+# Conf ディレクトリ
+#
+#   デフォルトは "<RB_HOME>/conf"
+#
+#   <RB_HOME> は ${RB_HOME} に置き換わります
+#
+#conf_dir: <RB_HOME>/conf
+#conf_dir: /etc/rbatch/
 
 # スクリプトの二重起動を可能にするかどうか
 #
@@ -203,9 +213,24 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 #cmd_raise: true
 #cmd_raise: false
 
+# 外部コマンドのタイムアウト
+#
+#   デフォルト値は0[sec]。
+#
+#cmd_timeout: 5
+
 # -------------------
 # ログ関連
 # -------------------
+
+# ログディレクトリ
+#
+#   デフォルトは "<RB_HOME>/log"
+#
+#   <RB_HOME> は ${RB_HOME} に置き換わります
+#
+#log_dir: <RB_HOME>/log
+#log_dir: /var/log/rbatch/
 
 # ログファイル名
 #
@@ -218,12 +243,6 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 #
 #log_name : "<date>_<time>_<prog>.log"
 #log_name : "<date>_<prog>.log"
-
-# ログ出力ディレクトリ
-#
-#   デフォルト値は"${RB_HOME}/log"。
-#
-#log_dir : "/tmp/log"
 
 # ログを追記するかどうか
 #
@@ -291,7 +310,6 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 
 #### RBatch::Logクラス
 
-    RBatch::Log.new(opt = nil)
     opt = {
           :name      => "<date>_<time>_<prog>.log",
           :dir       => "/var/log/",
@@ -307,10 +325,13 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
           :mail_server_port => 25
     }
 
+    RBatch::Log.new(opt)
+
 #### RBatch::Cmdクラス
 
-    RBatch::Log.new(cmd_str, opt = nil)
     opt = {
           :raise     => false,
           :timeout   => 0
           }
+
+    RBatch::Log.new(cmd_str, opt)
