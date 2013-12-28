@@ -3,7 +3,7 @@
 RBatch:Ruby-base Batch-Script Framework
 =============
 
-About RBatch
+About RBatch (version 2)
 --------------
 
 RBatch is Ruby-base Batch Script Framework. RBatch has many fanctions to help with your making a batch script such as "data backup" or "proccess starting".
@@ -155,7 +155,6 @@ Using "forbid_double_run: true" option, two same name scripts cannot run at the 
 
 Customize
 --------------
-
 If you want to customize RBatch, you have two methods.
 
 (1) Write Run-Conf (${RB_HOME}/.rbatchrc).
@@ -334,3 +333,9 @@ If you want to set options in a script, you hand an argument of options to a con
           }
 
     RBatch::Log.new(cmd_str, opt)
+
+
+Migration from version 1 to version 2
+--------------
+
+Move "${RB_HOME}/conf/rbatch.yaml" to "${RB_HOME}/.rbatchrc" .
