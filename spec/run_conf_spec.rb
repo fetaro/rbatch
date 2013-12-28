@@ -1,9 +1,10 @@
-require 'tmpdir'
+require File.expand_path(File.join( File.dirname(__FILE__), 'spec_helper'))
+
 require 'rbatch/run_conf'
 
 describe RBatch::RunConf do
   before :all do
-    @home = Dir.tmpdir
+    @home = ENV["RB_HOME"]
     @config = File.join(@home,"run_conf_test.yaml")
   end
 

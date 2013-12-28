@@ -1,13 +1,11 @@
-require 'tmpdir'
-ENV["RB_VERBOSE"]="0"
-ENV["RB_HOME"]=Dir.tmpdir
+require File.expand_path(File.join( File.dirname(__FILE__), 'spec_helper'))
 
 require 'rbatch'
 
 describe RBatch::Log do
 
   before :all do
-    @dir = File.join(Dir.tmpdir,"log")
+    @dir = File.join(ENV["RB_HOME"],"log")
     Dir::mkdir(@dir)if ! Dir.exists? @dir
   end
 
@@ -84,7 +82,8 @@ describe RBatch::Log do
     end
 
     it "change log dir" do
-      @tmp = Dir.tmpdir
+      @tmp = File.join(ENV["RB_HOME"],"log3")
+      Dir.mkdir(@tmp)
       RBatch::Log.new({:name => "c.log", :dir=> @tmp }) do | log |
         log.info("hoge")
       end
@@ -282,7 +281,8 @@ describe RBatch::Log do
     end
 
     it "change log dir" do
-      @tmp = Dir.tmpdir
+      @tmp = File.join(ENV["RB_HOME"],"log2")
+      Dir.mkdir(@tmp)
       confstr = "log_name: c.log\nlog_dir: " + @tmp
       open( RBatch.run_conf_path  , "a" ){|f| f.write(confstr)}
       RBatch.run_conf.reload
