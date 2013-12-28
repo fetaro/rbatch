@@ -12,7 +12,7 @@ describe RBatch::Log do
   end
 
   before :each do
-    open( RBatch.run_conf_path  , "w" ){|f| f.write("log_quiet: true \n")}
+    open( RBatch.run_conf_path  , "w" ){|f| f.write("")}
     RBatch.run_conf.reload
   end
 
