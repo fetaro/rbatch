@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-	<meta content="text/html; charset=harset=UTF-8 " http-equiv="Content-Type" />
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 
 	<title>RDoc Documentation</title>
 
@@ -47,9 +47,15 @@
 		
 		<li class="class"><a href="RBatch/Config/Exception.html">RBatch::Config::Exception</a></li>
 		
+		<li class="class"><a href="RBatch/DoubleRunCheckException.html">RBatch::DoubleRunCheckException</a></li>
+		
+		<li class="module"><a href="RBatch/DoubleRunChecker.html">RBatch::DoubleRunChecker</a></li>
+		
 		<li class="class"><a href="RBatch/Log.html">RBatch::Log</a></li>
 		
-		<li class="class"><a href="RBatchException.html">RBatchException</a></li>
+		<li class="class"><a href="RBatch/RunConf.html">RBatch::RunConf</a></li>
+		
+		<li class="class"><a href="RBatch/RunConf/Exception.html">RBatch::RunConf::Exception</a></li>
 		
 	</ul>
 
@@ -58,13 +64,15 @@
 		
 			<li><a href="RBatch/Config.html#method-c-new">::new &mdash; RBatch::Config</a></li>
 		
-			<li><a href="RBatch/Cmd.html#method-c-new">::new &mdash; RBatch::Cmd</a></li>
-		
-			<li><a href="RBatch/CommonConfig.html#method-c-new">::new &mdash; RBatch::CommonConfig</a></li>
+			<li><a href="RBatch/Log.html#method-c-new">::new &mdash; RBatch::Log</a></li>
 		
 			<li><a href="RBatch/CmdResult.html#method-c-new">::new &mdash; RBatch::CmdResult</a></li>
 		
-			<li><a href="RBatch/Log.html#method-c-new">::new &mdash; RBatch::Log</a></li>
+			<li><a href="RBatch/CommonConfig.html#method-c-new">::new &mdash; RBatch::CommonConfig</a></li>
+		
+			<li><a href="RBatch/RunConf.html#method-c-new">::new &mdash; RBatch::RunConf</a></li>
+		
+			<li><a href="RBatch/Cmd.html#method-c-new">::new &mdash; RBatch::Cmd</a></li>
 		
 			<li><a href="RBatch/Log.html#method-c-verbose">::verbose &mdash; RBatch::Log</a></li>
 		
@@ -72,7 +80,13 @@
 		
 			<li><a href="RBatch/Config.html#method-i-%5B%5D">#[] &mdash; RBatch::Config</a></li>
 		
+			<li><a href="RBatch/RunConf.html#method-i-%5B%5D">#[] &mdash; RBatch::RunConf</a></li>
+		
 			<li><a href="RBatch/CommonConfig.html#method-i-%5B%5D">#[] &mdash; RBatch::CommonConfig</a></li>
+		
+			<li><a href="RBatch/RunConf.html#method-i-%5B%5D%3D">#[]= &mdash; RBatch::RunConf</a></li>
+		
+			<li><a href="RBatch/DoubleRunChecker.html#method-i-check">#check &mdash; RBatch::DoubleRunChecker</a></li>
 		
 			<li><a href="RBatch/Log.html#method-i-close">#close &mdash; RBatch::Log</a></li>
 		
@@ -82,15 +96,13 @@
 		
 			<li><a href="RBatch.html#method-i-common_config">#common_config &mdash; RBatch</a></li>
 		
+			<li><a href="RBatch.html#method-i-conf_dir">#conf_dir &mdash; RBatch</a></li>
+		
 			<li><a href="RBatch.html#method-i-config">#config &mdash; RBatch</a></li>
 		
 			<li><a href="RBatch/Log.html#method-i-debug">#debug &mdash; RBatch::Log</a></li>
 		
 			<li><a href="RBatch/Log.html#method-i-delete_old_log">#delete_old_log &mdash; RBatch::Log</a></li>
-		
-			<li><a href="RBatch.html#method-i-double_run_check">#double_run_check &mdash; RBatch</a></li>
-		
-			<li><a href="RBatch.html#method-i-double_run_lock_file">#double_run_lock_file &mdash; RBatch</a></li>
 		
 			<li><a href="RBatch/Log.html#method-i-error">#error &mdash; RBatch::Log</a></li>
 		
@@ -98,11 +110,23 @@
 		
 			<li><a href="RBatch.html#method-i-home_dir">#home_dir &mdash; RBatch</a></li>
 		
-			<li><a href="RBatch.html#method-i-home_dir%3D">#home_dir= &mdash; RBatch</a></li>
-		
-			<li><a href="RBatch.html#method-i-hostname">#hostname &mdash; RBatch</a></li>
-		
 			<li><a href="RBatch/Log.html#method-i-info">#info &mdash; RBatch::Log</a></li>
+		
+			<li><a href="RBatch.html#method-i-init">#init &mdash; RBatch</a></li>
+		
+			<li><a href="RBatch.html#method-i-journal">#journal &mdash; RBatch</a></li>
+		
+			<li><a href="RBatch/RunConf.html#method-i-load">#load &mdash; RBatch::RunConf</a></li>
+		
+			<li><a href="RBatch/DoubleRunChecker.html#method-i-lock_file_name">#lock_file_name &mdash; RBatch::DoubleRunChecker</a></li>
+		
+			<li><a href="RBatch.html#method-i-log_dir">#log_dir &mdash; RBatch</a></li>
+		
+			<li><a href="RBatch/DoubleRunChecker.html#method-i-make_lock_file">#make_lock_file &mdash; RBatch::DoubleRunChecker</a></li>
+		
+			<li><a href="RBatch/RunConf.html#method-i-merge">#merge &mdash; RBatch::RunConf</a></li>
+		
+			<li><a href="RBatch/RunConf.html#method-i-merge%21">#merge! &mdash; RBatch::RunConf</a></li>
 		
 			<li><a href="RBatch/Log.html#method-i-opt">#opt &mdash; RBatch::Log</a></li>
 		
@@ -110,15 +134,19 @@
 		
 			<li><a href="RBatch/Config.html#method-i-path">#path &mdash; RBatch::Config</a></li>
 		
+			<li><a href="RBatch.html#method-i-program_base">#program_base &mdash; RBatch</a></li>
+		
 			<li><a href="RBatch.html#method-i-program_name">#program_name &mdash; RBatch</a></li>
 		
-			<li><a href="RBatch.html#method-i-program_name%3D">#program_name= &mdash; RBatch</a></li>
+			<li><a href="RBatch/RunConf.html#method-i-reload">#reload &mdash; RBatch::RunConf</a></li>
 		
-			<li><a href="RBatch.html#method-i-rbatch_config">#rbatch_config &mdash; RBatch</a></li>
-		
-			<li><a href="RBatch.html#method-i-rbatch_config_path">#rbatch_config_path &mdash; RBatch</a></li>
+			<li><a href="RBatch/RunConf.html#method-i-reset">#reset &mdash; RBatch::RunConf</a></li>
 		
 			<li><a href="RBatch/Cmd.html#method-i-run">#run &mdash; RBatch::Cmd</a></li>
+		
+			<li><a href="RBatch.html#method-i-run_conf">#run_conf &mdash; RBatch</a></li>
+		
+			<li><a href="RBatch.html#method-i-run_conf_path">#run_conf_path &mdash; RBatch</a></li>
 		
 			<li><a href="RBatch/Log.html#method-i-send_mail">#send_mail &mdash; RBatch::Log</a></li>
 		
@@ -132,15 +160,13 @@
 		
 			<li><a href="RBatch/CmdResult.html#method-i-stdout_file">#stdout_file &mdash; RBatch::CmdResult</a></li>
 		
-			<li><a href="RBatch.html#method-i-tmp_dir">#tmp_dir &mdash; RBatch</a></li>
-		
 			<li><a href="RBatch/CmdResult.html#method-i-to_h">#to_h &mdash; RBatch::CmdResult</a></li>
 		
-			<li><a href="RBatch/CmdResult.html#method-i-to_s">#to_s &mdash; RBatch::CmdResult</a></li>
+			<li><a href="RBatch/Config.html#method-i-to_s">#to_s &mdash; RBatch::Config</a></li>
 		
 			<li><a href="RBatch/CommonConfig.html#method-i-to_s">#to_s &mdash; RBatch::CommonConfig</a></li>
 		
-			<li><a href="RBatch/Config.html#method-i-to_s">#to_s &mdash; RBatch::Config</a></li>
+			<li><a href="RBatch/CmdResult.html#method-i-to_s">#to_s &mdash; RBatch::CmdResult</a></li>
 		
 			<li><a href="RBatch/Log.html#method-i-warn">#warn &mdash; RBatch::Log</a></li>
 		

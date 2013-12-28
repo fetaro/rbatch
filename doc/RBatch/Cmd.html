@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: RBatch::Cmd</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/rbatch/cmd_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/cmd.rb">lib/rbatch/cmd.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-i-run">#run</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../RBatch.html">RBatch</a></li>
+				
+					<li><a href="../RBatch/Cmd.html">RBatch::Cmd</a></li>
+				
+					<li><a href="../RBatch/CmdException.html">RBatch::CmdException</a></li>
+				
+					<li><a href="../RBatch/CmdResult.html">RBatch::CmdResult</a></li>
+				
+					<li><a href="../RBatch/CommonConfig.html">RBatch::CommonConfig</a></li>
+				
+					<li><a href="../RBatch/CommonConfig/Exception.html">RBatch::CommonConfig::Exception</a></li>
+				
+					<li><a href="../RBatch/Config.html">RBatch::Config</a></li>
+				
+					<li><a href="../RBatch/Config/Exception.html">RBatch::Config::Exception</a></li>
+				
+					<li><a href="../RBatch/DoubleRunCheckException.html">RBatch::DoubleRunCheckException</a></li>
+				
+					<li><a href="../RBatch/DoubleRunChecker.html">RBatch::DoubleRunChecker</a></li>
+				
+					<li><a href="../RBatch/Log.html">RBatch::Log</a></li>
+				
+					<li><a href="../RBatch/RunConf.html">RBatch::RunConf</a></li>
+				
+					<li><a href="../RBatch/RunConf/Exception.html">RBatch::RunConf::Exception</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">RBatch::Cmd</h1>
+
+		<div id="description">
+			<pre>
+ External command runcher.
+</pre>
+<p>
+This module is a wrapper of Kernel#spawn.
+</p>
+<pre>
+ * Arguments(cmd_params) are inputed to Kernel#spawn directly and run command.
+ * Return an object of RBatch::CmdResult which includes stdout, stderr, and exit status.
+
+ ==== Sample 1
+  require 'rbatch'
+  result = RBatch::cmd(&quot;ls&quot;)
+  p result.stdout
+  =&gt; &quot;fileA\nfileB\n&quot;
+
+ ==== Sample 2 (use option)
+  require 'rbatch'
+  result = RBatch::cmd(&quot;ls&quot;,{:timeout =&gt; 1})
+  p result.stdout
+  =&gt; &quot;fileA\nfileB\n&quot;
+
+ ==== Sample 3 (use instance)
+  require 'rbatch'
+  cmd = RBatch::Cmd.new(&quot;ls&quot;)
+  result = cmd.run
+  p result.stdout
+  =&gt; &quot;fileA\nfileB\n&quot;</pre>
+
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(cmd_str,opt = nil)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+<a href="Cmd.html">Cmd</a> instance
+</p>
+<h4>Params</h4>
+<p>
+<tt>cmd_str</tt> = Command string such as &#8220;ls -l&#8221; <tt>opt</tt>
+= Option hash object.
+</p>
+<ul>
+<li><p>
+<tt>:raise</tt> (Boolean) = If command exit status is not 0, raise
+exception. Default is false.
+</p>
+</li>
+<li><p>
+<tt>:timeout</tt> (Integer) = If command timeout , raise exception and kill
+process. Default is 0 sec ( 0 means disable) .
+</p>
+</li>
+</ul>
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 44</span>
+44:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">cmd_str</span>,<span class="ruby-identifier">opt</span> = <span class="ruby-keyword kw">nil</span>)
+45:       <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-value str">&quot;Command string is nil&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">cmd_str</span>.<span class="ruby-identifier">nil?</span>
+46:       <span class="ruby-ivar">@cmd_str</span> = <span class="ruby-identifier">cmd_str</span>
+47:       <span class="ruby-identifier">tmp</span> = {}
+48:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">nil?</span>
+49:         <span class="ruby-ivar">@opt</span>=<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">run_conf</span>.<span class="ruby-identifier">clone</span>
+50:       <span class="ruby-keyword kw">else</span>
+51:         <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+52:           <span class="ruby-identifier">tmp</span>[(<span class="ruby-value str">&quot;cmd_&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>).<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">opt</span>[<span class="ruby-identifier">key</span>]
+53:         <span class="ruby-keyword kw">end</span>
+54:         <span class="ruby-ivar">@opt</span>=<span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">run_conf</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">tmp</span>)
+55:       <span class="ruby-keyword kw">end</span>
+56:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="run-method" class="method-detail ">
+				<a name="method-i-run"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">run</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Run command
+</p>
+<h4>Return</h4>
+<p>
+instance of <a href="CmdResult.html">RBatch::CmdResult</a>
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="run-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 62</span>
+62:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run</span>()
+63:       <span class="ruby-identifier">stdout_file</span> = <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;rbatch_tmpout&quot;</span>,<span class="ruby-constant">Dir</span>.<span class="ruby-identifier">tmpdir</span>)
+64:       <span class="ruby-identifier">stderr_file</span> = <span class="ruby-constant">Tempfile</span><span class="ruby-operator">::</span><span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;rbatch_tmperr&quot;</span>,<span class="ruby-constant">Dir</span>.<span class="ruby-identifier">tmpdir</span>)
+65:       <span class="ruby-identifier">pid</span> = <span class="ruby-identifier">spawn</span>(<span class="ruby-ivar">@cmd_str</span>,<span class="ruby-value">:out</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">stdout_file</span>,<span class="ruby-value str">&quot;w&quot;</span>],<span class="ruby-value">:err</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">stderr_file</span>,<span class="ruby-value str">&quot;w&quot;</span>])
+66:       <span class="ruby-identifier">status</span> = <span class="ruby-keyword kw">nil</span>
+67:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:cmd_timeout</span>] <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+68:         <span class="ruby-keyword kw">begin</span>
+69:           <span class="ruby-identifier">timeout</span>(<span class="ruby-ivar">@opt</span>[<span class="ruby-value">:cmd_timeout</span>]) <span class="ruby-keyword kw">do</span>
+70:             <span class="ruby-identifier">status</span> =  <span class="ruby-constant">Process</span>.<span class="ruby-identifier">waitpid2</span>(<span class="ruby-identifier">pid</span>)[<span class="ruby-value">1</span>] <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">8</span>
+71:           <span class="ruby-keyword kw">end</span>
+72:         <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Timeout</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+73:           <span class="ruby-keyword kw">begin</span>
+74:             <span class="ruby-constant">Process</span>.<span class="ruby-identifier">kill</span>(<span class="ruby-value str">'SIGINT'</span>, <span class="ruby-identifier">pid</span>)
+75:             <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-node">&quot;Run time of command \&quot;#{@cmd_str}\&quot; is over #{@opt[:cmd_timeout].to_s} sec. Success to kill process : PID=#{pid}&quot;</span> )
+76:           <span class="ruby-keyword kw">rescue</span>
+77:             <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-node">&quot;Run time of command \&quot;#{@cmd_str}\&quot; is over #{@opt[:cmd_timeout].to_s} sec. Fail to kill process : PID=#{pid}&quot;</span> )
+78:           <span class="ruby-keyword kw">end</span>
+79:         <span class="ruby-keyword kw">end</span>
+80:       <span class="ruby-keyword kw">else</span>
+81:         <span class="ruby-identifier">status</span> =  <span class="ruby-constant">Process</span>.<span class="ruby-identifier">waitpid2</span>(<span class="ruby-identifier">pid</span>)[<span class="ruby-value">1</span>] <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">8</span>
+82:       <span class="ruby-keyword kw">end</span>
+83:       <span class="ruby-identifier">result</span> = <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">CmdResult</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">stdout_file</span>,<span class="ruby-identifier">stderr_file</span>,<span class="ruby-identifier">status</span>,<span class="ruby-ivar">@cmd_str</span>)
+84:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:cmd_raise</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
+85:         <span class="ruby-identifier">raise</span>(<span class="ruby-constant">CmdException</span>,<span class="ruby-value str">&quot;Command exit status is not 0. result: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">to_s</span>)
+86:       <span class="ruby-keyword kw">end</span>
+87:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">result</span>
+88:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

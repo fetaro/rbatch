@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: RBatch::RunConf</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/rbatch/run_conf_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/run_conf.rb">lib/rbatch/run_conf.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+			<div id="namespace-list-section" class="section">
+				<h3 class="section-header">Namespace</h3>
+				<ul class="link-list">
+					
+					<li><span class="type">CLASS</span> <a href="RunConf/Exception.html">RBatch::RunConf::Exception</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-i-%5B%5D">#[]</a></li>
+					
+					<li><a href="#method-i-%5B%5D%3D">#[]=</a></li>
+					
+					<li><a href="#method-i-load">#load</a></li>
+					
+					<li><a href="#method-i-merge">#merge</a></li>
+					
+					<li><a href="#method-i-merge%21">#merge!</a></li>
+					
+					<li><a href="#method-i-reload">#reload</a></li>
+					
+					<li><a href="#method-i-reset">#reset</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../RBatch.html">RBatch</a></li>
+				
+					<li><a href="../RBatch/Cmd.html">RBatch::Cmd</a></li>
+				
+					<li><a href="../RBatch/CmdException.html">RBatch::CmdException</a></li>
+				
+					<li><a href="../RBatch/CmdResult.html">RBatch::CmdResult</a></li>
+				
+					<li><a href="../RBatch/CommonConfig.html">RBatch::CommonConfig</a></li>
+				
+					<li><a href="../RBatch/CommonConfig/Exception.html">RBatch::CommonConfig::Exception</a></li>
+				
+					<li><a href="../RBatch/Config.html">RBatch::Config</a></li>
+				
+					<li><a href="../RBatch/Config/Exception.html">RBatch::Config::Exception</a></li>
+				
+					<li><a href="../RBatch/DoubleRunCheckException.html">RBatch::DoubleRunCheckException</a></li>
+				
+					<li><a href="../RBatch/DoubleRunChecker.html">RBatch::DoubleRunChecker</a></li>
+				
+					<li><a href="../RBatch/Log.html">RBatch::Log</a></li>
+				
+					<li><a href="../RBatch/RunConf.html">RBatch::RunConf</a></li>
+				
+					<li><a href="../RBatch/RunConf/Exception.html">RBatch::RunConf::Exception</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">RBatch::RunConf</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="run-conf-path-attribute-method" class="method-detail">
+				<a name="run_conf_path"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">run_conf_path</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="home-dir-attribute-method" class="method-detail">
+				<a name="home_dir"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">home_dir</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(run_conf_path,home_dir)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/run_conf.rb, line 28</span>
+28:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">run_conf_path</span>,<span class="ruby-identifier">home_dir</span>)
+29:       <span class="ruby-ivar">@run_conf_path</span> = <span class="ruby-identifier">run_conf_path</span>
+30:       <span class="ruby-ivar">@home_dir</span> = <span class="ruby-identifier">home_dir</span>
+31:       <span class="ruby-identifier">reset</span>
+32:       <span class="ruby-identifier">load</span>
+33:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="--method" class="method-detail ">
+				<a name="method-i-%5B%5D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">[]</span><span
+						class="method-args">(key)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="--source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/run_conf.rb, line 92</span>
+92:     <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]</span>(<span class="ruby-identifier">key</span>)
+93:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>[<span class="ruby-identifier">key</span>].<span class="ruby-identifier">nil?</span>
+94:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">RunConf</span><span class="ruby-operator">::</span><span class="ruby-constant">Exception</span>, <span class="ruby-node">&quot;Value of key=\&quot;#{key}\&quot; is nil&quot;</span>
+95:       <span class="ruby-keyword kw">end</span>
+96:       <span class="ruby-ivar">@opt</span>[<span class="ruby-identifier">key</span>]
+97:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="--method" class="method-detail ">
+				<a name="method-i-%5B%5D%3D"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">[]=</span><span
+						class="method-args">(key,value)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="--source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/run_conf.rb, line 99</span>
+ 99:     <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]=</span>(<span class="ruby-identifier">key</span>,<span class="ruby-identifier">value</span>)
+100:       <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@opt</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)
+101:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">RunConf</span><span class="ruby-operator">::</span><span class="ruby-constant">Exception</span>, <span class="ruby-node">&quot;Key=\&quot;#{key}\&quot; does not exist&quot;</span>
+102:       <span class="ruby-keyword kw">end</span>
+103:       <span class="ruby-ivar">@opt</span>[<span class="ruby-identifier">key</span>]=<span class="ruby-identifier">value</span>
+104:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="load-method" class="method-detail ">
+				<a name="method-i-load"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">load</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="load-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/run_conf.rb, line 47</span>
+47:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">load</span>()
+48:       <span class="ruby-keyword kw">begin</span>
+49:         <span class="ruby-ivar">@yaml</span> = <span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load_file</span>(<span class="ruby-ivar">@run_conf_path</span>)
+50:       <span class="ruby-keyword kw">rescue</span>
+51:         <span class="ruby-comment cmt"># when run_conf does not exist, do nothing.</span>
+52:         <span class="ruby-ivar">@yaml</span> = <span class="ruby-keyword kw">false</span>
+53:       <span class="ruby-keyword kw">end</span>
+54:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@yaml</span>
+55:         <span class="ruby-ivar">@yaml</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+56:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">@@def_opt</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_sym</span>)
+57:             <span class="ruby-ivar">@opt</span>[<span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_sym</span>]=<span class="ruby-ivar">@yaml</span>[<span class="ruby-identifier">key</span>]
+58:           <span class="ruby-keyword kw">else</span>
+59:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">RunConf</span><span class="ruby-operator">::</span><span class="ruby-constant">Exception</span>, <span class="ruby-node">&quot;\&quot;#{key}\&quot; is not available option&quot;</span>
+60:           <span class="ruby-keyword kw">end</span>
+61:         <span class="ruby-keyword kw">end</span>
+62:       <span class="ruby-keyword kw">end</span>
+63:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="merge-method" class="method-detail ">
+				<a name="method-i-merge"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">merge</span><span
+						class="method-args">(opt)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="merge-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/run_conf.rb, line 80</span>
+80:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opt</span>)
+81:       <span class="ruby-identifier">tmp</span> = <span class="ruby-ivar">@opt</span>.<span class="ruby-identifier">clone</span>
+82:       <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+83:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">tmp</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)
+84:           <span class="ruby-identifier">tmp</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">opt</span>[<span class="ruby-identifier">key</span>]
+85:         <span class="ruby-keyword kw">else</span>
+86:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">RunConf</span><span class="ruby-operator">::</span><span class="ruby-constant">Exception</span>, <span class="ruby-node">&quot;\&quot;#{key}\&quot; is not available option&quot;</span>
+87:         <span class="ruby-keyword kw">end</span>
+88:       <span class="ruby-keyword kw">end</span>
+89:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">tmp</span>
+90:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="merge--method" class="method-detail ">
+				<a name="method-i-merge%21"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">merge!</span><span
+						class="method-args">(opt)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="merge--source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/run_conf.rb, line 70</span>
+70:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">opt</span>)
+71:       <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+72:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)
+73:           <span class="ruby-ivar">@opt</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">opt</span>[<span class="ruby-identifier">key</span>]
+74:         <span class="ruby-keyword kw">else</span>
+75:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">RunConf</span><span class="ruby-operator">::</span><span class="ruby-constant">Exception</span>, <span class="ruby-node">&quot;\&quot;#{key}\&quot; is not available option&quot;</span>
+76:         <span class="ruby-keyword kw">end</span>
+77:       <span class="ruby-keyword kw">end</span>
+78:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="reload-method" class="method-detail ">
+				<a name="method-i-reload"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">reload</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="reload-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/run_conf.rb, line 65</span>
+65:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">reload</span>()
+66:       <span class="ruby-identifier">reset</span>
+67:       <span class="ruby-identifier">load</span>
+68:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="reset-method" class="method-detail ">
+				<a name="method-i-reset"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">reset</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="reset-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch/run_conf.rb, line 35</span>
+35:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">reset</span>()
+36:       <span class="ruby-ivar">@opt</span> = <span class="ruby-identifier">@@def_opt</span>.<span class="ruby-identifier">clone</span>
+37:       <span class="ruby-keyword kw">case</span> <span class="ruby-constant">RUBY_PLATFORM</span>
+38:       <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/mswin|mingw/</span>
+39:         <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:log_hostname</span>] =  <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;COMPUTERNAME&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;COMPUTERNAME&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;unknownhost&quot;</span>
+40:       <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/cygwin|linux/</span>
+41:         <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:log_hostname</span>] = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;HOSTNAME&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;HOSTNAME&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-value str">&quot;unknownhost&quot;</span>
+42:       <span class="ruby-keyword kw">else</span>
+43:         <span class="ruby-ivar">@opt</span>[<span class="ruby-value">:log_hostname</span>] = <span class="ruby-value str">&quot;unknownhost&quot;</span>
+44:       <span class="ruby-keyword kw">end</span>
+45:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

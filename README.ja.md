@@ -3,7 +3,7 @@
 RBatch:Ruby-base バッチ スクリプト フレームワーク
 =============
 
-RBatchについて
+RBatchについて (version 2)
 --------------
 
 これはRubyで書かれたシンプルなバッチスクリプトのフレームワークです。
@@ -341,3 +341,8 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
           }
 
     RBatch::Log.new(cmd_str, opt)
+
+version 1 から 2 へのマイグレーション
+--------------
+
+"${RB_HOME}/conf/rbatch.yaml" を "${RB_HOME}/.rbatchrc" に移動してください。

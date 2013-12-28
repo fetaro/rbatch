@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Module: RBatch</title>
+
+	<link rel="stylesheet" href="./rdoc.css" type="text/css" media="screen" />
+
+	<script src="./js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="./js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="module">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="./index.html">Home</a>
+          <a href="./index.html#classes">Classes</a>
+          <a href="./index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="./lib/rbatch/config_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/config.rb">lib/rbatch/config.rb</a></li>
+					
+						<li><a href="./lib/rbatch/version_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/version.rb">lib/rbatch/version.rb</a></li>
+					
+						<li><a href="./lib/rbatch/run_conf_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/run_conf.rb">lib/rbatch/run_conf.rb</a></li>
+					
+						<li><a href="./lib/rbatch/cmd_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/cmd.rb">lib/rbatch/cmd.rb</a></li>
+					
+						<li><a href="./lib/rbatch/common_config_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/common_config.rb">lib/rbatch/common_config.rb</a></li>
+					
+						<li><a href="./lib/rbatch/log_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/log.rb">lib/rbatch/log.rb</a></li>
+					
+						<li><a href="./lib/rbatch/double_run_checker_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch/double_run_checker.rb">lib/rbatch/double_run_checker.rb</a></li>
+					
+						<li><a href="./lib/rbatch_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rbatch.rb">lib/rbatch.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+
+			<!-- Namespace Contents -->
+			
+			<div id="namespace-list-section" class="section">
+				<h3 class="section-header">Namespace</h3>
+				<ul class="link-list">
+					
+					<li><span class="type">MODULE</span> <a href="RBatch/DoubleRunChecker.html">RBatch::DoubleRunChecker</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/Cmd.html">RBatch::Cmd</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/CmdException.html">RBatch::CmdException</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/CmdResult.html">RBatch::CmdResult</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/CommonConfig.html">RBatch::CommonConfig</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/Config.html">RBatch::Config</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/DoubleRunCheckException.html">RBatch::DoubleRunCheckException</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/Log.html">RBatch::Log</a></li>
+					
+					<li><span class="type">CLASS</span> <a href="RBatch/RunConf.html">RBatch::RunConf</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-cmd">#cmd</a></li>
+					
+					<li><a href="#method-i-common_config">#common_config</a></li>
+					
+					<li><a href="#method-i-conf_dir">#conf_dir</a></li>
+					
+					<li><a href="#method-i-config">#config</a></li>
+					
+					<li><a href="#method-i-home_dir">#home_dir</a></li>
+					
+					<li><a href="#method-i-init">#init</a></li>
+					
+					<li><a href="#method-i-journal">#journal</a></li>
+					
+					<li><a href="#method-i-log_dir">#log_dir</a></li>
+					
+					<li><a href="#method-i-program_base">#program_base</a></li>
+					
+					<li><a href="#method-i-program_name">#program_name</a></li>
+					
+					<li><a href="#method-i-run_conf">#run_conf</a></li>
+					
+					<li><a href="#method-i-run_conf_path">#run_conf_path</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="./images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="./RBatch.html">RBatch</a></li>
+				
+					<li><a href="./RBatch/Cmd.html">RBatch::Cmd</a></li>
+				
+					<li><a href="./RBatch/CmdException.html">RBatch::CmdException</a></li>
+				
+					<li><a href="./RBatch/CmdResult.html">RBatch::CmdResult</a></li>
+				
+					<li><a href="./RBatch/CommonConfig.html">RBatch::CommonConfig</a></li>
+				
+					<li><a href="./RBatch/CommonConfig/Exception.html">RBatch::CommonConfig::Exception</a></li>
+				
+					<li><a href="./RBatch/Config.html">RBatch::Config</a></li>
+				
+					<li><a href="./RBatch/Config/Exception.html">RBatch::Config::Exception</a></li>
+				
+					<li><a href="./RBatch/DoubleRunCheckException.html">RBatch::DoubleRunCheckException</a></li>
+				
+					<li><a href="./RBatch/DoubleRunChecker.html">RBatch::DoubleRunChecker</a></li>
+				
+					<li><a href="./RBatch/Log.html">RBatch::Log</a></li>
+				
+					<li><a href="./RBatch/RunConf.html">RBatch::RunConf</a></li>
+				
+					<li><a href="./RBatch/RunConf/Exception.html">RBatch::RunConf::Exception</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="module">RBatch</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+		<div id="constants-list" class="section">
+			<h3 class="section-header">Constants</h3>
+			<dl>
+			
+				<dt><a name="VERSION">VERSION</a></dt>
+				
+				<dd class="description"></dd>
+				
+			
+			</dl>
+		</div>
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="cmd-method" class="method-detail ">
+				<a name="method-i-cmd"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">cmd</span><span
+						class="method-args">(cmd_str,opt = nil)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+shortcut of <a href="RBatch/Cmd.html">RBatch::Cmd</a>
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="cmd-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/rbatch/cmd.rb, line 125</span>
+125:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cmd</span>(<span class="ruby-identifier">cmd_str</span>,<span class="ruby-identifier">opt</span> = <span class="ruby-keyword kw">nil</span>)
+126:     <span class="ruby-constant">Cmd</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cmd_str</span>,<span class="ruby-identifier">opt</span>).<span class="ruby-identifier">run</span>
+127:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="common-config-method" class="method-detail ">
+				<a name="method-i-common_config"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">common_config</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Alias of RBatch::CommonConfig.new
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="common-config-source">
+<pre>
+   <span class="ruby-comment cmt"># File lib/rbatch/common_config.rb, line 9</span>
+9:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">common_config</span> ; <span class="ruby-constant">CommonConfig</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="conf-dir-method" class="method-detail ">
+				<a name="method-i-conf_dir"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">conf_dir</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="conf-dir-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 18</span>
+18:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">conf_dir</span>      ; <span class="ruby-identifier">@@run_conf</span>[<span class="ruby-value">:conf_dir</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;home&gt;&quot;</span>,<span class="ruby-identifier">@@home_dir</span>) ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="config-method" class="method-detail ">
+				<a name="method-i-config"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">config</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Alias of RBatch::Config.new
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="config-source">
+<pre>
+   <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 9</span>
+9:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">config</span> ; <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="home-dir-method" class="method-detail ">
+				<a name="method-i-home_dir"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">home_dir</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="home-dir-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 15</span>
+15:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">home_dir</span>      ; <span class="ruby-identifier">@@home_dir</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="init-method" class="method-detail ">
+				<a name="method-i-init"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">init</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="init-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 23</span>
+23:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">init</span>
+24:     <span class="ruby-identifier">@@journal_verbose</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_VERBOSE&quot;</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_VERBOSE&quot;</span>]
+25:     <span class="ruby-keyword kw">if</span>  <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_HOME&quot;</span>]
+26:       <span class="ruby-identifier">@@home_dir</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_HOME&quot;</span>]
+27:       <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;RB_HOME : \&quot;#{@@home_dir}\&quot; (defined by $RB_HOME)&quot;</span>
+28:     <span class="ruby-keyword kw">else</span>
+29:       <span class="ruby-identifier">@@home_dir</span> =  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">@@program_name</span>) , <span class="ruby-value str">&quot;..&quot;</span>)
+30:       <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;RB_HOME : \&quot;#{@@home_dir}\&quot; (default)&quot;</span>
+31:     <span class="ruby-keyword kw">end</span>
+32:     <span class="ruby-identifier">@@run_conf_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">@@home_dir</span>,<span class="ruby-value str">&quot;.rbatchrc&quot;</span>)
+33:     <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;Run-Conf: \&quot;#{@@run_conf_path}\&quot;&quot;</span>
+34: 
+35:     <span class="ruby-identifier">@@run_conf</span> = <span class="ruby-constant">RunConf</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">@@run_conf_path</span>,<span class="ruby-identifier">@@home_dir</span>)
+36:     <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:debug</span>,<span class="ruby-node">&quot;RBatch option : #{@@run_conf.inspect}&quot;</span>
+37:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="journal-method" class="method-detail ">
+				<a name="method-i-journal"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">journal</span><span
+						class="method-args">(level,str)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="journal-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 20</span>
+20:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">journal</span>(<span class="ruby-identifier">level</span>,<span class="ruby-identifier">str</span>)
+21:     <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;[RBatch] &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">@@journal_verbose_map</span>[<span class="ruby-identifier">level</span>] <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">@@journal_verbose</span>
+22:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="log-dir-method" class="method-detail ">
+				<a name="method-i-log_dir"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">log_dir</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="log-dir-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 19</span>
+19:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">log_dir</span>       ; <span class="ruby-identifier">@@run_conf</span>[<span class="ruby-value">:log_dir</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;home&gt;&quot;</span>,<span class="ruby-identifier">@@home_dir</span>) ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="program-base-method" class="method-detail ">
+				<a name="method-i-program_base"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">program_base</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="program-base-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 14</span>
+14:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_base</span>  ; <span class="ruby-identifier">@@program_base</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="program-name-method" class="method-detail ">
+				<a name="method-i-program_name"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">program_name</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="program-name-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 13</span>
+13:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_name</span>  ; <span class="ruby-identifier">@@program_name</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="run-conf-method" class="method-detail ">
+				<a name="method-i-run_conf"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">run_conf</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="run-conf-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 17</span>
+17:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_conf</span>      ; <span class="ruby-identifier">@@run_conf</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="run-conf-path-method" class="method-detail ">
+				<a name="method-i-run_conf_path"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">run_conf_path</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="run-conf-path-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 16</span>
+16:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_conf_path</span> ; <span class="ruby-identifier">@@run_conf_path</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+
