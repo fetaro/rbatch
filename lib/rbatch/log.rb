@@ -90,7 +90,6 @@ module RBatch
         @opt=RBatch.run_conf.merge(tmp)
       end
 
-      puts "option = " + @opt.to_s if @@verbose
       # determine log file name
       @prog_base = Pathname(File.basename(RBatch.program_name)).sub_ext("").to_s
       @file_name = @opt[:log_name].clone
@@ -108,7 +107,7 @@ module RBatch
           @log = Logger.new(open(path,"w"))
         end
       rescue Errno::ENOENT => e
-        STDERR.puts "RBatch ERROR: Can not open log file  - #{path}" if ! @opt[:log_quiet]
+        RBatch.journal :error, "Can not open log file  - #{path}"
         raise e
       end
       # set logger option
@@ -128,11 +127,10 @@ module RBatch
         @stdout_log.level = @@log_level_map[@opt[:log_level]]
         @stdout_log.formatter = formatter
       end
-      puts "Log file: " + path if ! @opt[:log_quiet]
+      RBatch.journal :info,"Start Logging. Log file: " + path
       # delete old log
       self.delete_old_log(@opt[:log_delete_old_log_date]) if @opt[:log_delete_old_log]
       # Start logging
-      self.info("Start Logging. (PID=#{$$.to_s})") if ! @opt[:log_quiet]
       if block_given?
         begin
           yield self
@@ -193,7 +191,7 @@ module RBatch
                            .gsub("<date>","([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])")\
                          + "$")
           if r =~ file && Date.strptime($1,"%Y%m%d") <= Date.today - date
-            puts "Delete old log file: " + File.join(@log_dir , file) if ! @opt[:log_quiet]
+            RBatch.journal :info, "Delete old log file: " + File.join(@log_dir , file) if ! @opt[:log_quiet]
             File::delete(File.join(@log_dir  , file))
           end
         end
