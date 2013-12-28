@@ -37,10 +37,10 @@ module RBatch
     # Cmd instance
     #
     # ==== Params
-    # +cmd_str+ = Command string. Such ad "ls -l"
-    # +opt+ = Option hash object. Hash keys is follows.
+    # +cmd_str+ = Command string such as "ls -l"
+    # +opt+ = Option hash object.
     # - +:raise+ (Boolean) = If command exit status is not 0, raise exception. Default is false.
-    # - +:timeout+ (Integer) = If command timeout , raise exception. Default is 0 sec ( 0 means disable) .
+    # - +:timeout+ (Integer) = If command timeout , raise exception and kill process. Default is 0 sec ( 0 means disable) .
     def initialize(cmd_str,opt = nil)
       raise(CmdException,"Command string is nil") if cmd_str.nil?
       @cmd_str = cmd_str
@@ -70,7 +70,12 @@ module RBatch
             status =  Process.waitpid2(pid)[1] >> 8
           end
         rescue Timeout::Error => e
-          raise(CmdException,"Command timeout. Runtime is over " + @opt[:cmd_timeout].to_s + " sec. Command is " + @cmd_str )
+          begin
+            Process.kill('SIGINT', pid)
+            raise(CmdException,"Run time of command \"#{@cmd_str}\" is over #{@opt[:cmd_timeout].to_s} sec. Success to kill process : PID=#{pid}" )
+          rescue
+            raise(CmdException,"Run time of command \"#{@cmd_str}\" is over #{@opt[:cmd_timeout].to_s} sec. Fail to kill process : PID=#{pid}" )
+          end
         end
       else
         status =  Process.waitpid2(pid)[1] >> 8

@@ -73,4 +73,5 @@ About bugfix, see commit log of https://github.com/fetaro/rbatch .
 * change Run-Conf path from "${RB_HOME}/conf/rbatch.yaml" to "${RB_HOME}/.rbatchrc"
 * add checking existence of Run-Conf keys.
 * add option. "conf_dir", "common_conf_name",  and "cmd_timeout" are added.
-* change test code from Test::Unit to RSpec.
+* when cmd_timeout occured, RBatch kill child process now. 
+* change test code from Test::Unit to RSpec. 
