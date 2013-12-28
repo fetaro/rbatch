@@ -70,7 +70,6 @@ module RBatch
     # - +:level+ (String) = log level. Default is "info". ["debug"|"info"|"warn"|"error"|"fatal"] .
     # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
     # - +:stdout+ (Boolean) = output both the log file and STDOUT. Default is false.
-    # - +:quiet+ (Boolean) = output only logfile, don't output to STDOUT.  Default is true.
     # ==== Block params
     # +log+ = Instance of +Logger+
     # ==== Sample
@@ -191,7 +190,7 @@ module RBatch
                            .gsub("<date>","([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])")\
                          + "$")
           if r =~ file && Date.strptime($1,"%Y%m%d") <= Date.today - date
-            RBatch.journal :info, "Delete old log file: " + File.join(@log_dir , file) if ! @opt[:log_quiet]
+            RBatch.journal :info, "Delete old log file: " + File.join(@log_dir , file)
             File::delete(File.join(@log_dir  , file))
           end
         end

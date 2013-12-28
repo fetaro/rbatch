@@ -16,7 +16,6 @@ module RBatch
       :log_append    => true,
       :log_level     => "info",
       :log_stdout    => false,
-      :log_quiet     => false,
       :log_delete_old_log => false,
       :log_delete_old_log_date => 7,
       :log_send_mail => false,
