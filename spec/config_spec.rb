@@ -1,4 +1,5 @@
 require 'tmpdir'
+ENV["RB_VERBOSE"]="0"
 ENV["RB_HOME"]=Dir.tmpdir
 
 require 'rbatch'

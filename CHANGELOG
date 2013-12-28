@@ -3,6 +3,10 @@ CHANGE LOG
 This document includes functions which is added or changed, does not include bugfix.
 About bugfix, see commit log of https://github.com/fetaro/rbatch .
 
+===================
+version 1
+===================
+
 1.0
 -----
 * initial
@@ -67,6 +71,10 @@ About bugfix, see commit log of https://github.com/fetaro/rbatch .
 1.13 (2013/12/19)
 ----
 * add customize point that can change RBatch home directory by using the environment variables, ${RB_HOME}.
+
+===================
+version 2
+===================
 
 2.0.0 (2013/12/28)
 ----
