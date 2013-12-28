@@ -1,6 +1,4 @@
-require 'tmpdir'
-ENV["RB_VERBOSE"]="0"
-ENV["RB_HOME"]=Dir.tmpdir
+require File.expand_path(File.join( File.dirname(__FILE__), 'spec_helper'))
 
 require 'rbatch'
 
@@ -109,7 +107,7 @@ describe RBatch::Cmd do
 
   describe "option by config" do
     before :all do
-      @config_dir=File.join(RBatch.home_dir,"conf")
+      @config_dir=File.join(ENV["RB_HOME"],"conf")
       @config_file = File.join(@config_dir , "rbatch.yaml")
       Dir::mkdir @config_dir if ! Dir.exists? @config_dir
     end
