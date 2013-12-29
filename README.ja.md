@@ -34,41 +34,39 @@ RBatchについて (version 2)
 
 ### RBatchホームディレクトリ
 
-環境変数${RB_HOME}を定義する事で、その場所をRBatchのホームディレクトリに固定することができます。
+環境変数`${RB_HOME}`を定義する事で、その場所をRBatchのホームディレクトリに固定することができます。
 
-環境変数${RB_HOME}を定義していない場合は、「実行するスクリプトが配置されているディレクトリの親ディレクトリ」が${RB_HOME}になります。言い換えると${RB_HOME}のデフォルト値は"(実行するスクリプトのパス)/../"です。
+環境変数`${RB_HOME}`を定義していない場合は、「実行するスクリプトが配置されているディレクトリの親ディレクトリ」が${RB_HOME}になります。言い換えると`${RB_HOME}`のデフォルト値は`(スクリプトのパス)/../`です。
 
 ### ディレクトリ構成と命名規則
 
 RBatchでは、実行スクリプト、設定ファイルおよびログファイルについて、
 配置場所および命名規則が規約で決まっています。
 
-具体的には、"${RB_HOME}/bin/hoge.rb"というスクリプトでは、"${RB_HOME}/conf/hoge.yaml"という設定ファイルを読み、"${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb"というログを出力するという規則です。
+具体的には、`${RB_HOME}/bin/hoge.rb`というスクリプトでは、`${RB_HOME}/conf/hoge.yaml`という設定ファイルを読み、`${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb`というログを出力するという規則です。
 
 例を示すと以下の通りです。
 
-```
-${RB_HOME}         ←RBatchホームディレクトリ
- |
- |-.rbatchrc       ←Run-Conf
- |
- |-bin             ←実行スクリプト配置場所
- |  |- A.rb
- |  |- B.rb
- |
- |-conf            ←設定ファイル配置場所
- |  |- A.yaml
- |  |- B.yaml
- |
- |-log             ←ログ出力場所
-    |- YYYYMMDD_HHMMSS_A.log
-    |- YYYYMMDD_HHMMSS_B.log
-```
+    ${RB_HOME}         ←RBatchホームディレクトリ
+     |
+     |-.rbatchrc       ←Run-Conf
+     |
+     |-bin             ←実行スクリプト配置場所
+     |  |- A.rb
+     |  |- B.rb
+     |
+     |-conf            ←設定ファイル配置場所
+     |  |- A.yaml
+     |  |- B.yaml
+     |
+     |-log             ←ログ出力場所
+        |- YYYYMMDD_HHMMSS_A.log
+        |- YYYYMMDD_HHMMSS_B.log
 
 ### 自動ログ出力
 
 Logging blockを使うことで、自動的にログファイルに出力することができます。
-ログファイルはデフォルトで"${RB_HOME}/log/YYYYMMDD_HHMMSS_${PROG_NAME}.log"に出力されます。
+ログファイルはデフォルトで`${RB_HOME}/log/YYYYMMDD_HHMMSS_(スクリプトのbasename).log`に出力されます。
 例外が発生した場合でも、ログにスタックトレースを出力することができます。
 
 サンプル
@@ -99,12 +97,12 @@ RBatch::Log.new(){ |log|  # Logging block
 
 ### 自動メール送信
 
-"log_send_mail"オプションを使う事により、スクリプトでエラーが発生した場合に、自動でメールを送信することができます。
+`log_send_mail`オプションを使う事により、スクリプトでエラーが発生した場合に、自動でメールを送信することができます。
 
 ### 自動設定ファイル読み込み
 
 RBatchは簡単にデフォルトの位置の設定ファイルを読み込めます。
-デフォルトの位置は"${RB_HOME}/conf/(プログラムbase名).yaml"です。
+デフォルトの位置は`${RB_HOME}/conf/(プログラムbasename).yaml`です。
 
 サンプル
 
@@ -130,7 +128,7 @@ p RBatch::config["not_exist"]
 => Raise Exception
 ```
 
-すべてのスクリプトから共通で読み込む設定ファイルを作りたい場合は、${RB_HOME}/conf/common.yamlというファイルを作ることで可能です。
+すべてのスクリプトから共通で読み込む設定ファイルを作りたい場合は、`${RB_HOME}/conf/common.yaml`というファイルを作ることで可能です。
 
 ### 外部コマンド実行 
 
@@ -150,29 +148,25 @@ p r.status
 => 0
 ```
 
+外部コマンドにタイムアウトを設定したい場合は`cmd_timeout`をオプションを利用できます。
+
 ### 二重起動チェック
 
-RBatchの共通設定ファイルに"forbid_double_run: true"の設定を書けば、RBatchを利用したプログラムの二重起動チェックができます。
+`forbid_double_run`のオプションを利用すれば、RBatchを利用したプログラムの二重起動チェックができます。
 
 カスタマイズ
 --------------
 
 RBatchではオプションの指定の仕方は以下の二つがあります。
 
-(1) Run-Conf(${RB_HOME}/.rbatchrc)に書く
-(2) スクリプト内でオプションオブジェクトをコンストラクタの引数に渡す
+* (1) Run-Conf(`${RB_HOME}/.rbatchrc`)に書く
+* (2) スクリプト内でオプションオブジェクトをコンストラクタの引数に渡す
 
 同じオプションを(1)と(2)の両方で指定すると、(2)が優先されます。
 
 ### Run-Conf(.rbatchrc)によるカスタマイズ
 
-以下の場所にRBatch全体設定ファイルを配置すると、全てのスクリプトにてオプションが適用されます。
-
-
-     ${RB_HOME}/.rbatchrc
-
-
-設定ファイルのサンプルは以下の通り
+Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 
 ```
 # RBatch Run-Conf (.rbatchrc)
@@ -187,7 +181,6 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 # Conf ディレクトリ
 #
 #   デフォルトは "<home>/conf"
-#
 #   <home> は ${RB_HOME} に置き換わります
 #
 #conf_dir: <home>/config
@@ -202,7 +195,7 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 # スクリプトの二重起動を可能にするかどうか
 #
 #   デフォルト値はfalse。
-#   trueにすると、同じスクリプトは二つ同時に起動できなくなります。
+#   trueにすると、同じ名前のスクリプトは二つ同時に起動できなくなります。
 #
 #forbid_double_run: true
 #forbid_double_run: false
@@ -232,7 +225,6 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 # ログディレクトリ
 #
 #   デフォルトは "<home>/log"
-#
 #   <home> は ${RB_HOME} に置き換わります
 #
 #log_dir: <home>/rb_log
@@ -241,7 +233,6 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 # ログファイル名
 #
 #   デフォルト値は"<date>_<time>_<prog>.log"。
-#   以下の文字列は予約語
 #   <data> はYYYYMMDDの日付形式に置換されます
 #   <time> はhhmmssの時刻形式に置換されます
 #   <prog> は拡張子を除いたファイル名に置換されます
@@ -282,8 +273,6 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 #   削除対象のログは、そのRBatch::Logのインスタンスが出力するログファイルと
 #   同じファイル名フォーマットであり、かつログファイル名のフォーマットに<date>が
 #   含まれるもの。
-#   例えば、RBatch::Logで出力するログファイルが「20120105_hoge.log」だった場合、
-#   削除対象のログは「YYYYMMDD_hoge.log」のログとなる。
 #
 #log_delete_old_log: true
 #log_delete_old_log: false
@@ -312,9 +301,9 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 
 ### コンストラクタの引数によるオプション指定
 
-スクリプト内で一時的にオプションを指定したい場合は、コンストラクタの引数にオプションのハッシュを指定します。
+スクリプト内で一時的にオプションを指定したい場合は、RBatch::LogクラスもしくはRBatch::Cmdクラスのコンストラクタの引数にオプションのハッシュを指定します。
 
-#### RBatch::Logクラス
+#### RBatch::Logクラスのオプション
 
     opt = {
           :name      => "<date>_<time>_<prog>.log",
@@ -333,7 +322,7 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 
     RBatch::Log.new(opt)
 
-#### RBatch::Cmdクラス
+#### RBatch::Cmdクラスのオプション
 
     opt = {
           :raise     => false,
@@ -345,4 +334,4 @@ RBatchではオプションの指定の仕方は以下の二つがあります�
 version 1 から 2 へのマイグレーション
 --------------
 
-"${RB_HOME}/conf/rbatch.yaml" を "${RB_HOME}/.rbatchrc" に移動してください。
+`${RB_HOME}/conf/rbatch.yaml` を `${RB_HOME}/.rbatchrc` に移動してください。
