@@ -1,5 +1,3 @@
-#!/usr/local/bin/ruby
-
 contents = {}
 
 contents[".rbatchrc"] = <<EOF
