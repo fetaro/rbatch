@@ -321,6 +321,16 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
 
+# RBatchメッセージをログに出力
+#
+#   デフォルトは true。
+#   trueを指定すると、RBatchメッセージをその時開かれているログに書き込む。
+#   RBatchメッセージの例
+#       [RBatch] Load Config  : "../conf/hoge.yaml"
+#
+#mix_rbatch_msg_to_log : true
+#mix_rbatch_msg_to_log : false
+
 ```
 
 ### コンストラクタの引数によるオプション指定
