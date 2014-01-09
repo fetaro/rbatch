@@ -126,9 +126,16 @@ module RBatch
         @stdout_log.level = @@log_level_map[@opt[:log_level]]
         @stdout_log.formatter = formatter
       end
-      RBatch.journal :info,"Start Logging. Log file: " + path
+      RBatch.journal :info,"Start Logging: \"#{path}\""
       # delete old log
       self.delete_old_log(@opt[:log_delete_old_log_date]) if @opt[:log_delete_old_log]
+      # Firstly write journal to log
+      if RBatch.run_conf[:mix_rbatch_msg_to_log]
+        RBatch.journals.each do |str|
+          self.journal(str)
+        end
+        RBatch.add_log(self)
+      end
       # Start logging
       if block_given?
         begin
@@ -168,6 +175,10 @@ module RBatch
     def debug(a)
       @stdout_log.debug(a) if @opt[:log_stdout]
       @log.debug(a)
+    end
+
+    def journal(a)
+      @log.info(a)
     end
 
     def close

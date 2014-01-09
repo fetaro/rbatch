@@ -315,6 +315,16 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
     #log_mail_server_host : "localhost"
     #log_mail_server_port : 25
 
+    # Mix RBatch Message to Log
+    #
+    #   Default is true.
+    #   If true, put RBatch message to log file(s) which is opened at time.
+    #   Example of RBatch Message
+    #       [RBatch] Load Config  : "../conf/hoge.yaml"
+    #
+    #mix_rbatch_msg_to_log : true
+    #mix_rbatch_msg_to_log : false
+
 
 ### Customize by passing option object to constructor
 
