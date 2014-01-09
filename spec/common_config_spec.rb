@@ -24,6 +24,11 @@ describe RBatch::CommonConfig do
     expect(RBatch.common_config["key"]).to eq "value"
   end
 
+  it "read config. Key is Symbol" do
+    open( @config_file  , "w" ){|f| f.write(":key: value")}
+    expect(RBatch.common_config[:key]).to eq "value"
+  end
+
   it "raise error when config does not exist" do
     expect {
       RBatch.common_config
@@ -40,6 +45,20 @@ describe RBatch::CommonConfig do
     open( @config_file  , "w" ){|f| f.write("key: value")}
     expect {
       RBatch.common_config["not_exist"]
+    }.to raise_error(RBatch::CommonConfig::Exception)
+  end
+
+  it "raise error when read value which key mistake String for Symbol" do
+    open( @config_file  , "w" ){|f| f.write(":key: value")}
+    expect {
+      RBatch.common_config["key"]
+    }.to raise_error(RBatch::CommonConfig::Exception)
+  end
+
+  it "raise error when read value which key mistake Symbol for String" do
+    open( @config_file  , "w" ){|f| f.write("key: value")}
+    expect {
+      RBatch.common_config[:key]
     }.to raise_error(RBatch::CommonConfig::Exception)
   end
 

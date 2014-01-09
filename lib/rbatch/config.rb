@@ -34,8 +34,17 @@ module RBatch
       @config = YAML::load_file(@path)
     end
     def[](key)
-      raise RBatch::Config::Exception, "Value of key=\"#{key}\" is nil" if @config[key].nil?
-      @config[key]
+      if @config[key].nil?
+        if key.class == Symbol
+          raise RBatch::Config::Exception, "Value of key(:#{key} (Symbol)) is nil. By any chance, dou you mistake key class Symbol for String?"
+        elsif key.class == String
+          raise RBatch::Config::Exception, "Value of key(\"#{key}\" (String)) is nil"
+        else
+          raise RBatch::Config::Exception, "Value of key(#{key}) is nil."
+        end
+      else
+        @config[key]
+      end
     end
     def path ; @path ; end
     def to_s ; @config.to_s ;end
