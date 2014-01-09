@@ -174,7 +174,7 @@ EOF
 
 
 require 'fileutils'
-["bin","conf","log"].each do | dir |
+["bin","conf","log","lib"].each do | dir |
   if ! Dir.exists?(dir)
     FileUtils.mkdir(dir)
     puts "create ./" + dir
