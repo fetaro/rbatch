@@ -9,12 +9,13 @@ RBatchについて (version 2)
 これはRubyで書かれたシンプルなバッチスクリプトのフレームワークです。
 バッチスクリプト（バックアップやプロセスリロード等）を書く際に便利な機能をフレームワークとして提供しています。
 
-主な機能は以下のとおり。 
+主な機能は以下のとおり。
 
 * 自動ログ出力
+* 自動ライブラリ読み込み
 * 自動メール送信
 * 自動設定ファイル読み込み
-* 外部コマンド実行 
+* 外部コマンド実行
 * 二重起動チェック
 
 注意：このフレームワークはRuby 1.9で動作します。
@@ -43,7 +44,7 @@ RBatchについて (version 2)
 RBatchでは、実行スクリプト、設定ファイルおよびログファイルについて、
 配置場所および命名規則が規約で決まっています。
 
-具体的には、`${RB_HOME}/bin/hoge.rb`というスクリプトでは、`${RB_HOME}/conf/hoge.yaml`という設定ファイルを読み、`${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb`というログを出力するという規則です。
+具体的には、`${RB_HOME}/bin/hoge.rb`というスクリプトでは、`${RB_HOME}/lib/*.rb`にあるライブラリをロードし、`${RB_HOME}/conf/hoge.yaml`という設定ファイルを読み、`${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb`というログを出力するという規則です。
 
 例を示すと以下の通りです。
 
@@ -60,8 +61,12 @@ RBatchでは、実行スクリプト、設定ファイルおよびログファ�
      |  |- B.yaml
      |
      |-log             ←ログ出力場所
-        |- YYYYMMDD_HHMMSS_A.log
-        |- YYYYMMDD_HHMMSS_B.log
+     |  |- YYYYMMDD_HHMMSS_A.log
+     |  |- YYYYMMDD_HHMMSS_B.log
+     |
+     |-lib             ←ライブラリ配置場所
+         |-  lib_X.rb
+         |-  lib_Y.rb
 
 ### 自動ログ出力
 
@@ -94,6 +99,10 @@ RBatch::Log.new(){ |log|  # Logging block
     [backtrace] test.rb:3:in `new'
     [backtrace] test.rb:3:in `<main>'
 ```
+
+### 自動ライブラリ読み込み
+
+`${RB_HOME}/lib/*.rb`にライブラリファイルを配置すると、スクリプトが起動する前に自動的に読み込まれます。
 
 ### 自動メール送信
 
@@ -178,7 +187,7 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 # 全体
 # -------------------
 
-# Conf ディレクトリ
+# 設定ファイルディレクトリ
 #
 #   デフォルトは "<home>/conf"
 #   <home> は ${RB_HOME} に置き換わります
@@ -191,6 +200,21 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #   デフォルトは"common.yaml"
 #
 #common_conf_name: share.yaml
+
+# ライブラリディレクトリ
+#
+#   デフォルトは"<home>/lib"
+#   <home> は${RB_HOME}に置き換わります
+#
+#lib_dir: /usr/local/lib/rbatch/
+
+# 自動ライブラリ読み込み
+#
+#   デフォルトはtrue
+#   trueの場合、スクリプトが始まる前に"(ライブラリディレクトリ)/*.rb"をrequireします
+#
+#auto_lib_load: true
+#auto_lib_load: false
 
 # スクリプトの二重起動を可能にするかどうか
 #

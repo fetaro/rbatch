@@ -25,6 +25,21 @@ contents[".rbatchrc"] = <<EOF
 #
 #common_conf_name: share.yaml
 
+# Library Directory
+#
+#   Default is "<home>/lib"
+#   <home> is replaced to ${RB_HOME}
+#
+#lib_dir: /usr/local/lib/rbatch/
+
+# Auto Library Load
+#
+#   Default is true
+#   If true, require "(library directory)/*.rb" before script run.
+#
+#auto_lib_load: true
+#auto_lib_load: false
+
 # Forbit Script Double Run
 #
 #   Default is false.

@@ -12,6 +12,7 @@ RBatch is Ruby-base Batch script framework. RBatch help to make a batch script s
 There are following functions.
 
 * Auto Logging
+* Auto Library Loading
 * Auto Mail Sending
 * Auto Config Reading
 * External Command Wrapper
@@ -43,7 +44,7 @@ When you do NOT set `${RB_HOME}`, `${RB_HOME}` is the parent directory of the di
 
 RBach has convention of file naming and directory structure.
 
-If you make a script on `${RB_HOME}/bin/hoge.rb`, script's config file is `${RB_HOME}/conf/hoge.yaml` , and log file is `${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.log`.
+If you make a script on `${RB_HOME}/bin/hoge.rb`, libraries are `${RB_HOME}/lib/*.rb`, script's config file is `${RB_HOME}/conf/hoge.yaml` , and log file is output at `${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.log`.
 
 For example
 
@@ -55,14 +56,17 @@ For example
      |   |-  A.rb
      |   |-  B.rb
      |
-     |- conf           <--- Configuration files
+     |- conf           <--- Config files
      |   |-  A.yaml
      |   |-  B.yaml
      |
      |- log            <--- Log files
-         |-  YYYYMMDD_HHMMSS_A.log
-         |-  YYYYMMDD_HHMMSS_B.log
-
+     |   |-  YYYYMMDD_HHMMSS_A.log
+     |   |-  YYYYMMDD_HHMMSS_B.log
+     |
+     |- lib            <--- Libraries
+         |-  lib_X.rb
+         |-  lib_Y.rb
 
 ### Auto Logging
 
@@ -93,6 +97,9 @@ logfile : `${RB_HOME}/log/20121020_005953_sample1.log`
         [backtrace] test.rb:3:in `new'
         [backtrace] test.rb:3:in `<main>'
 
+### Auto Library Loading
+
+If you make libraries at `${RB_HOME}/lib/*.rb`, those files are required before script run.
 
 ### Auto Mail Sending
 
@@ -177,10 +184,9 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
     # Conf Directory
     #
     #   Default is "<home>/conf"
-    #
     #   <home> is replaced to ${RB_HOME}
     #
-    #conf_dir: <home>/config
+    #conf_dir: <home>/config/
     #conf_dir: /etc/rbatch/
 
     # Common config file name
@@ -188,6 +194,21 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
     #   Default is "common.yaml"
     #
     #common_conf_name: share.yaml
+
+    # Library Directory
+    #
+    #   Default is "<home>/lib"
+    #   <home> is replaced to ${RB_HOME}
+    #
+    #lib_dir: /usr/local/lib/rbatch/
+
+    # Auto Library Load
+    #
+    #   Default is true
+    #   If true, require "(library directory)/*.rb" before script run.
+    #
+    #auto_lib_load: true
+    #auto_lib_load: false
 
     # Forbit Script Double Run
     #
@@ -267,8 +288,8 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
     #
     #   Default is false.
     #   If this is true, delete old log file when RBatch::Log.new is called.
-    #   A log file to delete is a log file which was made by the RBatch::Log instance, 
-    #   and log filename format include "<date>".
+    #   A log file to delete is a log file which was made by the
+    #   RBatch::Log instance, and log filename format include "<date>".
     #
     #log_delete_old_log: true
     #log_delete_old_log: false
@@ -282,7 +303,8 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
     # Send mail or not
     #
     #   Default is false.
-    #   When log.error(msg) or log.fatal(msg) called , send e-mail including "msg". 
+    #   When log.error(msg) or log.fatal(msg) called , send e-mail
+    #   including "msg".
     #
     #log_send_mail : true
 
