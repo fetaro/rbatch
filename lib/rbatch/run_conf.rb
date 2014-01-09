@@ -8,6 +8,8 @@ module RBatch
     @@def_opt = {
       :conf_dir      => "<home>/conf",
       :common_conf_name => "common.yaml",
+      :lib_dir       => "<home>/lib",
+      :auto_lib_load => true,
       :forbid_double_run => false,
       :cmd_raise     => false,
       :cmd_timeout   => 0,

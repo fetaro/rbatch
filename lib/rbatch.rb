@@ -17,6 +17,8 @@ module RBatch
   def run_conf      ; @@run_conf ; end
   def conf_dir      ; @@run_conf[:conf_dir].gsub("<home>",@@home_dir) ; end
   def log_dir       ; @@run_conf[:log_dir].gsub("<home>",@@home_dir) ; end
+  def lib_dir       ; @@run_conf[:lib_dir].gsub("<home>",@@home_dir) ; end
+  def lib_dir_path  ; File.expand_path(lib_dir) ; end
   def journal(level,str)
     puts "[RBatch] " + str if @@journal_verbose_map[level] <= @@journal_verbose
   end
@@ -52,4 +54,13 @@ require 'rbatch/config'
 require 'rbatch/common_config'
 require 'rbatch/cmd'
 
+
+if RBatch.run_conf[:auto_lib_load] && Dir.exist?(RBatch.lib_dir)
+  Dir::foreach(RBatch.lib_dir) do |file|
+    if /.*rb/ =~ file
+      require File.join(RBatch.lib_dir_path,File.basename(file,".rb"))
+      RBatch.journal :info, "Load library \"#{File.join(RBatch.lib_dir,file)}\" "
+    end
+  end
+end
 RBatch.journal :info,"Start \"#{RBatch.program_name}\" under RBatch (PID=#{$$.to_s})"
