@@ -83,3 +83,10 @@ version 2
 * add option. "conf_dir", "common_conf_name",  and "cmd_timeout" are added.
 * when cmd_timeout occured, RBatch kill child process now. 
 * change test code from Test::Unit to RSpec. 
+
+2.1.0 (2013/1/10)
+----
+* add error handling when key class mistake Symbol for String
+* add auto library file reading
+* add mix_rbatch_msg_to_log option
+* change config reading timing. before ondemand, now initial.

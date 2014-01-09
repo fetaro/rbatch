@@ -108,6 +108,8 @@
 				<h3 class="section-header">Methods</h3>
 				<ul class="link-list">
 					
+					<li><a href="#method-i-add_log">#add_log</a></li>
+					
 					<li><a href="#method-i-cmd">#cmd</a></li>
 					
 					<li><a href="#method-i-common_config">#common_config</a></li>
@@ -122,11 +124,21 @@
 					
 					<li><a href="#method-i-journal">#journal</a></li>
 					
+					<li><a href="#method-i-journals">#journals</a></li>
+					
+					<li><a href="#method-i-lib_dir">#lib_dir</a></li>
+					
 					<li><a href="#method-i-log_dir">#log_dir</a></li>
 					
 					<li><a href="#method-i-program_base">#program_base</a></li>
 					
 					<li><a href="#method-i-program_name">#program_name</a></li>
+					
+					<li><a href="#method-i-program_path">#program_path</a></li>
+					
+					<li><a href="#method-i-reload_common_config">#reload_common_config</a></li>
+					
+					<li><a href="#method-i-reload_config">#reload_config</a></li>
 					
 					<li><a href="#method-i-run_conf">#run_conf</a></li>
 					
@@ -224,6 +236,40 @@
 			<h3 class="section-header">Public Instance Methods</h3>
 
 		
+			<div id="add-log-method" class="method-detail ">
+				<a name="method-i-add_log"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">add_log</span><span
+						class="method-args">(log)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="add-log-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 31</span>
+31:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_log</span>(<span class="ruby-identifier">log</span>)
+32:     <span class="ruby-identifier">@@logs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">log</span>
+33:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
 			<div id="cmd-method" class="method-detail ">
 				<a name="method-i-cmd"></a>
 
@@ -273,17 +319,15 @@ shortcut of <a href="RBatch/Cmd.html">RBatch::Cmd</a>
 
 				<div class="method-description">
 					
-					<p>
-Alias of RBatch::CommonConfig.new
-</p>
+					
 					
 
 					
 					<div class="method-source-code"
 						id="common-config-source">
 <pre>
-   <span class="ruby-comment cmt"># File lib/rbatch/common_config.rb, line 9</span>
-9:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">common_config</span> ; <span class="ruby-constant">CommonConfig</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 29</span>
+29:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">common_config</span> ; <span class="ruby-identifier">@@common_config</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -314,8 +358,8 @@ Alias of RBatch::CommonConfig.new
 					<div class="method-source-code"
 						id="conf-dir-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 18</span>
-18:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">conf_dir</span>      ; <span class="ruby-identifier">@@run_conf</span>[<span class="ruby-value">:conf_dir</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;home&gt;&quot;</span>,<span class="ruby-identifier">@@home_dir</span>) ; <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 25</span>
+25:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">conf_dir</span>      ; <span class="ruby-identifier">@@run_conf</span>[<span class="ruby-value">:conf_dir</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;home&gt;&quot;</span>,<span class="ruby-identifier">@@home_dir</span>) ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -339,17 +383,15 @@ Alias of RBatch::CommonConfig.new
 
 				<div class="method-description">
 					
-					<p>
-Alias of RBatch::Config.new
-</p>
+					
 					
 
 					
 					<div class="method-source-code"
 						id="config-source">
 <pre>
-   <span class="ruby-comment cmt"># File lib/rbatch/config.rb, line 9</span>
-9:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">config</span> ; <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 28</span>
+28:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">config</span>        ; <span class="ruby-identifier">@@config</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -380,8 +422,8 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="home-dir-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 15</span>
-15:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">home_dir</span>      ; <span class="ruby-identifier">@@home_dir</span> ; <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 22</span>
+22:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">home_dir</span>      ; <span class="ruby-identifier">@@home_dir</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -412,22 +454,29 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="init-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 23</span>
-23:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">init</span>
-24:     <span class="ruby-identifier">@@journal_verbose</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_VERBOSE&quot;</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_VERBOSE&quot;</span>]
-25:     <span class="ruby-keyword kw">if</span>  <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_HOME&quot;</span>]
-26:       <span class="ruby-identifier">@@home_dir</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_HOME&quot;</span>]
-27:       <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;RB_HOME : \&quot;#{@@home_dir}\&quot; (defined by $RB_HOME)&quot;</span>
-28:     <span class="ruby-keyword kw">else</span>
-29:       <span class="ruby-identifier">@@home_dir</span> =  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">@@program_name</span>) , <span class="ruby-value str">&quot;..&quot;</span>)
-30:       <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;RB_HOME : \&quot;#{@@home_dir}\&quot; (default)&quot;</span>
-31:     <span class="ruby-keyword kw">end</span>
-32:     <span class="ruby-identifier">@@run_conf_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">@@home_dir</span>,<span class="ruby-value str">&quot;.rbatchrc&quot;</span>)
-33:     <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;Run-Conf: \&quot;#{@@run_conf_path}\&quot;&quot;</span>
-34: 
-35:     <span class="ruby-identifier">@@run_conf</span> = <span class="ruby-constant">RunConf</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">@@run_conf_path</span>,<span class="ruby-identifier">@@home_dir</span>)
-36:     <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:debug</span>,<span class="ruby-node">&quot;RBatch option : #{@@run_conf.inspect}&quot;</span>
-37:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 46</span>
+46:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">init</span>
+47:     <span class="ruby-identifier">@@journal_verbose</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_VERBOSE&quot;</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_VERBOSE&quot;</span>]
+48:     <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;=== START RBatch === (PID=#{$$.to_s})&quot;</span>
+49:     <span class="ruby-identifier">@@program_name</span> = <span class="ruby-identifier">$PROGRAM_NAME</span>
+50:     <span class="ruby-identifier">@@program_base</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">$PROGRAM_NAME</span>)
+51:     <span class="ruby-identifier">@@program_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">@@program_name</span>)
+52:     <span class="ruby-keyword kw">if</span>  <span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_HOME&quot;</span>]
+53:       <span class="ruby-identifier">@@home_dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">&quot;RB_HOME&quot;</span>])
+54:       <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:debug</span>,<span class="ruby-node">&quot;RB_HOME : \&quot;#{@@home_dir}\&quot; (defined by $RB_HOME)&quot;</span>
+55:     <span class="ruby-keyword kw">else</span>
+56:       <span class="ruby-identifier">@@home_dir</span> =  <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">@@program_name</span>) , <span class="ruby-value str">&quot;..&quot;</span>))
+57:       <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:debug</span>,<span class="ruby-node">&quot;RB_HOME : \&quot;#{@@home_dir}\&quot; (default)&quot;</span>
+58:     <span class="ruby-keyword kw">end</span>
+59:     <span class="ruby-identifier">@@run_conf_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">@@home_dir</span>,<span class="ruby-value str">&quot;.rbatchrc&quot;</span>)
+60:     <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;Load Run-Conf: \&quot;#{@@run_conf_path}\&quot;&quot;</span>
+61:     <span class="ruby-identifier">@@run_conf</span> = <span class="ruby-constant">RunConf</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">@@run_conf_path</span>,<span class="ruby-identifier">@@home_dir</span>)
+62:     <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:debug</span>,<span class="ruby-node">&quot;RBatch option : #{@@run_conf.inspect}&quot;</span>
+63:     <span class="ruby-identifier">@@common_config</span> = <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">CommonConfig</span>.<span class="ruby-identifier">new</span>
+64:     <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;Load Config  : \&quot;#{@@common_config.path}\&quot;&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">@@common_config</span>.<span class="ruby-identifier">exist?</span>
+65:     <span class="ruby-identifier">@@config</span> = <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>
+66:     <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;Load Config  : \&quot;#{@@config.path}\&quot;&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">@@config</span>.<span class="ruby-identifier">exist?</span>
+67:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -458,10 +507,83 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="journal-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 20</span>
-20:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">journal</span>(<span class="ruby-identifier">level</span>,<span class="ruby-identifier">str</span>)
-21:     <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;[RBatch] &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">@@journal_verbose_map</span>[<span class="ruby-identifier">level</span>] <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">@@journal_verbose</span>
-22:   <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 34</span>
+34:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">journal</span>(<span class="ruby-identifier">level</span>,<span class="ruby-identifier">str</span>)
+35:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">@@journal_verbose_map</span>[<span class="ruby-identifier">level</span>] <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">@@journal_verbose</span>
+36:       <span class="ruby-identifier">str</span> = <span class="ruby-value str">&quot;[RBatch] &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str</span>
+37:       <span class="ruby-identifier">puts</span> <span class="ruby-identifier">str</span>
+38:       <span class="ruby-identifier">@@journals</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">str</span>
+39:       <span class="ruby-identifier">@@logs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">log</span><span class="ruby-operator">|</span>
+40:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">run_conf</span>[<span class="ruby-value">:mix_rbatch_msg_to_log</span>]
+41:           <span class="ruby-identifier">log</span>.<span class="ruby-identifier">journal</span>(<span class="ruby-identifier">str</span>)
+42:         <span class="ruby-keyword kw">end</span>
+43:       <span class="ruby-keyword kw">end</span>
+44:     <span class="ruby-keyword kw">end</span>
+45:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="journals-method" class="method-detail ">
+				<a name="method-i-journals"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">journals</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="journals-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 30</span>
+30:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">journals</span>      ; <span class="ruby-identifier">@@journals</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="lib-dir-method" class="method-detail ">
+				<a name="method-i-lib_dir"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">lib_dir</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="lib-dir-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 27</span>
+27:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">lib_dir</span>       ; <span class="ruby-identifier">@@run_conf</span>[<span class="ruby-value">:lib_dir</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;home&gt;&quot;</span>,<span class="ruby-identifier">@@home_dir</span>) ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -492,8 +614,8 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="log-dir-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 19</span>
-19:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">log_dir</span>       ; <span class="ruby-identifier">@@run_conf</span>[<span class="ruby-value">:log_dir</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;home&gt;&quot;</span>,<span class="ruby-identifier">@@home_dir</span>) ; <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 26</span>
+26:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">log_dir</span>       ; <span class="ruby-identifier">@@run_conf</span>[<span class="ruby-value">:log_dir</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;&lt;home&gt;&quot;</span>,<span class="ruby-identifier">@@home_dir</span>) ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -524,8 +646,8 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="program-base-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 14</span>
-14:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_base</span>  ; <span class="ruby-identifier">@@program_base</span> ; <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 20</span>
+20:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_base</span>  ; <span class="ruby-identifier">@@program_base</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -556,8 +678,116 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="program-name-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 13</span>
-13:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_name</span>  ; <span class="ruby-identifier">@@program_name</span> ; <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 19</span>
+19:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_name</span>  ; <span class="ruby-identifier">@@program_name</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="program-path-method" class="method-detail ">
+				<a name="method-i-program_path"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">program_path</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="program-path-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 21</span>
+21:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">program_path</span>  ; <span class="ruby-identifier">@@program_path</span> ; <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="reload-common-config-method" class="method-detail ">
+				<a name="method-i-reload_common_config"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">reload_common_config</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="reload-common-config-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 75</span>
+75:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">reload_common_config</span>
+76:     <span class="ruby-keyword kw">begin</span>
+77:       <span class="ruby-identifier">@@common_config</span> = <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">CommonConfig</span>.<span class="ruby-identifier">new</span>
+78:       <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>,<span class="ruby-node">&quot;Load Config  : \&quot;#{@@common_config.path}\&quot;&quot;</span>
+79:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">ENOENT</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+80:     <span class="ruby-keyword kw">end</span>
+81:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="reload-config-method" class="method-detail ">
+				<a name="method-i-reload_config"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">reload_config</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="reload-config-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 68</span>
+68:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">reload_config</span>
+69:     <span class="ruby-keyword kw">begin</span>
+70:       <span class="ruby-identifier">@@config</span> = <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>
+71:       <span class="ruby-constant">RBatch</span>.<span class="ruby-identifier">journal</span> <span class="ruby-value">:info</span>, <span class="ruby-node">&quot;Load Config  : \&quot;#{@@config.path}\&quot;&quot;</span>
+72:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">ENOENT</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+73:     <span class="ruby-keyword kw">end</span>
+74:   <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -588,8 +818,8 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="run-conf-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 17</span>
-17:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_conf</span>      ; <span class="ruby-identifier">@@run_conf</span> ; <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 24</span>
+24:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_conf</span>      ; <span class="ruby-identifier">@@run_conf</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -620,8 +850,8 @@ Alias of RBatch::Config.new
 					<div class="method-source-code"
 						id="run-conf-path-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 16</span>
-16:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_conf_path</span> ; <span class="ruby-identifier">@@run_conf_path</span> ; <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/rbatch.rb, line 23</span>
+23:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_conf_path</span> ; <span class="ruby-identifier">@@run_conf_path</span> ; <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
