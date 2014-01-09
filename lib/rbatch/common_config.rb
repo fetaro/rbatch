@@ -29,7 +29,7 @@ module RBatch
     @config
     def initialize
       file = RBatch.run_conf[:common_conf_name]
-      @path = File.join(RBatch.run_conf[:conf_dir].gsub("<home>",RBatch.home_dir),file)
+      @path = File.join(RBatch.conf_dir,file)
       @config = YAML::load_file(@path)
     end
     def[](key)
