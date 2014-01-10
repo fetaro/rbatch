@@ -4,40 +4,7 @@ require 'pathname'
 require 'net/smtp'
 
 module RBatch
-  #=== About RBatch::Log
-  #
-  #By using Logging block, RBatch writes to logfile automatically.
-  #
-  #The default location of log file is "${RB_HOME}/log/YYYYMMDD_HHMMSS_(program base name).log" .
-  #
-  #If an exception occuerd, then RBatch writes back trace to logfile.
-  #
-  #=== Sample
-  #
-  #script : ${RB_HOME}/bin/sample1.rb
-  #
-  # require 'rbatch'
-  # 
-  # RBatch::Log.new(){ |log|  # Logging block
-  #   log.info "info string"
-  #   log.error "error string"
-  #   raise "exception"
-  # }
-  #
-  #
-  #logfile : ${RB_HOME}/log/20121020_005953_sample1.log
-  #
-  # [2012-10-20 00:59:53 +900] [INFO ] info string
-  # [2012-10-20 00:59:53 +900] [ERROR] error string
-  # [2012-10-20 00:59:53 +900] [FATAL] Caught exception; existing 1
-  # [2012-10-20 00:59:53 +900] [FATAL] exception (RuntimeError)
-  #     [backtrace] test.rb:6:in `block in <main>'
-  #     [backtrace] /usr/local/lib/ruby192/lib/ruby/gems/1.9.1/gems/rbatch-1.0.0/lib/rbatch/auto_logger.rb:37:in `initialize'
-  #     [backtrace] test.rb:3:in `new'
-  #     [backtrace] test.rb:3:in `<main>'
-  #
   class Log
-    @@verbose = false
     @@log_level_map = {
       "debug" => Logger::DEBUG,
       "info"  => Logger::INFO,
@@ -45,31 +12,12 @@ module RBatch
       "error" => Logger::ERROR,
       "fatal" => Logger::FATAL
     }
-
-    @opt # option
-    @log # log instance for file
-    @stdout_log # log instance for STDOUT
-
-    attr :name,:path
-
-    # Set verbose mode flag.
-    def Log.verbose=(bol); @@verbose = bol ; end
-
-    # Get verbose mode flag.
-    def Log.verbose ; @@verbose ; end
-
-    # Get Option
-    def opt; @opt ; end
+    attr :name,:path,:opt,:log,:stdout_log
 
     # Logging Block.
     # 
     # ==== Params
     # +opt+ = Option hash object.
-    # - +:name+ (String) = name of log file. Default is "<date>_<time>_<prog>.log". Reservation-words are "<date>","<time>","<prog>","<host>". "<date>" is replaced YYYYMMDD. "<time>" is replaced HHMMSS. "<prog>" is replaced a base-name of program file.
-    # - +:dir+ (String) = log direcotry. Default is "${RB_HOME}/log"
-    # - +:level+ (String) = log level. Default is "info". ["debug"|"info"|"warn"|"error"|"fatal"] .
-    # - +:append+ (Boolean) = appned to log or not(=overwrite). Default is ture.
-    # - +:stdout+ (Boolean) = output both the log file and STDOUT. Default is false.
     # ==== Block params
     # +log+ = Instance of +Logger+
     # ==== Sample
@@ -106,7 +54,7 @@ module RBatch
         end
       rescue Errno::ENOENT => e
         raise 
-        RBatch.ctrl.journal :error, "Can not open log file  - #{@path}"
+        RBatch.ctrl.journal 1, "Can not open log file  - #{@path}"
         raise e
       end
       # set logger option
@@ -124,13 +72,21 @@ module RBatch
         # ccreate Logger instance for STDOUT
         @stdout_log = Logger.new(STDOUT)
         @stdout_log.level = @@log_level_map[@opt[:log_level]]
-        @stdout_log.formatter = formatter
+        @stdout_log.formatter = proc do |severity, datetime, progname, msg|
+        head = "[" + sprintf("%-5s",severity) +"]"
+        if msg.is_a? Exception
+          "#{head} #{msg}\n" + msg.backtrace.map{|s| "    [backtrace] #{s}"}.join("\n") + "\n"
+        else
+          "#{head} #{msg}\n"
+        end
+      end
+
       end
       # delete old log
       self.delete_old_log(@opt[:log_delete_old_log_date]) if @opt[:log_delete_old_log]
       # add self to RBatch Controller
       RBatch.ctrl.add_log(self)
-      RBatch.journal :info,"Start Logging: \"#{@path}\""
+      RBatch.ctrl.journal 1, "Start Logging: \"#{@path}\""
       # Start logging
       if block_given?
         begin
@@ -196,7 +152,7 @@ module RBatch
                            .gsub("<date>","([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])")\
                          + "$")
           if r =~ file && Date.strptime($1,"%Y%m%d") <= Date.today - date
-            RBatch.journal :info, "Delete old log file: " + File.join(@log_dir , file)
+            RBatch.ctrl.journal 1, "Delete old log file: " + File.join(@log_dir , file)
             File::delete(File.join(@log_dir  , file))
           end
         end

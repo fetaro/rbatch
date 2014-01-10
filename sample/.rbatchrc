@@ -10,10 +10,9 @@
 # Conf Directory
 #
 #   Default is "<home>/conf"
-#
 #   <home> is replaced to ${RB_HOME}
 #
-#conf_dir: <home>/config
+#conf_dir: <home>/config/
 #conf_dir: /etc/rbatch/
 
 # Common config file name
@@ -21,6 +20,21 @@
 #   Default is "common.yaml"
 #
 #common_conf_name: share.yaml
+
+# Library Directory
+#
+#   Default is "<home>/lib"
+#   <home> is replaced to ${RB_HOME}
+#
+#lib_dir: /usr/local/lib/rbatch/
+
+# Auto Library Load
+#
+#   Default is true
+#   If true, require "(library directory)/*.rb" before script run.
+#
+#auto_lib_load: true
+#auto_lib_load: false
 
 # Forbit Script Double Run
 #
@@ -71,7 +85,7 @@
 #log_name : "<date>_<time>_<prog>.log"
 #log_name : "<date>_<prog>.log"
 
-# Append log or not
+# Append Log
 #
 #   Default is ture.
 #
@@ -100,8 +114,8 @@
 #
 #   Default is false.
 #   If this is true, delete old log file when RBatch::Log.new is called.
-#   A log file to delete is a log file which was made by the RBatch::Log instance, 
-#   and log filename format include "<date>".
+#   A log file to delete is a log file which was made by the
+#   RBatch::Log instance, and log filename format include "<date>".
 #
 #log_delete_old_log: true
 #log_delete_old_log: false
@@ -113,9 +127,10 @@
 #log_delete_old_log_date: 14
 
 # Send mail or not
-# 
+#
 #   Default is false.
-#   When log.error(msg) or log.fatal(msg) called , send e-mail including "msg". 
+#   When log.error(msg) or log.fatal(msg) called , send e-mail
+#   including "msg".
 #
 #log_send_mail : true
 
@@ -125,3 +140,22 @@
 #log_mail_from : "xxx@sample.com"
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
+
+# RBatch Journal Message Level
+#
+#   Default is 1
+#   If 2, put more journal messages to STDOUT.
+#   If 0, put nothing.
+#   Example of journal essages are follows.
+#       [RBatch] Load Config  : "../conf/hoge.yaml"
+#
+#rbatch_journal_level = 2
+#rbatch_journal_level = 0
+
+# Mix RBatch Journal to Logs
+#
+#   Default is true.
+#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
+#
+#mix_rbatch_journal_to_logs : true
+#mix_rbatch_journal_to_logs : false

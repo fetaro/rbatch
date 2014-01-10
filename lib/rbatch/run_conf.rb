@@ -25,7 +25,8 @@ module RBatch
       :log_mail_from => "rbatch.localhost",
       :log_mail_server_host => "localhost",
       :log_mail_server_port => 25,
-      :mix_rbatch_msg_to_log => true
+      :rbatch_journal_level => 1,
+      :mix_rbatch_journal_to_logs => true
     }
     def initialize(run_conf_path)
       @run_conf_path = run_conf_path

@@ -171,160 +171,170 @@ When an option is set in both (1) and (2), (2) is prior to (1).
 #### Customize by writing Run-Conf (.rbatchrc)
 
 Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
+```
+# RBatch Run-Conf (.rbatchrc)
+#
+#   This format is YAML.
+#
 
-    # RBatch Run-Conf (.rbatchrc)
-    #
-    #   This format is YAML.
-    #
+# -------------------
+# Global setting
+# -------------------
 
-    # -------------------
-    # Global setting
-    # -------------------
+# Conf Directory
+#
+#   Default is "<home>/conf"
+#   <home> is replaced to ${RB_HOME}
+#
+#conf_dir: <home>/config/
+#conf_dir: /etc/rbatch/
 
-    # Conf Directory
-    #
-    #   Default is "<home>/conf"
-    #   <home> is replaced to ${RB_HOME}
-    #
-    #conf_dir: <home>/config/
-    #conf_dir: /etc/rbatch/
+# Common config file name
+#
+#   Default is "common.yaml"
+#
+#common_conf_name: share.yaml
 
-    # Common config file name
-    #
-    #   Default is "common.yaml"
-    #
-    #common_conf_name: share.yaml
+# Library Directory
+#
+#   Default is "<home>/lib"
+#   <home> is replaced to ${RB_HOME}
+#
+#lib_dir: /usr/local/lib/rbatch/
 
-    # Library Directory
-    #
-    #   Default is "<home>/lib"
-    #   <home> is replaced to ${RB_HOME}
-    #
-    #lib_dir: /usr/local/lib/rbatch/
+# Auto Library Load
+#
+#   Default is true
+#   If true, require "(library directory)/*.rb" before script run.
+#
+#auto_lib_load: true
+#auto_lib_load: false
 
-    # Auto Library Load
-    #
-    #   Default is true
-    #   If true, require "(library directory)/*.rb" before script run.
-    #
-    #auto_lib_load: true
-    #auto_lib_load: false
+# Forbit Script Double Run
+#
+#   Default is false.
+#   If true, two same name scripts cannot run at the same time. 
+#
+#forbid_double_run: true
+#forbid_double_run: false
 
-    # Forbit Script Double Run
-    #
-    #   Default is false.
-    #   If true, two same name scripts cannot run at the same time. 
-    #
-    #forbid_double_run: true
-    #forbid_double_run: false
+# -------------------
+# Cmd setting
+# -------------------
 
-    # -------------------
-    # Cmd setting
-    # -------------------
+# Raise Exception
+#
+#   Default is false.
+#   If true, when command exit status is not 0, raise exception.
+#
+#cmd_raise : true
+#cmd_raise : false
 
-    # Raise Exception
-    #
-    #   Default is false.
-    #   If true, when command exit status is not 0, raise exception.
-    #
-    #cmd_raise : true
-    #cmd_raise : false
+# Command Timeout
+#
+#   Default is 0 [sec].
+#
+#cmd_timeout: 5
 
-    # Command Timeout
-    #
-    #   Default is 0 [sec].
-    #
-    #cmd_timeout: 5
+# -------------------
+# Log setting
+# -------------------
 
-    # -------------------
-    # Log setting
-    # -------------------
+# Log Directory
+#
+#   Default is "<home>/log"
+#   <home> is replaced to ${RB_HOME}
+#
+#log_dir: <home>/rb_log
+#log_dir: /var/log/rbatch/
 
-    # Log Directory
-    #
-    #   Default is "<home>/log"
-    #   <home> is replaced to ${RB_HOME}
-    #
-    #log_dir: <home>/rb_log
-    #log_dir: /var/log/rbatch/
+# Log File Name
+#
+#   Default is "<date>_<time>_<prog>.log".
+#   <data> is replaced to YYYYMMDD date string
+#   <time> is replaced to HHMMSS time string
+#   <prog> is replaced to Program file base name (except extention).
+#   <host> is replaced to Hostname.
+#
+#log_name : "<date>_<time>_<prog>.log"
+#log_name : "<date>_<prog>.log"
 
-    # Log File Name
-    #
-    #   Default is "<date>_<time>_<prog>.log".
-    #   <data> is replaced to YYYYMMDD date string
-    #   <time> is replaced to HHMMSS time string
-    #   <prog> is replaced to Program file base name (except extention).
-    #   <host> is replaced to Hostname.
-    #
-    #log_name : "<date>_<time>_<prog>.log"
-    #log_name : "<date>_<prog>.log"
+# Append Log
+#
+#   Default is ture.
+#
+#log_append : true
+#log_append : false
 
-    # Append log or not
-    #
-    #   Default is ture.
-    #
-    #log_append : true
-    #log_append : false
+# Log Level
+#
+#   Default is "info".
+#   Effective values are "debug","info","wran","error",and "fatal".
+#
+#log_level : "debug"
+#log_level : "info"
+#log_level : "warn"
+#log_level : "error"
+#log_level : "fatal"
 
-    # Log Level
-    #
-    #   Default is "info".
-    #   Effective values are "debug","info","wran","error",and "fatal".
-    #
-    #log_level : "debug"
-    #log_level : "info"
-    #log_level : "warn"
-    #log_level : "error"
-    #log_level : "fatal"
+# Print log string both file and STDOUT
+#
+#   Default is false.
+#
+#log_stdout : true
+#log_stdout : false
 
-    # Print log string both file and STDOUT
-    #
-    #   Default is false.
-    #
-    #log_stdout : true
-    #log_stdout : false
+# Delete old log files
+#
+#   Default is false.
+#   If this is true, delete old log file when RBatch::Log.new is called.
+#   A log file to delete is a log file which was made by the
+#   RBatch::Log instance, and log filename format include "<date>".
+#
+#log_delete_old_log: true
+#log_delete_old_log: false
 
-    # Delete old log files
-    #
-    #   Default is false.
-    #   If this is true, delete old log file when RBatch::Log.new is called.
-    #   A log file to delete is a log file which was made by the
-    #   RBatch::Log instance, and log filename format include "<date>".
-    #
-    #log_delete_old_log: true
-    #log_delete_old_log: false
+# The day of leaving log files
+#
+#   Default is 7.
+#
+#log_delete_old_log_date: 14
 
-    # The day of leaving log files
-    #
-    #   Default is 7.
-    #
-    #log_delete_old_log_date: 14
+# Send mail or not
+#
+#   Default is false.
+#   When log.error(msg) or log.fatal(msg) called , send e-mail
+#   including "msg".
+#
+#log_send_mail : true
 
-    # Send mail or not
-    #
-    #   Default is false.
-    #   When log.error(msg) or log.fatal(msg) called , send e-mail
-    #   including "msg".
-    #
-    #log_send_mail : true
+# Mail parameters
+#
+#log_mail_to   : "xxx@sample.com"
+#log_mail_from : "xxx@sample.com"
+#log_mail_server_host : "localhost"
+#log_mail_server_port : 25
 
-    # Mail parameters
-    #
-    #log_mail_to   : "xxx@sample.com"
-    #log_mail_from : "xxx@sample.com"
-    #log_mail_server_host : "localhost"
-    #log_mail_server_port : 25
+# RBatch Journal Message Level
+#
+#   Default is 1
+#   If 2, put more journal messages to STDOUT.
+#   If 0, put nothing.
+#   Example of journal essages are follows.
+#       [RBatch] Load Config  : "../conf/hoge.yaml"
+#
+#rbatch_journal_level = 2
+#rbatch_journal_level = 0
 
-    # Mix RBatch Message to Log
-    #
-    #   Default is true.
-    #   If true, put RBatch message to log file(s) which is opened at time.
-    #   Example of RBatch Message
-    #       [RBatch] Load Config  : "../conf/hoge.yaml"
-    #
-    #mix_rbatch_msg_to_log : true
-    #mix_rbatch_msg_to_log : false
+# Mix RBatch Journal to Logs
+#
+#   Default is true.
+#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
+#
+#mix_rbatch_journal_to_logs : true
+#mix_rbatch_journal_to_logs : false
 
+```
 
 ### Customize by passing option object to constructor
 
