@@ -11,7 +11,7 @@ describe RBatch::RunConf do
   before :each do
     FileUtils.rm @config if File.exists? @config
     open( @config  , "w" ){|f| f.write("")}
-    @rc = RBatch::RunConf.new(@config,@home)
+    @rc = RBatch::RunConf.new(@config)
   end
 
   after :each do
@@ -26,7 +26,7 @@ describe RBatch::RunConf do
 
   it "is default when run_conf does not exist" do
     FileUtils.rm @config
-    tmp = RBatch::RunConf.new(@config,@home)
+    tmp = RBatch::RunConf.new(@config)
     expect(tmp[:log_level]).to eq "info"
   end
 
@@ -36,13 +36,13 @@ describe RBatch::RunConf do
 
   it "read run conf" do
     open( @config  , "w" ){|f| f.write("log_level: hoge")}
-    tmp = RBatch::RunConf.new(@config,@home)
+    tmp = RBatch::RunConf.new(@config)
     expect(tmp[:log_level]).to eq "hoge"
   end
 
   it "raise when run_conf has unreserved key" do
     open( @config  , "w" ){|f| f.write("unreserved: hoge")}
-    expect{tmp = RBatch::RunConf.new(@config,@home)}.to raise_error(RBatch::RunConf::Exception)
+    expect{tmp = RBatch::RunConf.new(@config)}.to raise_error(RBatch::RunConf::Exception)
   end
 
   describe "[]= method" do

@@ -1,13 +1,22 @@
 module RBatch
   class Controller
     @@journal_verbose_map = { :error => 1, :warn => 2, :info => 3, :debug => 4}
-    attr :program_name,:program_path
+    attr :host_name
+    attr :program_name,:program_path,:program_base
     attr :home_dir,:log_dir,:conf_dir,:lib_dir
     attr :run_conf_path, :run_conf
     attr :config, :config_path
     attr :common_config, :common_config_path
     attr :journals,:logs
     def initialize
+      case RUBY_PLATFORM
+      when /mswin|mingw/
+        @host_name =  ENV["COMPUTERNAME"] ? ENV["COMPUTERNAME"] : "unknownhost"
+      when /cygwin|linux/
+        @host_name = ENV["HOSTNAME"] ? ENV["HOSTNAME"] : "unknownhost"
+      else
+        @host_name = "unknownhost"
+      end
       @journals = []
       @logs = []
       if ENV["RB_VERBOSE"]
@@ -24,7 +33,7 @@ module RBatch
         @home_dir =  File.expand_path(File.join(File.dirname(@program_name) , ".."))
       end
       @run_conf_path = File.join(@home_dir,".rbatchrc")
-      @run_conf = RunConf.new(@run_conf_path,@home_dir)
+      @run_conf = RunConf.new(@run_conf_path)
       journal :info, "=== START RBatch === (PID=#{$$.to_s})"
       journal :debug,"RB_HOME : \"#{@home_dir}\""
       journal :info, "Load Run-Conf: \"#{@run_conf_path}\""
@@ -56,6 +65,7 @@ module RBatch
       end
       journal :info,"Start Script : \"#{@program_path}\""
     end #end def
+    #
     def journal(level,str)
       if @@journal_verbose_map[level] <= @journal_verbose
         str = "[RBatch] " + str
@@ -68,8 +78,15 @@ module RBatch
         end
       end
     end
+    #
     def add_log(log)
+      journal :info,"Start Logging: \"#{log.path}\""
       @logs << log
+      if @run_conf[:mix_rbatch_msg_to_log]
+        @journals.each do |str|
+          log.journal(str)
+        end
+      end
     end
   end
 end
