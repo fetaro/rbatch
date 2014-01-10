@@ -90,13 +90,13 @@ module RBatch
       end
 
       # determine log file name
-      @prog_base = Pathname(File.basename(RBatch.program_name)).sub_ext("").to_s
+      @prog_base = Pathname(File.basename(RBatch.ctrl.program_name)).sub_ext("").to_s
       @file_name = @opt[:log_name].clone
       @file_name.gsub!("<date>", Time.now.strftime("%Y%m%d"))
       @file_name.gsub!("<time>", Time.now.strftime("%H%M%S"))
       @file_name.gsub!("<prog>", @prog_base)
       @file_name.gsub!("<host>", @opt[:log_hostname])
-      @log_dir = @opt[:log_dir].gsub("<home>",RBatch.home_dir)
+      @log_dir = @opt[:log_dir].gsub("<home>",RBatch.ctrl.home_dir)
       path = File.join(@log_dir,@file_name)
       # create Logger instance
       begin
@@ -106,7 +106,7 @@ module RBatch
           @log = Logger.new(open(path,"w"))
         end
       rescue Errno::ENOENT => e
-        RBatch.journal :error, "Can not open log file  - #{path}"
+        RBatch.ctrl.journal :error, "Can not open log file  - #{path}"
         raise e
       end
       # set logger option
@@ -126,15 +126,15 @@ module RBatch
         @stdout_log.level = @@log_level_map[@opt[:log_level]]
         @stdout_log.formatter = formatter
       end
-      RBatch.journal :info,"Start Logging: \"#{path}\""
+      RBatch.ctrl.journal :info,"Start Logging: \"#{path}\""
       # delete old log
       self.delete_old_log(@opt[:log_delete_old_log_date]) if @opt[:log_delete_old_log]
       # Firstly write journal to log
       if RBatch.run_conf[:mix_rbatch_msg_to_log]
-        RBatch.journals.each do |str|
+        RBatch.ctrl.journals.each do |str|
           self.journal(str)
         end
-        RBatch.add_log(self)
+        RBatch.ctrl.add_log(self)
       end
       # Start logging
       if block_given?
@@ -215,7 +215,7 @@ module RBatch
       body = <<EOT
 From: <#{@opt[:log_mail_from]}>
 To: <#{@opt[:log_mail_to]}>
-Subject: [RBatch] #{RBatch.program_name} has error
+Subject: [RBatch] #{RBatch.ctrl.program_name} has error
 Date: #{Time::now.strftime("%a, %d %b %Y %X %z")}
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-2022-JP

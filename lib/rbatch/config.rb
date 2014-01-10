@@ -3,30 +3,11 @@ require 'pathname'
 
 module RBatch
 
-  module_function
-  # Config Reader
-  #
-  # Read config file and return hash opject. If the key does not exist in config file, raise RBatch::Config::Exception.
-  # 
-  # Default config file path is "${RB_HOME}/conf/(program base name).yaml"
-  # ==== Sample
-  # config : ${RB_HOME}/conf/sample2.yaml
-  #  key: value
-  #  array:
-  #   - item1
-  #   - item2
-  #   - item3
-  # script : ${RB_HOME}/bin/sample2.rb
-  #  require 'rbatch'
-  #  p RBatch::Config.new
-  #  # or  p RBatch::config
-  #  => {"key" => "value", "array" => ["item1", "item2", "item3"]}
   class Config
     @path
     @hash
-    def initialize
-      file = Pathname(File.basename(RBatch.program_name)).sub_ext(".yaml").to_s
-      @path = File.join(RBatch.conf_dir,file)
+    def initialize(path)
+      @path = path
       begin
         @hash = YAML::load_file(@path)
       rescue Errno::ENOENT => e

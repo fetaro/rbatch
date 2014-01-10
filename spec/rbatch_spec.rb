@@ -15,7 +15,7 @@ describe "RBatch" do
 
   it "RB_HOME should be home_dir" do
     require 'rbatch'
-    expect(RBatch.home_dir).to eq ENV["RB_HOME"]
+    expect(RBatch.ctrl.home_dir).to eq ENV["RB_HOME"]
   end
 
 

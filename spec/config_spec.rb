@@ -21,18 +21,18 @@ describe RBatch::Config do
 
   it "read config" do
     open( @config_file  , "w" ){|f| f.write("key: value")}
-    RBatch.reload_config
+    RBatch.init
     expect(RBatch.config["key"]).to eq "value"
   end
 
   it "read config. Key is Symbol" do
     open( @config_file  , "w" ){|f| f.write(":key: value")}
-    RBatch.reload_config
+    RBatch.init
     expect(RBatch.config[:key]).to eq "value"
   end
 
   it "raise error when config does not exist" do
-    RBatch.reload_config
+    RBatch.init
     expect {
       RBatch.config["hoge"]
     }.to raise_error(RBatch::Config::Exception)
@@ -46,14 +46,14 @@ describe RBatch::Config do
 
   it "read config twice" do
     open( @config_file  , "w" ){|f| f.write("key: value")}
-    RBatch.reload_config
+    RBatch.init
     expect(RBatch.config["key"]).to eq "value"
     expect(RBatch.config["key"]).to eq "value"
   end
 
   it "raise error when read value which key does not exist" do
     open( @config_file  , "w" ){|f| f.write("key: value")}
-    RBatch.reload_config
+    RBatch.init
     expect {
       RBatch.config["not_exist"]
     }.to raise_error(RBatch::Config::Exception)
@@ -61,7 +61,7 @@ describe RBatch::Config do
 
   it "raise error when read value which key mistake String for Symbol" do
     open( @config_file  , "w" ){|f| f.write("key: value")}
-    RBatch.reload_config
+    RBatch.init
     expect {
       RBatch.config[:key]
     }.to raise_error(RBatch::Config::Exception)
@@ -69,7 +69,7 @@ describe RBatch::Config do
 
   it "raise error when read value which key mistake Symbol for String" do
     open( @config_file  , "w" ){|f| f.write(":key: value")}
-    RBatch.reload_config
+    RBatch.init
     expect {
       RBatch.config["key"]
     }.to raise_error(RBatch::Config::Exception)
