@@ -321,15 +321,24 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
 
-# RBatchメッセージをログに出力
+# RBatchの実行ログ(Journal)のLevel
 #
-#   デフォルトは true。
-#   trueを指定すると、RBatchメッセージをその時開かれているログに書き込む。
+#   デフォルトは1
+#   大きい数を指定すると多くの実行ログが出力される。
+#   0を指定すると何も表示されない。
 #   RBatchメッセージの例
 #       [RBatch] Load Config  : "../conf/hoge.yaml"
 #
-#mix_rbatch_msg_to_log : true
-#mix_rbatch_msg_to_log : false
+#rbatch_journal_level = 2
+#rbatch_journal_level = 0
+
+# RBatchの実行ログをログに混ぜ込む
+#
+#   デフォルトは true。
+#   trueを指定すると、RBatchメッセージをその時開かれているログに混ぜこむ。
+#
+#mix_rbatch_journal_to_logs : true
+#mix_rbatch_journal_to_logs : false
 
 ```
 
