@@ -1,0 +1,5 @@
+openidm :
+  server : localhost
+  port: 80
+  api_user : hoge
+  api_pass : hoge
