@@ -4,7 +4,7 @@ module RBatch
   class RunConf
     @opt
     @yaml
-    attr_reader :run_conf_path,:home_dir
+    attr_reader :run_conf_path
     @@def_opt = {
       :conf_dir      => "<home>/conf",
       :common_conf_name => "common.yaml",
@@ -21,30 +21,25 @@ module RBatch
       :log_delete_old_log => false,
       :log_delete_old_log_date => 7,
       :log_send_mail => false,
-      :log_hostname => "unknownhost",
       :log_mail_to   => nil,
       :log_mail_from => "rbatch.localhost",
       :log_mail_server_host => "localhost",
       :log_mail_server_port => 25,
       :mix_rbatch_msg_to_log => true
     }
-    def initialize(run_conf_path,home_dir)
+    def initialize(run_conf_path)
       @run_conf_path = run_conf_path
-      @home_dir = home_dir
-      reset
+      @opt = @@def_opt.clone
       load
     end
 
     def reset()
       @opt = @@def_opt.clone
-      case RUBY_PLATFORM
-      when /mswin|mingw/
-        @opt[:log_hostname] =  ENV["COMPUTERNAME"] ? ENV["COMPUTERNAME"] : "unknownhost"
-      when /cygwin|linux/
-        @opt[:log_hostname] = ENV["HOSTNAME"] ? ENV["HOSTNAME"] : "unknownhost"
-      else
-        @opt[:log_hostname] = "unknownhost"
-      end
+    end
+
+    def reload()
+      reset
+      load
     end
 
     def load()
@@ -63,11 +58,6 @@ module RBatch
           end
         end
       end
-    end
-
-    def reload()
-      reset
-      load
     end
 
     def merge!(opt)

@@ -49,8 +49,8 @@ module RBatch
     @opt # option
     @log # log instance for file
     @stdout_log # log instance for STDOUT
-    @prog_base # program file name base
-    @file_name # log file name
+
+    attr :name,:path
 
     # Set verbose mode flag.
     def Log.verbose=(bol); @@verbose = bol ; end
@@ -90,23 +90,23 @@ module RBatch
       end
 
       # determine log file name
-      @prog_base = Pathname(File.basename(RBatch.ctrl.program_name)).sub_ext("").to_s
-      @file_name = @opt[:log_name].clone
-      @file_name.gsub!("<date>", Time.now.strftime("%Y%m%d"))
-      @file_name.gsub!("<time>", Time.now.strftime("%H%M%S"))
-      @file_name.gsub!("<prog>", @prog_base)
-      @file_name.gsub!("<host>", @opt[:log_hostname])
+      @name = @opt[:log_name].clone
+      @name.gsub!("<date>", Time.now.strftime("%Y%m%d"))
+      @name.gsub!("<time>", Time.now.strftime("%H%M%S"))
+      @name.gsub!("<prog>", RBatch.ctrl.program_base)
+      @name.gsub!("<host>", RBatch.ctrl.host_name)
       @log_dir = @opt[:log_dir].gsub("<home>",RBatch.ctrl.home_dir)
-      path = File.join(@log_dir,@file_name)
+      @path = File.join(@log_dir,@name)
       # create Logger instance
       begin
-        if @opt[:log_append] && File.exist?(path)
-          @log = Logger.new(open(path,"a"))
+        if @opt[:log_append] && File.exist?(@path)
+          @log = Logger.new(open(@path,"a"))
         else
-          @log = Logger.new(open(path,"w"))
+          @log = Logger.new(open(@path,"w"))
         end
       rescue Errno::ENOENT => e
-        RBatch.ctrl.journal :error, "Can not open log file  - #{path}"
+        raise 
+        RBatch.ctrl.journal :error, "Can not open log file  - #{@path}"
         raise e
       end
       # set logger option
@@ -126,16 +126,11 @@ module RBatch
         @stdout_log.level = @@log_level_map[@opt[:log_level]]
         @stdout_log.formatter = formatter
       end
-      RBatch.ctrl.journal :info,"Start Logging: \"#{path}\""
       # delete old log
       self.delete_old_log(@opt[:log_delete_old_log_date]) if @opt[:log_delete_old_log]
-      # Firstly write journal to log
-      if RBatch.run_conf[:mix_rbatch_msg_to_log]
-        RBatch.ctrl.journals.each do |str|
-          self.journal(str)
-        end
-        RBatch.ctrl.add_log(self)
-      end
+      # add self to RBatch Controller
+      RBatch.ctrl.add_log(self)
+      RBatch.journal :info,"Start Logging: \"#{@path}\""
       # Start logging
       if block_given?
         begin
@@ -196,7 +191,7 @@ module RBatch
       if Dir.exists?(@log_dir) && @opt[:log_name].include?("<date>")
         Dir::foreach(@log_dir) do |file|
           r = Regexp.new("^" \
-                         + @opt[:log_name].gsub("<prog>",@prog_base)\
+                         + @opt[:log_name].gsub("<prog>",RBatch.ctrl.program_base)\
                            .gsub("<time>","[0-2][0-9][0-5][0-9][0-5][0-9]")\
                            .gsub("<date>","([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])")\
                          + "$")
@@ -228,5 +223,6 @@ EOT
       }
     end
   end # end class
+
 end # end module
 
