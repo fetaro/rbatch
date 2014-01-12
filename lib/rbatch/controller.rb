@@ -1,93 +1,52 @@
 require 'logger'
+
+require 'rbatch/vars'
+require 'rbatch/journal'
+require 'rbatch/run_conf'
+require 'rbatch/double_run_checker'
+require 'rbatch/log'
+require 'rbatch/config'
+require 'rbatch/cmd'
+
 module RBatch
   class Controller
-    attr :host_name
-    attr :program_name,:program_path,:program_base
-    attr :home_dir,:log_dir,:conf_dir,:lib_dir
-    attr :run_conf, :run_conf_path
-    attr :config, :config_path
-    attr :common_config, :common_config_path
-    attr :journal_verbose, :journals
-    attr :user_logs
+    attr :vars,:config,:common_config,:journals,:user_logs
     def initialize
+      @vars = RBatch::Vars.new()
+      @journal = RBatch::Journal.new()
       @journals = []
       @user_logs = []
-      # journal
-      if ENV["RB_VERBOSE"]
-        @journal_verbose = ENV["RB_VERBOSE"].to_i
-      else
-        @journal_verbose = 1
-      end
-      journal 1,"=== START RBatch === (PID=#{$$.to_s})"
-      # host_name
-      case RUBY_PLATFORM
-      when /mswin|mingw/
-        @host_name =  ENV["COMPUTERNAME"] ? ENV["COMPUTERNAME"] : "unknownhost"
-      when /cygwin|linux/
-        @host_name = ENV["HOSTNAME"] ? ENV["HOSTNAME"] : "unknownhost"
-      else
-        @host_name = "unknownhost"
-      end
-      # program
-      @program_name = $PROGRAM_NAME
-      @program_base = File.basename($PROGRAM_NAME)
-      @program_path = File.expand_path(@program_name)
-      # home_dir
-      if  ENV["RB_HOME"]
-        @home_dir = File.expand_path(ENV["RB_HOME"])
-      else
-        @home_dir =  File.expand_path(File.join(File.dirname(@program_name) , ".."))
-      end
-      journal 1, "RB_HOME : \"#{@home_dir}\""
-      # run_conf
-      @run_conf_path = File.join(@home_dir,".rbatchrc")
-      @run_conf = RunConf.new(@run_conf_path)
-      journal 1, "Load Run-Conf: \"#{@run_conf_path}\""
-      journal 2, "RBatch option : #{@run_conf.inspect}"
-      # dirs
-      @lib_dir  = @run_conf[:lib_dir].gsub("<home>",@home_dir)
-      @conf_dir = @run_conf[:conf_dir].gsub("<home>",@home_dir)
-      @log_dir  = @run_conf[:log_dir].gsub("<home>",@home_dir)
-      # common config
-      @common_config_path = File.join(@conf_dir,@run_conf[:common_conf_name])
-      @common_config = RBatch::Config.new(@common_config_path)
-      journal 1, "Load Config  : \"#{@common_config_path}\"" if ! @common_config.nil?
-      # config
-      @config_path = File.join(@conf_dir,Pathname(File.basename(@program_name)).sub_ext(".yaml").to_s)
-      @config = RBatch::Config.new(@config_path)
-      journal 1, "Load Config  : \"#{@config_path}\"" if ! @config.nil?
+      @journal.put 1,"=== START RBatch === (PID=#{$$.to_s})"
+      @journal.put 1, "RB_HOME : \"#{@vars[:home_dir]}\""
+      @journal.put 1, "Load Run-Conf: \"#{@vars[:run_conf_path]}\""
+      @journal.put 2, "RBatch Variables : #{@vars.inspect}"
+      @common_config = RBatch::Config.new(@vars[:common_config_path])
+      @journal.put 1, "Load Config  : \"#{@vars[:common_config_path]}\"" if ! @common_config.nil?
+      @config = RBatch::Config.new(@vars[:config_path])
+      @journal.put 1, "Load Config  : \"#{@vars[:config_path]}\"" if ! @config.nil?
       # double_run_check
-      if ( @run_conf[:forbid_double_run] )
-        RBatch::DoubleRunChecker.check(@program_base) #raise error if check is NG
-        RBatch::DoubleRunChecker.make_lock_file(@program_base)
+      if ( @vars[:forbid_double_run])
+        RBatch::DoubleRunChecker.check(@pvars[:rogram_base]) #raise error if check is NG
+        RBatch::DoubleRunChecker.make_lock_file(@vars[:program_base])
       end
       # load_lib
-      if @run_conf[:auto_lib_load] && Dir.exist?(@lib_dir)
-        Dir::foreach(@lib_dir) do |file|
+      if @vars[:auto_lib_load] && Dir.exist?(@vars[:lib_dir])
+        Dir::foreach(@vars[:lib_dir]) do |file|
           if /.*rb/ =~ file
-            require File.join(@lib_dir,File.basename(file,".rb"))
-            journal 1, "Load Library : \"#{File.join(@lib_dir,file)}\" "
+            require File.join(@vars[:lib_dir],File.basename(file,".rb"))
+            @journal.put 1, "Load Library : \"#{File.join(@vars[:lib_dir],file)}\" "
           end
         end
       end
-      journal 1, "Start Script : \"#{@program_path}\""
+      @journal.put 1, "Start Script : \"#{@vars[:program_path]}\""
     end #end def
-    #
-    def journal(level,str)
-      if level <= @journal_verbose
-        str = "[RBatch] " + str
-        puts str
-        @journals << str
-        @user_logs.each do |log|
-          if RBatch.run_conf[:mix_rbatch_journal_to_logs]
-            log.journal(str)
-          end
-        end
-      end
+    def config ; @config ; end
+    def common_config ; @common_config ; end
+    def cmd(cmd_str,opt)
+      RBatch::Cmd.new(@vars,cmd_str,opt).run
     end
-    #
-    def add_log(log)
-      @user_logs << log
+    def log(opt,block)
+      RBatch::Log.new(@vars,@journal,opt,block)
     end
   end
 end
