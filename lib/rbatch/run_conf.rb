@@ -2,9 +2,8 @@ require 'tmpdir'
 require 'yaml'
 module RBatch
   class RunConf
-    @opt
+    attr :path,:opt
     @yaml
-    attr_reader :run_conf_path
     @@def_opt = {
       :conf_dir      => "<home>/conf",
       :common_conf_name => "common.yaml",
@@ -28,24 +27,19 @@ module RBatch
       :rbatch_journal_level => 1,
       :mix_rbatch_journal_to_logs => true
     }
-    def initialize(run_conf_path)
-      @run_conf_path = run_conf_path
-      @opt = @@def_opt.clone
-      load
-    end
-
-    def reset()
-      @opt = @@def_opt.clone
-    end
-
-    def reload()
-      reset
-      load
+    def initialize(path=nil)
+      if path.nil?
+        @opt = @@def_opt.clone
+      else
+        @path = path
+        @opt = @@def_opt.clone
+        load
+      end
     end
 
     def load()
       begin
-        @yaml = YAML::load_file(@run_conf_path)
+        @yaml = YAML::load_file(@path)
       rescue
         # when run_conf does not exist, do nothing.
         @yaml = false
@@ -61,6 +55,10 @@ module RBatch
       end
     end
 
+    def has_key?(key)
+      @opt.has_key?(key)
+    end
+    
     def merge!(opt)
       opt.each_key do |key|
         if @opt.has_key?(key)
