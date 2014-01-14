@@ -22,10 +22,6 @@ module RBatch
       end
     end
 
-    # Run command
-    #
-    # ==== Return
-    # instance of RBatch::CmdResult
     def run()
       stdout_file = Tempfile::new("rbatch_tmpout",Dir.tmpdir)
       stderr_file = Tempfile::new("rbatch_tmperr",Dir.tmpdir)
