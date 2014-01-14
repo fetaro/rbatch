@@ -16,15 +16,15 @@ module RBatch
     end
     def[](key)
       if @hash.nil?
-        raise RBatch::Config::Exception, "Config file \"#{@path}\" does not exist"
+        raise RBatch::ConfigException, "Config file \"#{@path}\" does not exist"
       end
       if @hash[key].nil?
         if key.class == Symbol
-          raise RBatch::Config::Exception, "Value of key(:#{key} (Symbol)) is nil. By any chance, dou you mistake key class Symbol for String?"
+          raise RBatch::ConfigException, "Value of key(:#{key} (Symbol)) is nil. By any chance, dou you mistake key class Symbol for String?"
         elsif key.class == String
-          raise RBatch::Config::Exception, "Value of key(\"#{key}\" (String)) is nil"
+          raise RBatch::ConfigException, "Value of key(\"#{key}\" (String)) is nil"
         else
-          raise RBatch::Config::Exception, "Value of key(#{key}) is nil."
+          raise RBatch::ConfigException, "Value of key(#{key}) is nil."
         end
       else
         @hash[key]
@@ -34,20 +34,20 @@ module RBatch
     def exist? ; ! @hash.nil? ; end
     def to_h
       if @hash.nil?
-        raise RBatch::Config::Exception, "Config file \"#{@path}\" does not exist"
+        raise RBatch::ConfigException, "Config file \"#{@path}\" does not exist"
       else
         @hash
       end
     end
     def to_s
       if @hash.nil?
-        raise RBatch::Config::Exception, "Config file \"#{@path}\" does not exist"
+        raise RBatch::ConfigException, "Config file \"#{@path}\" does not exist"
       else
         @hash.to_s
       end
     end
   end
 
-  class RBatch::Config::Exception < Exception; end
+  class RBatch::ConfigException < StandardError ; end
 end
 

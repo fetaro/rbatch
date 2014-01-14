@@ -5,13 +5,15 @@ require 'timeout'
 module RBatch
 
   class Cmd
+    @@def_vars
+    def Cmd.def_vars=(a)    ; @@def_vars=a ; end
     @cmd_str
     @opt
     @vars
-    def initialize(vars,cmd_str,opt = nil)
-      raise(Cmd::Exception,"Command string is nil") if cmd_str.nil?
+    def initialize(cmd_str,opt = nil)
+      raise(CmdException,"Command string is nil") if cmd_str.nil?
       @cmd_str = cmd_str
-      @vars = vars.clone
+      @vars = @@def_vars.clone
       if ! opt.nil?
         # change opt key from "hoge" to "log_hoge"
         tmp = {}
@@ -35,9 +37,9 @@ module RBatch
         rescue Timeout::Error => e
           begin
             Process.kill('SIGINT', pid)
-            raise(Cmd::Exception,"Run time of command \"#{@cmd_str}\" is over #{@vars[:cmd_timeout].to_s} sec. Success to kill process : PID=#{pid}" )
+            raise(CmdException,"Run time of command \"#{@cmd_str}\" is over #{@vars[:cmd_timeout].to_s} sec. Success to kill process : PID=#{pid}" )
           rescue
-            raise(Cmd::Exception,"Run time of command \"#{@cmd_str}\" is over #{@vars[:cmd_timeout].to_s} sec. Fail to kill process : PID=#{pid}" )
+            raise(CmdException,"Run time of command \"#{@cmd_str}\" is over #{@vars[:cmd_timeout].to_s} sec. Fail to kill process : PID=#{pid}" )
           end
         end
       else
@@ -45,7 +47,7 @@ module RBatch
       end
       result = RBatch::CmdResult.new(stdout_file,stderr_file,status,@cmd_str)
       if @vars[:cmd_raise] && status != 0
-        raise(Cmd::Exception,"Command exit status is not 0. result: " + result.to_s)
+        raise(CmdException,"Command exit status is not 0. result: " + result.to_s)
       end
       return result
     end
@@ -80,6 +82,5 @@ module RBatch
     end
   end
 
-  class RBatch::Cmd::Exception < Exception ; end
-
+  class CmdException < StandardError ; end
 end

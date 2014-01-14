@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+
+  <title>Class: RBatch::Variables</title>
+
+  <link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+  <script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body id="top" class="class">
+
+  <div id="metadata">
+    <div id="home-metadata">
+      <div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+      </div>
+    </div>
+
+    <div id="file-metadata">
+      <div id="file-list-section" class="section">
+        <h3 class="section-header">In Files</h3>
+        <div class="section-body">
+          <ul>
+          
+            <li><a href="../lib/rbatch/variables_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/rbatch/variables.rb">lib/rbatch/variables.rb</a></li>
+          
+          </ul>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div id="class-metadata">
+      
+      <!-- Parent Class -->
+      <div id="parent-class-section" class="section">
+        <h3 class="section-header">Parent</h3>
+        
+        <p class="link">Object</p>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      <!-- Method Quickref -->
+      <div id="method-list-section" class="section">
+        <h3 class="section-header">Methods</h3>
+        <ul class="link-list">
+          
+          <li><a href="#method-c-new">::new</a></li>
+          
+          <li><a href="#method-i-5B-5D">#[]</a></li>
+          
+          <li><a href="#method-i-merge">#merge</a></li>
+          
+          <li><a href="#method-i-merge-21">#merge!</a></li>
+          
+          <li><a href="#method-i-raw_value">#raw_value</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+    </div>
+
+    <div id="project-metadata">
+      
+      
+
+      <div id="classindex-section" class="section project-section">
+        <h3 class="section-header">Class/Module Index
+          <span class="search-toggle"><img src="../images/find.png"
+            height="16" width="16" alt="[+]"
+            title="show/hide quicksearch" /></span></h3>
+        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+        <fieldset>
+          <legend>Quicksearch</legend>
+          <input type="text" name="quicksearch" value=""
+            class="quicksearch-field" />
+        </fieldset>
+        </form>
+
+        <ul class="link-list">
+        
+          <li><a href="../RBatch.html">RBatch</a></li>
+        
+          <li><a href="../RBatch/Cmd.html">RBatch::Cmd</a></li>
+        
+          <li><a href="../RBatch/CmdException.html">RBatch::CmdException</a></li>
+        
+          <li><a href="../RBatch/CmdResult.html">RBatch::CmdResult</a></li>
+        
+          <li><a href="../RBatch/Config.html">RBatch::Config</a></li>
+        
+          <li><a href="../RBatch/Controller.html">RBatch::Controller</a></li>
+        
+          <li><a href="../RBatch/DoubleRunCheckException.html">RBatch::DoubleRunCheckException</a></li>
+        
+          <li><a href="../RBatch/DoubleRunChecker.html">RBatch::DoubleRunChecker</a></li>
+        
+          <li><a href="../RBatch/Journal.html">RBatch::Journal</a></li>
+        
+          <li><a href="../RBatch/Log.html">RBatch::Log</a></li>
+        
+          <li><a href="../RBatch/LogException.html">RBatch::LogException</a></li>
+        
+          <li><a href="../RBatch/RBatch.html">RBatch::RBatch</a></li>
+        
+          <li><a href="../RBatch/RBatch/RBatch.html">RBatch::RBatch::RBatch</a></li>
+        
+          <li><a href="../RBatch/RBatch/RBatch/ConfigException.html">RBatch::RBatch::RBatch::ConfigException</a></li>
+        
+          <li><a href="../RBatch/RBatch/VariablesException.html">RBatch::RBatch::VariablesException</a></li>
+        
+          <li><a href="../RBatch/RunConf.html">RBatch::RunConf</a></li>
+        
+          <li><a href="../RBatch/RunConf/Exception.html">RBatch::RunConf::Exception</a></li>
+        
+          <li><a href="../RBatch/Variables.html">RBatch::Variables</a></li>
+        
+        </ul>
+        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div id="documentation">
+    <h1 class="class">RBatch::Variables</h1>
+
+    <div id="description" class="description">
+      
+    </div><!-- description -->
+
+    
+    
+    
+    <div id="5Buntitled-5D" class="documentation-section">
+      
+
+      
+
+      
+
+      
+      <!-- Attributes -->
+      <div id="attribute-method-details" class="method-section section">
+        <h3 class="section-header">Attributes</h3>
+
+        
+        <div id="vars-attribute-method" class="method-detail">
+          <a name="vars"></a>
+          
+          <a name="vars="></a>
+          
+          <div class="method-heading attribute-method-heading">
+            <span class="method-name">vars</span><span
+              class="attribute-access-type">[RW]</span>
+          </div>
+
+          <div class="method-description">
+          
+          
+          
+          </div>
+        </div>
+        
+      </div><!-- attribute-method-details -->
+      
+
+      <!-- Methods -->
+      
+      <div id="public-class-method-details" class="method-section section">
+        <h3 class="section-header">Public Class Methods</h3>
+
+      
+        <div id="new-method" class="method-detail ">
+          <a name="method-c-new"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">new</span><span
+              class="method-args">(run_conf=nil)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="new-source">
+<pre>
+<span class="ruby-comment"># File lib/rbatch/variables.rb, line 6</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">run_conf</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@merged_opt</span> = {}
+  <span class="ruby-ivar">@vars</span> = {
+    <span class="ruby-value">:program_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">$PROGRAM_NAME</span> ,
+    <span class="ruby-value">:program_path</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">$PROGRAM_NAME</span>) ,
+    <span class="ruby-value">:program_base</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">$PROGRAM_NAME</span>),
+    <span class="ruby-value">:date</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&quot;%Y%m%d&quot;</span>),
+    <span class="ruby-value">:time</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&quot;%H%M%S&quot;</span>),
+  }
+
+  <span class="ruby-keyword">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;RB_VERBOSE&quot;</span>]
+    <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:journal_verbose</span>] = <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;RB_VERBOSE&quot;</span>].<span class="ruby-identifier">to_i</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:journal_verbose</span>] = <span class="ruby-value">1</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">case</span> <span class="ruby-constant">RUBY_PLATFORM</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">/mswin|mingw/</span>
+    <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:host_name</span>] =  <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;COMPUTERNAME&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;COMPUTERNAME&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-string">&quot;unknownhost&quot;</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-regexp">/cygwin|linux/</span>
+    <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:host_name</span>] = <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;HOSTNAME&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;HOSTNAME&quot;</span>] <span class="ruby-operator">:</span> <span class="ruby-string">&quot;unknownhost&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:host_name</span>] = <span class="ruby-string">&quot;unknownhost&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span>  <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;RB_HOME&quot;</span>]
+    <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:home_dir</span>] = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;RB_HOME&quot;</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:home_dir</span>] = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-ivar">@vars</span>[<span class="ruby-value">:program_name</span>]), <span class="ruby-string">&quot;..&quot;</span>))
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:run_conf_path</span>] = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@vars</span>[<span class="ruby-value">:home_dir</span>],<span class="ruby-string">&quot;.rbatchrc&quot;</span>)
+  <span class="ruby-ivar">@run_conf</span> = <span class="ruby-constant">RunConf</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@vars</span>[<span class="ruby-value">:run_conf_path</span>]) <span class="ruby-comment"># load run_conf</span>
+  <span class="ruby-ivar">@vars</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-ivar">@run_conf</span>.<span class="ruby-identifier">opt</span>)
+  <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:common_config_path</span>] = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@vars</span>[<span class="ruby-value">:conf_dir</span>],<span class="ruby-ivar">@vars</span>[<span class="ruby-value">:common_conf_name</span>])
+  <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:config_path</span>] = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@vars</span>[<span class="ruby-value">:conf_dir</span>],<span class="ruby-constant">Pathname</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-ivar">@vars</span>[<span class="ruby-value">:program_name</span>])).<span class="ruby-identifier">sub_ext</span>(<span class="ruby-string">&quot;.yaml&quot;</span>).<span class="ruby-identifier">to_s</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- new-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- new-method -->
+
+      
+      </div><!-- public-class-method-details -->
+    
+      <div id="public-instance-method-details" class="method-section section">
+        <h3 class="section-header">Public Instance Methods</h3>
+
+      
+        <div id="5B-5D-method" class="method-detail ">
+          <a name="method-i-5B-5D"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">[]</span><span
+              class="method-args">(key)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="5B-5D-source">
+<pre>
+<span class="ruby-comment"># File lib/rbatch/variables.rb, line 43</span>
+<span class="ruby-keyword">def</span><span class="ruby-operator">[]</span>(<span class="ruby-identifier">key</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@vars</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@vars</span>[<span class="ruby-identifier">key</span>].<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">String</span>
+      <span class="ruby-ivar">@vars</span>[<span class="ruby-identifier">key</span>]
+        .<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;&lt;home&gt;&quot;</span>, <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:home_dir</span>])
+        .<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;&lt;date&gt;&quot;</span>, <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:date</span>])
+        .<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;&lt;time&gt;&quot;</span>, <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:time</span>])
+        .<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;&lt;prog&gt;&quot;</span>, <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:program_base</span>])
+        .<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&quot;&lt;host&gt;&quot;</span>, <span class="ruby-ivar">@vars</span>[<span class="ruby-value">:host_name</span>])
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@vars</span>[<span class="ruby-identifier">key</span>]
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">VariablesException</span>, <span class="ruby-string">&quot;no such key exist :&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- 5B-5D-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- 5B-5D-method -->
+
+      
+        <div id="merge-method" class="method-detail ">
+          <a name="method-i-merge"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">merge</span><span
+              class="method-args">(merged_opt)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="merge-source">
+<pre>
+<span class="ruby-comment"># File lib/rbatch/variables.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">merge</span>(<span class="ruby-identifier">merged_opt</span>)
+  <span class="ruby-ivar">@merged_opt</span> = <span class="ruby-identifier">merged_opt</span>
+  <span class="ruby-ivar">@vars</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">merged_opt</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- merge-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- merge-method -->
+
+      
+        <div id="merge-21-method" class="method-detail ">
+          <a name="method-i-merge-21"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">merge!</span><span
+              class="method-args">(merged_opt)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="merge-21-source">
+<pre>
+<span class="ruby-comment"># File lib/rbatch/variables.rb, line 68</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">merged_opt</span>)
+  <span class="ruby-ivar">@merged_opt</span> = <span class="ruby-identifier">merged_opt</span>
+  <span class="ruby-ivar">@vars</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">merged_opt</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- merge-21-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- merge-21-method -->
+
+      
+        <div id="raw_value-method" class="method-detail ">
+          <a name="method-i-raw_value"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">raw_value</span><span
+              class="method-args">(key)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="raw_value-source">
+<pre>
+<span class="ruby-comment"># File lib/rbatch/variables.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_value</span>(<span class="ruby-identifier">key</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@vars</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)
+    <span class="ruby-ivar">@vars</span>[<span class="ruby-identifier">key</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">RBatch</span><span class="ruby-operator">::</span><span class="ruby-constant">VariablesException</span>, <span class="ruby-string">&quot;no such key exist :&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- raw_value-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- raw_value-method -->
+
+      
+      </div><!-- public-instance-method-details -->
+    
+    </div><!-- 5Buntitled-5D -->
+  
+
+  </div><!-- documentation -->
+
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
+
+</body>
+</html>
+
