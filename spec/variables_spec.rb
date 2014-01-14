@@ -1,8 +1,7 @@
 require 'tmpdir'
+require 'rbatch/variables'
 
-require 'rbatch/vars'
-require 'pp'
-describe RBatch::Vars do
+describe RBatch::Variables do
 
   before :all do
     @home = File.join(Dir.tmpdir, "rbatch_test_" + Time.now.strftime("%Y%m%d%H%M%S"))
@@ -14,7 +13,7 @@ describe RBatch::Vars do
   end
 
   it "default" do
-    @vars = RBatch::Vars.new()
+    @vars = RBatch::Variables.new()
     expect(@vars[:journal_verbose]).to eq 0
     #expect(@vars[:host_name]).to eq ""
     #expect(@vars[:program_name]).to eq "rspec"
@@ -38,7 +37,7 @@ describe RBatch::Vars do
     ENV["RB_HOME"]="/var"
     ENV["RB_VERBOSE"]="3"
 
-    @vars = RBatch::Vars.new()
+    @vars = RBatch::Variables.new()
     expect(@vars[:journal_verbose]).to eq 3
     expect(@vars[:home_dir]).to eq "/var"
     expect(@vars[:log_dir]).to eq File.join("/var","log")
@@ -46,7 +45,7 @@ describe RBatch::Vars do
 
   describe "merge!" do
     it "success" do
-      @vars = RBatch::Vars.new()
+      @vars = RBatch::Variables.new()
       @vars.merge!({:log_name => "hoge"})
       expect(@vars[:log_name]).to eq "hoge"
     end
@@ -54,13 +53,13 @@ describe RBatch::Vars do
 
   describe "run conf" do
     it "return runconf value via method missing" do
-      @vars = RBatch::Vars.new()
+      @vars = RBatch::Variables.new()
       expect(@vars[:log_level]).to eq "info"
     end
 
     it "raise when key does not exist in run_conf" do
-      @vars = RBatch::Vars.new()
-      expect{@vars[:hoge]}.to raise_error RBatch::Vars::Exception
+      @vars = RBatch::Variables.new()
+      expect{@vars[:hoge]}.to raise_error RBatch::VariablesException
     end
   end
 end

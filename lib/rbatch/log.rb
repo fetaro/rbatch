@@ -29,16 +29,23 @@ module RBatch
       "error" => Logger::ERROR,
       "fatal" => Logger::FATAL
     }
+    @@def_vars
+    def Log.def_vars=(a)
+      raise ArgumentError, "type mismatch: #{a} for #RBatch::Variables" if ! a.kind_of?(RBatch::Variables)
+      @@def_vars=a
+    end
+    def Log.def_vars    ; @@def_vars ; end
+    @@journal
+    def Log.journal=(a) ; @@journal=a ; end
+
     @vars
     @opt
-    @journal
     @log
     @stdout_log
 
-    def initialize(vars,journal,opt,block)
+    def initialize(opt=nil)
       @opt = opt
-      @journal = journal
-      @vars = vars.clone
+      @vars = @@def_vars.clone
       if ! opt.nil?
         # change opt key from "hoge" to "log_hoge"
         tmp = {}
@@ -56,7 +63,7 @@ module RBatch
           @log = Logger.new(open(@path,"w"))
         end
       rescue Errno::ENOENT => e
-        raise RBatch::Log::Exception,"Can not open log file  - #{@path}"
+        raise LogException,"Can not open log file  - #{@path}"
       end
       # set logger option
       @log.level = @@LOG_LEVEL_MAP[@vars[:log_level]]
@@ -70,10 +77,11 @@ module RBatch
       # delete old log
       self.delete_old_log(@vars[:log_delete_old_log_date]) if @vars[:log_delete_old_log]
       # Start logging
-      @journal.put 1,"Logging Start: \"#{@path}\""
-      if ! block.nil?
+      @@journal.put 1,"Logging Start: \"#{@path}\""
+      @@journal.add_log(self)
+      if block_given?
         begin
-          block.call self
+          yield self
         rescue Exception => e
           self.fatal(e)
           self.fatal("Caught exception. Exit 1")
@@ -116,7 +124,6 @@ module RBatch
     end
 
     def close
-      @stdout_log.close if @vars[:log_stdout]
       @log.close
     end
 
@@ -135,7 +142,7 @@ module RBatch
                            .gsub("<date>","([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])")\
                          + "$")
           if r =~ file && Date.strptime($1,"%Y%m%d") <= Date.today - date
-            @journal.put 1, "Delete old log file: " + File.join(@vars[:log_dir] , file)
+            @@journal.put 1, "Delete old log file: " + File.join(@vars[:log_dir] , file)
             File::delete(File.join(@vars[:log_dir]  , file))
           end
         end
@@ -162,7 +169,6 @@ EOT
       }
     end
   end # end class
-
-  class RBatch::Log::Exception < Exception ; end
+  class LogException < StandardError ; end
 end # end module
 

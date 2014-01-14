@@ -8,11 +8,11 @@ module RBatch
   def init
     @@ctrl = RBatch::Controller.new
   end
+  def ctrl ; @@ctrl ; end
   def vars ; @@ctrl.vars ; end
   def config               ; @@ctrl.config ; end
   def common_config        ; @@ctrl.common_config ; end
   def cmd(cmd_str,opt=nil) ; @@ctrl.cmd(cmd_str,opt) ; end
-  def log(opt=nil,&block)  ; @@ctrl.log(opt,block) ; end
 end
 
 # main

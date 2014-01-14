@@ -1,6 +1,8 @@
 module RBatch
   class Journal
-    attr :journal_verbose,:user_logs
+    @@def_vars
+    def Journal.def_vars=(a) ; @@def_vars=a ; end 
+    attr :journals,:journal_verbose,:user_logs
     def initialize(verbose=nil)
       if verbose.nil?
         if ENV["RB_VERBOSE"]
@@ -16,11 +18,11 @@ module RBatch
     end
     def put(level,str)
       if level <= @journal_verbose
+        @journals << str
         str = "[RBatch] " + str
         puts str
-        @journals << str
         @user_logs.each do |log|
-          if RBatch.run_conf[:mix_rbatch_journal_to_logs]
+          if @@def_vars[:mix_rbatch_journal_to_logs]
             log.journal(str)
           end
         end
@@ -28,6 +30,11 @@ module RBatch
     end
     def add_log(log)
       @user_logs << log
+      if @@def_vars[:mix_rbatch_journal_to_logs]
+        @journals.each do |j|
+          log.journal(j)
+        end
+      end
     end
   end
 end

@@ -26,13 +26,13 @@ describe RBatch::Config do
   it "raise error when config does not exist" do
     expect {
       RBatch::Config.new(@path)["hoge"]
-    }.to raise_error(RBatch::Config::Exception)
+    }.to raise_error(RBatch::ConfigException)
     expect {
       RBatch::Config.new(@path).to_h
-    }.to raise_error(RBatch::Config::Exception)
+    }.to raise_error(RBatch::ConfigException)
     expect {
       RBatch::Config.new(@path).to_s
-    }.to raise_error(RBatch::Config::Exception)
+    }.to raise_error(RBatch::ConfigException)
   end
   
   it "read config twice" do
@@ -45,20 +45,20 @@ describe RBatch::Config do
     open( @path  , "w" ){|f| f.write("key: value")}
     expect {
       RBatch::Config.new(@path)["not_exist"]
-    }.to raise_error(RBatch::Config::Exception)
+    }.to raise_error(RBatch::ConfigException)
   end
   
   it "raise error when read value which key mistake String for Symbol" do
     open( @path  , "w" ){|f| f.write("key: value")}
     expect {
       RBatch::Config.new(@path)[:key]
-    }.to raise_error(RBatch::Config::Exception)
+    }.to raise_error(RBatch::ConfigException)
   end
   
   it "raise error when read value which key mistake Symbol for String" do
     open( @path  , "w" ){|f| f.write(":key: value")}
     expect {
       RBatch::Config.new(@path)["key"]
-    }.to raise_error(RBatch::Config::Exception)
+    }.to raise_error(RBatch::ConfigException)
   end
 end

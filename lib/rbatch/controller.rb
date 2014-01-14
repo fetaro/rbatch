@@ -1,6 +1,4 @@
-require 'logger'
-
-require 'rbatch/vars'
+require 'rbatch/variables'
 require 'rbatch/journal'
 require 'rbatch/run_conf'
 require 'rbatch/double_run_checker'
@@ -10,11 +8,14 @@ require 'rbatch/cmd'
 
 module RBatch
   class Controller
-    attr :vars,:config,:common_config,:journals,:user_logs
+    attr :vars,:config,:common_config,:journal,:user_logs
     def initialize
-      @vars = RBatch::Vars.new()
+      @vars = RBatch::Variables.new()
+      RBatch::Journal.def_vars = @vars
+      RBatch::Log.def_vars = @vars
+      RBatch::Cmd.def_vars = @vars
       @journal = RBatch::Journal.new()
-      @journals = []
+      RBatch::Log.journal = @journal
       @user_logs = []
       @journal.put 1,"=== START RBatch === (PID=#{$$.to_s})"
       @journal.put 1, "RB_HOME : \"#{@vars[:home_dir]}\""
@@ -24,6 +25,7 @@ module RBatch
       @journal.put 1, "Load Config  : \"#{@vars[:common_config_path]}\"" if ! @common_config.nil?
       @config = RBatch::Config.new(@vars[:config_path])
       @journal.put 1, "Load Config  : \"#{@vars[:config_path]}\"" if ! @config.nil?
+
       # double_run_check
       if ( @vars[:forbid_double_run])
         RBatch::DoubleRunChecker.check(@pvars[:rogram_base]) #raise error if check is NG
@@ -43,10 +45,7 @@ module RBatch
     def config ; @config ; end
     def common_config ; @common_config ; end
     def cmd(cmd_str,opt)
-      RBatch::Cmd.new(@vars,cmd_str,opt).run
-    end
-    def log(opt,block)
-      RBatch::Log.new(@vars,@journal,opt,block)
+      RBatch::Cmd.new(cmd_str,opt).run
     end
   end
 end
