@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'rbatch/journal'
 require 'rbatch/variables'
 require 'rbatch/log'
