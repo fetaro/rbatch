@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'rbatch/double_run_checker'
 
 describe RBatch::DoubleRunChecker do
