@@ -55,6 +55,9 @@ module RBatch
         @vars.merge!(tmp)
       end
       @path = File.join(@vars[:log_dir],@vars[:log_name])
+      unless Dir.exist? @vars[:log_dir]
+        raise LogException,"Log directory \"#{@vars[:log_dir]}\" does not exist"
+      end
       # create Logger instance
       begin
         if @vars[:log_append] && File.exist?(@path)

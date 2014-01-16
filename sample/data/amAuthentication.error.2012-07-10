@@ -1,6 +1,0 @@
-#Version: 1.0
-#Fields: time	Data	LoginID	ContextID	IPAddr	LogLevel	Domain	LoggedBy	MessageID	ModuleName	NameID	HostName	
-"2012-07-10 14:42:38"	/var/log/OpenStandia/openam/log/	"cn=dsameuser,ou=DSAME Users,dc=opensso,dc=java,dc=net"	e7d9e842bba158c001	"Not Available"	INFO	dc=opensso,dc=java,dc=net	"cn=dsameuser,ou=DSAME Users,dc=opensso,dc=java,dc=net"	LOG-1	amAuthentication.error	"Not Available"	192.175.204.54	
-"2012-07-10 14:42:38"	ログインに失敗しました|module_instance|DataStore	id=amadmin,ou=user,dc=opensso,dc=java,dc=net	"Not Available"	192.175.204.59	INFO	dc=opensso,dc=java,dc=net	"cn=dsameuser,ou=DSAME Users,dc=opensso,dc=java,dc=net"	AUTHENTICATION-268	amAuthentication.error	"Not Available"	192.175.204.59	
-"2012-07-10 14:42:38"	ログインに失敗しました|module_instance|DataStore	id=amadmin,ou=user,dc=opensso,dc=java,dc=net	"Not Available"	192.175.204.59	INFO	dc=opensso,dc=java,dc=net	"cn=dsameuser,ou=DSAME Users,dc=opensso,dc=java,dc=net"	AUTHENTICATION-268	DataStore	"Not Available"	192.175.204.59	
-"2012-07-10 17:26:37"	amAuthentication.error	"cn=dsameuser,ou=DSAME Users,dc=opensso,dc=java,dc=net"	e7d9e842bba158c001	"Not Available"	INFO	dc=opensso,dc=java,dc=net	"cn=dsameuser,ou=DSAME Users,dc=opensso,dc=java,dc=net"	LOG-2	amAuthentication.error	"Not Available"	192.175.204.54	
