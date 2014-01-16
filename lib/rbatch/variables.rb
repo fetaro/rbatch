@@ -1,3 +1,4 @@
+require 'pathname'
 require 'rbatch/run_conf'
 
 module RBatch
@@ -12,6 +13,7 @@ module RBatch
         :date => Time.now.strftime("%Y%m%d"),
         :time => Time.now.strftime("%H%M%S"),
       }
+      @vars[:program_noext] = Pathname(@vars[:program_base]).sub_ext("").to_s
 
       if ENV["RB_VERBOSE"]
         @vars[:journal_verbose] = ENV["RB_VERBOSE"].to_i
@@ -37,7 +39,7 @@ module RBatch
       @run_conf = RunConf.new(@vars[:run_conf_path]) # load run_conf
       @vars.merge!(@run_conf.opt)
       @vars[:common_config_path] = File.join(@vars[:conf_dir],@vars[:common_conf_name])
-      @vars[:config_path] = File.join(@vars[:conf_dir],Pathname(File.basename(@vars[:program_name])).sub_ext(".yaml").to_s)
+      @vars[:config_path] = File.join(@vars[:conf_dir],@vars[:program_noext] + ".yaml")
     end #end def
 
     def[](key)
@@ -47,7 +49,7 @@ module RBatch
             .gsub("<home>", @vars[:home_dir])
             .gsub("<date>", @vars[:date])
             .gsub("<time>", @vars[:time])
-            .gsub("<prog>", @vars[:program_base])
+            .gsub("<prog>", @vars[:program_noext])
             .gsub("<host>", @vars[:host_name])
         else
           @vars[key]
