@@ -6,7 +6,7 @@ RBatch:Ruby-base バッチ スクリプト フレームワーク
 RBatchについて (version 2)
 --------------
 
-これはRubyで書かれたシンプルなバッチスクリプトのフレームワークです。
+RBatchはRubyで書かれたシンプルなバッチスクリプトのフレームワークです。
 バッチスクリプト（バックアップやプロセスリロード等）を書く際に便利な機能をフレームワークとして提供しています。
 
 主な機能は以下のとおり。
@@ -59,6 +59,7 @@ RBatchでは、実行スクリプト、設定ファイルおよびログファ�
      |-conf            ←設定ファイル配置場所
      |  |- A.yaml
      |  |- B.yaml
+     |  |- common.yaml  ←共通設定ファイル
      |
      |-log             ←ログ出力場所
      |  |- YYYYMMDD_HHMMSS_A.log
@@ -70,35 +71,35 @@ RBatchでは、実行スクリプト、設定ファイルおよびログファ�
 
 ### 自動ログ出力
 
-Logging blockを使うことで、自動的にログファイルに出力することができます。
+ログブロックを使うことで、自動的にログファイルに出力することができます。
 ログファイルはデフォルトで`${RB_HOME}/log/YYYYMMDD_HHMMSS_(スクリプトのbasename).log`に出力されます。
-例外が発生した場合でも、ログにスタックトレースを出力することができます。
+ログブロック内で発生した例外をキャッチし、ログにスタックトレースを出力することができます。
 
 サンプル
 
-スクリプト : ${RB_HOME}/bin/sample1.rb
-```
-require 'rbatch'
+スクリプト`${RB_HOME}/bin/sample1.rb` を作ります
 
-RBatch::Log.new(){ |log|  # Logging block
-  log.info "info string"
-  log.error "error string"
-  raise "exception"
-}
-```
+    require 'rbatch'
 
-ログファイル : ${RB_HOME}/log/20121020_005953_sample1.log
-```
-# Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
-[2012-10-20 00:59:53 +900] [INFO ] info string
-[2012-10-20 00:59:53 +900] [ERROR] error string
-[2012-10-20 00:59:53 +900] [FATAL] Caught exception; existing 1
-[2012-10-20 00:59:53 +900] [FATAL] exception (RuntimeError)
-    [backtrace] test.rb:6:in `block in <main>'
-    [backtrace] /usr/local/lib/ruby192/lib/ruby/gems/1.9.1/gems/rbatch-1.0.0/lib/rbatch/auto_logger.rb:37:in `initialize'
-    [backtrace] test.rb:3:in `new'
-    [backtrace] test.rb:3:in `<main>'
-```
+    RBatch::Log.new(){ |log|  # ログブロック
+      log.info "info string"
+      log.error "error string"
+      raise "exception"
+    }
+
+
+実行するとログファイル`${RB_HOME}/log/20121020_005953_sample1.log`が以下のように出力されます
+
+    # Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
+    [2012-10-20 00:59:53 +900] [INFO ] info string
+    [2012-10-20 00:59:53 +900] [ERROR] error string
+    [2012-10-20 00:59:53 +900] [FATAL] Caught exception; existing 1
+    [2012-10-20 00:59:53 +900] [FATAL] exception (RuntimeError)
+        [backtrace] test.rb:6:in `block in <main>'
+        [backtrace] /usr/local/lib/ruby192/lib/ruby/gems/1.9.1/gems/rbatch-1.0.0/lib/rbatch/auto_logger.rb:37:in `initialize'
+        [backtrace] test.rb:3:in `new'
+        [backtrace] test.rb:3:in `<main>'
+
 
 ### 自動ライブラリ読み込み
 
@@ -115,49 +116,49 @@ RBatchは簡単にデフォルトの位置の設定ファイルを読み込め�
 
 サンプル
 
-設定ファイル : ${RB_HOME}/conf/sample2.yaml
-```
-key: value
-array:
- - item1
- - item2
- - item3
-```
+設定ファイル `${RB_HOME}/conf/sample2.yaml` を作ります
 
-スクリプト : ${RB_HOME}/bin/sample2.rb
-```
-require 'rbatch'
-p RBatch.config
-=> {"key" => "value", "array" => ["item1", "item2", "item3"]}
-p RBatch.config["key"]
-=> "value"
+    key: value
+    array:
+     - item1
+     - item2
+     - item3
 
-# もしキーが存在しない場合は自動的に例外が発生します
-p RBatch.config["not_exist"]
-=> Raise Exception
-```
+
+スクリプト`${RB_HOME}/bin/sample2.rb`で、以下のように設定値を呼び出すことができます。
+
+    require 'rbatch'
+
+    # 設定ファイルのロードなど無しにいきなり設定値を利用できます
+    p RBatch.config["key"]    # => "value"
+    p RBatch.config["array"]  # => ["item1", "item2", "item3"]
+
+    # もしキーが存在しない場合は自動的に例外が発生します
+    p RBatch.config["not_exist"] # => RBatch::ConfigExceptionが発生
+
+
+#### 共通設定ファイル
 
 すべてのスクリプトから共通で読み込む設定ファイルを作りたい場合は、`${RB_HOME}/conf/common.yaml`というファイルを作ることで可能です。
 
-### 外部コマンド実行 
+### 外部コマンド実行
 
 RBatchは外部コマンド（たとえば"ls -l"）を実行するラッパー関数を提供します。
 
 この関数は、実行結果をオブジェクトで返し、そのオブジェクトは標準出力、標準エラー出力、およびexitステータスを含みます。
 
 サンプル
-```
-require 'rbatch'
-r = RBatch.cmd("ls")
-p r.stdout
-=> "fileA\nfileB\n"
-p r.stderr
-=> ""
-p r.status
-=> 0
-```
+
+    require 'rbatch'
+    r = RBatch.cmd("ls")
+    p r.stdout # => "fileA\nfileB\n"
+    p r.stderr # => ""
+    p r.status # => 0
+
 
 外部コマンドにタイムアウトを設定したい場合は`cmd_timeout`をオプションを利用できます。
+
+`cmd_raise`オプションを利用することにより、コマンドの戻り値が0以外の場合、例外を発生させることができます。これによりエラーハンドリングのロジックを省略できます。
 
 ### 二重起動チェック
 
@@ -192,8 +193,8 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #   デフォルトは "<home>/conf"
 #   <home> は ${RB_HOME} に置き換わります
 #
-#conf_dir: <home>/config
-#conf_dir: /etc/rbatch/
+#conf_dir : <home>/config
+#conf_dir : /etc/rbatch/
 
 # スクリプト間共通設定ファイル名
 #
@@ -206,41 +207,42 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #   デフォルトは"<home>/lib"
 #   <home> は${RB_HOME}に置き換わります
 #
-#lib_dir: /usr/local/lib/rbatch/
+#lib_dir : /usr/local/lib/rbatch/
 
 # 自動ライブラリ読み込み
 #
 #   デフォルトはtrue
 #   trueの場合、スクリプトが始まる前に"(ライブラリディレクトリ)/*.rb"をrequireします
 #
-#auto_lib_load: true
-#auto_lib_load: false
+#auto_lib_load : true
+#auto_lib_load : false
 
 # スクリプトの二重起動を可能にするかどうか
 #
 #   デフォルト値はfalse。
 #   trueにすると、同じ名前のスクリプトは二つ同時に起動できなくなります。
 #
-#forbid_double_run: true
-#forbid_double_run: false
+#forbid_double_run : true
+#forbid_double_run : false
 
-# -------------------
-# 外部コマンド実行関連
-# -------------------
+# RBatchの実行ログ(Journal)のLevel
+#
+#   デフォルトは1
+#   大きい数を指定すると多くの実行ログが出力される。
+#   0を指定すると何も表示されない。
+#   RBatchメッセージの例
+#       [RBatch] Load Config  : "../conf/hoge.yaml"
+#
+#rbatch_journal_level : 2
+#rbatch_journal_level : 0
 
-# 例外発生機能を有効にするかどうか
+# RBatchの実行ログをログに混ぜ込む
 #
-#   デフォルト値はfalse。
-#   trueの場合、コマンドの終了ステータスが0でない場合に例外を発生する。
+#   デフォルトは true。
+#   trueを指定すると、RBatchメッセージをその時開かれているログに混ぜこむ。
 #
-#cmd_raise: true
-#cmd_raise: false
-
-# 外部コマンドのタイムアウト
-#
-#   デフォルト値は0[sec]。
-#
-#cmd_timeout: 5
+#mix_rbatch_journal_to_logs : true
+#mix_rbatch_journal_to_logs : false
 
 # -------------------
 # ログ関連
@@ -251,8 +253,8 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #   デフォルトは "<home>/log"
 #   <home> は ${RB_HOME} に置き換わります
 #
-#log_dir: <home>/rb_log
-#log_dir: /var/log/rbatch/
+#log_dir : <home>/rb_log
+#log_dir : /var/log/rbatch/
 
 # ログファイル名
 #
@@ -278,10 +280,7 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #   設定できる値は"debug","info","wran","error","fatal"。
 #
 #log_level : "debug"
-#log_level : "info"
 #log_level : "warn"
-#log_level : "error"
-#log_level : "fatal"
 
 # 標準出力とログの両方に文字列を出力するかどうか
 #
@@ -298,14 +297,14 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #   同じファイル名フォーマットであり、かつログファイル名のフォーマットに<date>が
 #   含まれるもの。
 #
-#log_delete_old_log: true
-#log_delete_old_log: false
+#log_delete_old_log : true
+#log_delete_old_log : false
 
 # 古いログの残す日数
 #
 #   デフォルト値は 7
 #
-#log_delete_old_log_date: 14
+#log_delete_old_log_date : 14
 
 # メール送信するかどうか
 # 
@@ -321,24 +320,24 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
 
-# RBatchの実行ログ(Journal)のLevel
-#
-#   デフォルトは1
-#   大きい数を指定すると多くの実行ログが出力される。
-#   0を指定すると何も表示されない。
-#   RBatchメッセージの例
-#       [RBatch] Load Config  : "../conf/hoge.yaml"
-#
-#rbatch_journal_level = 2
-#rbatch_journal_level = 0
+# -------------------
+# 外部コマンド実行関連
+# -------------------
 
-# RBatchの実行ログをログに混ぜ込む
+# 例外発生機能を有効にするかどうか
 #
-#   デフォルトは true。
-#   trueを指定すると、RBatchメッセージをその時開かれているログに混ぜこむ。
+#   デフォルト値はfalse。
+#   trueの場合、コマンドの終了ステータスが0でない場合に例外を発生する。
 #
-#mix_rbatch_journal_to_logs : true
-#mix_rbatch_journal_to_logs : false
+#cmd_raise : true
+#cmd_raise : false
+
+# 外部コマンドのタイムアウト
+#
+#   デフォルト値は0[sec]。
+#
+#cmd_timeout : 5
+
 
 ```
 

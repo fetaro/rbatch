@@ -12,55 +12,56 @@
 #   Default is "<home>/conf"
 #   <home> is replaced to ${RB_HOME}
 #
-#conf_dir: <home>/config/
-#conf_dir: /etc/rbatch/
+#conf_dir : <home>/config/
+#conf_dir : /etc/rbatch/
 
-# Common config file name
+# Common Config file name
 #
 #   Default is "common.yaml"
 #
-#common_conf_name: share.yaml
+#common_conf_name : share.yaml
 
 # Library Directory
 #
 #   Default is "<home>/lib"
 #   <home> is replaced to ${RB_HOME}
 #
-#lib_dir: /usr/local/lib/rbatch/
+#lib_dir : /usr/local/lib/rbatch/
 
 # Auto Library Load
 #
 #   Default is true
 #   If true, require "(library directory)/*.rb" before script run.
 #
-#auto_lib_load: true
-#auto_lib_load: false
+#auto_lib_load : true
+#auto_lib_load : false
 
-# Forbit Script Double Run
+# Forbit Script Running Doubly
 #
 #   Default is false.
-#   If true, two same name scripts cannot run at the same time. 
+#   If true, two same name scripts cannot run at the same time.
 #
-#forbid_double_run: true
-#forbid_double_run: false
+#forbid_double_run : true
+#forbid_double_run : false
 
-# -------------------
-# Cmd setting
-# -------------------
+# Journal Message Level
+#
+#   Default is 1
+#   If 2, put more journal messages to STDOUT.
+#   If 0, put nothing.
+#   Example of journal essages are follows.
+#       [RBatch] Load Config  : "../conf/hoge.yaml"
+#
+#rbatch_journal_level : 2
+#rbatch_journal_level : 0
 
-# Raise Exception
+# Mix Journal Message to Logs
 #
-#   Default is false.
-#   If true, when command exit status is not 0, raise exception.
+#   Default is true.
+#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
 #
-#cmd_raise : true
-#cmd_raise : false
-
-# Command Timeout
-#
-#   Default is 0 [sec].
-#
-#cmd_timeout: 5
+#mix_rbatch_journal_to_logs : true
+#mix_rbatch_journal_to_logs : false
 
 # -------------------
 # Log setting
@@ -71,8 +72,8 @@
 #   Default is "<home>/log"
 #   <home> is replaced to ${RB_HOME}
 #
-#log_dir: <home>/rb_log
-#log_dir: /var/log/rbatch/
+#log_dir : <home>/rb_log
+#log_dir : /var/log/rbatch/
 
 # Log File Name
 #
@@ -98,12 +99,9 @@
 #   Effective values are "debug","info","wran","error",and "fatal".
 #
 #log_level : "debug"
-#log_level : "info"
 #log_level : "warn"
-#log_level : "error"
-#log_level : "fatal"
 
-# Print log string both file and STDOUT
+# Print log string both log file and STDOUT
 #
 #   Default is false.
 #
@@ -120,13 +118,13 @@
 #log_delete_old_log: true
 #log_delete_old_log: false
 
-# The day of leaving log files
+# Expire Date of Log Files
 #
 #   Default is 7.
 #
 #log_delete_old_log_date: 14
 
-# Send mail or not
+# Send Mail
 #
 #   Default is false.
 #   When log.error(msg) or log.fatal(msg) called , send e-mail
@@ -134,28 +132,28 @@
 #
 #log_send_mail : true
 
-# Mail parameters
+# Mail Parameters
 #
 #log_mail_to   : "xxx@sample.com"
 #log_mail_from : "xxx@sample.com"
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
 
-# RBatch Journal Message Level
-#
-#   Default is 1
-#   If 2, put more journal messages to STDOUT.
-#   If 0, put nothing.
-#   Example of journal essages are follows.
-#       [RBatch] Load Config  : "../conf/hoge.yaml"
-#
-#rbatch_journal_level = 2
-#rbatch_journal_level = 0
+# -------------------
+# Cmd setting
+# -------------------
 
-# Mix RBatch Journal to Logs
+# Raise Exception
 #
-#   Default is true.
-#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
+#   Default is false.
+#   If true, when command exit status is not 0, raise exception.
 #
-#mix_rbatch_journal_to_logs : true
-#mix_rbatch_journal_to_logs : false
+#cmd_raise : true
+#cmd_raise : false
+
+# Command Timeout
+#
+#   Default is 0 [sec] (=no timeout).
+#
+#cmd_timeout : 5
+

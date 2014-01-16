@@ -1,13 +1,13 @@
 [[English]](https://github.com/fetaro/rbatch/blob/master/README.md "english") [[Japanese]](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese")
 
-RBatch:Ruby-base Batch Script Framework
+RBatch: Framework for Ruby-based Batch Script
 =============
 
 About RBatch (for ver 2)
 --------------
 
 
-RBatch is Ruby-base Batch script framework. RBatch help to make a batch script such as "data backup" or "proccess start ".
+RBatch is a framework for Ruby-based batch script. RBatch help to make a batch script such as "data backup" or "proccess start ".
 
 There are following functions.
 
@@ -59,6 +59,7 @@ For example
      |- conf           <--- Config files
      |   |-  A.yaml
      |   |-  B.yaml
+     |   |-  common.yaml <--- Common-Config file
      |
      |- log            <--- Log files
      |   |-  YYYYMMDD_HHMMSS_A.log
@@ -76,7 +77,7 @@ If an exception is raised, then RBatch write the stack trace to the logfile.
 
 sample
 
-script : `${RB_HOME}/bin/sample1.rb`
+make script `${RB_HOME}/bin/sample1.rb`
 
     require 'rbatch'
     RBatch::Log.new(){ |log|  # Logging block
@@ -85,7 +86,8 @@ script : `${RB_HOME}/bin/sample1.rb`
       raise "exception"
     }
 
-logfile : `${RB_HOME}/log/20121020_005953_sample1.log`
+
+Run script. Log file is `${RB_HOME}/log/20121020_005953_sample1.log`
 
     # Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
     [2012-10-20 00:59:53 +900] [INFO ] info string
@@ -111,7 +113,7 @@ If you make configuration file which is located `${RB_HOME}/conf/"(script base).
 
 sample
 
-config : `${RB_HOME}/conf/sample2.yaml`
+make config file `${RB_HOME}/conf/sample2.yaml`.
 
     key: value
     array:
@@ -119,24 +121,24 @@ config : `${RB_HOME}/conf/sample2.yaml`
      - item2
      - item3
 
-
-script : `${RB_HOME}/bin/sample2.rb`
+In script `${RB_HOME}/bin/sample2.rb` , you can read config.
 
     require 'rbatch'
-    p RBatch.config
-    => {"key" => "value", "array" => ["item1", "item2", "item3"]}
-    p RBatch.config["key"]
-    => "value"
 
-    # If key does not exist , raise exception
-    p RBatch.config["not_exist"]
-    => Raise Exception
+    # You can read config value without loading file.
+    p RBatch.config["key"]   # => "value"
+    p RBatch.config["array"] # => ["item1", "item2", "item3"]
 
+    # If key does not exist, raise exception
+    p RBatch.config["not_exist"] # => Raise RBatch::ConfigException
+
+
+#### Common Config
 
 If you can use a common config file which is read from all scripts, you make `${RB_HOME}/conf/common.yaml`.
 You can change name of common config file by using option `common_conf_name`.
 
-### External Command Wrapper 
+### External Command Wrapper
 
 RBatch provide a function which wrap external command (such as 'ls').
 
@@ -146,24 +148,24 @@ sample
 
     require 'rbatch'
     r = RBatch.cmd("ls")
-    p r.stdout
-    => "fileA\nfileB\n"
-    p r.stderr
-    => ""
-    p r.status
-    => 0
+    p r.stdout # => "fileA\nfileB\n"
+    p r.stderr # => ""
+    p r.status # => 0
 
 If you want to set a timeout of external command, you can use `cmd_timeout` option.
 
+And by using `cmd_raise` option, if status of command is not 0, raise Exception.
+You have no use for an error handring.
+
 ### Double Run Check
 
-Using `forbid_double_run` option, two same name scripts cannot run at the same time. 
+Using `forbid_double_run` option, two same name scripts cannot run at the same time.
 
 Customize
 --------------
 If you want to customize RBatch, you have two methods.
 
-* (1) Write Run-Conf `${RB_HOME}/.rbatchrc`.
+* (1) Write Run-Conf(`${RB_HOME}/.rbatchrc`).
 * (2) Pass an option object to constructor in your script.
 
 When an option is set in both (1) and (2), (2) is prior to (1).
@@ -171,6 +173,7 @@ When an option is set in both (1) and (2), (2) is prior to (1).
 #### Customize by writing Run-Conf (.rbatchrc)
 
 Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
+
 ```
 # RBatch Run-Conf (.rbatchrc)
 #
@@ -186,14 +189,14 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #   Default is "<home>/conf"
 #   <home> is replaced to ${RB_HOME}
 #
-#conf_dir: <home>/config/
-#conf_dir: /etc/rbatch/
+#conf_dir : <home>/config/
+#conf_dir : /etc/rbatch/
 
-# Common config file name
+# Common Config file name
 #
 #   Default is "common.yaml"
 #
-#common_conf_name: share.yaml
+#common_conf_name : share.yaml
 
 # Library Directory
 #
@@ -207,34 +210,35 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #   Default is true
 #   If true, require "(library directory)/*.rb" before script run.
 #
-#auto_lib_load: true
-#auto_lib_load: false
+#auto_lib_load : true
+#auto_lib_load : false
 
-# Forbit Script Double Run
+# Forbit Script Running Doubly
 #
 #   Default is false.
-#   If true, two same name scripts cannot run at the same time. 
+#   If true, two same name scripts cannot run at the same time.
 #
 #forbid_double_run: true
 #forbid_double_run: false
 
-# -------------------
-# Cmd setting
-# -------------------
+# Journal Message Level
+#
+#   Default is 1
+#   If 2, put more journal messages to STDOUT.
+#   If 0, put nothing.
+#   Example of journal essages are follows.
+#       [RBatch] Load Config  : "../conf/hoge.yaml"
+#
+#rbatch_journal_level : 2
+#rbatch_journal_level : 0
 
-# Raise Exception
+# Mix Journal Message to Logs
 #
-#   Default is false.
-#   If true, when command exit status is not 0, raise exception.
+#   Default is true.
+#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
 #
-#cmd_raise : true
-#cmd_raise : false
-
-# Command Timeout
-#
-#   Default is 0 [sec].
-#
-#cmd_timeout: 5
+#mix_rbatch_journal_to_logs : true
+#mix_rbatch_journal_to_logs : false
 
 # -------------------
 # Log setting
@@ -245,8 +249,8 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #   Default is "<home>/log"
 #   <home> is replaced to ${RB_HOME}
 #
-#log_dir: <home>/rb_log
-#log_dir: /var/log/rbatch/
+#log_dir : <home>/rb_log
+#log_dir : /var/log/rbatch/
 
 # Log File Name
 #
@@ -272,12 +276,9 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #   Effective values are "debug","info","wran","error",and "fatal".
 #
 #log_level : "debug"
-#log_level : "info"
 #log_level : "warn"
-#log_level : "error"
-#log_level : "fatal"
 
-# Print log string both file and STDOUT
+# Print log string both log file and STDOUT
 #
 #   Default is false.
 #
@@ -291,16 +292,16 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #   A log file to delete is a log file which was made by the
 #   RBatch::Log instance, and log filename format include "<date>".
 #
-#log_delete_old_log: true
-#log_delete_old_log: false
+#log_delete_old_log : true
+#log_delete_old_log : false
 
-# The day of leaving log files
+# Expire Date of Log Files
 #
 #   Default is 7.
 #
-#log_delete_old_log_date: 14
+#log_delete_old_log_date : 14
 
-# Send mail or not
+# Send Mail
 #
 #   Default is false.
 #   When log.error(msg) or log.fatal(msg) called , send e-mail
@@ -308,31 +309,31 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #
 #log_send_mail : true
 
-# Mail parameters
+# Mail Parameters
 #
 #log_mail_to   : "xxx@sample.com"
 #log_mail_from : "xxx@sample.com"
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
 
-# RBatch Journal Message Level
-#
-#   Default is 1
-#   If 2, put more journal messages to STDOUT.
-#   If 0, put nothing.
-#   Example of journal essages are follows.
-#       [RBatch] Load Config  : "../conf/hoge.yaml"
-#
-#rbatch_journal_level = 2
-#rbatch_journal_level = 0
+# -------------------
+# Cmd setting
+# -------------------
 
-# Mix RBatch Journal to Logs
+# Raise Exception
 #
-#   Default is true.
-#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
+#   Default is false.
+#   If true, when command exit status is not 0, raise exception.
 #
-#mix_rbatch_journal_to_logs : true
-#mix_rbatch_journal_to_logs : false
+#cmd_raise : true
+#cmd_raise : false
+
+# Command Timeout
+#
+#   Default is 0 [sec] (=no timeout).
+#
+#cmd_timeout : 5
+
 
 ```
 
@@ -340,7 +341,9 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 
 If you want to change options in a script, you pass an options object to the constructor of RBatch::Log or RBatch::Cmd.
 
-#### option of RBatch::Log 
+#### option of RBatch::Log
+
+Sumple
 
     opt = {
           :name      => "<date>_<time>_<prog>.log",
@@ -360,11 +363,13 @@ If you want to change options in a script, you pass an options object to the con
 
 #### option of RBatch::Cmd
 
+Sample
+
     opt = {
           :raise     => false,
           :timeout   => 0
           }
-    RBatch::Log.new(cmd_str, opt)
+    RBatch::Log.new("ls -l", opt)
 
 
 Migration from version 1 to version 2
