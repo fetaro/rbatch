@@ -123,13 +123,13 @@ config : `${RB_HOME}/conf/sample2.yaml`
 script : `${RB_HOME}/bin/sample2.rb`
 
     require 'rbatch'
-    p RBatch::config
+    p RBatch.config
     => {"key" => "value", "array" => ["item1", "item2", "item3"]}
-    p RBatch::config["key"]
+    p RBatch.config["key"]
     => "value"
 
     # If key does not exist , raise exception
-    p RBatch::config["not_exist"]
+    p RBatch.config["not_exist"]
     => Raise Exception
 
 
@@ -145,7 +145,7 @@ This function return a result object which contain command's "STDOUT", "STDERR" 
 sample
 
     require 'rbatch'
-    r = RBatch::cmd("ls")
+    r = RBatch.cmd("ls")
     p r.stdout
     => "fileA\nfileB\n"
     p r.stderr
