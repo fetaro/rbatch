@@ -4,14 +4,10 @@ module RBatch
     def Journal.def_vars=(a) ; @@def_vars=a ; end 
     attr :journals,:journal_verbose,:user_logs
     def initialize(verbose=nil)
-      if verbose.nil?
-        if ENV["RB_VERBOSE"]
-          @journal_verbose = ENV["RB_VERBOSE"].to_i
-        else
-          @journal_verbose = 1
-        end
-      else
+      if ! verbose.nil?
         @journal_verbose = verbose
+      else
+        @journal_verbose = @@def_vars[:rbatch_journal_level]
       end
       @journals = []
       @user_logs = []

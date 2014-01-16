@@ -15,12 +15,6 @@ module RBatch
       }
       @vars[:program_noext] = Pathname(@vars[:program_base]).sub_ext("").to_s
 
-      if ENV["RB_VERBOSE"]
-        @vars[:journal_verbose] = ENV["RB_VERBOSE"].to_i
-      else
-        @vars[:journal_verbose] = 1
-      end
-
       case RUBY_PLATFORM
       when /mswin|mingw/
         @vars[:host_name] =  ENV["COMPUTERNAME"] ? ENV["COMPUTERNAME"] : "unknownhost"
