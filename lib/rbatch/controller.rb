@@ -22,9 +22,9 @@ module RBatch
       @journal.put 1, "Load Run-Conf: \"#{@vars[:run_conf_path]}\""
       @journal.put 2, "RBatch Variables : #{@vars.inspect}"
       @common_config = RBatch::Config.new(@vars[:common_config_path])
-      @journal.put 1, "Load Config  : \"#{@vars[:common_config_path]}\"" if ! @common_config.nil?
+      @journal.put 1, "Load Config  : \"#{@vars[:common_config_path]}\"" if @common_config.exist?
       @config = RBatch::Config.new(@vars[:config_path])
-      @journal.put 1, "Load Config  : \"#{@vars[:config_path]}\"" if ! @config.nil?
+      @journal.put 1, "Load Config  : \"#{@vars[:config_path]}\"" if @config.exist?
 
       # double_run_check
       if ( @vars[:forbid_double_run])

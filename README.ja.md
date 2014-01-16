@@ -127,13 +127,13 @@ array:
 スクリプト : ${RB_HOME}/bin/sample2.rb
 ```
 require 'rbatch'
-p RBatch::config
+p RBatch.config
 => {"key" => "value", "array" => ["item1", "item2", "item3"]}
-p RBatch::config["key"]
+p RBatch.config["key"]
 => "value"
 
 # もしキーが存在しない場合は自動的に例外が発生します
-p RBatch::config["not_exist"]
+p RBatch.config["not_exist"]
 => Raise Exception
 ```
 
@@ -148,7 +148,7 @@ RBatchは外部コマンド（たとえば"ls -l"）を実行するラッパー�
 サンプル
 ```
 require 'rbatch'
-r = RBatch::cmd("ls")
+r = RBatch.cmd("ls")
 p r.stdout
 => "fileA\nfileB\n"
 p r.stderr
