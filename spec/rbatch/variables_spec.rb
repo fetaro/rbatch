@@ -12,12 +12,10 @@ describe RBatch::Variables do
 
   before :each do
     ENV["RB_HOME"]=@home
-    ENV["RB_VERBOSE"]="0"
   end
 
   it "default" do
     @vars = RBatch::Variables.new()
-    expect(@vars[:journal_verbose]).to eq 0
     #expect(@vars[:host_name]).to eq ""
     #expect(@vars[:program_name]).to eq "rspec"
     #expect(@vars[:program_path]).to eq "rspec"
@@ -38,10 +36,8 @@ describe RBatch::Variables do
 
   it "success when ENV Change" do
     ENV["RB_HOME"]="/var"
-    ENV["RB_VERBOSE"]="3"
 
     @vars = RBatch::Variables.new()
-    expect(@vars[:journal_verbose]).to eq 3
     expect(@vars[:home_dir]).to eq "/var"
     expect(@vars[:log_dir]).to eq File.join("/var","log")
   end 

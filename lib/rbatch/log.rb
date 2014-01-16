@@ -123,7 +123,7 @@ module RBatch
     end
 
     def journal(a)
-      @log.info(a)
+      @log.info("[RBatch] " + a)
     end
 
     def close

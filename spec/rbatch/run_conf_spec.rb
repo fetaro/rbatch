@@ -9,7 +9,6 @@ describe RBatch::RunConf do
     @HOME_DIR = File.join(Dir.tmpdir, "rbatch_test_" + Time.now.strftime("%Y%m%d%H%M%S"))
     Dir.mkdir(@HOME_DIR)
     ENV["RB_HOME"]=@HOME_DIR
-    ENV["RB_VERBOSE"]="0"
     @home = ENV["RB_HOME"]
     @config = File.join(@home,"run_conf_test.yaml")
   end
@@ -39,7 +38,7 @@ describe RBatch::RunConf do
   end
 
   it "raise when key does not exist" do
-    expect{@rc[:not_exist_key]}.to raise_error(RBatch::RunConf::Exception)
+    expect{@rc[:not_exist_key]}.to raise_error(RBatch::RunConfException)
   end
 
   it "read run conf" do
@@ -50,7 +49,7 @@ describe RBatch::RunConf do
 
   it "raise when run_conf has unreserved key" do
     open( @config  , "w" ){|f| f.write("unreserved: hoge")}
-    expect{tmp = RBatch::RunConf.new(@config)}.to raise_error(RBatch::RunConf::Exception)
+    expect{tmp = RBatch::RunConf.new(@config)}.to raise_error(RBatch::RunConfException)
   end
 
   describe "[]= method" do
@@ -61,7 +60,7 @@ describe RBatch::RunConf do
     end
 
     it "raise when set unreserved key" do
-      expect{@rc[:unreservied] = "hoge"}.to raise_error(RBatch::RunConf::Exception)
+      expect{@rc[:unreservied] = "hoge"}.to raise_error(RBatch::RunConfException)
     end
   end
   
@@ -74,7 +73,7 @@ describe RBatch::RunConf do
 
     it "raise when key does not exist" do
       opt={ :unreserved => "error"}
-      expect{@rc.merge!(opt)}.to raise_error(RBatch::RunConf::Exception)
+      expect{@rc.merge!(opt)}.to raise_error(RBatch::RunConfException)
     end
   end
 
@@ -88,7 +87,7 @@ describe RBatch::RunConf do
 
     it "raise when key does not exist" do
       opt={ :unreserved => "error"}
-      expect{@rc.merge(opt)}.to raise_error(RBatch::RunConf::Exception)
+      expect{@rc.merge(opt)}.to raise_error(RBatch::RunConfException)
     end
   end
 end

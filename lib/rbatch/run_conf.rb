@@ -49,7 +49,7 @@ module RBatch
           if @@def_opt.has_key?(key.to_sym)
             @opt[key.to_sym]=@yaml[key]
           else
-            raise RBatch::RunConf::Exception, "\"#{key}\" is not available option"
+            raise RBatch::RunConfException, "\"#{key}\" is not available option"
           end
         end
       end
@@ -64,7 +64,7 @@ module RBatch
         if @opt.has_key?(key)
           @opt[key] = opt[key]
         else
-          raise RBatch::RunConf::Exception, "\"#{key}\" is not available option"
+          raise RBatch::RunConfException, "\"#{key}\" is not available option"
         end
       end
     end
@@ -75,7 +75,7 @@ module RBatch
         if tmp.has_key?(key)
           tmp[key] = opt[key]
         else
-          raise RBatch::RunConf::Exception, "\"#{key}\" is not available option"
+          raise RBatch::RunConfException, "\"#{key}\" is not available option"
         end
       end
       return tmp
@@ -83,19 +83,19 @@ module RBatch
 
     def[](key)
       if @opt[key].nil?
-        raise RBatch::RunConf::Exception, "Value of key=\"#{key}\" is nil"
+        raise RBatch::RunConfException, "Value of key=\"#{key}\" is nil"
       end
       @opt[key]
     end
 
     def[]=(key,value)
       if ! @opt.has_key?(key)
-        raise RBatch::RunConf::Exception, "Key=\"#{key}\" does not exist"
+        raise RBatch::RunConfException, "Key=\"#{key}\" does not exist"
       end
       @opt[key]=value
     end
   end
 
-  class RunConf::Exception < Exception ; end
+  class RunConfException < Exception ; end
 
 end
