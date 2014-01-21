@@ -79,14 +79,15 @@ RBatchでは、実行スクリプト、設定ファイルおよびログファ�
 
 スクリプト`${RB_HOME}/bin/sample1.rb` を作ります
 
-    require 'rbatch'
+```ruby
+require 'rbatch'
 
-    RBatch::Log.new(){ |log|  # ログブロック
-      log.info "info string"
-      log.error "error string"
-      raise "exception"
-    }
-
+RBatch::Log.new(){ |log|  # ログブロック
+  log.info "info string"
+  log.error "error string"
+  raise "exception"
+}
+```
 
 実行するとログファイル`${RB_HOME}/log/20121020_005953_sample1.log`が以下のように出力されます
 
@@ -149,12 +150,13 @@ RBatchは外部コマンド（たとえば"ls -l"）を実行するラッパー�
 
 サンプル
 
-    require 'rbatch'
-    r = RBatch.cmd("ls")
-    p r.stdout # => "fileA\nfileB\n"
-    p r.stderr # => ""
-    p r.status # => 0
-
+```ruby
+require 'rbatch'
+r = RBatch.cmd("ls")
+p r.stdout # => "fileA\nfileB\n"
+p r.stderr # => ""
+p r.status # => 0
+```
 
 外部コマンドにタイムアウトを設定したい場合は`cmd_timeout`をオプションを利用できます。
 
@@ -163,6 +165,80 @@ RBatchは外部コマンド（たとえば"ls -l"）を実行するラッパー�
 ### 二重起動チェック
 
 `forbid_double_run`のオプションを利用すれば、RBatchを利用したプログラムの二重起動チェックができます。
+
+
+サンプル
+--------------
+
+### AWS EC2 のボリュームバックアップスクリプト
+
+最初に以下の設定ファイルを作ります
+
+設定ファイル : `${RB_HOME}/conf/ec2_create_snapshot.yaml`
+
+```
+access_key : AKIAITHEXXXXXXXXX
+secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
+
+```
+
+次に、スクリプトを書きます。
+
+スクリプト : `${RB_HOME}/bin/ec2_create_snapshot.rb`
+
+```ruby
+require 'rbatch'  # <= rbatchをrequireします
+require 'aws-sdk'
+require 'net/http'
+
+RBatch::Log.new do |log| # <= ログブロックを開始し、スクリプトはこの中に入れます
+  # get ec2 region
+  @ec2_region = "ec2." +
+    Net::HTTP.get("169.254.169.254", "/latest/meta-data/placement/availability-zone").chop +
+    ".amazonaws.com"
+  log.info("ec2 region : #{@ec2_region}")  # <= このようにログを出力できます
+
+  #create ec2 instance
+  @ec2 = AWS::EC2.new(:access_key_id     => RBatch.config["access_key"],  # <= 設定ファイルを読み込みます
+                      :secret_access_key => RBatch.config["secret_key"],
+                      :ec2_endpoint      => @ec2_region)
+
+
+  # create instance
+  @instance_id = Net::HTTP.get("169.254.169.254", "/latest/meta-data/instance-id")
+  @instance = @ec2.instances[@instance_id]
+  log.info("instance_id : #{@instance_id}")
+
+  # create snapshots
+  @instance.block_devices.each do | dev |
+    desc = @instance_id + " " + dev[:device_name] + " " +
+      dev[:ebs][:volume_id] + " " +Time.now.strftime("%Y/%m/%d %H:%M").to_s
+    log.info("create snapshot : #{desc}")
+    @ec2.volumes[dev[:ebs][:volume_id]].create_snapshot(desc)
+    log.info("sucess")
+  end
+end
+
+```
+
+最後にスクリプトを実行すると、以下のようなログが出力されます
+
+ログファイル : `${RB_HOME}/log/20140121_123124_ec2_create_snapshot.log`
+
+```
+[2014-01-21 12:31:24 -0500] [INFO ] === START RBatch === (PID=10095)
+[2014-01-21 12:31:24 -0500] [INFO ] RB_HOME : "/opt/MyProject"
+[2014-01-21 12:31:24 -0500] [INFO ] Load Run-Conf: "/opt/MyProject/.rbatchrc"
+[2014-01-21 12:31:24 -0500] [INFO ] Load Config  : "/opt/MyProject/conf/ec2_create_snapshot.yaml"
+[2014-01-21 12:31:24 -0500] [INFO ] Start Script : "/opt/MyProject/bin/ec2_create_snapshot.rb"
+[2014-01-21 12:31:24 -0500] [INFO ] Logging Start: "/opt/MyProject/log/20140121_123124_ec2_create_snapshot.log"
+[2014-01-21 12:31:24 -0500] [INFO ] ec2 region : ec2.ap-northeast-1.amazonaws.com
+[2014-01-21 12:31:25 -0500] [INFO ] instance_id : i-cc25f1c9
+[2014-01-21 12:31:25 -0500] [INFO ] create snapshot : i-cc25f1c9 /dev/sda1 vol-82483ea7 2014/01/21 12:31
+[2014-01-21 12:31:25 -0500] [INFO ] sucess
+```
+
+これだけで、ログ出力と設定ファイル読み込みを兼ね備えたスクリプトを作成することができます。
 
 カスタマイズ
 --------------
@@ -347,31 +423,35 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 
 #### RBatch::Logクラスのオプション
 
-    opt = {
-          :name      => "<date>_<time>_<prog>.log",
-          :dir       => "/var/log/",
-          :append    => true,
-          :level     => "info",
-          :stdout    => false,
-          :delete_old_log => false,
-          :delete_old_log_date => 7,
-          :send_mail => false,
-          :mail_to   => nil,
-          :mail_from => "rbatch.localhost",
-          :mail_server_host => "localhost",
-          :mail_server_port => 25
-    }
+```ruby
+opt = {
+      :name      => "<date>_<time>_<prog>.log",
+      :dir       => "/var/log/",
+      :append    => true,
+      :level     => "info",
+      :stdout    => false,
+      :delete_old_log => false,
+      :delete_old_log_date => 7,
+      :send_mail => false,
+      :mail_to   => nil,
+      :mail_from => "rbatch.localhost",
+      :mail_server_host => "localhost",
+      :mail_server_port => 25
+}
 
-    RBatch::Log.new(opt)
+RBatch::Log.new(opt)
+```
 
 #### RBatch::Cmdクラスのオプション
 
-    opt = {
-          :raise     => false,
-          :timeout   => 0
-          }
+```ruby
+opt = {
+      :raise     => false,
+      :timeout   => 0
+}
 
-    RBatch::Log.new(cmd_str, opt)
+RBatch::Cmd.new(cmd_str, opt).run
+```
 
 version 1 から 2 へのマイグレーション
 --------------

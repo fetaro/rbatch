@@ -79,13 +79,14 @@ sample
 
 make script `${RB_HOME}/bin/sample1.rb`
 
-    require 'rbatch'
-    RBatch::Log.new(){ |log|  # Logging block
-      log.info "info string"
-      log.error "error string"
-      raise "exception"
-    }
-
+```ruby
+require 'rbatch'
+RBatch::Log.new(){ |log|  # Logging block
+  log.info "info string"
+  log.error "error string"
+  raise "exception"
+}
+```
 
 Run script. Log file is `${RB_HOME}/log/20121020_005953_sample1.log`
 
@@ -123,15 +124,16 @@ make config file `${RB_HOME}/conf/sample2.yaml`.
 
 In script `${RB_HOME}/bin/sample2.rb` , you can read config.
 
-    require 'rbatch'
+```ruby
+require 'rbatch'
 
-    # You can read config value without loading file.
-    p RBatch.config["key"]   # => "value"
-    p RBatch.config["array"] # => ["item1", "item2", "item3"]
+# You can read config value without loading file.
+p RBatch.config["key"]   # => "value" 
+p RBatch.config["array"] # => ["item1", "item2", "item3"]
 
-    # If key does not exist, raise exception
-    p RBatch.config["not_exist"] # => Raise RBatch::ConfigException
-
+# If key does not exist, raise exception
+p RBatch.config["not_exist"] # => Raise RBatch::ConfigException
+```
 
 #### Common Config
 
@@ -146,11 +148,14 @@ This function return a result object which contain command's "STDOUT", "STDERR" 
 
 sample
 
-    require 'rbatch'
-    r = RBatch.cmd("ls")
-    p r.stdout # => "fileA\nfileB\n"
-    p r.stderr # => ""
-    p r.status # => 0
+```ruby
+require 'rbatch'
+
+r = RBatch.cmd("ls")
+p r.stdout # => "fileA\nfileB\n"
+p r.stderr # => ""
+p r.status # => 0
+```
 
 If you want to set a timeout of external command, you can use `cmd_timeout` option.
 
@@ -160,6 +165,79 @@ You have no use for an error handring.
 ### Double Run Check
 
 Using `forbid_double_run` option, two same name scripts cannot run at the same time.
+
+Sample
+--------------
+
+### AWS EC2 Volume Backup Script
+
+First you make configuration file.
+
+Config File : `${RB_HOME}/conf/ec2_create_snapshot.yaml`
+
+```
+access_key : AKIAITHEXXXXXXXXX
+secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
+
+```
+
+Next, you write script.
+
+Script : `${RB_HOME}/bin/ec2_create_snapshot.rb`
+
+```ruby
+require 'rbatch'  # <= require rbatch
+require 'aws-sdk'
+require 'net/http'
+
+RBatch::Log.new do |log| # <= Start Log block. And write main logic in this block.
+  # get ec2 region
+  @ec2_region = "ec2." +
+    Net::HTTP.get("169.254.169.254", "/latest/meta-data/placement/availability-zone").chop +
+    ".amazonaws.com"
+  log.info("ec2 region : #{@ec2_region}")  # <= Output Log
+
+  #create ec2 instance
+  @ec2 = AWS::EC2.new(:access_key_id     => RBatch.config["access_key"],  # <= Read Config
+                      :secret_access_key => RBatch.config["secret_key"],
+                      :ec2_endpoint      => @ec2_region)
+
+
+  # create instance
+  @instance_id = Net::HTTP.get("169.254.169.254", "/latest/meta-data/instance-id")
+  @instance = @ec2.instances[@instance_id]
+  log.info("instance_id : #{@instance_id}")
+
+  # create snapshots
+  @instance.block_devices.each do | dev |
+    desc = @instance_id + " " + dev[:device_name] + " " +
+      dev[:ebs][:volume_id] + " " +Time.now.strftime("%Y/%m/%d %H:%M").to_s
+    log.info("create snapshot : #{desc}")
+    @ec2.volumes[dev[:ebs][:volume_id]].create_snapshot(desc)
+    log.info("sucess")
+  end
+end
+
+```
+
+Finally Run script , then following logfile is output.
+
+Log file : `${RB_HOME}/log/20140121_123124_ec2_create_snapshot.log`
+
+```
+[2014-01-21 12:31:24 -0500] [INFO ] === START RBatch === (PID=10095)
+[2014-01-21 12:31:24 -0500] [INFO ] RB_HOME : "/opt/MyProject"
+[2014-01-21 12:31:24 -0500] [INFO ] Load Run-Conf: "/opt/MyProject/.rbatchrc"
+[2014-01-21 12:31:24 -0500] [INFO ] Load Config  : "/opt/MyProject/conf/ec2_create_snapshot.yaml"
+[2014-01-21 12:31:24 -0500] [INFO ] Start Script : "/opt/MyProject/bin/ec2_create_snapshot.rb"
+[2014-01-21 12:31:24 -0500] [INFO ] Logging Start: "/opt/MyProject/log/20140121_123124_ec2_create_snapshot.log"
+[2014-01-21 12:31:24 -0500] [INFO ] ec2 region : ec2.ap-northeast-1.amazonaws.com
+[2014-01-21 12:31:25 -0500] [INFO ] instance_id : i-cc25f1c9
+[2014-01-21 12:31:25 -0500] [INFO ] create snapshot : i-cc25f1c9 /dev/sda1 vol-82483ea7 2014/01/21 12:31
+[2014-01-21 12:31:25 -0500] [INFO ] sucess
+```
+
+Only you write a small code, this batch script has logging and read-config function.
 
 Customize
 --------------
@@ -345,32 +423,35 @@ If you want to change options in a script, you pass an options object to the con
 
 Sumple
 
-    opt = {
-          :name      => "<date>_<time>_<prog>.log",
-          :dir       => "/var/log",
-          :append    => true,
-          :level     => "info",
-          :stdout    => false,
-          :delete_old_log => false,
-          :delete_old_log_date => 7,
-          :send_mail => false,
-          :mail_to   => nil,
-          :mail_from => "rbatch.localhost",
-          :mail_server_host => "localhost",
-          :mail_server_port => 25
-          }
-    RBatch::Log.new(opt)
+```ruby
+opt = {
+      :name      => "<date>_<time>_<prog>.log",
+      :dir       => "/var/log",
+      :append    => true,
+      :level     => "info",
+      :stdout    => false,
+      :delete_old_log => false,
+      :delete_old_log_date => 7,
+      :send_mail => false,
+      :mail_to   => nil,
+      :mail_from => "rbatch.localhost",
+      :mail_server_host => "localhost",
+      :mail_server_port => 25
+      }
+RBatch::Log.new(opt)
+```
 
 #### option of RBatch::Cmd
 
 Sample
 
-    opt = {
-          :raise     => false,
-          :timeout   => 0
-          }
-    RBatch::Log.new("ls -l", opt)
-
+```ruby
+opt = {
+      :raise     => false,
+      :timeout   => 0
+      }
+RBatch::Cmd.new("ls -l", opt).run
+```
 
 Migration from version 1 to version 2
 --------------
