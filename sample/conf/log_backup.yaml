@@ -1,4 +1,0 @@
-file_list:
-  - /var/log/hoge*
-  - /var/log/messages
-target_dir: /tmp
