@@ -55,6 +55,26 @@ describe RBatch::Log do
     }.to raise_error SystemExit
   end
 
+  it "catch SystemExit 0 " do
+    expect { 
+      RBatch::Log.new do | log |
+        exit 0
+      end
+    }.to raise_error SystemExit do |e|
+      expect(e.status).to eq 0
+    end
+  end
+
+  it "catch SystemExit 3" do
+    expect { 
+      RBatch::Log.new do | log |
+        exit 3
+      end
+    }.to raise_error SystemExit do |e|
+      expect(e.status).to eq 3
+    end
+  end
+
   it "raise error when log dir does not exist" do
     Dir::rmdir(@log_dir)
     expect{
