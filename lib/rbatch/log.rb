@@ -85,9 +85,17 @@ module RBatch
       if block_given?
         begin
           yield self
+        rescue SystemExit => e
+          if e.status == 0
+            exit 0
+          else
+            self.fatal(e)
+            self.fatal("Caught SystemExit. RBatch Exit with status " + e.status.to_s)
+            exit e.status
+          end
         rescue Exception => e
           self.fatal(e)
-          self.fatal("Caught exception. Exit 1")
+          self.fatal("Caught exception. RBatch Exit with status 1")
           exit 1
         ensure
           self.close
