@@ -1,3 +1,4 @@
 pkg/
 sample/log/*.log
 coverage/
+.yardoc/

@@ -30,19 +30,38 @@ module RBatch
       "fatal" => Logger::FATAL
     }
     @@def_vars
-    def Log.def_vars=(a)
-      raise ArgumentError, "type mismatch: #{a} for #RBatch::Variables" if ! a.kind_of?(RBatch::Variables)
-      @@def_vars=a
+    # @param [RBatch::Variables] v
+    def Log.def_vars=(v)
+      raise ArgumentError, "type mismatch: #{v} for #RBatch::Variables" if ! a.kind_of?(RBatch::Variables)
+      @@def_vars=v
     end
+    # @return [RBatch::Variables]
     def Log.def_vars    ; @@def_vars ; end
     @@journal
-    def Log.journal=(a) ; @@journal=a ; end
+    # @param [RBatch::Journal] j
+    def Log.journal=(j) ; @@journal=j ; end
 
     @vars
     @opt
     @log
     @stdout_log
 
+    # External command wrapper
+    # @option opt [String] :log_dir
+    # @option opt [String] :log_name
+    # @option opt [Boolean] :log_append
+    # @option opt [String] :log_level
+    # @option opt [Boolean] :log_stdout
+    # @option opt [Boolean] :log_delete_old_log
+    # @option opt [Integer] :log_delete_old_log_date
+    # @option opt [Boolean] :log_send_mail
+    # @option opt [String] :log_mail_to
+    # @option opt [String] :log_mail_from
+    # @option opt [String] :log_mail_server_host
+    # @option opt [Integer] :log_mail_server_port
+    # @raise [RBatch::LogException]
+    # @yield [log] RBatch::Log instance
+    # @return [RBatch::Log]
     def initialize(opt=nil)
       @opt = opt
       @vars = @@def_vars.clone
@@ -139,11 +158,7 @@ module RBatch
     end
 
     # Delete old log files.
-    # If @vars[:log_name] is not include "<date>", then do nothing.
-    #
-    # ==== Params
-    # - +date+ (Integer): The day of leaving log files
-    #
+    # @param [Integer] date expire days
     def delete_old_log(date = 7)
       if Dir.exists?(@vars[:log_dir]) && @vars.raw_value(:log_name).include?("<date>")
         Dir::foreach(@vars[:log_dir]) do |file|
