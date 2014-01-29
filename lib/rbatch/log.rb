@@ -6,6 +6,7 @@ require 'net/smtp'
 
 module RBatch
   class Log
+    # @private
     @@FORMATTER = proc do |severity, datetime, progname, msg|
       head = "[#{datetime}] [" + sprintf("%-5s",severity) +"]"
       if msg.is_a? Exception
@@ -14,6 +15,8 @@ module RBatch
         "#{head} #{msg}\n"
       end
     end
+
+    # @private
     @@STDOUT_FORMATTER = proc do |severity, datetime, progname, msg|
       head = "[" + sprintf("%-5s",severity) +"]"
       if msg.is_a? Exception
@@ -22,6 +25,8 @@ module RBatch
         "#{head} #{msg}\n"
       end
     end
+
+    # @private
     @@LOG_LEVEL_MAP = {
       "debug" => Logger::DEBUG,
       "info"  => Logger::INFO,
@@ -29,39 +34,82 @@ module RBatch
       "error" => Logger::ERROR,
       "fatal" => Logger::FATAL
     }
+
+    # @private
     @@def_vars
+
+    # @private
     # @param [RBatch::Variables] v
     def Log.def_vars=(v)
-      raise ArgumentError, "type mismatch: #{v} for #RBatch::Variables" if ! a.kind_of?(RBatch::Variables)
+      raise ArgumentError, "type mismatch: #{v} for #RBatch::Variables" if ! v.kind_of?(RBatch::Variables)
       @@def_vars=v
     end
+
+    # @private
     # @return [RBatch::Variables]
     def Log.def_vars    ; @@def_vars ; end
+
+    # @private
     @@journal
+
+    # @private
     # @param [RBatch::Journal] j
     def Log.journal=(j) ; @@journal=j ; end
 
+    # @private
     @vars
+
+    # @private
     @opt
+
+    # @private
     @log
+
+    # @private
     @stdout_log
 
     # External command wrapper
-    # @option opt [String] :log_dir
-    # @option opt [String] :log_name
-    # @option opt [Boolean] :log_append
-    # @option opt [String] :log_level
-    # @option opt [Boolean] :log_stdout
-    # @option opt [Boolean] :log_delete_old_log
-    # @option opt [Integer] :log_delete_old_log_date
-    # @option opt [Boolean] :log_send_mail
-    # @option opt [String] :log_mail_to
-    # @option opt [String] :log_mail_from
-    # @option opt [String] :log_mail_server_host
-    # @option opt [Integer] :log_mail_server_port
+    # @option opt [String] :dir Output directory
+    # @option opt [String] :name 
+    #   Log file name.
+    #   Default is "<date>_<time>_<prog>.log".
+    #   <data> is replaced to YYYYMMDD date string
+    #   <time> is replaced to HHMMSS time string
+    #   <prog> is replaced to Program file base name (except extention).
+    #   <host> is replaced to Hostname.
+    # @option opt [Boolean] :append
+    # @option opt [String] :level
+    #  Effective values are "debug","info","wran","error",and "fatal".
+    # @option opt [Boolean] :stdout
+    #   Print log string both log file and STDOUT
+    # @option opt [Boolean] :delete_old_log
+    #   If this is true, delete old log files when this is called.
+    #   If log filename does not include "<date>", do nothing.
+    # @option opt [Integer] :delete_old_log_date
+    # @option opt [Boolean] :send_mail
+    #   When log.error(str) is called,
+    #   log.fatal(str) is called , or rescue an Exception,
+    #   send e-mail.
+    # @option opt [String] :mail_to
+    # @option opt [String] :mail_from
+    # @option opt [String] :mail_server_host
+    # @option opt [Integer] :mail_server_port
     # @raise [RBatch::LogException]
     # @yield [log] RBatch::Log instance
     # @return [RBatch::Log]
+    # @example
+    #  require 'rbatch'
+    #  RBatch::Log.new{ |log|
+    #    log.info "info string"
+    #    log.error "error string"
+    #    raise "exception" # => rescued in this block
+    #  }
+    # @example use option
+    #  require 'rbatch'
+    #  RBatch::Log.new({:name => "hoge.log"}){ |log|
+    #    log.info "info string"
+    #  }
+
     def initialize(opt=nil)
       @opt = opt
       @vars = @@def_vars.clone
@@ -97,7 +145,7 @@ module RBatch
         @stdout_log.formatter = @@STDOUT_FORMATTER
       end
       # delete old log
-      self.delete_old_log(@vars[:log_delete_old_log_date]) if @vars[:log_delete_old_log]
+      delete_old_log(@vars[:log_delete_old_log_date]) if @vars[:log_delete_old_log]
       # Start logging
       @@journal.put 1,"Logging Start: \"#{@path}\""
       @@journal.add_log(self)
@@ -108,57 +156,63 @@ module RBatch
           if e.status == 0
             exit 0
           else
-            self.fatal(e)
-            self.fatal("Caught SystemExit. RBatch Exit with status " + e.status.to_s)
+            fatal(e)
+            fatal("Caught SystemExit. RBatch Exit with status " + e.status.to_s)
             exit e.status
           end
         rescue Exception => e
-          self.fatal(e)
-          self.fatal("Caught exception. RBatch Exit with status 1")
+          fatal(e)
+          fatal("Caught exception. RBatch Exit with status 1")
           exit 1
         ensure
-          self.close
+          close
         end
       end
     end
 
-    def fatal(a)
-      @stdout_log.fatal(a) if @vars[:log_stdout]
-      @log.fatal(a)
-      send_mail(a) if @vars[:log_send_mail]
+    # Out put log with ERROR level
+    # @param [String] str log string
+    def fatal(str)
+      @stdout_log.fatal(str) if @vars[:log_stdout]
+      @log.fatal(str)
+      send_mail(str) if @vars[:log_send_mail]
     end
 
-    def error(a)
-      @stdout_log.error(a) if @vars[:log_stdout]
-      @log.error(a)
-      send_mail(a) if @vars[:log_send_mail]
+    # Out put log with ERROR level
+    # @param [String] str log string
+    def error(str)
+      @stdout_log.error(str) if @vars[:log_stdout]
+      @log.error(str)
+      send_mail(str) if @vars[:log_send_mail]
     end
 
-    def warn(a)
-      @stdout_log.warn(a) if @vars[:log_stdout]
-      @log.warn(a)
+    # Out put log with WARN level
+    # @param [String] str log string
+    def warn(str)
+      @stdout_log.warn(str) if @vars[:log_stdout]
+      @log.warn(str)
     end
 
-    def info(a)
-      @stdout_log.info(a) if @vars[:log_stdout]
-      @log.info(a)
+    # Out put log with INFO level
+    # @param [String] str log string
+    def info(str)
+      @stdout_log.info(str) if @vars[:log_stdout]
+      @log.info(str)
     end
 
-    def debug(a)
-      @stdout_log.debug(a) if @vars[:log_stdout]
-      @log.debug(a)
+    # Out put log with DEBUG level
+    # @param [String] str log string
+    def debug(str)
+      @stdout_log.debug(str) if @vars[:log_stdout]
+      @log.debug(str)
     end
 
-    def journal(a)
-      @log.info("[RBatch] " + a)
+    # @private
+    def journal(str)
+      @log.info("[RBatch] " + str)
     end
 
-    def close
-      @log.close
-    end
-
-    # Delete old log files.
-    # @param [Integer] date expire days
+    private
     def delete_old_log(date = 7)
       if Dir.exists?(@vars[:log_dir]) && @vars.raw_value(:log_name).include?("<date>")
         Dir::foreach(@vars[:log_dir]) do |file|
@@ -175,9 +229,10 @@ module RBatch
       end
     end
 
-    private
+    def close
+      @log.close
+    end
 
-    # send mail
     def send_mail(msg)
       body = <<EOT
 From: <#{@vars[:log_mail_from]}>
