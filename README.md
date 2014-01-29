@@ -366,14 +366,13 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 # Delete old log files
 #
 #   Default is false.
-#   If this is true, delete old log file when RBatch::Log.new is called.
-#   A log file to delete is a log file which was made by the
-#   RBatch::Log instance, and log filename format include "<date>".
+#   If this is true, delete old log files when RBatch::Log.new is called.
+#   If log filename format does not include "<date>", do nothing.
 #
 #log_delete_old_log : true
 #log_delete_old_log : false
 
-# Expire Date of Log Files
+# Expire Days of Log Files
 #
 #   Default is 7.
 #
@@ -382,8 +381,8 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 # Send Mail
 #
 #   Default is false.
-#   When log.error(msg) or log.fatal(msg) called , send e-mail
-#   including "msg".
+#   When log.error is called, log.fatal is called,
+#   or rescue an Exception, send e-mail.
 #
 #log_send_mail : true
 
