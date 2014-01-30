@@ -1,4 +1,5 @@
 module RBatch
+  # @private
   class Journal
     @@def_vars
     def Journal.def_vars=(a) ; @@def_vars=a ; end 

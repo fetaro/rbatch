@@ -2,6 +2,7 @@ require 'pathname'
 require 'rbatch/run_conf'
 
 module RBatch
+  # @private
   class Variables
     attr :vars,:run_conf,:merged_opt
     def initialize(run_conf=nil)
@@ -74,5 +75,6 @@ module RBatch
     end
 
   end
+  # @private
   class RBatch::VariablesException < StandardError ; end
 end

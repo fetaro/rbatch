@@ -7,6 +7,7 @@ require 'rbatch/config'
 require 'rbatch/cmd'
 
 module RBatch
+  # @private
   class Controller
     attr :vars,:config,:common_config,:journal,:user_logs
     def initialize

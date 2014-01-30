@@ -1,6 +1,7 @@
 require 'tmpdir'
 require 'yaml'
 module RBatch
+  # @private
   class RunConf
     attr :path,:opt
     @yaml

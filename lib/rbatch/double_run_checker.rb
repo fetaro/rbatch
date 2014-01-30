@@ -1,6 +1,7 @@
 require 'tmpdir'
 require 'tempfile'
 module RBatch
+  # @private
   module DoubleRunChecker
     module_function
     def lock_file_name(p)
@@ -20,5 +21,6 @@ module RBatch
     end
   end
 
+  # @private
   class DoubleRunCheckException < Exception ; end
 end

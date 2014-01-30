@@ -4,12 +4,27 @@ require 'tmpdir'
 require 'timeout'
 module RBatch
 
+  # External command wrapper
   class Cmd
+    # @private
     @@def_vars
-    def Cmd.def_vars=(a)    ; @@def_vars=a ; end
+
+    # @private
+    # @param [RBatch::Variables] vars
+    def Cmd.def_vars=(vars)    ; @@def_vars=vars ; end
+
+    # command string
     @cmd_str
+    
+    # option
     @opt
+
+    # @private
     @vars
+
+    # @param [String] cmd_str command string such as "ls -l"
+    # @option opt [Boolean] :raise
+    # @option opt [Integer] :timeout
     def initialize(cmd_str,opt = nil)
       raise(CmdException,"Command string is nil") if cmd_str.nil?
       @cmd_str = cmd_str
@@ -24,6 +39,9 @@ module RBatch
       end
     end
 
+    # Run command
+    # @raise [RBatch::CmdException]
+    # @return [RBatch::CmdResult]
     def run()
       stdout_file = Tempfile::new("rbatch_tmpout",Dir.tmpdir)
       stderr_file = Tempfile::new("rbatch_tmperr",Dir.tmpdir)
@@ -53,6 +71,7 @@ module RBatch
     end
   end
 
+  # Result of external command wrapper
   class CmdResult
     @stdout_file
     @stderr_file
@@ -64,19 +83,43 @@ module RBatch
       @status = status
       @cmd_str = cmd_str
     end
+
+    # Tmp file including STDOUT String
+    # @return [File]
     def stdout_file ; @stdout_file ; end
+
+    # Tmp file including STDERROR String
+    # @return [File]
     def stderr_file ; @stderr_file ; end
+
+    # Exist status
+    # @return [Integer]
     def status      ; @status      ; end
+
+    # Command string
+    # @return [String]
     def cmd_str     ; @cmd_str     ; end
+
+    # STDOUT String
+    # @return [String]
     def stdout
       File.read(@stdout_file)
     end
+
+    # STDERR String
+    # @return [String]
     def stderr
       File.read(@stderr_file)
     end
+
+    # Return hash including cmd_str, std_out, std_err, and status
+    # @return [Hash]
     def to_h
       {:cmd_str => @cmd_str,:stdout => stdout, :stderr => stderr, :status => status}
     end
+    
+    # Return string including cmd_str, std_out, std_err, and status
+    # @return [String]
     def to_s
       to_h.to_s
     end
