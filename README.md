@@ -1,4 +1,4 @@
-[[English]](https://github.com/fetaro/rbatch/blob/master/README.md "english") [[Japanese]](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese")
+[English](https://github.com/fetaro/rbatch/blob/master/README.md "english") | [Japanese ](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese") |  [Document (YardDoc)](http://fetaro.github.io/rbatch/index.html)
 
 RBatch: Framework for Ruby-based Batch Script
 =============
@@ -31,7 +31,7 @@ Quick Start
     $ ruby bin/hello_world.rb
     $ cat log/YYYYMMDD_HHMMSS_hello_world.log
 
-Manual
+Overview
 --------------
 
 ### RBatch home directory
@@ -165,6 +165,11 @@ You have no use for an error handring.
 ### Double Run Check
 
 Using `forbid_double_run` option, two same name scripts cannot run at the same time.
+
+Manual
+--------------
+
+Manual -> [Document (YardDoc)](http://fetaro.github.io/rbatch/index.html)
 
 Sample
 --------------
