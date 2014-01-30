@@ -1,0 +1,617 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: RBatch
+  
+    &mdash; Documentation by YARD 0.8.7.3
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (R)</a> &raquo;
+    
+    
+    <span class="title">RBatch</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: RBatch
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/rbatch.rb<span class="defines">,<br />
+  lib/rbatch/cmd.rb,<br /> lib/rbatch/log.rb,<br /> lib/rbatch/config.rb,<br /> lib/rbatch/journal.rb,<br /> lib/rbatch/version.rb,<br /> lib/rbatch/run_conf.rb,<br /> lib/rbatch/variables.rb,<br /> lib/rbatch/controller.rb,<br /> lib/rbatch/double_run_checker.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="RBatch/DoubleRunChecker.html" title="RBatch::DoubleRunChecker (module)">DoubleRunChecker</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="RBatch/Cmd.html" title="RBatch::Cmd (class)">Cmd</a></span>, <span class='object_link'><a href="RBatch/CmdException.html" title="RBatch::CmdException (class)">CmdException</a></span>, <span class='object_link'><a href="RBatch/CmdResult.html" title="RBatch::CmdResult (class)">CmdResult</a></span>, <span class='object_link'><a href="RBatch/Config.html" title="RBatch::Config (class)">Config</a></span>, <span class='object_link'><a href="RBatch/ConfigException.html" title="RBatch::ConfigException (class)">ConfigException</a></span>, <span class='object_link'><a href="RBatch/Controller.html" title="RBatch::Controller (class)">Controller</a></span>, <span class='object_link'><a href="RBatch/DoubleRunCheckException.html" title="RBatch::DoubleRunCheckException (class)">DoubleRunCheckException</a></span>, <span class='object_link'><a href="RBatch/Journal.html" title="RBatch::Journal (class)">Journal</a></span>, <span class='object_link'><a href="RBatch/Log.html" title="RBatch::Log (class)">Log</a></span>, <span class='object_link'><a href="RBatch/LogException.html" title="RBatch::LogException (class)">LogException</a></span>, <span class='object_link'><a href="RBatch/RunConf.html" title="RBatch::RunConf (class)">RunConf</a></span>, <span class='object_link'><a href="RBatch/RunConfException.html" title="RBatch::RunConfException (class)">RunConfException</a></span>, <span class='object_link'><a href="RBatch/Variables.html" title="RBatch::Variables (class)">Variables</a></span>, <span class='object_link'><a href="RBatch/VariablesException.html" title="RBatch::VariablesException (class)">VariablesException</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>2.1.6</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+        <dt id="ctrl-classvariable" class="">@@ctrl =
+          
+        </dt>
+        <dd><pre class="code"><span class='kw'>nil</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cmd-class_method" title="cmd (class method)">+ (Object) <strong>cmd</strong>(cmd_str, opt = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Shortcut of RBatch::Cmd.new(cmd_str,opt).run.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#common_config-class_method" title="common_config (class method)">+ (RBatch::Config) <strong>common_config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Return Common-Config Object.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#config-class_method" title="config (class method)">+ (RBatch::Config) <strong>config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Return Config Object.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ctrl-class_method" title="ctrl (class method)">+ (Object) <strong>ctrl</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#init-class_method" title="init (class method)">+ (Object) <strong>init</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vars-class_method" title="vars (class method)">+ (Object) <strong>vars</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="cmd-class_method">
+  
+    + (<tt>Object</tt>) <strong>cmd</strong>(cmd_str, opt = nil) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>
+Shortcut of RBatch::Cmd.new(cmd_str,opt).run
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_cmd'>cmd</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ls</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_stdout'>stdout</span> <span class='comment'># =&gt; &quot;fileA\nfileB\n&quot;
+</span><span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_stderr'>stderr</span> <span class='comment'># =&gt; &quot;&quot;
+</span><span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='comment'># =&gt; 0</span></code></pre>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_cmd'>cmd</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rsync /foo /bar</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='lbrace'>{</span><span class='symbol'>:timeout</span> <span class='op'>=&gt;</span> <span class='int'>10</span><span class='rbrace'>}</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="RBatch/Cmd.html" title="RBatch::Cmd (class)">Cmd</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rbatch.rb', line 61</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd_str'>cmd_str</span><span class='comma'>,</span><span class='id identifier rubyid_opt'>opt</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span> <span class='semicolon'>;</span> <span class='cvar'>@@ctrl</span><span class='period'>.</span><span class='id identifier rubyid_cmd'>cmd</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd_str'>cmd_str</span><span class='comma'>,</span><span class='id identifier rubyid_opt'>opt</span><span class='rparen'>)</span> <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="common_config-class_method">
+  
+    + (<tt><span class='object_link'><a href="RBatch/Config.html" title="RBatch::Config (class)">RBatch::Config</a></span></tt>) <strong>common_config</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>
+Return Common-Config Object
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'><p>
+RB_HOME/conf/common.yaml
+</p>
+</div></p>
+      
+      <pre class="example code"><code>key: value
+array:
+ - item1
+ - item2
+ - item3</code></pre>
+    
+      
+        <p class="example_title"><div class='inline'><p>
+$RB_HOME/bin/hoge.rb
+</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_p'>p</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_common_config'>common_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>   <span class='comment'># =&gt; &quot;value&quot;
+</span><span class='id identifier rubyid_p'>p</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_common_config'>common_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>array</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='comment'># =&gt; [&quot;item1&quot;, &quot;item2&quot;, &quot;item3&quot;]
+</span><span class='id identifier rubyid_p'>p</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_common_config'>common_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not_exist</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='comment'># =&gt; Raise RBatch::ConfigException</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="RBatch/Config.html" title="RBatch::Config (class)">RBatch::Config</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="RBatch/ConfigException.html" title="RBatch::ConfigException (class)">RBatch::ConfigException</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rbatch.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_common_config'>common_config</span>        <span class='semicolon'>;</span> <span class='cvar'>@@ctrl</span><span class='period'>.</span><span class='id identifier rubyid_common_config'>common_config</span> <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="config-class_method">
+  
+    + (<tt><span class='object_link'><a href="RBatch/Config.html" title="RBatch::Config (class)">RBatch::Config</a></span></tt>) <strong>config</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>
+Return Config Object
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'><p>
+RB_HOME/conf/hoge.yaml
+</p>
+</div></p>
+      
+      <pre class="example code"><code>key: value
+array:
+ - item1
+ - item2
+ - item3</code></pre>
+    
+      
+        <p class="example_title"><div class='inline'><p>
+$RB_HOME/bin/hoge.rb
+</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_p'>p</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>   <span class='comment'># =&gt; &quot;value&quot;
+</span><span class='id identifier rubyid_p'>p</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>array</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='comment'># =&gt; [&quot;item1&quot;, &quot;item2&quot;, &quot;item3&quot;]
+</span><span class='id identifier rubyid_p'>p</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not_exist</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='comment'># =&gt; Raise RBatch::ConfigException</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="RBatch/Config.html" title="RBatch::Config (class)">RBatch::Config</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="RBatch/ConfigException.html" title="RBatch::ConfigException (class)">RBatch::ConfigException</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rbatch.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_config'>config</span>               <span class='semicolon'>;</span> <span class='cvar'>@@ctrl</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span> <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ctrl-class_method">
+  
+    + (<tt>Object</tt>) <strong>ctrl</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rbatch.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ctrl'>ctrl</span> <span class='semicolon'>;</span> <span class='cvar'>@@ctrl</span> <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="init-class_method">
+  
+    + (<tt>Object</tt>) <strong>init</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rbatch.rb', line 12</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_init'>init</span>
+  <span class='cvar'>@@ctrl</span> <span class='op'>=</span> <span class='const'>RBatch</span><span class='op'>::</span><span class='const'>Controller</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="vars-class_method">
+  
+    + (<tt>Object</tt>) <strong>vars</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rbatch.rb', line 20</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_vars'>vars</span> <span class='semicolon'>;</span> <span class='cvar'>@@ctrl</span><span class='period'>.</span><span class='id identifier rubyid_vars'>vars</span> <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Jan 30 10:48:01 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

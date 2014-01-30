@@ -1,0 +1,523 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.3
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><p><a href="https://github.com/fetaro/rbatch/blob/master/README.md" title="english">[English]</a> <a href="https://github.com/fetaro/rbatch/blob/master/README.ja.md" title="japanese">[Japanese]</a></p>
+
+<h1>RBatch: Framework for Ruby-based Batch Script</h1>
+
+<h2>About RBatch (for ver 2)</h2>
+
+<p>RBatch is a framework for Ruby-based batch script. RBatch help to make a batch script such as &quot;data backup&quot; or &quot;proccess start &quot;.</p>
+
+<p>There are following functions.</p>
+
+<ul>
+<li>Auto Logging</li>
+<li>Auto Library Loading</li>
+<li>Auto Mail Sending</li>
+<li>Auto Config Reading</li>
+<li>External Command Wrapper</li>
+<li>Double Run Check</li>
+</ul>
+
+<p>Note: RBatch works on Ruby 1.9.</p>
+
+<p>Note: This software is released under the MIT License, see LICENSE.txt.</p>
+
+<h2>Quick Start</h2>
+
+<pre class="code ruby"><code class="ruby">$ sudo gem install rbatch
+$ rbatch-init    # =&gt; make directories and sample scripts
+$ ruby bin/hello_world.rb
+$ cat log/YYYYMMDD_HHMMSS_hello_world.log
+</code></pre>
+
+<h2>Manual</h2>
+
+<h3>RBatch home directory</h3>
+
+<p>When you set <code>${RB_HOME}</code> environment variable, RBatch home directory is fix at <code>${RB_HOME}</code>.</p>
+
+<p>When you do NOT set <code>${RB_HOME}</code>, <code>${RB_HOME}</code> is the parent directory of the directory which script is located at. In other words, default of <code>${RB_HOME}</code> is <code>(script path)/../</code> .</p>
+
+<h3>Directory Structure and File Naming Convention</h3>
+
+<p>RBach has convention of file naming and directory structure.</p>
+
+<p>If you make a script on <code>${RB_HOME}/bin/hoge.rb</code>, libraries are <code>${RB_HOME}/lib/*.rb</code>, script&#39;s config file is <code>${RB_HOME}/conf/hoge.yaml</code> , and log file is output at <code>${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.log</code>.</p>
+
+<p>For example</p>
+
+<pre class="code ruby"><code class="ruby">${RB_HOME}         &lt;--- RBatch home
+ |
+ |- .rbatchrc      &lt;--- RBatch Run-Conf
+ |
+ |- bin            &lt;--- Scripts
+ |   |-  A.rb
+ |   |-  B.rb
+ |
+ |- conf           &lt;--- Config files
+ |   |-  A.yaml
+ |   |-  B.yaml
+ |   |-  common.yaml &lt;--- Common-Config file
+ |
+ |- log            &lt;--- Log files
+ |   |-  YYYYMMDD_HHMMSS_A.log
+ |   |-  YYYYMMDD_HHMMSS_B.log
+ |
+ |- lib            &lt;--- Libraries
+     |-  lib_X.rb
+     |-  lib_Y.rb
+</code></pre>
+
+<h3>Auto Logging</h3>
+
+<p>Use auto logging block <code>RBatch::Log</code>, RBatch automatically output logfiles.
+The default location of log file is <code>${RB_HOME}/log/YYYYMMDD_HHMMSS_(script base).log</code>.
+If an exception is raised, then RBatch write the stack trace to the logfile.</p>
+
+<p>sample</p>
+
+<p>make script <code>${RB_HOME}/bin/sample1.rb</code></p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rbatch</span><span class='tstring_end'>'</span></span>
+<span class='const'>RBatch</span><span class='op'>::</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='rparen'>)</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_log'>log</span><span class='op'>|</span>  <span class='comment'># Logging block
+</span>  <span class='id identifier rubyid_log'>log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>info string</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_log'>log</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>error string</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>exception</span><span class='tstring_end'>&quot;</span></span>
+<span class='rbrace'>}</span>
+</code></pre>
+
+<p>Run script. Log file is <code>${RB_HOME}/log/20121020_005953_sample1.log</code></p>
+
+<pre class="code ruby"><code class="ruby"># Logfile created on 2012-10-20 00:59:53 +0900 by logger.rb/25413
+[2012-10-20 00:59:53 +900] [INFO ] info string
+[2012-10-20 00:59:53 +900] [ERROR] error string
+[2012-10-20 00:59:53 +900] [FATAL] Caught exception; existing 1
+[2012-10-20 00:59:53 +900] [FATAL] exception (RuntimeError)
+    [backtrace] test.rb:6:in `block in &lt;main&gt;'
+    [backtrace] /usr/local/lib/ruby192/lib/ruby/gems/1.9.1/gems/rbatch-1.0.0/lib/rbatch/auto_logger.rb:37:in `initialize'
+    [backtrace] test.rb:3:in `new'
+    [backtrace] test.rb:3:in `&lt;main&gt;'
+</code></pre>
+
+<h3>Auto Library Loading</h3>
+
+<p>If you make libraries at <code>${RB_HOME}/lib/*.rb</code>, those files are required before script run.</p>
+
+<h3>Auto Mail Sending</h3>
+
+<p>By using <code>log_send_mail</code> option, when an error or fatal log is output in script, RBatch sends error-mail. </p>
+
+<h3>Auto Config Reading</h3>
+
+<p>If you make configuration file which is located <code>${RB_HOME}/conf/&quot;(script base).yaml&quot;</code>, this file is read automatically.</p>
+
+<p>sample</p>
+
+<p>make config file <code>${RB_HOME}/conf/sample2.yaml</code>.</p>
+
+<pre class="code ruby"><code class="ruby">key: value
+array:
+ - item1
+ - item2
+ - item3
+</code></pre>
+
+<p>In script <code>${RB_HOME}/bin/sample2.rb</code> , you can read config.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rbatch</span><span class='tstring_end'>'</span></span>
+
+<span class='comment'># You can read config value without loading file.
+</span><span class='id identifier rubyid_p'>p</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>   <span class='comment'># =&gt; &quot;value&quot; 
+</span><span class='id identifier rubyid_p'>p</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>array</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='comment'># =&gt; [&quot;item1&quot;, &quot;item2&quot;, &quot;item3&quot;]
+</span>
+<span class='comment'># If key does not exist, raise exception
+</span><span class='id identifier rubyid_p'>p</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not_exist</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='comment'># =&gt; Raise RBatch::ConfigException
+</span></code></pre>
+
+<h4>Common Config</h4>
+
+<p>If you can use a common config file which is read from all scripts, you make <code>${RB_HOME}/conf/common.yaml</code>.
+You can change name of common config file by using option <code>common_conf_name</code>.</p>
+
+<h3>External Command Wrapper</h3>
+
+<p>RBatch provide a function which wrap external command (such as &#39;ls&#39;).</p>
+
+<p>This function return a result object which contain command&#39;s &quot;STDOUT&quot;, &quot;STDERR&quot; ,and &quot;exit status&quot;.</p>
+
+<p>sample</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rbatch</span><span class='tstring_end'>'</span></span>
+
+<span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_cmd'>cmd</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ls</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_stdout'>stdout</span> <span class='comment'># =&gt; &quot;fileA\nfileB\n&quot;
+</span><span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_stderr'>stderr</span> <span class='comment'># =&gt; &quot;&quot;
+</span><span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='comment'># =&gt; 0
+</span></code></pre>
+
+<p>If you want to set a timeout of external command, you can use <code>cmd_timeout</code> option.</p>
+
+<p>And by using <code>cmd_raise</code> option, if status of command is not 0, raise Exception.
+You have no use for an error handring.</p>
+
+<h3>Double Run Check</h3>
+
+<p>Using <code>forbid_double_run</code> option, two same name scripts cannot run at the same time.</p>
+
+<h2>Sample</h2>
+
+<h3>AWS EC2 Volume Backup Script</h3>
+
+<p>First you make configuration file.</p>
+
+<p>Config File : <code>${RB_HOME}/conf/ec2_create_snapshot.yaml</code></p>
+
+<pre class="code ruby"><code class="ruby">access_key : AKIAITHEXXXXXXXXX
+secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
+
+</code></pre>
+
+<p>Next, you write script.</p>
+
+<p>Script : <code>${RB_HOME}/bin/ec2_create_snapshot.rb</code></p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rbatch</span><span class='tstring_end'>'</span></span>  <span class='comment'># &lt;= require rbatch
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>aws-sdk</span><span class='tstring_end'>'</span></span>
+<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>net/http</span><span class='tstring_end'>'</span></span>
+
+<span class='const'>RBatch</span><span class='op'>::</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_log'>log</span><span class='op'>|</span> <span class='comment'># &lt;= Start Log block. And write main logic in this block.
+</span>  <span class='comment'># get ec2 region
+</span>  <span class='ivar'>@ec2_region</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ec2.</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+    <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>169.254.169.254</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/latest/meta-data/placement/availability-zone</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_chop'>chop</span> <span class='op'>+</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.amazonaws.com</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_log'>log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ec2 region : </span><span class='embexpr_beg'>#{</span><span class='ivar'>@ec2_region</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>  <span class='comment'># &lt;= Output Log
+</span>
+  <span class='comment'>#create ec2 instance
+</span>  <span class='ivar'>@ec2</span> <span class='op'>=</span> <span class='const'>AWS</span><span class='op'>::</span><span class='const'>EC2</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:access_key_id</span>     <span class='op'>=&gt;</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>access_key</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>  <span class='comment'># &lt;= Read Config
+</span>                      <span class='symbol'>:secret_access_key</span> <span class='op'>=&gt;</span> <span class='const'>RBatch</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>secret_key</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+                      <span class='symbol'>:ec2_endpoint</span>      <span class='op'>=&gt;</span> <span class='ivar'>@ec2_region</span><span class='rparen'>)</span>
+
+
+  <span class='comment'># create instance
+</span>  <span class='ivar'>@instance_id</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>169.254.169.254</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/latest/meta-data/instance-id</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='ivar'>@ec2</span><span class='period'>.</span><span class='id identifier rubyid_instances'>instances</span><span class='lbracket'>[</span><span class='ivar'>@instance_id</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_log'>log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>instance_id : </span><span class='embexpr_beg'>#{</span><span class='ivar'>@instance_id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+  <span class='comment'># create snapshots
+</span>  <span class='ivar'>@instance</span><span class='period'>.</span><span class='id identifier rubyid_block_devices'>block_devices</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span> <span class='id identifier rubyid_dev'>dev</span> <span class='op'>|</span>
+    <span class='id identifier rubyid_desc'>desc</span> <span class='op'>=</span> <span class='ivar'>@instance_id</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_dev'>dev</span><span class='lbracket'>[</span><span class='symbol'>:device_name</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+      <span class='id identifier rubyid_dev'>dev</span><span class='lbracket'>[</span><span class='symbol'>:ebs</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:volume_id</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span><span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_strftime'>strftime</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%Y/%m/%d %H:%M</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_log'>log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>create snapshot : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_desc'>desc</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='ivar'>@ec2</span><span class='period'>.</span><span class='id identifier rubyid_volumes'>volumes</span><span class='lbracket'>[</span><span class='id identifier rubyid_dev'>dev</span><span class='lbracket'>[</span><span class='symbol'>:ebs</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:volume_id</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_create_snapshot'>create_snapshot</span><span class='lparen'>(</span><span class='id identifier rubyid_desc'>desc</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_log'>log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sucess</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+</code></pre>
+
+<p>Finally Run script , then following logfile is output.</p>
+
+<p>Log file : <code>${RB_HOME}/log/20140121_123124_ec2_create_snapshot.log</code></p>
+
+<pre class="code ruby"><code class="ruby">[2014-01-21 12:31:24 -0500] [INFO ] === START RBatch === (PID=10095)
+[2014-01-21 12:31:24 -0500] [INFO ] RB_HOME : &quot;/opt/MyProject&quot;
+[2014-01-21 12:31:24 -0500] [INFO ] Load Run-Conf: &quot;/opt/MyProject/.rbatchrc&quot;
+[2014-01-21 12:31:24 -0500] [INFO ] Load Config  : &quot;/opt/MyProject/conf/ec2_create_snapshot.yaml&quot;
+[2014-01-21 12:31:24 -0500] [INFO ] Start Script : &quot;/opt/MyProject/bin/ec2_create_snapshot.rb&quot;
+[2014-01-21 12:31:24 -0500] [INFO ] Logging Start: &quot;/opt/MyProject/log/20140121_123124_ec2_create_snapshot.log&quot;
+[2014-01-21 12:31:24 -0500] [INFO ] ec2 region : ec2.ap-northeast-1.amazonaws.com
+[2014-01-21 12:31:25 -0500] [INFO ] instance_id : i-cc25f1c9
+[2014-01-21 12:31:25 -0500] [INFO ] create snapshot : i-cc25f1c9 /dev/sda1 vol-82483ea7 2014/01/21 12:31
+[2014-01-21 12:31:25 -0500] [INFO ] sucess
+</code></pre>
+
+<p>Only you write a small code, this batch script has logging and read-config function.</p>
+
+<h2>Customize</h2>
+
+<p>If you want to customize RBatch, you have two methods.</p>
+
+<ul>
+<li>(1) Write Run-Conf(<code>${RB_HOME}/.rbatchrc</code>).</li>
+<li>(2) Pass an option object to constructor in your script.</li>
+</ul>
+
+<p>When an option is set in both (1) and (2), (2) is prior to (1).</p>
+
+<h4>Customize by writing Run-Conf (.rbatchrc)</h4>
+
+<p>Sample of RBatch Run-Conf <code>${RB_HOME}/.rbatchrc</code>.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># RBatch Run-Conf (.rbatchrc)
+</span><span class='comment'>#
+</span><span class='comment'>#   This format is YAML.
+</span><span class='comment'>#
+</span>
+<span class='comment'># -------------------
+</span><span class='comment'># Global setting
+</span><span class='comment'># -------------------
+</span>
+<span class='comment'># Conf Directory
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is &quot;&lt;home&gt;/conf&quot;
+</span><span class='comment'>#   &lt;home&gt; is replaced to ${RB_HOME}
+</span><span class='comment'>#
+</span><span class='comment'>#conf_dir : &lt;home&gt;/config/
+</span><span class='comment'>#conf_dir : /etc/rbatch/
+</span>
+<span class='comment'># Common Config file name
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is &quot;common.yaml&quot;
+</span><span class='comment'>#
+</span><span class='comment'>#common_conf_name : share.yaml
+</span>
+<span class='comment'># Library Directory
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is &quot;&lt;home&gt;/lib&quot;
+</span><span class='comment'>#   &lt;home&gt; is replaced to ${RB_HOME}
+</span><span class='comment'>#
+</span><span class='comment'>#lib_dir: /usr/local/lib/rbatch/
+</span>
+<span class='comment'># Auto Library Load
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is true
+</span><span class='comment'>#   If true, require &quot;(library directory)/*.rb&quot; before script run.
+</span><span class='comment'>#
+</span><span class='comment'>#auto_lib_load : true
+</span><span class='comment'>#auto_lib_load : false
+</span>
+<span class='comment'># Forbit Script Running Doubly
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is false.
+</span><span class='comment'>#   If true, two same name scripts cannot run at the same time.
+</span><span class='comment'>#
+</span><span class='comment'>#forbid_double_run: true
+</span><span class='comment'>#forbid_double_run: false
+</span>
+<span class='comment'># Journal Message Level
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is 1
+</span><span class='comment'>#   If 2, put more journal messages to STDOUT.
+</span><span class='comment'>#   If 0, put nothing.
+</span><span class='comment'>#   Example of journal essages are follows.
+</span><span class='comment'>#       [RBatch] Load Config  : &quot;../conf/hoge.yaml&quot;
+</span><span class='comment'>#
+</span><span class='comment'>#rbatch_journal_level : 2
+</span><span class='comment'>#rbatch_journal_level : 0
+</span>
+<span class='comment'># Mix Journal Message to Logs
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is true.
+</span><span class='comment'>#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
+</span><span class='comment'>#
+</span><span class='comment'>#mix_rbatch_journal_to_logs : true
+</span><span class='comment'>#mix_rbatch_journal_to_logs : false
+</span>
+<span class='comment'># -------------------
+</span><span class='comment'># Log setting
+</span><span class='comment'># -------------------
+</span>
+<span class='comment'># Log Directory
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is &quot;&lt;home&gt;/log&quot;
+</span><span class='comment'>#   &lt;home&gt; is replaced to ${RB_HOME}
+</span><span class='comment'>#
+</span><span class='comment'>#log_dir : &lt;home&gt;/rb_log
+</span><span class='comment'>#log_dir : /var/log/rbatch/
+</span>
+<span class='comment'># Log File Name
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is &quot;&lt;date&gt;_&lt;time&gt;_&lt;prog&gt;.log&quot;.
+</span><span class='comment'>#   &lt;data&gt; is replaced to YYYYMMDD date string
+</span><span class='comment'>#   &lt;time&gt; is replaced to HHMMSS time string
+</span><span class='comment'>#   &lt;prog&gt; is replaced to Program file base name (except extention).
+</span><span class='comment'>#   &lt;host&gt; is replaced to Hostname.
+</span><span class='comment'>#
+</span><span class='comment'>#log_name : &quot;&lt;date&gt;_&lt;time&gt;_&lt;prog&gt;.log&quot;
+</span><span class='comment'>#log_name : &quot;&lt;date&gt;_&lt;prog&gt;.log&quot;
+</span>
+<span class='comment'># Append Log
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is ture.
+</span><span class='comment'>#
+</span><span class='comment'>#log_append : true
+</span><span class='comment'>#log_append : false
+</span>
+<span class='comment'># Log Level
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is &quot;info&quot;.
+</span><span class='comment'>#   Effective values are &quot;debug&quot;,&quot;info&quot;,&quot;wran&quot;,&quot;error&quot;,and &quot;fatal&quot;.
+</span><span class='comment'>#
+</span><span class='comment'>#log_level : &quot;debug&quot;
+</span><span class='comment'>#log_level : &quot;warn&quot;
+</span>
+<span class='comment'># Print log string both log file and STDOUT
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is false.
+</span><span class='comment'>#
+</span><span class='comment'>#log_stdout : true
+</span><span class='comment'>#log_stdout : false
+</span>
+<span class='comment'># Delete old log files
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is false.
+</span><span class='comment'>#   If this is true, delete old log files when RBatch::Log.new is called.
+</span><span class='comment'>#   If log filename format does not include &quot;&lt;date&gt;&quot;, do nothing.
+</span><span class='comment'>#
+</span><span class='comment'>#log_delete_old_log : true
+</span><span class='comment'>#log_delete_old_log : false
+</span>
+<span class='comment'># Expire Days of Log Files
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is 7.
+</span><span class='comment'>#
+</span><span class='comment'>#log_delete_old_log_date : 14
+</span>
+<span class='comment'># Send Mail
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is false.
+</span><span class='comment'>#   When log.error is called, log.fatal is called,
+</span><span class='comment'>#   or rescue an Exception, send e-mail.
+</span><span class='comment'>#
+</span><span class='comment'>#log_send_mail : true
+</span>
+<span class='comment'># Mail Parameters
+</span><span class='comment'>#
+</span><span class='comment'>#log_mail_to   : &quot;xxx@sample.com&quot;
+</span><span class='comment'>#log_mail_from : &quot;xxx@sample.com&quot;
+</span><span class='comment'>#log_mail_server_host : &quot;localhost&quot;
+</span><span class='comment'>#log_mail_server_port : 25
+</span>
+<span class='comment'># -------------------
+</span><span class='comment'># Cmd setting
+</span><span class='comment'># -------------------
+</span>
+<span class='comment'># Raise Exception
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is false.
+</span><span class='comment'>#   If true, when command exit status is not 0, raise exception.
+</span><span class='comment'>#
+</span><span class='comment'>#cmd_raise : true
+</span><span class='comment'>#cmd_raise : false
+</span>
+<span class='comment'># Command Timeout
+</span><span class='comment'>#
+</span><span class='comment'>#   Default is 0 [sec] (=no timeout).
+</span><span class='comment'>#
+</span><span class='comment'>#cmd_timeout : 5
+</span>
+
+</code></pre>
+
+<h3>Customize by passing option object to constructor</h3>
+
+<p>If you want to change options in a script, you pass an options object to the constructor of RBatch::Log or RBatch::Cmd.</p>
+
+<h4>option of RBatch::Log</h4>
+
+<p>Sumple</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_opt'>opt</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+      <span class='symbol'>:name</span>      <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;date&gt;_&lt;time&gt;_&lt;prog&gt;.log</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='symbol'>:dir</span>       <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/var/log</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='symbol'>:append</span>    <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
+      <span class='symbol'>:level</span>     <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>info</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='symbol'>:stdout</span>    <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
+      <span class='symbol'>:delete_old_log</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
+      <span class='symbol'>:delete_old_log_date</span> <span class='op'>=&gt;</span> <span class='int'>7</span><span class='comma'>,</span>
+      <span class='symbol'>:send_mail</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
+      <span class='symbol'>:mail_to</span>   <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span>
+      <span class='symbol'>:mail_from</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rbatch.localhost</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='symbol'>:mail_server_host</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>localhost</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='symbol'>:mail_server_port</span> <span class='op'>=&gt;</span> <span class='int'>25</span>
+      <span class='rbrace'>}</span>
+<span class='const'>RBatch</span><span class='op'>::</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_opt'>opt</span><span class='rparen'>)</span>
+</code></pre>
+
+<h4>option of RBatch::Cmd</h4>
+
+<p>Sample</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_opt'>opt</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+      <span class='symbol'>:raise</span>     <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
+      <span class='symbol'>:timeout</span>   <span class='op'>=&gt;</span> <span class='int'>0</span>
+      <span class='rbrace'>}</span>
+<span class='const'>RBatch</span><span class='op'>::</span><span class='const'>Cmd</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ls -l</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_opt'>opt</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
+</code></pre>
+
+<h2>Migration from version 1 to version 2</h2>
+
+<p>Move <code>${RB_HOME}/conf/rbatch.yaml</code> to <code>${RB_HOME}/.rbatchrc</code> .
+That&#39;s all.</p>
+</div></div>
+
+    <div id="footer">
+  Generated on Thu Jan 30 10:48:01 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.3 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>
