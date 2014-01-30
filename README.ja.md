@@ -1,4 +1,4 @@
-[[English]](https://github.com/fetaro/rbatch/blob/master/README.md "english") [[Japanese]](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese")
+[English](https://github.com/fetaro/rbatch/blob/master/README.md "english") | [Japanese ](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese") |  [Document (YardDoc)](http://fetaro.github.io/rbatch/index.html)
 
 RBatch:Ruby-base バッチ スクリプト フレームワーク
 =============
@@ -30,7 +30,7 @@ RBatchはRubyで書かれたシンプルなバッチスクリプトのフレー�
     $ ruby bin/hello_world.rb
     $ cat log/YYYYMMDD_HHMMSS_hello_world.log
 
-マニュアル
+機能概要
 --------------
 
 ### RBatchホームディレクトリ
@@ -166,6 +166,9 @@ p r.status # => 0
 
 `forbid_double_run`のオプションを利用すれば、RBatchを利用したプログラムの二重起動チェックができます。
 
+ドキュメント
+--------------
+こちらにあります→ [Document (YardDoc)](http://fetaro.github.io/rbatch/index.html)
 
 サンプル
 --------------
