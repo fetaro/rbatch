@@ -22,7 +22,7 @@ module RBatch
   # Return Config Object
   # @raise [RBatch::ConfigException]
   # @return [RBatch::Config]
-  # @example ${RB_HOME}/conf/hoge.yaml
+  # @example RB_HOME/conf/hoge.yaml
   #  key: value
   #  array:
   #   - item1
@@ -37,7 +37,7 @@ module RBatch
   # Return Common-Config Object
   # @raise [RBatch::ConfigException]
   # @return [RBatch::Config]
-  # @example ${RB_HOME}/conf/common.yaml
+  # @example RB_HOME/conf/common.yaml
   #  key: value
   #  array:
   #   - item1
