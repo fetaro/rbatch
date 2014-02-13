@@ -57,7 +57,7 @@ module RBatch
             Process.kill('SIGINT', pid)
             raise(CmdException,"Run time of command \"#{@cmd_str}\" is over #{@vars[:cmd_timeout].to_s} sec. Success to kill process : PID=#{pid}" )
           rescue
-            raise(CmdException,"Run time of command \"#{@cmd_str}\" is over #{@vars[:cmd_timeout].to_s} sec. Fail to kill process : PID=#{pid}" )
+            raise(CmdException,"Run time of command \"#{@cmd_str}\" is over #{@vars[:cmd_timeout].to_s} sec. But Fail to kill process : PID=#{pid}" )
           end
         end
       else
@@ -73,32 +73,30 @@ module RBatch
 
   # Result of external command wrapper
   class CmdResult
-    @stdout_file
-    @stderr_file
-    @status
-    @cmd_str
+
+    # Tmp file including STDOUT String
+    # @return [File]
+    attr_reader :stdout_file
+
+    # Tmp file including STDERROR String
+    # @return [File]
+    attr_reader :stderr_file
+
+    # Exit status
+    # @return [Integer]
+    attr_reader :status
+
+    # Command string
+    # @return [String]
+    attr_reader :cmd_str
+
+    # @private
     def initialize(stdout_file, stderr_file, status, cmd_str)
       @stdout_file = stdout_file
       @stderr_file = stderr_file
       @status = status
       @cmd_str = cmd_str
     end
-
-    # Tmp file including STDOUT String
-    # @return [File]
-    def stdout_file ; @stdout_file ; end
-
-    # Tmp file including STDERROR String
-    # @return [File]
-    def stderr_file ; @stderr_file ; end
-
-    # Exist status
-    # @return [Integer]
-    def status      ; @status      ; end
-
-    # Command string
-    # @return [String]
-    def cmd_str     ; @cmd_str     ; end
 
     # STDOUT String
     # @return [String]
