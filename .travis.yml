@@ -2,7 +2,7 @@ language: ruby
 php:
   - "1.9"
 before_install:
-  - gem install rbatch
+  - gem install rbatch rspec
 before_script:
 script:
   - rake spec
