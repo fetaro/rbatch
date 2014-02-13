@@ -1,0 +1,13 @@
+language: ruby
+php:
+  - "1.9"
+before_install:
+  - gem install rbatch
+before_script:
+script:
+  - rake spec
+notifications:
+  emails:
+    - fetaro@gmail.com
+  on_success: always # default: change
+  on_failure: always
