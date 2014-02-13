@@ -14,7 +14,7 @@ module RBatch
     def initialize(path)
       @path = path
       begin
-        @hash = YAML::load_file(@path)
+        @hash = ConfigElement.new(YAML::load_file(@path))
       rescue Errno::ENOENT => e
         @hash = nil
       end
@@ -26,15 +26,6 @@ module RBatch
     def[](key)
       if @hash.nil?
         raise RBatch::ConfigException, "Config file \"#{@path}\" does not exist"
-      end
-      if @hash[key].nil?
-        if key.class == Symbol
-          raise RBatch::ConfigException, "Value of key(:#{key} (Symbol)) is nil. By any chance, dou you mistake key class Symbol for String?"
-        elsif key.class == String
-          raise RBatch::ConfigException, "Value of key(\"#{key}\" (String)) is nil"
-        else
-          raise RBatch::ConfigException, "Value of key(#{key}) is nil."
-        end
       else
         @hash[key]
       end
@@ -63,6 +54,33 @@ module RBatch
         raise RBatch::ConfigException, "Config file \"#{@path}\" does not exist"
       else
         @hash.to_s
+      end
+    end
+  end
+
+  class ConfigElement < Hash
+    def initialize(hash)
+      hash.each_key do |key|
+        if hash[key].class == Hash
+          self[key] = ConfigElement.new(hash[key])
+        else
+          self[key] = hash[key]
+        end
+      end
+    end
+
+    def[](key)
+      if self.has_key?(key)
+        super
+      else
+        if key.class == Symbol
+          raise RBatch::ConfigException, "Value of key(:#{key} (Symbol)) does not exist. By any chance, dou you mistake key class Symbol for String?"
+        elsif key.class == String
+          raise RBatch::ConfigException, "Value of key(\"#{key}\" (String)) does not exist"
+        else
+          raise RBatch::ConfigException, "Value of key(#{key}) does not exist."
+        end
+        raise
       end
     end
   end

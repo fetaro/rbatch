@@ -65,3 +65,29 @@ describe RBatch::Config do
     }.to raise_error(RBatch::ConfigException)
   end
 end
+
+describe RBatch::ConfigElement do
+  it "" do
+    hash = {
+      "a" => "av" ,
+      "b" => {
+        "c" => "cv",
+        "d" => {
+          "e" => "ev",
+          "f" => [1,2,3]
+        }
+      }
+    }
+    ce = RBatch::ConfigElement.new(hash)
+    expect(ce["a"]).to eq "av"
+    expect(ce["b"].class).to eq RBatch::ConfigElement
+    expect(ce["b"]["c"]).to eq "cv"
+    expect(ce["b"]["d"].class).to eq RBatch::ConfigElement
+    expect(ce["b"]["d"]["e"]).to eq "ev"
+    expect(ce["b"]["d"]["f"][1]).to eq 2
+    expect { ce["noexist"] }.to raise_error(RBatch::ConfigException)
+    expect { ce["noexist"]["noexist"] }.to raise_error(RBatch::ConfigException)
+    expect { ce["b"]["noexist"] }.to raise_error(RBatch::ConfigException)
+    expect { ce["b"]["d"]["noexist"] }.to raise_error(RBatch::ConfigException)
+  end
+end
