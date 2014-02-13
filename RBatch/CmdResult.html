@@ -115,18 +115,10 @@ Result of external command wrapper
 
 
 
-
-
-
-  
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
   <span class="summary_signature">
     
       <a href="#cmd_str-instance_method" title="#cmd_str (instance method)">- (String) <strong>cmd_str</strong> </a>
@@ -136,6 +128,11 @@ Result of external command wrapper
   </span>
   
   
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
   
   
   
@@ -150,6 +147,109 @@ Command string.
   
 </li>
 
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#status-instance_method" title="#status (instance method)">- (Integer) <strong>status</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Exit status.
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stderr_file-instance_method" title="#stderr_file (instance method)">- (File) <strong>stderr_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Tmp file including STDERROR String.
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stdout_file-instance_method" title="#stdout_file (instance method)">- (File) <strong>stdout_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Tmp file including STDOUT String.
+</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -172,31 +272,6 @@ Command string.
   
     <span class="summary_desc"><div class='inline'><p>
 A new instance of CmdResult.
-</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#status-instance_method" title="#status (instance method)">- (Integer) <strong>status</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-Exist status.
 </p>
 </div></span>
   
@@ -231,31 +306,6 @@ STDERR String.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#stderr_file-instance_method" title="#stderr_file (instance method)">- (File) <strong>stderr_file</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-Tmp file including STDERROR String.
-</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#stdout-instance_method" title="#stdout (instance method)">- (String) <strong>stdout</strong> </a>
     
 
@@ -272,31 +322,6 @@ Tmp file including STDERROR String.
   
     <span class="summary_desc"><div class='inline'><p>
 STDOUT String.
-</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#stdout_file-instance_method" title="#stdout_file (instance method)">- (File) <strong>stdout_file</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-Tmp file including STDOUT String.
 </p>
 </div></span>
   
@@ -386,15 +411,15 @@ Returns a new instance of CmdResult
       <pre class="lines">
 
 
-80
-81
-82
-83
-84
-85</pre>
+94
+95
+96
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_stdout_file'>stdout_file</span><span class='comma'>,</span> <span class='id identifier rubyid_stderr_file'>stderr_file</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='id identifier rubyid_cmd_str'>cmd_str</span><span class='rparen'>)</span>
   <span class='ivar'>@stdout_file</span> <span class='op'>=</span> <span class='id identifier rubyid_stdout_file'>stdout_file</span>
@@ -409,15 +434,15 @@ Returns a new instance of CmdResult
   
 </div>
 
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
     
+      
+      <span id=""></span>
       <div class="method_details first">
   <h3 class="signature first" id="cmd_str-instance_method">
   
-    - (<tt>String</tt>) <strong>cmd_str</strong> 
+    - (<tt>String</tt>) <strong>cmd_str</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -454,21 +479,27 @@ Command string
       <pre class="lines">
 
 
-101</pre>
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 91</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_cmd_str'>cmd_str</span>     <span class='semicolon'>;</span> <span class='ivar'>@cmd_str</span>     <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_cmd_str'>cmd_str</span>
+  <span class='ivar'>@cmd_str</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
     
+      
+      <span id=""></span>
       <div class="method_details ">
   <h3 class="signature " id="status-instance_method">
   
-    - (<tt>Integer</tt>) <strong>status</strong> 
+    - (<tt>Integer</tt>) <strong>status</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -477,7 +508,7 @@ Command string
 </h3><div class="docstring">
   <div class="discussion">
     <p>
-Exist status
+Exit status
 </p>
 
 
@@ -505,19 +536,144 @@ Exist status
       <pre class="lines">
 
 
-97</pre>
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 87</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_status'>status</span>      <span class='semicolon'>;</span> <span class='ivar'>@status</span>      <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_status'>status</span>
+  <span class='ivar'>@status</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
     
+      
+      <span id=""></span>
       <div class="method_details ">
-  <h3 class="signature " id="stderr-instance_method">
+  <h3 class="signature " id="stderr_file-instance_method">
+  
+    - (<tt>File</tt>) <strong>stderr_file</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>
+Tmp file including STDERROR String
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>File</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stderr_file'>stderr_file</span>
+  <span class='ivar'>@stderr_file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="stdout_file-instance_method">
+  
+    - (<tt>File</tt>) <strong>stdout_file</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>
+Tmp file including STDOUT String
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>File</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stdout_file'>stdout_file</span>
+  <span class='ivar'>@stdout_file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="stderr-instance_method">
   
     - (<tt>String</tt>) <strong>stderr</strong> 
   
@@ -556,67 +712,16 @@ STDERR String
       <pre class="lines">
 
 
-111
-112
-113</pre>
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stderr'>stderr</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='ivar'>@stderr_file</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="stderr_file-instance_method">
-  
-    - (<tt>File</tt>) <strong>stderr_file</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>
-Tmp file including STDERROR String
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>File</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-93</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 93</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_stderr_file'>stderr_file</span> <span class='semicolon'>;</span> <span class='ivar'>@stderr_file</span> <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -662,67 +767,16 @@ STDOUT String
       <pre class="lines">
 
 
-105
-106
-107</pre>
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stdout'>stdout</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='ivar'>@stdout_file</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="stdout_file-instance_method">
-  
-    - (<tt>File</tt>) <strong>stdout_file</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>
-Tmp file including STDOUT String
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>File</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-89</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 89</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_stdout_file'>stdout_file</span> <span class='semicolon'>;</span> <span class='ivar'>@stdout_file</span> <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -768,12 +822,12 @@ Return hash including cmd_str, std_out, std_err, and status
       <pre class="lines">
 
 
-117
-118
-119</pre>
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_h'>to_h</span>
   <span class='lbrace'>{</span><span class='symbol'>:cmd_str</span> <span class='op'>=&gt;</span> <span class='ivar'>@cmd_str</span><span class='comma'>,</span><span class='symbol'>:stdout</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_stdout'>stdout</span><span class='comma'>,</span> <span class='symbol'>:stderr</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_stderr'>stderr</span><span class='comma'>,</span> <span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_status'>status</span><span class='rbrace'>}</span>
@@ -823,12 +877,12 @@ Return string including cmd_str, std_out, std_err, and status
       <pre class="lines">
 
 
-123
-124
-125</pre>
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/cmd.rb', line 121</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_to_h'>to_h</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -843,7 +897,7 @@ Return string including cmd_str, std_out, std_err, and status
 </div>
 
     <div id="footer">
-  Generated on Thu Jan 30 10:48:01 2014 by
+  Generated on Fri Feb 14 02:33:09 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.2).
 </div>

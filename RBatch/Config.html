@@ -329,7 +329,7 @@ Config file path
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
   <span class='ivar'>@path</span> <span class='op'>=</span> <span class='id identifier rubyid_path'>path</span>
   <span class='kw'>begin</span>
-    <span class='ivar'>@hash</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='op'>::</span><span class='id identifier rubyid_load_file'>load_file</span><span class='lparen'>(</span><span class='ivar'>@path</span><span class='rparen'>)</span>
+    <span class='ivar'>@hash</span> <span class='op'>=</span> <span class='const'>ConfigElement</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>YAML</span><span class='op'>::</span><span class='id identifier rubyid_load_file'>load_file</span><span class='lparen'>(</span><span class='ivar'>@path</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='kw'>rescue</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>ENOENT</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='ivar'>@hash</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>end</span>
@@ -413,16 +413,7 @@ Config key.
 29
 30
 31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41</pre>
+32</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/rbatch/config.rb', line 26</span>
@@ -430,15 +421,6 @@ Config key.
 <span class='kw'>def</span><span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='ivar'>@hash</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RBatch</span><span class='op'>::</span><span class='const'>ConfigException</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Config file \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@path</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot; does not exist</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>end</span>
-  <span class='kw'>if</span> <span class='ivar'>@hash</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>Symbol</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RBatch</span><span class='op'>::</span><span class='const'>ConfigException</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Value of key(:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_content'> (Symbol)) is nil. By any chance, dou you mistake key class Symbol for String?</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RBatch</span><span class='op'>::</span><span class='const'>ConfigException</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Value of key(\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot; (String)) is nil</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RBatch</span><span class='op'>::</span><span class='const'>ConfigException</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Value of key(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_content'>) is nil.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
   <span class='kw'>else</span>
     <span class='ivar'>@hash</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
@@ -488,10 +470,10 @@ Config file exists or not
       <pre class="lines">
 
 
-49</pre>
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/config.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/config.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exist?'>exist?</span> <span class='semicolon'>;</span> <span class='op'>!</span> <span class='ivar'>@hash</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -539,10 +521,10 @@ Config file path
       <pre class="lines">
 
 
-45</pre>
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/config.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/config.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_path'>path</span> <span class='semicolon'>;</span> <span class='ivar'>@path</span> <span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -587,16 +569,16 @@ Config file path
       <pre class="lines">
 
 
-52
-53
-54
-55
-56
-57
-58</pre>
+43
+44
+45
+46
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/config.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/config.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_h'>to_h</span>
   <span class='kw'>if</span> <span class='ivar'>@hash</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -647,16 +629,16 @@ Config file path
       <pre class="lines">
 
 
-61
-62
-63
-64
-65
-66
-67</pre>
+52
+53
+54
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/config.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/config.rb', line 52</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='kw'>if</span> <span class='ivar'>@hash</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -675,7 +657,7 @@ Config file path
 </div>
 
     <div id="footer">
-  Generated on Thu Jan 30 10:48:01 2014 by
+  Generated on Fri Feb 14 02:33:09 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.2).
 </div>
