@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = RBatch::VERSION
   gem.authors       = ["fetaro"]
   gem.email         = ["fetaro@gmail.com"]
-  gem.description   = "Simple Framework of Batch Script"
-  gem.summary       = "Simple Framework of Batch Script"
+  gem.description   = "Batch Script Framework"
+  gem.summary       = "Batch Script Framework"
   gem.homepage      = "https://github.com/fetaro/rbatch"
 
   gem.files         = `git ls-files`.split($/)

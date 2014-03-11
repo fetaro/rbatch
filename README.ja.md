@@ -1,12 +1,12 @@
 [English](https://github.com/fetaro/rbatch/blob/master/README.md "english") | [Japanese ](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese") |  [Document (YardDoc)](http://fetaro.github.io/rbatch/index.html)
 
-RBatch:Ruby-base バッチ スクリプト フレームワーク
+RBatch: バッチスクリプト フレームワーク
 =============
 
-RBatchについて (version 2)
+RBatchについて
 --------------
 
-RBatchはRubyで書かれたシンプルなバッチスクリプトのフレームワークです。
+RBatchはRubyで書かれたシンプルなバッチスクリプト(運用スクリプト)のフレームワークです。
 バッチスクリプト（バックアップやプロセスリロード等）を書く際に便利な機能をフレームワークとして提供しています。
 
 主な機能は以下のとおり。
@@ -41,10 +41,21 @@ RBatchはRubyで書かれたシンプルなバッチスクリプトのフレー�
 
 ### ディレクトリ構成と命名規則
 
+"設定より規約"の原則に基づいて、
 RBatchでは、実行スクリプト、設定ファイルおよびログファイルについて、
-配置場所および命名規則が規約で決まっています。
+配置場所および命名規則が規約で決めています。
+ルールに従えば、ほとんど設定せずに、スクリプト開発に十分な環境が整います。
 
-具体的には、`${RB_HOME}/bin/hoge.rb`というスクリプトでは、`${RB_HOME}/lib/*.rb`にあるライブラリをロードし、`${RB_HOME}/conf/hoge.yaml`という設定ファイルを読み、`${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb`というログを出力するという規則です。
+ルールは以下の通り
+
+* 仮に`${RB_HOME}/bin/hoge.rb`というスクリプトを作った場合
+* 個別設定ファイルは`${RB_HOME}/conf/hoge.yaml`としてください。
+* 共通設定ファイルは`${RB_HOME}/conf/common.yaml`としてください。
+* ライブラリは`${RB_HOME}/lib/*.rb`としてください。
+
+すると
+
+* `${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.rb`にログが出ます。
 
 例を示すと以下の通りです。
 
@@ -57,7 +68,7 @@ RBatchでは、実行スクリプト、設定ファイルおよびログファ�
      |  |- B.rb
      |
      |-conf            ←設定ファイル配置場所
-     |  |- A.yaml
+     |  |- A.yaml      ←個別設定ファイル
      |  |- B.yaml
      |  |- common.yaml  ←共通設定ファイル
      |
