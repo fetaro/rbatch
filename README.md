@@ -36,15 +36,26 @@ Overview
 
 ### RBatch home directory
 
-When you set `${RB_HOME}` environment variable, RBatch home directory is fix at `${RB_HOME}`.
+When you set `${RB_HOME}` environment variable, RBatch home directory is fixed at `${RB_HOME}`.
 
-When you do NOT set `${RB_HOME}`, `${RB_HOME}` is the parent directory of the directory which script is located at. In other words, default of `${RB_HOME}` is `(script path)/../` .
+When you do NOT set `${RB_HOME}`, `${RB_HOME}` is the parent directory of the directory where the script is located. In other words, default of `${RB_HOME}` is `(script path)/../` .
 
 ### Directory Structure and File Naming Convention
 
-RBach has convention of file naming and directory structure.
+Follow the rule of "convention over configuration",
+RBach has convention of file naming and directory structure in advance.
+If you follow these rules, you will gain plenty development environment without any configurations.
 
-If you make a script on `${RB_HOME}/bin/hoge.rb`, libraries are `${RB_HOME}/lib/*.rb`, script's config file is `${RB_HOME}/conf/hoge.yaml` , and log file is output at `${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.log`.
+The rules are
+
+* If you make `${RB_HOME}/bin/hoge.rb` as the script...
+* individual config file should be `${RB_HOME}/conf/hoge.yaml`
+* common(shared) config file should be `${RB_HOME}/conf/common.yaml`
+* libraries should be `${RB_HOME}/lib/*.rb`
+
+then
+
+* log files are output at `${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.log`
 
 For example
 
@@ -57,9 +68,9 @@ For example
      |   |-  B.rb
      |
      |- conf           <--- Config files
-     |   |-  A.yaml
+     |   |-  A.yaml    <--- Individual config file
      |   |-  B.yaml
-     |   |-  common.yaml <--- Common-Config file
+     |   |-  common.yaml <--- Common config file
      |
      |- log            <--- Log files
      |   |-  YYYYMMDD_HHMMSS_A.log
@@ -71,9 +82,9 @@ For example
 
 ### Auto Logging
 
-Use auto logging block `RBatch::Log`, RBatch automatically output logfiles.
-The default location of log file is `${RB_HOME}/log/YYYYMMDD_HHMMSS_(script base).log`.
-If an exception is raised, then RBatch write the stack trace to the logfile.
+Use the auto logging block ,`RBatch::Log`, RBatch automatically output logfiles.
+The default location of log files are `${RB_HOME}/log/YYYYMMDD_HHMMSS_(script base).log`.
+If an exception is raised in auto logging block, RBatch rescue and write the stack trace to the logfile.
 
 sample
 
@@ -102,19 +113,19 @@ Run script. Log file is `${RB_HOME}/log/20121020_005953_sample1.log`
 
 ### Auto Library Loading
 
-If you make libraries at `${RB_HOME}/lib/*.rb`, those files are required before script run.
+If you make the libraries at `${RB_HOME}/lib/*.rb`, these are loaded(required) before script run.
 
 ### Auto Mail Sending
 
-By using `log_send_mail` option, when an error or fatal log is output in script, RBatch sends error-mail. 
+By using `log_send_mail` option, when the logs with ERROR or FATAL level are output, RBatch sends the error messages by e-mail. 
 
 ### Auto Config Reading
 
-If you make configuration file which is located `${RB_HOME}/conf/"(script base).yaml"`, this file is read automatically.
+If you make the configuration file ,`${RB_HOME}/conf/"(script base).yaml"`, this file is read and parsed automatically.
 
 sample
 
-make config file `${RB_HOME}/conf/sample2.yaml`.
+make the config file `${RB_HOME}/conf/sample2.yaml`.
 
     key: value
     array:
@@ -122,7 +133,7 @@ make config file `${RB_HOME}/conf/sample2.yaml`.
      - item2
      - item3
 
-In script `${RB_HOME}/bin/sample2.rb` , you can read config.
+In script named `${RB_HOME}/bin/sample2.rb`, this config values can be used.
 
 ```ruby
 require 'rbatch'
@@ -137,14 +148,14 @@ p RBatch.config["not_exist"] # => Raise RBatch::ConfigException
 
 #### Common Config
 
-If you can use a common config file which is read from all scripts, you make `${RB_HOME}/conf/common.yaml`.
-You can change name of common config file by using option `common_conf_name`.
+If you can use the common config file , `${RB_HOME}/conf/common.yaml`, this config values can be used by all scripts.
+The name of common config file is changed by option `common_conf_name`.
 
 ### External Command Wrapper
 
-RBatch provide a function which wrap external command (such as 'ls').
+`RBatch.cmd` is external command wapper.
 
-This function return a result object which contain command's "STDOUT", "STDERR" ,and "exit status".
+This function return a result object which contains command's "STDOUT", "STDERR" and "exit status".
 
 sample
 
@@ -159,12 +170,12 @@ p r.status # => 0
 
 If you want to set a timeout of external command, you can use `cmd_timeout` option.
 
-And by using `cmd_raise` option, if status of command is not 0, raise Exception.
-You have no use for an error handring.
+By using `cmd_raise` option, if exit status of command is not 0, RBatch raise an Exception.
+This function help to handle the errors of external command.
 
 ### Double Run Check
 
-Using `forbid_double_run` option, two same name scripts cannot run at the same time.
+By using `forbid_double_run` option, two scripts both has same name cannot run at the same time.
 
 Manual
 --------------
@@ -176,7 +187,7 @@ Sample
 
 ### AWS EC2 Volume Backup Script
 
-First you make configuration file.
+First you make the configuration file.
 
 Config File : `${RB_HOME}/conf/ec2_create_snapshot.yaml`
 
@@ -186,7 +197,7 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
 
 ```
 
-Next, you write script.
+Next, you write the script.
 
 Script : `${RB_HOME}/bin/ec2_create_snapshot.rb`
 
@@ -225,7 +236,7 @@ end
 
 ```
 
-Finally Run script , then following logfile is output.
+Finally you run the script, then following logfile is output.
 
 Log file : `${RB_HOME}/log/20140121_123124_ec2_create_snapshot.log`
 
@@ -242,14 +253,14 @@ Log file : `${RB_HOME}/log/20140121_123124_ec2_create_snapshot.log`
 [2014-01-21 12:31:25 -0500] [INFO ] sucess
 ```
 
-Only you write a small code, this batch script has logging and read-config function.
+Only you write a short code, this batch script has logging and read-config function.
 
 Customize
 --------------
 If you want to customize RBatch, you have two methods.
 
 * (1) Write Run-Conf(`${RB_HOME}/.rbatchrc`).
-* (2) Pass an option object to constructor in your script.
+* (2) Pass an option object to constructor of RBatch classes in a script.
 
 When an option is set in both (1) and (2), (2) is prior to (1).
 
