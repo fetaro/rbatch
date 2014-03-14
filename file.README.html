@@ -63,11 +63,11 @@
 
     <div id="content"><div id='filecontents'><p><a href="https://github.com/fetaro/rbatch/blob/master/README.md" title="english">English</a> | <a href="https://github.com/fetaro/rbatch/blob/master/README.ja.md" title="japanese">Japanese </a> |  <a href="http://fetaro.github.io/rbatch/index.html">Document (YardDoc)</a></p>
 
-<h1>RBatch: Framework for Ruby-based Batch Script</h1>
+<h1>RBatch: Batch Script Framework</h1>
 
-<h2>About RBatch (for ver 2)</h2>
+<h2>About RBatch</h2>
 
-<p>RBatch is a framework for Ruby-based batch script. RBatch help to make a batch script such as &quot;data backup&quot; or &quot;proccess start &quot;.</p>
+<p>RBatch is a ruby-based framework for batch scripts. RBatch help to make a batch script such as &quot;data backup&quot; or &quot;proccess start &quot;.</p>
 
 <p>There are following functions.</p>
 
@@ -96,15 +96,30 @@ $ cat log/YYYYMMDD_HHMMSS_hello_world.log
 
 <h3>RBatch home directory</h3>
 
-<p>When you set <code>${RB_HOME}</code> environment variable, RBatch home directory is fix at <code>${RB_HOME}</code>.</p>
+<p>When you set <code>${RB_HOME}</code> environment variable, RBatch home directory is fixed at <code>${RB_HOME}</code>.</p>
 
-<p>When you do NOT set <code>${RB_HOME}</code>, <code>${RB_HOME}</code> is the parent directory of the directory which script is located at. In other words, default of <code>${RB_HOME}</code> is <code>(script path)/../</code> .</p>
+<p>When you do NOT set <code>${RB_HOME}</code>, <code>${RB_HOME}</code> is the parent directory of the directory where the script is located. In other words, default of <code>${RB_HOME}</code> is <code>(script path)/../</code> .</p>
 
 <h3>Directory Structure and File Naming Convention</h3>
 
-<p>RBach has convention of file naming and directory structure.</p>
+<p>Follow the rule of &quot;convention over configuration&quot;,
+RBach has convention of file naming and directory structure in advance.
+If you follow these rules, you will gain plenty development environment without any configurations.</p>
 
-<p>If you make a script on <code>${RB_HOME}/bin/hoge.rb</code>, libraries are <code>${RB_HOME}/lib/*.rb</code>, script&#39;s config file is <code>${RB_HOME}/conf/hoge.yaml</code> , and log file is output at <code>${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.log</code>.</p>
+<p>The rules are</p>
+
+<ul>
+<li>If you make <code>${RB_HOME}/bin/hoge.rb</code> as the script...</li>
+<li>individual config file should be <code>${RB_HOME}/conf/hoge.yaml</code></li>
+<li>common(shared) config file should be <code>${RB_HOME}/conf/common.yaml</code></li>
+<li>libraries should be <code>${RB_HOME}/lib/*.rb</code></li>
+</ul>
+
+<p>then</p>
+
+<ul>
+<li>log files are output at <code>${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.log</code></li>
+</ul>
 
 <p>For example</p>
 
@@ -117,9 +132,9 @@ $ cat log/YYYYMMDD_HHMMSS_hello_world.log
  |   |-  B.rb
  |
  |- conf           &lt;--- Config files
- |   |-  A.yaml
+ |   |-  A.yaml    &lt;--- Individual config file
  |   |-  B.yaml
- |   |-  common.yaml &lt;--- Common-Config file
+ |   |-  common.yaml &lt;--- Common config file
  |
  |- log            &lt;--- Log files
  |   |-  YYYYMMDD_HHMMSS_A.log
@@ -132,9 +147,9 @@ $ cat log/YYYYMMDD_HHMMSS_hello_world.log
 
 <h3>Auto Logging</h3>
 
-<p>Use auto logging block <code>RBatch::Log</code>, RBatch automatically output logfiles.
-The default location of log file is <code>${RB_HOME}/log/YYYYMMDD_HHMMSS_(script base).log</code>.
-If an exception is raised, then RBatch write the stack trace to the logfile.</p>
+<p>Use the auto logging block ,<code>RBatch::Log</code>, RBatch automatically output logfiles.
+The default location of log files are <code>${RB_HOME}/log/YYYYMMDD_HHMMSS_(script base).log</code>.
+If an exception is raised in auto logging block, RBatch rescue and write the stack trace to the logfile.</p>
 
 <p>sample</p>
 
@@ -163,19 +178,19 @@ If an exception is raised, then RBatch write the stack trace to the logfile.</p>
 
 <h3>Auto Library Loading</h3>
 
-<p>If you make libraries at <code>${RB_HOME}/lib/*.rb</code>, those files are required before script run.</p>
+<p>If you make the libraries at <code>${RB_HOME}/lib/*.rb</code>, these are loaded(required) before script run.</p>
 
 <h3>Auto Mail Sending</h3>
 
-<p>By using <code>log_send_mail</code> option, when an error or fatal log is output in script, RBatch sends error-mail. </p>
+<p>By using <code>log_send_mail</code> option, when the logs with ERROR or FATAL level are output, RBatch sends the error messages by e-mail. </p>
 
 <h3>Auto Config Reading</h3>
 
-<p>If you make configuration file which is located <code>${RB_HOME}/conf/&quot;(script base).yaml&quot;</code>, this file is read automatically.</p>
+<p>If you make the configuration file ,<code>${RB_HOME}/conf/&quot;(script base).yaml&quot;</code>, this file is read and parsed automatically.</p>
 
 <p>sample</p>
 
-<p>make config file <code>${RB_HOME}/conf/sample2.yaml</code>.</p>
+<p>make the config file <code>${RB_HOME}/conf/sample2.yaml</code>.</p>
 
 <pre class="code ruby"><code class="ruby">key: value
 array:
@@ -184,7 +199,7 @@ array:
  - item3
 </code></pre>
 
-<p>In script <code>${RB_HOME}/bin/sample2.rb</code> , you can read config.</p>
+<p>In script named <code>${RB_HOME}/bin/sample2.rb</code>, this config values can be used.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rbatch</span><span class='tstring_end'>'</span></span>
 
@@ -198,14 +213,14 @@ array:
 
 <h4>Common Config</h4>
 
-<p>If you can use a common config file which is read from all scripts, you make <code>${RB_HOME}/conf/common.yaml</code>.
-You can change name of common config file by using option <code>common_conf_name</code>.</p>
+<p>If you can use the common config file , <code>${RB_HOME}/conf/common.yaml</code>, this config values can be used by all scripts.
+The name of common config file is changed by option <code>common_conf_name</code>.</p>
 
 <h3>External Command Wrapper</h3>
 
-<p>RBatch provide a function which wrap external command (such as &#39;ls&#39;).</p>
+<p><code>RBatch.cmd</code> is external command wapper.</p>
 
-<p>This function return a result object which contain command&#39;s &quot;STDOUT&quot;, &quot;STDERR&quot; ,and &quot;exit status&quot;.</p>
+<p>This function return a result object which contains command&#39;s &quot;STDOUT&quot;, &quot;STDERR&quot; and &quot;exit status&quot;.</p>
 
 <p>sample</p>
 
@@ -219,12 +234,12 @@ You can change name of common config file by using option <code>common_conf_name
 
 <p>If you want to set a timeout of external command, you can use <code>cmd_timeout</code> option.</p>
 
-<p>And by using <code>cmd_raise</code> option, if status of command is not 0, raise Exception.
-You have no use for an error handring.</p>
+<p>By using <code>cmd_raise</code> option, if exit status of command is not 0, RBatch raise an Exception.
+This function help to handle the errors of external command.</p>
 
 <h3>Double Run Check</h3>
 
-<p>Using <code>forbid_double_run</code> option, two same name scripts cannot run at the same time.</p>
+<p>By using <code>forbid_double_run</code> option, two scripts both has same name cannot run at the same time.</p>
 
 <h2>Manual</h2>
 
@@ -234,7 +249,7 @@ You have no use for an error handring.</p>
 
 <h3>AWS EC2 Volume Backup Script</h3>
 
-<p>First you make configuration file.</p>
+<p>First you make the configuration file.</p>
 
 <p>Config File : <code>${RB_HOME}/conf/ec2_create_snapshot.yaml</code></p>
 
@@ -243,7 +258,7 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
 
 </code></pre>
 
-<p>Next, you write script.</p>
+<p>Next, you write the script.</p>
 
 <p>Script : <code>${RB_HOME}/bin/ec2_create_snapshot.rb</code></p>
 
@@ -281,7 +296,7 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
 
 </code></pre>
 
-<p>Finally Run script , then following logfile is output.</p>
+<p>Finally you run the script, then following logfile is output.</p>
 
 <p>Log file : <code>${RB_HOME}/log/20140121_123124_ec2_create_snapshot.log</code></p>
 
@@ -297,7 +312,7 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
 [2014-01-21 12:31:25 -0500] [INFO ] sucess
 </code></pre>
 
-<p>Only you write a small code, this batch script has logging and read-config function.</p>
+<p>Only you write a short code, this batch script has logging and read-config function.</p>
 
 <h2>Customize</h2>
 
@@ -305,7 +320,7 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
 
 <ul>
 <li>(1) Write Run-Conf(<code>${RB_HOME}/.rbatchrc</code>).</li>
-<li>(2) Pass an option object to constructor in your script.</li>
+<li>(2) Pass an option object to constructor of RBatch classes in a script.</li>
 </ul>
 
 <p>When an option is set in both (1) and (2), (2) is prior to (1).</p>
@@ -518,7 +533,7 @@ That&#39;s all.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Fri Feb 14 02:33:08 2014 by
+  Generated on Fri Mar 14 18:32:41 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.2).
 </div>
