@@ -1,13 +1,12 @@
 [English](https://github.com/fetaro/rbatch/blob/master/README.md "english") | [Japanese ](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese") |  [Document (YardDoc)](http://fetaro.github.io/rbatch/index.html)
 
-RBatch: Framework for Ruby-based Batch Script
+RBatch: Batch Script Framework
 =============
 
-About RBatch (for ver 2)
+About RBatch
 --------------
 
-
-RBatch is a framework for Ruby-based batch script. RBatch help to make a batch script such as "data backup" or "proccess start ".
+RBatch is a ruby-based framework for batch scripts. RBatch help to make a batch script such as "data backup" or "proccess start ".
 
 There are following functions.
 
@@ -17,7 +16,6 @@ There are following functions.
 * Auto Config Reading
 * External Command Wrapper
 * Double Run Check
-
 
 Note: RBatch works on Ruby 1.9.
 

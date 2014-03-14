@@ -1,12 +1,12 @@
 [English](https://github.com/fetaro/rbatch/blob/master/README.md "english") | [Japanese ](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese") |  [Document (YardDoc)](http://fetaro.github.io/rbatch/index.html)
 
-RBatch:Ruby-base バッチ スクリプト フレームワーク
+RBatch: バッチスクリプト フレームワーク
 =============
 
-RBatchについて (version 2)
+RBatchについて
 --------------
 
-RBatchはRubyで書かれたシンプルなバッチスクリプトのフレームワークです。
+RBatchはRubyで書かれたシンプルなバッチスクリプト(運用スクリプト)のフレームワークです。
 バッチスクリプト（バックアップやプロセスリロード等）を書く際に便利な機能をフレームワークとして提供しています。
 
 主な機能は以下のとおり。
