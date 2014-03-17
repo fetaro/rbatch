@@ -217,7 +217,7 @@ module RBatch
       if Dir.exists?(@vars[:log_dir]) && @vars.raw_value(:log_name).include?("<date>")
         Dir::foreach(@vars[:log_dir]) do |file|
           r = Regexp.new("^" \
-                         + @vars.raw_value(:log_name).gsub("<prog>",@vars[:program_base])\
+                         + @vars.raw_value(:log_name).gsub("<prog>",@vars[:program_noext])\
                            .gsub("<time>","[0-2][0-9][0-5][0-9][0-5][0-9]")\
                            .gsub("<date>","([0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9])")\
                          + "$")
