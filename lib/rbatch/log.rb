@@ -234,9 +234,15 @@ module RBatch
     end
 
     def send_mail(msg)
+      if @vars[:log_mail_to].class == Array
+        mail_to_str = @vars[:log_mail_to].join(",")
+      else
+        mail_to_str = @vars[:log_mail_to]
+      end
+
       body = <<EOT
-From: <#{@vars[:log_mail_from]}>
-To: <#{@vars[:log_mail_to]}>
+From: #{@vars[:log_mail_from]}
+To: #{mail_to_str}
 Subject: [RBatch] #{@vars[:program_name]} has error
 Date: #{Time::now.strftime("%a, %d %b %Y %X %z")}
 Mime-Version: 1.0
@@ -248,6 +254,7 @@ EOT
       Net::SMTP.start(@vars[:log_mail_server_host],@vars[:log_mail_server_port] ) {|smtp|
         smtp.send_mail(body,@vars[:log_mail_from],@vars[:log_mail_to])
       }
+      @@journal.put 1,"Send an error mail from #{@vars[:log_mail_from]} to #{mail_to_str} by #{@vars[:log_mail_server_host]}:#{@vars[:log_mail_server_port]}"
     end
   end # end class
   class LogException < StandardError ; end

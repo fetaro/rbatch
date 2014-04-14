@@ -313,21 +313,28 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #forbid_double_run: true
 #forbid_double_run: false
 
-# Journal Message Level
+# RBatch Journal Level
 #
 #   Default is 1
-#   If 2, put more journal messages to STDOUT.
+#   RBatch Journal is message of RBatch and is output to STDOUT. 
+#   If 2, put much more information.
 #   If 0, put nothing.
-#   Example of journal essages are follows.
-#       [RBatch] Load Config  : "../conf/hoge.yaml"
+#
+#   Example of RBatch Journal are follows.
+#     [RBatch] === START RBatch === (PID=5795)
+#     [RBatch] RB_HOME : "/path/to/"
+#     [RBatch] Load Run-Conf: "/path/to/.rbatchrc"
+#     [RBatch] Start Script : "/path/to/bin/hello.rb"
+#     ....
 #
 #rbatch_journal_level : 2
 #rbatch_journal_level : 0
 
-# Mix Journal Message to Logs
+# Mix RBatch Journal to Logs
 #
 #   Default is true.
-#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
+#   If true, RBatch Journal is output not only STDOUT
+#   but also log file(s) which is(are) opened at time.
 #
 #mix_rbatch_journal_to_logs : true
 #mix_rbatch_journal_to_logs : false
@@ -406,6 +413,12 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #log_mail_from : "xxx@sample.com"
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
+#
+# if you want to send multiple recipients...
+#
+#log_mail_to :
+#  - "AAA@sample.com"
+#  - "BBB@sample.com"
 
 # -------------------
 # Cmd setting

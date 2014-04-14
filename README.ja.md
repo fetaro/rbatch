@@ -315,21 +315,29 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #forbid_double_run : true
 #forbid_double_run : false
 
-# RBatchの実行ログ(Journal)のLevel
+# RBatchジャーナルのLevel
 #
 #   デフォルトは1
-#   大きい数を指定すると多くの実行ログが出力される。
+#   RBatchジャーナルはRBatch自体の実行ログであり、[RBatch] の接頭辞が
+#   付くメッセージである。通常は標準出力に出力される
+#   大きい数を指定すると多くのジャーナルが出力される。
 #   0を指定すると何も表示されない。
-#   RBatchメッセージの例
-#       [RBatch] Load Config  : "../conf/hoge.yaml"
+#
+#   RBatchジャーナルの例
+#     [RBatch] === START RBatch === (PID=5795)
+#     [RBatch] RB_HOME : "/path/to/"
+#     [RBatch] Load Run-Conf: "/path/to/.rbatchrc"
+#     [RBatch] Start Script : "/path/to/bin/hello.rb"
+#     ....
 #
 #rbatch_journal_level : 2
 #rbatch_journal_level : 0
 
-# RBatchの実行ログをログに混ぜ込む
+# RBatchジャーナルをログに混ぜ込む
 #
 #   デフォルトは true。
-#   trueを指定すると、RBatchメッセージをその時開かれているログに混ぜこむ。
+#   trueを指定すると、RBatchジャーナルを標準出力だけでなく
+#   その時開かれているログにも出力する。
 #
 #mix_rbatch_journal_to_logs : true
 #mix_rbatch_journal_to_logs : false
@@ -409,6 +417,13 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #log_mail_from : "xxx@sample.com"
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
+#
+# 宛先を複数指定した場合は
+#
+#log_mail_to :
+#  - "AAA@sample.com"
+#  - "BBB@sample.com"
+
 
 # -------------------
 # 外部コマンド実行関連

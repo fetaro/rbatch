@@ -1,7 +1,8 @@
 CHANGE LOG
 
-This document includes functions which is added or changed, does not include bugfix.
-About bugfix, see commit log of https://github.com/fetaro/rbatch .
+This document includes functions which is added or changed.
+This document does NOT include bugfix.
+If you want to know about bug fix, please see commit logs of https://github.com/fetaro/rbatch .
 
 ===================
 version 1
@@ -13,64 +14,61 @@ version 1
 
 1.1 (2012/11/9)
 -----
-* add common config file
-* change log option
+* [add] common config file
+* [change] new option : "log"
 
 1.2 (2012/11/13)
 -----
-* change log level option format
-* add log append option
+* [change] log level option format
+* [add] new option : "log_append"
 
 1.3 (2012/12/30)
 -----
-* add RBatch::Log to instance interface
-* add double run check option
+* [add] add customize point to RBatch::Log's constructor
+* [add] new option : "double_run_check"
 
 1.4 (2013/1/5)
 ----
-* add log_stdout option
-* add sample code
-* add cmd_raise option
-* add log_delete_old_log option
+* [add] new options : "log_stdout", "cmd_raise", "log_delete_old_log"
+* [add] add sample code
 
 1.5 (2013/1/11)
 ----
-* change default config dir "../config" -> "../conf"
+* [change] change default config dir from "../config" to "../conf"
 
 1.6 (2013/1/14)
 ----
-* add config key check
+* [add] add function of cheking config keys
 
 1.7 (2013/01/30)
 ----
-* change log format
-* delete change log format option
+* [change] log format
+* [delete] change log format option
 
 1.8 (2013/02/10)
 ----
-* add log_send_mail option
-* add cmd_timeout option
+* [add] new option : "log_send_mail", "cmd_timeout"
 
 1.9 (2013/02/11)
 ----
-* add "<host>" keyword to log_name option
-* change Environmental variables ($TMPDIR and $HOSTNAME) are checked strictly 
+* [add] add "<host>" keyword to log_name option
+* [change] Environmental variables ($TMPDIR and $HOSTNAME) are checked strictly 
 
 1.10 (2013/02/12)
 ----
-* add rbatch-init command
+* [add] add rbatch-init command
 
 1.11 (2013/02/24)
 ----
-* add support for MAC-OSX environment (change handling of the environment variable about hostname and temporary directory)
+* [add] support for MAC-OSX environment (change handling of the environment variable about hostname and temporary directory)
 
 1.12 (2013/11/19)
 ----
-* add Common Config Function
+* [add] add Common Config Function
 
 1.13 (2013/12/19)
 ----
-* add customize point that can change RBatch home directory by using the environment variables, ${RB_HOME}.
+* [add] add customize point that can change RBatch home directory by using the environment variables, ${RB_HOME}.
 
 ===================
 version 2
@@ -78,15 +76,19 @@ version 2
 
 2.0.0 (2013/12/28)
 ----
-* change Run-Conf path from "${RB_HOME}/conf/rbatch.yaml" to "${RB_HOME}/.rbatchrc"
-* add checking existence of Run-Conf keys.
-* add option. "conf_dir", "common_conf_name",  and "cmd_timeout" are added.
-* when cmd_timeout occured, RBatch kill child process now. 
-* change test code from Test::Unit to RSpec. 
+* [change] Change Run-Conf path from "${RB_HOME}/conf/rbatch.yaml" to "${RB_HOME}/.rbatchrc"
+* [add] add function of checking existence of Run-Conf's keys.
+* [add] new options : "conf_dir", "common_conf_name", "cmd_timeout".
+* [add] when cmd_timeout occured, RBatch kill child process now. 
+* [change] Change test code from Test::Unit to RSpec. 
 
 2.1.0 (2013/1/10)
 ----
-* add error handling when key class mistake Symbol for String
-* add auto library file reading
-* add mix_rbatch_msg_to_log option
-* change config reading timing. before ondemand, now initial.
+* [add] add an error handling when user mistake key class as Symbol for String in config file.
+* [add] add function of auto library file reading
+* [add] new option : "mix_rbatch_msg_to_log"
+* [change] config reading timing. before ondemand, now initial.
+
+2.2.0 (2014/4/15)
+----
+* [add] now "log_mail_to" option accepts multiple recipients, before it accepts only one recipient.
