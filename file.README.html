@@ -375,21 +375,28 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
 </span><span class='comment'>#forbid_double_run: true
 </span><span class='comment'>#forbid_double_run: false
 </span>
-<span class='comment'># Journal Message Level
+<span class='comment'># RBatch Journal Level
 </span><span class='comment'>#
 </span><span class='comment'>#   Default is 1
-</span><span class='comment'>#   If 2, put more journal messages to STDOUT.
+</span><span class='comment'>#   RBatch Journal is message of RBatch and is output to STDOUT. 
+</span><span class='comment'>#   If 2, put much more information.
 </span><span class='comment'>#   If 0, put nothing.
-</span><span class='comment'>#   Example of journal essages are follows.
-</span><span class='comment'>#       [RBatch] Load Config  : &quot;../conf/hoge.yaml&quot;
+</span><span class='comment'>#
+</span><span class='comment'>#   Example of RBatch Journal are follows.
+</span><span class='comment'>#     [RBatch] === START RBatch === (PID=5795)
+</span><span class='comment'>#     [RBatch] RB_HOME : &quot;/path/to/&quot;
+</span><span class='comment'>#     [RBatch] Load Run-Conf: &quot;/path/to/.rbatchrc&quot;
+</span><span class='comment'>#     [RBatch] Start Script : &quot;/path/to/bin/hello.rb&quot;
+</span><span class='comment'>#     ....
 </span><span class='comment'>#
 </span><span class='comment'>#rbatch_journal_level : 2
 </span><span class='comment'>#rbatch_journal_level : 0
 </span>
-<span class='comment'># Mix Journal Message to Logs
+<span class='comment'># Mix RBatch Journal to Logs
 </span><span class='comment'>#
 </span><span class='comment'>#   Default is true.
-</span><span class='comment'>#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
+</span><span class='comment'>#   If true, RBatch Journal is output not only STDOUT
+</span><span class='comment'>#   but also log file(s) which is(are) opened at time.
 </span><span class='comment'>#
 </span><span class='comment'>#mix_rbatch_journal_to_logs : true
 </span><span class='comment'>#mix_rbatch_journal_to_logs : false
@@ -468,6 +475,12 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
 </span><span class='comment'>#log_mail_from : &quot;xxx@sample.com&quot;
 </span><span class='comment'>#log_mail_server_host : &quot;localhost&quot;
 </span><span class='comment'>#log_mail_server_port : 25
+</span><span class='comment'>#
+</span><span class='comment'># if you want to send multiple recipients...
+</span><span class='comment'>#
+</span><span class='comment'>#log_mail_to :
+</span><span class='comment'>#  - &quot;AAA@sample.com&quot;
+</span><span class='comment'>#  - &quot;BBB@sample.com&quot;
 </span>
 <span class='comment'># -------------------
 </span><span class='comment'># Cmd setting
@@ -533,7 +546,7 @@ That&#39;s all.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Fri Mar 14 18:32:41 2014 by
+  Generated on Tue Apr 15 02:37:18 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.2).
 </div>
