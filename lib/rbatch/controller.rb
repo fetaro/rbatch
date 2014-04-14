@@ -29,7 +29,7 @@ module RBatch
 
       # double_run_check
       if ( @vars[:forbid_double_run])
-        RBatch::DoubleRunChecker.check(@pvars[:rogram_base]) #raise error if check is NG
+        RBatch::DoubleRunChecker.check(@vars[:program_base]) #raise error if check is NG
         RBatch::DoubleRunChecker.make_lock_file(@vars[:program_base])
       end
       # load_lib

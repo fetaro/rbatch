@@ -12,7 +12,7 @@ describe "RBatch" do
     Dir.mkdir(@log_dir)
     Dir.mkdir(@conf_dir)
     open( File.join(@home,".rbatchrc") , "a" ){|f|
-      f.write("log_name : hoge.log")
+      f.write("log_name : hoge.log \nforbid_double_run : true")
     }
 
     open( File.join(@conf_dir,"rspec.yaml") , "a" ){|f|
