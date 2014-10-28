@@ -90,6 +90,9 @@ module RBatch
     #   When log.error(str) is called,
     #   log.fatal(str) is called , or rescue an Exception,
     #   send e-mail.
+    # @option opt [Boolean] :bufferd
+    #   If true, log output is bufferd.
+    #   Default is false.
     # @option opt [String] :mail_to
     # @option opt [String] :mail_from
     # @option opt [String] :mail_server_host
@@ -128,10 +131,12 @@ module RBatch
       # create Logger instance
       begin
         if @vars[:log_append] && File.exist?(@path)
-          @log = Logger.new(open(@path,"a"))
+          _io = open(@path,"a")
         else
-          @log = Logger.new(open(@path,"w"))
+          _io = open(@path,"w")
         end
+        _io.sync = ! @vars[:log_bufferd]
+        @log = Logger.new(_io)
       rescue Errno::ENOENT => e
         raise LogException,"Can not open log file  - #{@path}"
       end

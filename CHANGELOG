@@ -92,3 +92,9 @@ version 2
 2.2.0 (2014/4/15)
 ----
 * [add] now "log_mail_to" option accepts multiple recipients, before it accepts only one recipient.
+
+2.3.0 (2014/10/28)
+----
+* [add] new option : "log_bufferd"
+* [change] before log output is bufferd, now not.
+* [bugfix] fix that it raises error if .rbatchrc is empty.

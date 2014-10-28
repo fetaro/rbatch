@@ -399,6 +399,14 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #
 #log_delete_old_log_date : 14
 
+# Log buffering
+#
+#   Default is false.
+#   If true, log output is bufferd.
+#
+#log_bufferd : true
+#log_bufferd : false
+
 # Send Mail
 #
 #   Default is false.
