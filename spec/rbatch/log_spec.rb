@@ -324,6 +324,21 @@ describe RBatch::Log do
       expect(File.exists?(File.join(@log_dir,"test_delete.log"))).to be true
     end
 
+    it "works bufferd is true" do
+      opt = { :name =>  "test_buffer.log",:bufferd => true}
+      RBatch::Log.new(opt) { | log | log.info("hoge") }
+      File::open(File.join(@log_dir , "test_buffer.log")) {|f|
+        expect(f.read).to match /hoge/
+      }
+    end
+    it "works bufferd is false" do
+      opt = { :name =>  "test_buffer2.log",:bufferd => false}
+      RBatch::Log.new(opt) { | log | log.info("hoge") }
+      File::open(File.join(@log_dir , "test_buffer2.log")) {|f|
+        expect(f.read).to match /hoge/
+      }
+    end
+
 
   end
 

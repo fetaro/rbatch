@@ -404,6 +404,14 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #
 #log_delete_old_log_date : 14
 
+# ログのバッファリング
+#
+#   デフォルト値はfalse。
+#   trueにするとログへの出力をバッファリングする。
+#
+#log_bufferd : true
+#log_bufferd : false
+
 # メール送信するかどうか
 # 
 #   デフォルト値は false。
