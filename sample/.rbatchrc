@@ -26,7 +26,7 @@
 #   Default is "<home>/lib"
 #   <home> is replaced to ${RB_HOME}
 #
-#lib_dir : /usr/local/lib/rbatch/
+#lib_dir: /usr/local/lib/rbatch/
 
 # Auto Library Load
 #
@@ -41,24 +41,31 @@
 #   Default is false.
 #   If true, two same name scripts cannot run at the same time.
 #
-#forbid_double_run : true
-#forbid_double_run : false
+#forbid_double_run: true
+#forbid_double_run: false
 
-# Journal Message Level
+# RBatch Journal Level
 #
 #   Default is 1
-#   If 2, put more journal messages to STDOUT.
+#   RBatch Journal is message of RBatch and is output to STDOUT. 
+#   If 2, put much more information.
 #   If 0, put nothing.
-#   Example of journal essages are follows.
-#       [RBatch] Load Config  : "../conf/hoge.yaml"
+#
+#   Example of RBatch Journal are follows.
+#     [RBatch] === START RBatch === (PID=5795)
+#     [RBatch] RB_HOME : "/path/to/"
+#     [RBatch] Load Run-Conf: "/path/to/.rbatchrc"
+#     [RBatch] Start Script : "/path/to/bin/hello.rb"
+#     ....
 #
 #rbatch_journal_level : 2
 #rbatch_journal_level : 0
 
-# Mix Journal Message to Logs
+# Mix RBatch Journal to Logs
 #
 #   Default is true.
-#   If true, mix RBatch journal messages to log file(s) which is(are) opened at time.
+#   If true, RBatch Journal is output not only STDOUT
+#   but also log file(s) which is(are) opened at time.
 #
 #mix_rbatch_journal_to_logs : true
 #mix_rbatch_journal_to_logs : false
@@ -111,24 +118,31 @@
 # Delete old log files
 #
 #   Default is false.
-#   If this is true, delete old log file when RBatch::Log.new is called.
-#   A log file to delete is a log file which was made by the
-#   RBatch::Log instance, and log filename format include "<date>".
+#   If this is true, delete old log files when RBatch::Log.new is called.
+#   If log filename format does not include "<date>", do nothing.
 #
-#log_delete_old_log: true
-#log_delete_old_log: false
+#log_delete_old_log : true
+#log_delete_old_log : false
 
-# Expire Date of Log Files
+# Expire Days of Log Files
 #
 #   Default is 7.
 #
-#log_delete_old_log_date: 14
+#log_delete_old_log_date : 14
+
+# Log buffering
+#
+#   Default is false.
+#   If true, log output is bufferd.
+#
+#log_bufferd : true
+#log_bufferd : false
 
 # Send Mail
 #
 #   Default is false.
-#   When log.error(msg) or log.fatal(msg) called , send e-mail
-#   including "msg".
+#   When log.error is called, log.fatal is called,
+#   or rescue an Exception, send e-mail.
 #
 #log_send_mail : true
 
@@ -138,6 +152,12 @@
 #log_mail_from : "xxx@sample.com"
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
+#
+# if you want to send multiple recipients, use array.
+#
+#log_mail_to :
+#  - "AAA@sample.com"
+#  - "BBB@sample.com"
 
 # -------------------
 # Cmd setting

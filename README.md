@@ -422,7 +422,7 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 #log_mail_server_host : "localhost"
 #log_mail_server_port : 25
 #
-# if you want to send multiple recipients...
+# if you want to send multiple recipients, use array.
 #
 #log_mail_to :
 #  - "AAA@sample.com"
@@ -466,6 +466,7 @@ opt = {
       :stdout    => false,
       :delete_old_log => false,
       :delete_old_log_date => 7,
+      :log_bufferd => false,
       :send_mail => false,
       :mail_to   => nil,
       :mail_from => "rbatch.localhost",
