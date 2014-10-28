@@ -60,11 +60,13 @@ module RBatch
 
   class ConfigElement < Hash
     def initialize(hash)
-      hash.each_key do |key|
-        if hash[key].class == Hash
-          self[key] = ConfigElement.new(hash[key])
-        else
-          self[key] = hash[key]
+      if hash
+        hash.each_key do |key|
+          if hash[key].class == Hash
+            self[key] = ConfigElement.new(hash[key])
+          else
+            self[key] = hash[key]
+          end
         end
       end
     end
