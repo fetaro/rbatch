@@ -1,5 +1,5 @@
 language: ruby
-php:
+ruby:
   - "1.9"
 before_install:
   - gem install rbatch rspec
