@@ -228,7 +228,11 @@ module RBatch
                          + "$")
           if r =~ file && Date.strptime($1,"%Y%m%d") <= Date.today - date
             @@journal.put 1, "Delete old log file: " + File.join(@vars[:log_dir] , file)
-            File::delete(File.join(@vars[:log_dir]  , file))
+            begin
+              File::delete(File.join(@vars[:log_dir]  , file))
+            rescue Exception => e
+              @@journal.put 1, "Fail to delete old log file. Skipped."
+            end
           end
         end
       end
