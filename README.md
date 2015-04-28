@@ -1,4 +1,10 @@
-[English](https://github.com/fetaro/rbatch/blob/master/README.md "english") | [Japanese ](https://github.com/fetaro/rbatch/blob/master/README.ja.md "japanese") |  [Document (YardDoc)](http://fetaro.github.io/rbatch/index.html)
+
+
+[English](https://github.com/fetaro/rbatch/blob/master/README.md
+"english") | [Japanese
+](https://github.com/fetaro/rbatch/blob/master/README.ja.md
+"japanese") |  [Document
+(YardDoc)](http://fetaro.github.io/rbatch/index.html)
 
 RBatch: Batch Script Framework
 =============
@@ -6,9 +12,10 @@ RBatch: Batch Script Framework
 About RBatch
 --------------
 
-RBatch is a ruby-based framework for batch scripts. RBatch help to make a batch script such as "data backup" or "proccess start ".
+RBatch is a ruby-based framework for batch scripts. RBatch help to
+make batch scripts such as "data backup" or "proccess controll ".
 
-There are following functions.
+There are following functions:
 
 * Auto Logging
 * Auto Library Loading
@@ -17,7 +24,7 @@ There are following functions.
 * External Command Wrapper
 * Double Run Check
 
-Note: RBatch works on Ruby 1.9.
+Note: RBatch works on Ruby 1.9 above.
 
 Note: This software is released under the MIT License, see LICENSE.txt.
 
@@ -34,26 +41,26 @@ Overview
 
 ### RBatch home directory
 
-When you set `${RB_HOME}` environment variable, RBatch home directory is fixed at `${RB_HOME}`.
-
-When you do NOT set `${RB_HOME}`, `${RB_HOME}` is the parent directory of the directory where the script is located. In other words, default of `${RB_HOME}` is `(script path)/../` .
+If you set the `${RB_HOME}` as environment variable, RBatch home
+directory is fixed at `${RB_HOME}`.
+Otherwise, `${RB_HOME}` is the parent directory of the directory where
+the script is located. In other words, default of `${RB_HOME}` is
+`(script path)/../` .
 
 ### Directory Structure and File Naming Convention
 
-Follow the rule of "convention over configuration",
-RBach has convention of file naming and directory structure in advance.
-If you follow these rules, you will gain plenty development environment without any configurations.
+RBatch is made based on the rule of "convention over configuration".
+So there are conventions of file naming and directory structure.
+If you follow these rules, you will gain plenty development
+environment without any configurations.
 
-The rules are
+The rules are below:
 
-* If you make `${RB_HOME}/bin/hoge.rb` as the script...
-* individual config file should be `${RB_HOME}/conf/hoge.yaml`
-* common(shared) config file should be `${RB_HOME}/conf/common.yaml`
-* libraries should be `${RB_HOME}/lib/*.rb`
-
-then
-
-* log files are output at `${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.log`
+* Script should be `${RB_HOME}/bin/hoge.rb`
+* Config file should be `${RB_HOME}/conf/hoge.yaml`
+* Common config file should be `${RB_HOME}/conf/common.yaml`
+* Libraries should be `${RB_HOME}/lib/*.rb`
+* Log files should be `${RB_HOME}/log/YYYYMMDD_HHMMSS_hoge.log`
 
 For example
 
@@ -80,13 +87,16 @@ For example
 
 ### Auto Logging
 
-Use the auto logging block ,`RBatch::Log`, RBatch automatically output logfiles.
-The default location of log files are `${RB_HOME}/log/YYYYMMDD_HHMMSS_(script base).log`.
-If an exception is raised in auto logging block, RBatch rescue and write the stack trace to the logfile.
+By using the auto logging block ,`RBatch::Log`, RBatch automatically
+output logfiles.
+The default location of log files are
+`${RB_HOME}/log/YYYYMMDD_HHMMSS_(script base).log`.
+If exceptions are raised in auto logging block, RBatch will rescue it
+and output its stack trace to the logfile.
 
-sample
+Sample
 
-make script `${RB_HOME}/bin/sample1.rb`
+Make script `${RB_HOME}/bin/sample1.rb`
 
 ```ruby
 require 'rbatch'
@@ -105,25 +115,30 @@ Run script. Log file is `${RB_HOME}/log/20121020_005953_sample1.log`
     [2012-10-20 00:59:53 +900] [FATAL] Caught exception; existing 1
     [2012-10-20 00:59:53 +900] [FATAL] exception (RuntimeError)
         [backtrace] test.rb:6:in `block in <main>'
-        [backtrace] /usr/local/lib/ruby192/lib/ruby/gems/1.9.1/gems/rbatch-1.0.0/lib/rbatch/auto_logger.rb:37:in `initialize'
+        [backtrace]
+/usr/local/lib/ruby192/lib/ruby/gems/1.9.1/gems/rbatch-1.0.0/lib/rbatch/auto_logger.rb:37:in
+`initialize'
         [backtrace] test.rb:3:in `new'
         [backtrace] test.rb:3:in `<main>'
 
 ### Auto Library Loading
 
-If you make the libraries at `${RB_HOME}/lib/*.rb`, these are loaded(required) before script run.
+If you make libraries at `${RB_HOME}/lib/*.rb`, these are
+loaded(required) before scripts run.
 
 ### Auto Mail Sending
 
-By using `log_send_mail` option, when the logs with ERROR or FATAL level are output, RBatch sends the error messages by e-mail. 
+By using `log_send_mail` option, RBatch sends error messages by e-mail
+when ERROR or FATAL level logs are raised.
 
 ### Auto Config Reading
 
-If you make the configuration file ,`${RB_HOME}/conf/"(script base).yaml"`, this file is read and parsed automatically.
+By putting the configuration file as `${RB_HOME}/conf/"(script
+base).yaml"`, the file is read and parsed automatically.
 
-sample
+Sample
 
-make the config file `${RB_HOME}/conf/sample2.yaml`.
+Make the config file `${RB_HOME}/conf/sample2.yaml`.
 
     key: value
     array:
@@ -137,7 +152,7 @@ In script named `${RB_HOME}/bin/sample2.rb`, this config values can be used.
 require 'rbatch'
 
 # You can read config value without loading file.
-p RBatch.config["key"]   # => "value" 
+p RBatch.config["key"]   # => "value"
 p RBatch.config["array"] # => ["item1", "item2", "item3"]
 
 # If key does not exist, raise exception
@@ -146,16 +161,20 @@ p RBatch.config["not_exist"] # => Raise RBatch::ConfigException
 
 #### Common Config
 
-If you can use the common config file , `${RB_HOME}/conf/common.yaml`, this config values can be used by all scripts.
-The name of common config file is changed by option `common_conf_name`.
+By putting shard config file at `${RB_HOME}/conf/common.yaml`, the
+values in the file are shared by all scripts.
+If you want to change the name of the config file, you cau use the
+`common_conf_name` option.
 
 ### External Command Wrapper
 
-`RBatch.cmd` is external command wapper.
+RBatch have useful functions of external command execution. 
+`RBatch.cmd` is wrapper of `Kernel.#Spawn`.
 
-This function return a result object which contains command's "STDOUT", "STDERR" and "exit status".
+This function return a result object which contains command's string,
+STDOUT, STDERR and exit status.
 
-sample
+Sample
 
 ```ruby
 require 'rbatch'
@@ -166,14 +185,17 @@ p r.stderr # => ""
 p r.status # => 0
 ```
 
-If you want to set a timeout of external command, you can use `cmd_timeout` option.
+If you want to set a timeout of external command, you can use
+`cmd_timeout` option.
 
-By using `cmd_raise` option, if exit status of command is not 0, RBatch raise an Exception.
+By using `cmd_raise` option, if exit status is not 0,
+RBatch raise an Exception.
 This function help to handle the errors of external command.
 
 ### Double Run Check
 
-By using `forbid_double_run` option, two scripts both has same name cannot run at the same time.
+By using `forbid_double_run` option, two scripts both has same name
+cannot run at the same time.
 
 Manual
 --------------
@@ -204,21 +226,25 @@ require 'rbatch'  # <= require rbatch
 require 'aws-sdk'
 require 'net/http'
 
-RBatch::Log.new do |log| # <= Start Log block. And write main logic in this block.
+RBatch::Log.new do |log| # <= Start Log block. And write main logic in
+this block.
   # get ec2 region
   @ec2_region = "ec2." +
-    Net::HTTP.get("169.254.169.254", "/latest/meta-data/placement/availability-zone").chop +
+    Net::HTTP.get("169.254.169.254",
+"/latest/meta-data/placement/availability-zone").chop +
     ".amazonaws.com"
   log.info("ec2 region : #{@ec2_region}")  # <= Output Log
 
   #create ec2 instance
-  @ec2 = AWS::EC2.new(:access_key_id     => RBatch.config["access_key"],  # <= Read Config
+  @ec2 = AWS::EC2.new(:access_key_id     =>
+RBatch.config["access_key"],  # <= Read Config
                       :secret_access_key => RBatch.config["secret_key"],
                       :ec2_endpoint      => @ec2_region)
 
 
   # create instance
-  @instance_id = Net::HTTP.get("169.254.169.254", "/latest/meta-data/instance-id")
+  @instance_id = Net::HTTP.get("169.254.169.254",
+"/latest/meta-data/instance-id")
   @instance = @ec2.instances[@instance_id]
   log.info("instance_id : #{@instance_id}")
 
@@ -234,7 +260,7 @@ end
 
 ```
 
-Finally you run the script, then following logfile is output.
+Finally, you run the script, then following logfile is output.
 
 Log file : `${RB_HOME}/log/20140121_123124_ec2_create_snapshot.log`
 
@@ -242,16 +268,22 @@ Log file : `${RB_HOME}/log/20140121_123124_ec2_create_snapshot.log`
 [2014-01-21 12:31:24 -0500] [INFO ] === START RBatch === (PID=10095)
 [2014-01-21 12:31:24 -0500] [INFO ] RB_HOME : "/opt/MyProject"
 [2014-01-21 12:31:24 -0500] [INFO ] Load Run-Conf: "/opt/MyProject/.rbatchrc"
-[2014-01-21 12:31:24 -0500] [INFO ] Load Config  : "/opt/MyProject/conf/ec2_create_snapshot.yaml"
-[2014-01-21 12:31:24 -0500] [INFO ] Start Script : "/opt/MyProject/bin/ec2_create_snapshot.rb"
-[2014-01-21 12:31:24 -0500] [INFO ] Logging Start: "/opt/MyProject/log/20140121_123124_ec2_create_snapshot.log"
-[2014-01-21 12:31:24 -0500] [INFO ] ec2 region : ec2.ap-northeast-1.amazonaws.com
+[2014-01-21 12:31:24 -0500] [INFO ] Load Config  :
+"/opt/MyProject/conf/ec2_create_snapshot.yaml"
+[2014-01-21 12:31:24 -0500] [INFO ] Start Script :
+"/opt/MyProject/bin/ec2_create_snapshot.rb"
+[2014-01-21 12:31:24 -0500] [INFO ] Logging Start:
+"/opt/MyProject/log/20140121_123124_ec2_create_snapshot.log"
+[2014-01-21 12:31:24 -0500] [INFO ] ec2 region :
+ec2.ap-northeast-1.amazonaws.com
 [2014-01-21 12:31:25 -0500] [INFO ] instance_id : i-cc25f1c9
-[2014-01-21 12:31:25 -0500] [INFO ] create snapshot : i-cc25f1c9 /dev/sda1 vol-82483ea7 2014/01/21 12:31
+[2014-01-21 12:31:25 -0500] [INFO ] create snapshot : i-cc25f1c9
+/dev/sda1 vol-82483ea7 2014/01/21 12:31
 [2014-01-21 12:31:25 -0500] [INFO ] sucess
 ```
 
-Only you write a short code, this batch script has logging and read-config function.
+Only you write a short code, this batch script has logging and
+reading config function.
 
 Customize
 --------------
@@ -316,7 +348,7 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 # RBatch Journal Level
 #
 #   Default is 1
-#   RBatch Journal is message of RBatch and is output to STDOUT. 
+#   RBatch Journal is message of RBatch and is output to STDOUT.
 #   If 2, put much more information.
 #   If 0, put nothing.
 #
@@ -451,7 +483,8 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 
 ### Customize by passing option object to constructor
 
-If you want to change options in a script, you pass an options object to the constructor of RBatch::Log or RBatch::Cmd.
+If you want to change options in a script, you pass an options object
+to the constructor of RBatch::Log or RBatch::Cmd.
 
 #### option of RBatch::Log
 
@@ -492,4 +525,5 @@ Migration from version 1 to version 2
 --------------
 
 Move `${RB_HOME}/conf/rbatch.yaml` to `${RB_HOME}/.rbatchrc` .
-That's all.
+
+
