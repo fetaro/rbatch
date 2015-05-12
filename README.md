@@ -6,6 +6,8 @@
 "japanese") |  [Document
 (YardDoc)](http://fetaro.github.io/rbatch/index.html)
 
+[![Gem Version](https://badge.fury.io/rb/rbatch.svg)](http://badge.fury.io/rb/rbatch)
+[![Build Status](https://travis-ci.org/fetaro/rbatch.svg?branch=master)](https://travis-ci.org/fetaro/rbatch)
 RBatch: Batch Script Framework
 =============
 
