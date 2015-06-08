@@ -511,6 +511,7 @@ opt = {
       :delete_old_log => false,
       :delete_old_log_date => 7,
       :bufferd => false,
+      :output_exit_status => true,
       :send_mail => false,
       :mail_to   => nil,
       :mail_from => "rbatch.localhost",
