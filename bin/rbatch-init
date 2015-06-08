@@ -142,6 +142,15 @@ contents[".rbatchrc"] = <<EOF
 #log_bufferd : true
 #log_bufferd : false
 
+# Output Exit Status
+#
+#   Default is true.
+#   When you use the "exist" method in a log block,
+#   output exit status into the log file.
+#
+#log_output_exit_status : true
+#log_output_exit_status : false
+
 # Send Mail
 #
 #   Default is false.

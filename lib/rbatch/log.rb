@@ -86,6 +86,9 @@ module RBatch
     #   If this is true, delete old log files when this is called.
     #   If log filename does not include "<date>", do nothing.
     # @option opt [Integer] :delete_old_log_date
+    # @option opt [Boolean] :output_exit_status
+    #   When you use the "exist" method in a log block,
+    #   output exit status into the log file.
     # @option opt [Boolean] :send_mail
     #   When log.error(str) is called,
     #   log.fatal(str) is called , or rescue an Exception,
@@ -112,7 +115,6 @@ module RBatch
     #  RBatch::Log.new({:name => "hoge.log"}){ |log|
     #    log.info "info string"
     #  }
-
     def initialize(opt=nil)
       @opt = opt
       @vars = @@def_vars.clone
@@ -158,16 +160,18 @@ module RBatch
         begin
           yield self
         rescue SystemExit => e
-          if e.status == 0
-            exit 0
-          else
-            fatal(e)
-            fatal("Caught SystemExit. RBatch Exit with status " + e.status.to_s)
-            exit e.status
+          if @vars[:log_output_exit_status]
+            if e.status == 0
+              info("RBatch catch SystemExit. Exit with status " + e.status.to_s)
+            else
+              fatal(e)
+              fatal("RBatch catch SystemExit. Exit with status " + e.status.to_s)
+            end
           end
+          exit e.status
         rescue Exception => e
           fatal(e)
-          fatal("Caught exception. RBatch Exit with status 1")
+          fatal("RBatch catch an exception. Exit with status 1")
           exit 1
         ensure
           close
