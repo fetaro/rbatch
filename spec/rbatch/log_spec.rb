@@ -96,279 +96,293 @@ describe RBatch::Log do
   end
 
   describe "option by argument" do
-    it "change log name" do
-      opt = {:name => "name1.log" }
-      RBatch::Log.new(opt) { | log | log.info("hoge") }
-      File::open(File.join(@log_dir , "name1.log")) {|f|
-        expect(f.read).to match /hoge/
-      }
-    end
-
-    it "change log name 2" do
-      opt = {:name => "<prog><date>name.log" }
-      RBatch::Log.new(opt) { | log | log.info("hoge") }
-
-      File::open(File.join(@log_dir ,  "rspec" + Time.now.strftime("%Y%m%d") + "name.log")) {|f|
-        expect(f.read).to match /hoge/
-      }
-    end
-
-   it "change log name 3" do
-      opt = {:name => "<prog>-<date>-name.log" }
-      RBatch::Log.new(opt) { | log | log.info("hoge") }
-
-      File::open(File.join(@log_dir ,  "rspec-" + Time.now.strftime("%Y%m%d") + "-name.log")) {|f|
-        expect(f.read).to match /hoge/
-      }
-    end
-
-    it "change log dir" do
-      @tmp = File.join(ENV["RB_HOME"],"log3")
-      Dir.mkdir(@tmp)
-      opt = {:name => "c.log", :dir=> @tmp }
-      RBatch::Log.new(opt) { | log | log.info("hoge") }
-
-      File::open(File.join(@tmp , "c.log")) {|f|
-        expect(f.read).to match /hoge/
-      }
-      FileUtils.rm(File.join(@tmp , "c.log"))
-      Dir.rmdir(@tmp)
-    end
-
-    it "is append mode" do
-      opt = {:append => true, :name =>  "a.log" }
-      RBatch::Log.new(opt) { | log | log.info("line1") }
-
-      opt = {:append => true, :name =>  "a.log" }
-      RBatch::Log.new(opt) { | log | log.info("line2") }
-
-      File::open(File.join(@log_dir , "a.log")) {|f|
-        str = f.read
-        expect(str).to match /line1/
-        expect(str).to match /line2/
-      }
-    end
-
-    it "is overwrite mode" do
-      opt = {:append => false, :name =>  "a.log" }
-      RBatch::Log.new(opt) { | log | log.info("line1") }
-
-      opt = {:append => false, :name =>  "a.log" }
-      RBatch::Log.new(opt) { | log | log.info("line2") }
-
-      File::open(File.join(@log_dir , "a.log")) {|f|
-        str = f.read
-        expect(str).to_not match /line1/
-        expect(str).to match /line2/
-      }
-    end
-
-    it "is debug level" do
-      opt = { :level => "debug",:name =>  "a.log" }
-      RBatch::Log.new(opt) do | log |
-        log.debug("test_debug")
-        log.info("test_info")
-        log.warn("test_warn")
-        log.error("test_error")
-        log.fatal("test_fatal")
+    describe ":name option" do
+      it "change log name" do
+        opt = {:name => "name1.log" }
+        RBatch::Log.new(opt) { | log | log.info("hoge") }
+        File::open(File.join(@log_dir , "name1.log")) {|f|
+          expect(f.read).to match /hoge/
+        }
       end
-
-      File::open(File.join(@log_dir , "a.log")) {|f|
-        str = f.read
-        expect(str).to match /test_debug/
-        expect(str).to match /test_info/
-        expect(str).to match /test_warn/
-        expect(str).to match /test_error/
-        expect(str).to match /test_fatal/
-      }
+      
+      it "change log name 2" do
+        opt = {:name => "<prog><date>name.log" }
+        RBatch::Log.new(opt) { | log | log.info("hoge") }
+        
+        File::open(File.join(@log_dir ,  "rspec" + Time.now.strftime("%Y%m%d") + "name.log")) {|f|
+          expect(f.read).to match /hoge/
+        }
+      end
+      
+      it "change log name 3" do
+        opt = {:name => "<prog>-<date>-name.log" }
+        RBatch::Log.new(opt) { | log | log.info("hoge") }
+        
+        File::open(File.join(@log_dir ,  "rspec-" + Time.now.strftime("%Y%m%d") + "-name.log")) {|f|
+          expect(f.read).to match /hoge/
+        }
+      end
     end
-
-    it "is info level" do
-      opt = { :level => "info",:name =>  "a.log" }
-      RBatch::Log.new(opt) do | log |
-        log.debug("test_debug")
-        log.info("test_info")
-        log.warn("test_warn")
-        log.error("test_error")
-        log.fatal("test_fatal")
-      end
-
-      File::open(File.join(@log_dir , "a.log")) {|f|
-        str = f.read
-        expect(str).to_not match /test_debug/
-        expect(str).to match /test_info/
-        expect(str).to match /test_warn/
-        expect(str).to match /test_error/
-        expect(str).to match /test_fatal/
-      }
-    end
-
-    it "is warn level" do
-      opt = { :level => "warn",:name =>  "a.log" }
-      RBatch::Log.new(opt) do | log |
-        log.debug("test_debug")
-        log.info("test_info")
-        log.warn("test_warn")
-        log.error("test_error")
-        log.fatal("test_fatal")
-      end
-
-      File::open(File.join(@log_dir , "a.log")) {|f|
-        str = f.read
-        expect(str).to_not match /test_debug/
-        expect(str).to_not match /test_info/
-        expect(str).to match /test_warn/
-        expect(str).to match /test_error/
-        expect(str).to match /test_fatal/
-      }
-    end
-
-    it "is error level" do
-      opt = { :level => "error",:name =>  "a.log" }
-      RBatch::Log.new(opt) do | log |
-        log.debug("test_debug")
-        log.info("test_info")
-        log.warn("test_warn")
-        log.error("test_error")
-        log.fatal("test_fatal")
-      end
-
-      File::open(File.join(@log_dir , "a.log")) {|f|
-        str = f.read
-        expect(str).to_not match /test_debug/
-        expect(str).to_not match /test_info/
-        expect(str).to_not match /test_warn/
-        expect(str).to match /test_error/
-        expect(str).to match /test_fatal/
-      }
-    end
-
-    it "is fatal level" do
-      opt = { :level => "fatal",:name =>  "a.log" }
-      RBatch::Log.new(opt) do | log |
-        log.debug("test_debug")
-        log.info("test_info")
-        log.warn("test_warn")
-        log.error("test_error")
-        log.fatal("test_fatal")
-      end
-
-      File::open(File.join(@log_dir , "a.log")) {|f|
-        str = f.read
-        expect(str).to_not match /test_debug/
-        expect(str).to_not match /test_info/
-        expect(str).to_not match /test_warn/
-        expect(str).to_not match /test_error/
-        expect(str).to match /test_fatal/
-      }
-    end
-
-    it "is default level" do
-      opt = {:name =>  "a.log" }
-      RBatch::Log.new(opt) do | log |
-        log.debug("test_debug")
-        log.info("test_info")
-        log.warn("test_warn")
-        log.error("test_error")
-        log.fatal("test_fatal")
-      end
-
-      File::open(File.join(@log_dir , "a.log")) {|f|
-        str = f.read
-        expect(str).to_not match /test_debug/
-        expect(str).to match /test_info/
-        expect(str).to match /test_warn/
-        expect(str).to match /test_error/
-        expect(str).to match /test_fatal/
-      }
-    end
-
-    it "delete old log which name include <date>" do
-      loglist = [*0..20].map do |day|
-        File.join(@log_dir , (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
-      end
-      FileUtils.touch(loglist)
-
-      opt = { :name =>  "<date>_test_delete.log",:delete_old_log => true}
-      RBatch::Log.new(opt) { | log | }
-
-      loglist[1..6].each do |filename|
-        expect(File.exists?(filename)).to be true
-      end
-      loglist[7..20].each do |filename|
-        expect(File.exists?(filename)).to be false
+    
+    describe ":dir option" do
+      it "change log dir" do
+        @tmp = File.join(ENV["RB_HOME"],"log3")
+        Dir.mkdir(@tmp)
+        opt = {:name => "c.log", :dir=> @tmp }
+        RBatch::Log.new(opt) { | log | log.info("hoge") }
+        
+        File::open(File.join(@tmp , "c.log")) {|f|
+          expect(f.read).to match /hoge/
+        }
+        FileUtils.rm(File.join(@tmp , "c.log"))
+        Dir.rmdir(@tmp)
       end
     end
 
-    it "delete old log which name include <date> even if <date> position is changed" do
-      loglist = [*0..20].map do |day|
-        File.join(@log_dir , "235959-" + (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
+    describe ":append option" do
+      it "is append mode" do
+        opt = {:append => true, :name =>  "a.log" }
+        RBatch::Log.new(opt) { | log | log.info("line1") }
+        
+        opt = {:append => true, :name =>  "a.log" }
+        RBatch::Log.new(opt) { | log | log.info("line2") }
+        
+        File::open(File.join(@log_dir , "a.log")) {|f|
+          str = f.read
+          expect(str).to match /line1/
+          expect(str).to match /line2/
+        }
       end
-      FileUtils.touch(loglist)
-
-      opt = { :name =>  "<time>-<date>_test_delete.log",:delete_old_log => true}
-      RBatch::Log.new(opt) { | log | }
-
-      loglist[1..6].each do |filename|
-        expect(File.exists?(filename)).to be true
+      
+      it "is overwrite mode" do
+        opt = {:append => false, :name =>  "a.log" }
+        RBatch::Log.new(opt) { | log | log.info("line1") }
+        
+        opt = {:append => false, :name =>  "a.log" }
+        RBatch::Log.new(opt) { | log | log.info("line2") }
+        
+        File::open(File.join(@log_dir , "a.log")) {|f|
+          str = f.read
+          expect(str).to_not match /line1/
+          expect(str).to match /line2/
+        }
       end
-      loglist[7..20].each do |filename|
-        expect(File.exists?(filename)).to be false
+    end
+    describe ":level option" do
+      it "is debug level" do
+        opt = { :level => "debug",:name =>  "a.log" }
+        RBatch::Log.new(opt) do | log |
+          log.debug("test_debug")
+          log.info("test_info")
+          log.warn("test_warn")
+          log.error("test_error")
+          log.fatal("test_fatal")
+        end
+        
+        File::open(File.join(@log_dir , "a.log")) {|f|
+          str = f.read
+          expect(str).to match /test_debug/
+          expect(str).to match /test_info/
+          expect(str).to match /test_warn/
+          expect(str).to match /test_error/
+          expect(str).to match /test_fatal/
+        }
+      end
+      
+      it "is info level" do
+        opt = { :level => "info",:name =>  "a.log" }
+        RBatch::Log.new(opt) do | log |
+          log.debug("test_debug")
+          log.info("test_info")
+          log.warn("test_warn")
+          log.error("test_error")
+          log.fatal("test_fatal")
+        end
+        
+        File::open(File.join(@log_dir , "a.log")) {|f|
+          str = f.read
+          expect(str).to_not match /test_debug/
+          expect(str).to match /test_info/
+          expect(str).to match /test_warn/
+          expect(str).to match /test_error/
+          expect(str).to match /test_fatal/
+        }
+      end
+      
+      it "is warn level" do
+        opt = { :level => "warn",:name =>  "a.log" }
+        RBatch::Log.new(opt) do | log |
+          log.debug("test_debug")
+          log.info("test_info")
+          log.warn("test_warn")
+          log.error("test_error")
+          log.fatal("test_fatal")
+        end
+        
+        File::open(File.join(@log_dir , "a.log")) {|f|
+          str = f.read
+          expect(str).to_not match /test_debug/
+          expect(str).to_not match /test_info/
+          expect(str).to match /test_warn/
+          expect(str).to match /test_error/
+          expect(str).to match /test_fatal/
+        }
+      end
+      
+      it "is error level" do
+        opt = { :level => "error",:name =>  "a.log" }
+        RBatch::Log.new(opt) do | log |
+          log.debug("test_debug")
+          log.info("test_info")
+          log.warn("test_warn")
+          log.error("test_error")
+          log.fatal("test_fatal")
+        end
+        
+        File::open(File.join(@log_dir , "a.log")) {|f|
+          str = f.read
+          expect(str).to_not match /test_debug/
+          expect(str).to_not match /test_info/
+          expect(str).to_not match /test_warn/
+          expect(str).to match /test_error/
+          expect(str).to match /test_fatal/
+        }
+      end
+      
+      it "is fatal level" do
+        opt = { :level => "fatal",:name =>  "a.log" }
+        RBatch::Log.new(opt) do | log |
+          log.debug("test_debug")
+          log.info("test_info")
+          log.warn("test_warn")
+          log.error("test_error")
+          log.fatal("test_fatal")
+        end
+        
+        File::open(File.join(@log_dir , "a.log")) {|f|
+          str = f.read
+          expect(str).to_not match /test_debug/
+          expect(str).to_not match /test_info/
+          expect(str).to_not match /test_warn/
+          expect(str).to_not match /test_error/
+          expect(str).to match /test_fatal/
+        }
+      end
+      
+      it "is default level" do
+        opt = {:name =>  "a.log" }
+        RBatch::Log.new(opt) do | log |
+          log.debug("test_debug")
+          log.info("test_info")
+          log.warn("test_warn")
+          log.error("test_error")
+          log.fatal("test_fatal")
+        end
+        
+        File::open(File.join(@log_dir , "a.log")) {|f|
+          str = f.read
+          expect(str).to_not match /test_debug/
+          expect(str).to match /test_info/
+          expect(str).to match /test_warn/
+          expect(str).to match /test_error/
+          expect(str).to match /test_fatal/
+        }
       end
     end
-
-    it "does not delete old log which name does not include <date>" do
-      opt = { :name =>  "test_delete.log",:delete_old_log => true}
-      RBatch::Log.new(opt) { | log | }
-
-      expect(File.exists?(File.join(@log_dir,"test_delete.log"))).to be true
+    describe ":delete_old_log option" do
+      it "delete old log which name include <date>" do
+        loglist = [*0..20].map do |day|
+          File.join(@log_dir , (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
+        end
+        FileUtils.touch(loglist)
+        
+        opt = { :name =>  "<date>_test_delete.log",:delete_old_log => true}
+        RBatch::Log.new(opt) { | log | }
+        
+        loglist[1..6].each do |filename|
+          expect(File.exists?(filename)).to be true
+        end
+        loglist[7..20].each do |filename|
+          expect(File.exists?(filename)).to be false
+        end
+      end
+      
+      it "delete old log which name include <date> even if <date> position is changed" do
+        loglist = [*0..20].map do |day|
+          File.join(@log_dir , "235959-" + (Date.today - day).strftime("%Y%m%d") + "_test_delete.log")
+        end
+        FileUtils.touch(loglist)
+        
+        opt = { :name =>  "<time>-<date>_test_delete.log",:delete_old_log => true}
+        RBatch::Log.new(opt) { | log | }
+        
+        loglist[1..6].each do |filename|
+          expect(File.exists?(filename)).to be true
+        end
+        loglist[7..20].each do |filename|
+          expect(File.exists?(filename)).to be false
+        end
+      end
+      
+      it "does not delete old log which name does not include <date>" do
+        opt = { :name =>  "test_delete.log",:delete_old_log => true}
+        RBatch::Log.new(opt) { | log | }
+        
+        expect(File.exists?(File.join(@log_dir,"test_delete.log"))).to be true
+      end
     end
-
-    it "works bufferd is true" do
-      opt = { :name =>  "test_buffer.log",:bufferd => true}
-      RBatch::Log.new(opt) { | log | log.info("hoge") }
-      File::open(File.join(@log_dir , "test_buffer.log")) {|f|
-        expect(f.read).to match /hoge/
-      }
+    
+    describe ":bufferd option" do
+      it "works bufferd is true" do
+        opt = { :name =>  "test_buffer.log",:bufferd => true}
+        RBatch::Log.new(opt) { | log | log.info("hoge") }
+        File::open(File.join(@log_dir , "test_buffer.log")) {|f|
+          expect(f.read).to match /hoge/
+        }
+      end
+      it "works bufferd is false" do
+        opt = { :name =>  "test_buffer2.log",:bufferd => false}
+        RBatch::Log.new(opt) { | log | log.info("hoge") }
+        File::open(File.join(@log_dir , "test_buffer2.log")) {|f|
+          expect(f.read).to match /hoge/
+        }
+      end
     end
-    it "works bufferd is false" do
-      opt = { :name =>  "test_buffer2.log",:bufferd => false}
-      RBatch::Log.new(opt) { | log | log.info("hoge") }
-      File::open(File.join(@log_dir , "test_buffer2.log")) {|f|
-        expect(f.read).to match /hoge/
-      }
-    end
-
 
   end
 
   describe "option by run_conf" do
-    it "change log name" do
-      @def_vars.merge!({:log_name => "name1.log"})
-      RBatch::Log.def_vars = @def_vars
-      RBatch::Log.new { | log | log.info("hoge") }
-
-      File::open(File.join(@log_dir , "name1.log")) {|f|
-        expect(f.read).to match /hoge/
-      }
+    describe "log_name option" do
+      it "change log name" do
+        @def_vars.merge!({:log_name => "name1.log"})
+        RBatch::Log.def_vars = @def_vars
+        RBatch::Log.new { | log | log.info("hoge") }
+        
+        File::open(File.join(@log_dir , "name1.log")) {|f|
+          expect(f.read).to match /hoge/
+        }
+      end
     end
 
-    it "change log dir" do
-      @tmp = File.join(ENV["RB_HOME"],"log2")
-      Dir.mkdir(@tmp)
-      @def_vars.merge!({:log_dir => @tmp})
-      RBatch::Log.def_vars = @def_vars
-
-      opt = {:name => "c.log" }
-      RBatch::Log.new(opt) { | log | log.info("hoge") }
-
-      File::open(File.join(@tmp , "c.log")) {|f|
-        expect(f.read).to match /hoge/
-      }
-      FileUtils.rm(File.join(@tmp , "c.log"))
-      Dir.rmdir(@tmp)
+    describe "log_dir option" do
+      it "change log dir" do
+        @tmp = File.join(ENV["RB_HOME"],"log2")
+        Dir.mkdir(@tmp)
+        @def_vars.merge!({:log_dir => @tmp})
+        RBatch::Log.def_vars = @def_vars
+        
+        opt = {:name => "c.log" }
+        RBatch::Log.new(opt) { | log | log.info("hoge") }
+        
+        File::open(File.join(@tmp , "c.log")) {|f|
+          expect(f.read).to match /hoge/
+        }
+        FileUtils.rm(File.join(@tmp , "c.log"))
+        Dir.rmdir(@tmp)
+      end
     end
   end
+  
   describe "option both run_conf and opt" do
     it "change log name" do
       @def_vars.merge!({:log_name => "name1.log"})
