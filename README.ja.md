@@ -414,6 +414,15 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 #log_bufferd : true
 #log_bufferd : false
 
+# exitステータスをログに出すかどうか 
+#
+#   デフォルトはtrue。
+#   ログブロック内で "exist" メソッドを使った時に、
+#   exitステータスをログファイルに出力する。
+#
+#log_output_exit_status : true
+#log_output_exit_status : false
+
 # メール送信するかどうか
 # 
 #   デフォルト値は false。
@@ -472,6 +481,7 @@ opt = {
       :delete_old_log => false,
       :delete_old_log_date => 7,
       :bufferd => false,
+      :log_output_exit_status => true,
       :send_mail => false,
       :mail_to   => nil,
       :mail_from => "rbatch.localhost",

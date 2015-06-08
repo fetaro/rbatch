@@ -349,6 +349,40 @@ describe RBatch::Log do
       end
     end
 
+    describe ":output_exit_status option" do
+      describe "option is true" do
+        it "output FATAL error when exit status is 1" do
+          opt = { :name =>  "test_output_system_exit.log",:output_exit_status => true}
+          expect{RBatch::Log.new(opt) { | log | exit 1 }}.to raise_error(SystemExit)
+          File::open(File.join(@log_dir , "test_output_system_exit.log")) {|f|
+            expect(f.read).to match /.FATAL. RBatch catch SystemExit. Exit with status 1/
+          }
+        end
+        it "output nothing when exit status is 0" do
+          opt = { :name =>  "test_output_system_exit2.log",:output_exit_status => true}
+          expect{RBatch::Log.new(opt) { | log | exit 0 }}.to raise_error(SystemExit)
+          File::open(File.join(@log_dir , "test_output_system_exit2.log")) {|f|
+            expect(f.read).not_to match /.INFO. RBatch catch SystemExit. Exit with status 0/
+          }
+        end
+      end
+      describe "option is false" do
+        it "output nothing when exit status is not 1" do
+          opt = { :name =>  "test_output_system_exit3.log",:output_exit_status => false}
+          expect{RBatch::Log.new(opt) { | log | exit 1 }}.to raise_error(SystemExit)
+          File::open(File.join(@log_dir , "test_output_system_exit3.log")) {|f|
+            expect(f.read).not_to match /RBatch catch SystemExit/
+          }
+        end
+        it "output nothing when exit status is 0" do
+          opt = { :name =>  "test_output_system_exit4.log",:output_exit_status => false}
+          expect{RBatch::Log.new(opt) { | log | exit 0 }}.to raise_error(SystemExit)
+          File::open(File.join(@log_dir , "test_output_system_exit4.log")) {|f|
+            expect(f.read).not_to match /RBatch catch SystemExit/
+          }
+        end
+      end
+    end
   end
 
   describe "option by run_conf" do

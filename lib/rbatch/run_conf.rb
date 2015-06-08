@@ -22,6 +22,7 @@ module RBatch
       :log_delete_old_log_date => 7,
       :log_send_mail => false,
       :log_bufferd => false,
+      :log_output_exit_status => true,
       :log_mail_to   => nil,
       :log_mail_from => "rbatch.localhost",
       :log_mail_server_host => "localhost",
