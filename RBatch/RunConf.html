@@ -124,6 +124,7 @@
   <span class='symbol'>:log_delete_old_log_date</span> <span class='op'>=&gt;</span> <span class='int'>7</span><span class='comma'>,</span>
   <span class='symbol'>:log_send_mail</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
   <span class='symbol'>:log_bufferd</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
+  <span class='symbol'>:log_output_exit_status</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
   <span class='symbol'>:log_mail_to</span>   <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span>
   <span class='symbol'>:log_mail_from</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rbatch.localhost</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
   <span class='symbol'>:log_mail_server_host</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>localhost</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
@@ -376,7 +377,6 @@ Returns a new instance of RunConf
       <pre class="lines">
 
 
-32
 33
 34
 35
@@ -384,10 +384,11 @@ Returns a new instance of RunConf
 37
 38
 39
-40</pre>
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -474,15 +475,15 @@ Returns the value of attribute path
       <pre class="lines">
 
 
-86
 87
 88
 89
 90
-91</pre>
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 87</span>
 
 <span class='kw'>def</span><span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='ivar'>@opt</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -510,15 +511,15 @@ Returns the value of attribute path
       <pre class="lines">
 
 
-93
 94
 95
 96
 97
-98</pre>
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 94</span>
 
 <span class='kw'>def</span><span class='op'>[]=</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='op'>!</span> <span class='ivar'>@opt</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
@@ -568,12 +569,12 @@ Returns the value of attribute path
       <pre class="lines">
 
 
-60
 61
-62</pre>
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='ivar'>@opt</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
@@ -598,7 +599,6 @@ Returns the value of attribute path
       <pre class="lines">
 
 
-42
 43
 44
 45
@@ -614,10 +614,11 @@ Returns the value of attribute path
 55
 56
 57
-58</pre>
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='rparen'>)</span>
   <span class='kw'>begin</span>
@@ -656,7 +657,6 @@ Returns the value of attribute path
       <pre class="lines">
 
 
-74
 75
 76
 77
@@ -666,10 +666,11 @@ Returns the value of attribute path
 81
 82
 83
-84</pre>
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_opt'>opt</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='ivar'>@opt</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
@@ -702,7 +703,6 @@ Returns the value of attribute path
       <pre class="lines">
 
 
-64
 65
 66
 67
@@ -710,10 +710,11 @@ Returns the value of attribute path
 69
 70
 71
-72</pre>
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/run_conf.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_opt'>opt</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_opt'>opt</span><span class='period'>.</span><span class='id identifier rubyid_each_key'>each_key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span>
@@ -734,7 +735,7 @@ Returns the value of attribute path
 </div>
 
     <div id="footer">
-  Generated on Tue Oct 28 20:37:04 2014 by
+  Generated on Mon Jun  8 17:04:16 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.2).
 </div>

@@ -579,6 +579,21 @@ does not include &#8220;<date>&#8221;, do nothing.
         </li>
       
         <li>
+          <span class="name">:output_exit_status</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'><p>
+When you use the &#8220;exist&#8221; method in a log block, output exit
+status into the log file.
+</p>
+</div>
+          
+        </li>
+      
+        <li>
           <span class="name">:send_mail</span>
           <span class="type">(<tt>Boolean</tt>)</span>
           <span class="default">
@@ -685,8 +700,6 @@ RBatch::Log instance
       <pre class="lines">
 
 
-116
-117
 118
 119
 120
@@ -745,10 +758,14 @@ RBatch::Log instance
 173
 174
 175
-176</pre>
+176
+177
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opt'>opt</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@opt</span> <span class='op'>=</span> <span class='id identifier rubyid_opt'>opt</span>
@@ -795,16 +812,18 @@ RBatch::Log instance
     <span class='kw'>begin</span>
       <span class='kw'>yield</span> <span class='kw'>self</span>
     <span class='kw'>rescue</span> <span class='const'>SystemExit</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-      <span class='kw'>if</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='int'>0</span>
-        <span class='id identifier rubyid_exit'>exit</span> <span class='int'>0</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Caught SystemExit. RBatch Exit with status </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_exit'>exit</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span>
+      <span class='kw'>if</span> <span class='ivar'>@vars</span><span class='lbracket'>[</span><span class='symbol'>:log_output_exit_status</span><span class='rbracket'>]</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span> <span class='op'>==</span> <span class='int'>0</span>
+          <span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>RBatch catch SystemExit. Exit with status </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>RBatch catch SystemExit. Exit with status </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
       <span class='kw'>end</span>
+      <span class='id identifier rubyid_exit'>exit</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span>
     <span class='kw'>rescue</span> <span class='const'>Exception</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Caught exception. RBatch Exit with status 1</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>RBatch catch an exception. Exit with status 1</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
       <span class='id identifier rubyid_exit'>exit</span> <span class='int'>1</span>
     <span class='kw'>ensure</span>
       <span class='id identifier rubyid_close'>close</span>
@@ -1044,13 +1063,13 @@ log string
       <pre class="lines">
 
 
-210
-211
-212
-213</pre>
+214
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 214</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
   <span class='ivar'>@stdout_log</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@vars</span><span class='lbracket'>[</span><span class='symbol'>:log_stdout</span><span class='rbracket'>]</span>
@@ -1109,14 +1128,14 @@ log string
       <pre class="lines">
 
 
-188
-189
-190
-191
-192</pre>
+192
+193
+194
+195
+196</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_error'>error</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
   <span class='ivar'>@stdout_log</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@vars</span><span class='lbracket'>[</span><span class='symbol'>:log_stdout</span><span class='rbracket'>]</span>
@@ -1176,14 +1195,14 @@ log string
       <pre class="lines">
 
 
-180
-181
-182
-183
-184</pre>
+184
+185
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 180</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 184</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
   <span class='ivar'>@stdout_log</span><span class='period'>.</span><span class='id identifier rubyid_fatal'>fatal</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@vars</span><span class='lbracket'>[</span><span class='symbol'>:log_stdout</span><span class='rbracket'>]</span>
@@ -1243,13 +1262,13 @@ log string
       <pre class="lines">
 
 
-203
-204
-205
-206</pre>
+207
+208
+209
+210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 203</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 207</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
   <span class='ivar'>@stdout_log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@vars</span><span class='lbracket'>[</span><span class='symbol'>:log_stdout</span><span class='rbracket'>]</span>
@@ -1275,12 +1294,12 @@ log string
       <pre class="lines">
 
 
-216
-217
-218</pre>
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 220</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_journal'>journal</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
   <span class='ivar'>@log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[RBatch] </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
@@ -1338,13 +1357,13 @@ log string
       <pre class="lines">
 
 
-196
-197
-198
-199</pre>
+200
+201
+202
+203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/rbatch/log.rb', line 200</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
   <span class='ivar'>@stdout_log</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@vars</span><span class='lbracket'>[</span><span class='symbol'>:log_stdout</span><span class='rbracket'>]</span>
@@ -1360,7 +1379,7 @@ log string
 </div>
 
     <div id="footer">
-  Generated on Tue Oct 28 20:37:04 2014 by
+  Generated on Mon Jun  8 17:04:15 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.2).
 </div>

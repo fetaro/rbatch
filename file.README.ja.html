@@ -63,6 +63,9 @@
 
     <div id="content"><div id='filecontents'><p><a href="https://github.com/fetaro/rbatch/blob/master/README.md" title="english">English</a> | <a href="https://github.com/fetaro/rbatch/blob/master/README.ja.md" title="japanese">Japanese </a> |  <a href="http://fetaro.github.io/rbatch/index.html">Document (YardDoc)</a></p>
 
+<p><a href="http://badge.fury.io/rb/rbatch"><img src="https://badge.fury.io/rb/rbatch.svg" alt="Gem Version"></a>
+<a href="https://travis-ci.org/fetaro/rbatch"><img src="https://travis-ci.org/fetaro/rbatch.svg?branch=master" alt="Build Status"></a></p>
+
 <h1>RBatch: バッチスクリプト フレームワーク</h1>
 
 <h2>RBatchについて</h2>
@@ -473,6 +476,15 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
 </span><span class='comment'>#log_bufferd : true
 </span><span class='comment'>#log_bufferd : false
 </span>
+<span class='comment'># exitステータスをログに出すかどうか 
+</span><span class='comment'>#
+</span><span class='comment'>#   デフォルトはtrue。
+</span><span class='comment'>#   ログブロック内で &quot;exist&quot; メソッドを使った時に、
+</span><span class='comment'>#   exitステータスをログファイルに出力する。
+</span><span class='comment'>#
+</span><span class='comment'>#log_output_exit_status : true
+</span><span class='comment'>#log_output_exit_status : false
+</span>
 <span class='comment'># メール送信するかどうか
 </span><span class='comment'># 
 </span><span class='comment'>#   デフォルト値は false。
@@ -530,6 +542,7 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
       <span class='symbol'>:delete_old_log</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
       <span class='symbol'>:delete_old_log_date</span> <span class='op'>=&gt;</span> <span class='int'>7</span><span class='comma'>,</span>
       <span class='symbol'>:bufferd</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
+      <span class='symbol'>:log_output_exit_status</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
       <span class='symbol'>:send_mail</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
       <span class='symbol'>:mail_to</span>   <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span>
       <span class='symbol'>:mail_from</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rbatch.localhost</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
@@ -556,7 +569,7 @@ secret_key : JoqJSdP8+tpdFYWljVbG0+XXXXXXXXXXXXXXX
 </div></div>
 
     <div id="footer">
-  Generated on Tue Oct 28 20:37:04 2014 by
+  Generated on Mon Jun  8 17:04:15 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.2).
 </div>
