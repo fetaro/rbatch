@@ -417,7 +417,7 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 # exitステータスをログに出すかどうか 
 #
 #   デフォルトはtrue。
-#   ログブロック内で "exist" メソッドを使った時に、
+#   ログブロック内で "exit" メソッドを使った時に、
 #   exitステータスをログファイルに出力する。
 #
 #log_output_exit_status : true
