@@ -444,7 +444,7 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 # Output Exit Status
 #
 #   Default is true.
-#   When you use the "exist" method in a log block,
+#   When you use the "exit" method in a log block,
 #   output exit status into the log file.
 #
 #log_output_exit_status : true
