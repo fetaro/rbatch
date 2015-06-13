@@ -373,7 +373,7 @@ Run-Conf(`${RB_HOME}/.rbatchrc`)のサンプルは以下の通り
 
 # ログを追記するかどうか
 #
-#   デフォルト値はture。
+#   デフォルト値はtrue。
 #
 #log_append : true
 #log_append : false
