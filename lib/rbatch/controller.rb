@@ -22,10 +22,26 @@ module RBatch
       @journal.put 1, "RB_HOME : \"#{@vars[:home_dir]}\""
       @journal.put 1, "Load Run-Conf: \"#{@vars[:run_conf_path]}\""
       @journal.put 2, "RBatch Variables : #{@vars.inspect}"
-      @common_config = RBatch::Config.new(@vars[:common_config_path])
-      @journal.put 1, "Load Config  : \"#{@vars[:common_config_path]}\"" if @common_config.exist?
-      @config = RBatch::Config.new(@vars[:config_path])
-      @journal.put 1, "Load Config  : \"#{@vars[:config_path]}\"" if @config.exist?
+      if File.exist?(@vars[:common_config_path])
+        @common_config = RBatch::Config.new(@vars[:common_config_path],false)
+      elsif File.exist?(@vars[:common_config_erb_path])
+        @common_config = RBatch::Config.new(@vars[:common_config_erb_path],true)
+      else
+        # If neither exist, make normal config instance.
+        # This avoid outputting "undefined method `[]'" when RBatch.config[xx] is called. 
+        @common_config = RBatch::Config.new(@vars[:common_config_path],false)
+      end
+      @journal.put 1, "Load Config  : \"#{@common_config.path}\"" if @common_config.exist?
+      if File.exist?(@vars[:config_path])
+        @config = RBatch::Config.new(@vars[:config_path],false)
+      elsif File.exist?(@vars[:config_erb_path])
+        @config = RBatch::Config.new(@vars[:config_erb_path],true)
+      else
+        # If neither exist, make normal config instance.
+        # This avoid outputting "undefined method `[]'" when RBatch.config[xx] is called. 
+        @config = RBatch::Config.new(@vars[:config_path],false)
+      end
+      @journal.put 1, "Load Config  : \"#{@config.path}\"" if @config.exist?
 
       # double_run_check
       if ( @vars[:forbid_double_run])

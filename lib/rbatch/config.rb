@@ -1,6 +1,6 @@
 require 'yaml'
 require 'pathname'
-
+require 'erb'
 module RBatch
 
   class Config
@@ -11,10 +11,14 @@ module RBatch
     @hash
 
     # @param [String] path Config file path
-    def initialize(path)
+    def initialize(path,is_erb = false)
       @path = path
       begin
-        @hash = ConfigElement.new(YAML::load_file(@path))
+        if is_erb
+          @hash = ConfigElement.new(YAML::load(ERB.new(IO.read(@path)).result))
+        else
+          @hash = ConfigElement.new(YAML::load_file(@path))
+        end
       rescue Errno::ENOENT => e
         @hash = nil
       end

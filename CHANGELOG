@@ -9,6 +9,10 @@ If you want to know about bug fix, please see commit logs of https://github.com/
 version 2
 ===================
 
+2.5.0 (2015/06/14)
+----
+* [add] support erb format config.
+
 2.4.0 (2015/06/08)
 ----
 * [add] new option : "log_output_exit_status"

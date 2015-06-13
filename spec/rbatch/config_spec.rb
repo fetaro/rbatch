@@ -64,6 +64,17 @@ describe RBatch::Config do
       RBatch::Config.new(@path)["key"]
     }.to raise_error(RBatch::ConfigException)
   end
+
+  it "read yaml format" do
+    open( @path  , "w" ){|f| f.write("key: <%= \"hoge\" %>")}
+    expect(RBatch::Config.new(@path,false)["key"]).to eq "<%= \"hoge\" %>"
+  end
+
+  it "read erb format" do
+    open( @path  , "w" ){|f| f.write("key: <%= \"hoge\" %>" )}
+    expect(RBatch::Config.new(@path,true)["key"]).to eq "hoge"
+  end
+
 end
 
 describe RBatch::ConfigElement do

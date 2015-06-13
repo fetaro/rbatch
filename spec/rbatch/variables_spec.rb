@@ -26,7 +26,9 @@ describe RBatch::Variables do
     expect(@vars[:lib_dir]).to eq File.join(@home,"lib")
     expect(@vars[:run_conf_path]).to eq File.join(@home,".rbatchrc")
     expect(@vars[:config_path]).to eq File.join(@home,"conf","rspec.yaml")
+    expect(@vars[:config_erb_path]).to eq File.join(@home,"conf","rspec.yaml.erb")
     expect(@vars[:common_config_path]).to eq File.join(@home,"conf","common.yaml")
+    expect(@vars[:common_config_erb_path]).to eq File.join(@home,"conf","common.yaml.erb")
     expect(@vars.run_conf[:log_dir]).to eq "<home>/log"
     expect(@vars.run_conf[:conf_dir]).to eq "<home>/conf"
     expect(@vars.run_conf[:lib_dir]).to eq "<home>/lib"

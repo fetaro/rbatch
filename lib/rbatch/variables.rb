@@ -34,7 +34,9 @@ module RBatch
       @run_conf = RunConf.new(@vars[:run_conf_path]) # load run_conf
       @vars.merge!(@run_conf.opt)
       @vars[:common_config_path] = File.join(@vars[:conf_dir],@vars[:common_conf_name])
+      @vars[:common_config_erb_path] = @vars[:common_config_path] + ".erb"
       @vars[:config_path] = File.join(@vars[:conf_dir],@vars[:program_noext] + ".yaml")
+      @vars[:config_erb_path] = @vars[:config_path] + ".erb"
     end #end def
 
     def[](key)

@@ -151,9 +151,13 @@ RBatchは簡単にデフォルトの位置の設定ファイルを読み込め�
     p RBatch.config["not_exist"] # => RBatch::ConfigExceptionが発生
 
 
+もし`erb`を使って`yaml`を記述したい場合は、設定ファイルの名前を`xxx.yaml`から`xxx.yaml.erb`に変えてください。RBatchはまず`erb`を評価した後`yaml`として読み込みます。`xxx.yaml`と`xxx.yaml.erb`の両方がある場合は`xxx.yaml`が読み込まれます。
+
 #### 共通設定ファイル
 
 すべてのスクリプトから共通で読み込む設定ファイルを作りたい場合は、`${RB_HOME}/conf/common.yaml`というファイルを作ることで可能です。
+このファイル名を変えたい場合は`common_conf_name`オプションを利用してください。
+通常の設定ファイルと同様に`erb`フォーマットも利用可能です。
 
 ### 外部コマンド実行
 

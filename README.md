@@ -161,12 +161,15 @@ p RBatch.config["array"] # => ["item1", "item2", "item3"]
 p RBatch.config["not_exist"] # => Raise RBatch::ConfigException
 ```
 
+If you want to describe `yaml` by using `erb`, rename config file from `xxx.yaml` into `xxx.yaml.erb`. RBatch evaluates config file as `erb` after that read it as `yaml`. When both `xxx.yaml` and `xxx.yaml.erb` exist, `xxx.yaml` is read.
+
 #### Common Config
 
 By putting shard config file at `${RB_HOME}/conf/common.yaml`, the
 values in the file are shared by all scripts.
 If you want to change the name of the config file, you cau use the
 `common_conf_name` option.
+It accepts `erb` format like above normal config.
 
 ### External Command Wrapper
 
