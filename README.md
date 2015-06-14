@@ -401,7 +401,7 @@ Sample of RBatch Run-Conf `${RB_HOME}/.rbatchrc`.
 
 # Append Log
 #
-#   Default is ture.
+#   Default is true.
 #
 #log_append : true
 #log_append : false

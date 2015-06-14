@@ -95,7 +95,7 @@
 
 # Append Log
 #
-#   Default is ture.
+#   Default is true.
 #
 #log_append : true
 #log_append : false
