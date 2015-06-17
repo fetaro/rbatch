@@ -77,8 +77,8 @@ describe RBatch::Config do
 
 end
 
-describe RBatch::ConfigElement do
-  it "" do
+describe "RBatch::Config.parse" do
+  it "parses hash" do
     hash = {
       "a" => "av" ,
       "b" => {
@@ -89,16 +89,35 @@ describe RBatch::ConfigElement do
         }
       }
     }
-    ce = RBatch::ConfigElement.new(hash)
+    ce = RBatch::Config.parse(hash)
     expect(ce["a"]).to eq "av"
-    expect(ce["b"].class).to eq RBatch::ConfigElement
+    expect(ce["b"].class).to eq RBatch::ConfigElementHash
     expect(ce["b"]["c"]).to eq "cv"
-    expect(ce["b"]["d"].class).to eq RBatch::ConfigElement
+    expect(ce["b"]["d"].class).to eq RBatch::ConfigElementHash
     expect(ce["b"]["d"]["e"]).to eq "ev"
     expect(ce["b"]["d"]["f"][1]).to eq 2
     expect { ce["noexist"] }.to raise_error(RBatch::ConfigException)
     expect { ce["noexist"]["noexist"] }.to raise_error(RBatch::ConfigException)
     expect { ce["b"]["noexist"] }.to raise_error(RBatch::ConfigException)
     expect { ce["b"]["d"]["noexist"] }.to raise_error(RBatch::ConfigException)
+  end
+
+  it "parses array" do
+    array = [
+      "a",
+      [ "b", "c" ],
+      { "d" => "dv" , "e" => "ev" },
+      [ "f",["g","h","i"]]
+    ]
+    ce = RBatch::Config.parse(array)
+    expect(ce.class).to eq RBatch::ConfigElementArray
+    expect(ce[0]).to eq "a"
+    expect(ce[1].class).to eq RBatch::ConfigElementArray
+    expect(ce[1][0]).to eq "b"
+    expect(ce[1][1]).to eq "c"
+    expect(ce[2].class).to eq RBatch::ConfigElementHash
+    expect(ce[2]["d"]).to eq "dv"
+    expect { ce[2]["z"] }.to raise_error(RBatch::ConfigException)
+    expect(ce[3][1][1]).to eq "h"
   end
 end
