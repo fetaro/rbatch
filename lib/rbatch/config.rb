@@ -8,19 +8,19 @@ module RBatch
     @path
 
     # Actual data
-    @hash
+    @element
 
     # @param [String] path Config file path
     def initialize(path,is_erb = false)
       @path = path
       begin
         if is_erb
-          @hash = ConfigElement.new(YAML::load(ERB.new(IO.read(@path)).result))
+          @element = Config.parse(YAML::load(ERB.new(IO.read(@path)).result))
         else
-          @hash = ConfigElement.new(YAML::load_file(@path))
+          @element = Config.parse(YAML::load_file(@path))
         end
       rescue Errno::ENOENT => e
-        @hash = nil
+        @element = nil
       end
     end
 
@@ -28,10 +28,10 @@ module RBatch
     # @param [Object] key Config key.
     # @raise [RBatch::ConfigException]
     def[](key)
-      if @hash.nil?
+      if @element.nil?
         raise RBatch::ConfigException, "Config file \"#{@path}\" does not exist"
       else
-        @hash[key]
+        @element[key]
       end
     end
 
@@ -41,36 +41,51 @@ module RBatch
 
     # Config file exists or not
     # @return [Boolean]
-    def exist? ; ! @hash.nil? ; end
+    def exist? ; ! @element.nil? ; end
 
     # @return [Hash]
     def to_h
-      if @hash.nil?
+      if @element.nil?
         raise RBatch::ConfigException, "Config file \"#{@path}\" does not exist"
       else
-        @hash
+        @element
       end
     end
 
     # @return [String]
     def to_s
-      if @hash.nil?
+      if @element.nil?
         raise RBatch::ConfigException, "Config file \"#{@path}\" does not exist"
       else
-        @hash.to_s
+        @element.to_s
+      end
+    end
+
+    # @return ConfigElementArray or ConfigElementHash
+    def Config.parse(yaml)
+      if yaml.class == Hash
+        return ConfigElementHash.new(yaml)
+      elsif yaml.class == Array
+        return ConfigElementArray.new(yaml)
+      else
+        return yaml
       end
     end
   end
-
-  class ConfigElement < Hash
+  
+  class ConfigElementArray < Array
+    def initialize(array)
+      array.each_with_index do |item,index|
+        self[index] = Config.parse(item)
+      end
+    end
+  end
+  
+  class ConfigElementHash < Hash
     def initialize(hash)
       if hash
         hash.each_key do |key|
-          if hash[key].class == Hash
-            self[key] = ConfigElement.new(hash[key])
-          else
-            self[key] = hash[key]
-          end
+          self[key] = Config.parse(hash[key])
         end
       end
     end
