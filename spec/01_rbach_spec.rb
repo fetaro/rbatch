@@ -6,11 +6,13 @@ describe "RBatch" do
     @home = File.join(Dir.tmpdir, @rand)
     @log_dir = File.join(@home,"log")
     @conf_dir = File.join(@home,"conf")
+    @lib_dir = File.join(@home,"lib")
     ENV["RB_HOME"]=@home
 
     Dir.mkdir(@home)
     Dir.mkdir(@log_dir)
     Dir.mkdir(@conf_dir)
+    Dir.mkdir(@lib_dir)
     open( File.join(@home,".rbatchrc") , "a" ){|f|
       f.write("log_name : hoge.log \nforbid_double_run : true")
     }
@@ -21,6 +23,20 @@ describe "RBatch" do
 
     open( File.join(@conf_dir,"common.yaml") , "a" ){|f|
       f.write("key2 : value2")
+    }
+
+    open( File.join(@lib_dir,"hoge.rb") , "a" ){|f|
+      f.write("require 'hoge'\nrequire 'tmp/bar'\nrequire 'tmp/tmp/huga'\n")
+    }
+
+    Dir.mkdir(File.join(@lib_dir,"tmp"))
+    open( File.join(@lib_dir,"tmp","bar.rb") , "a" ){|f|
+      f.write("require 'hoge'\nrequire 'tmp/bar'\nrequire 'tmp/tmp/huga'\n")
+    }
+
+    Dir.mkdir(File.join(@lib_dir,"tmp","tmp"))
+    open( File.join(@lib_dir,"tmp","tmp","huga.rb") , "a" ){|f|
+      f.write("require 'hoge'\nrequire 'tmp/bar'\nrequire 'tmp/tmp/huga'\n")
     }
 
     # stop STODOUT output
@@ -74,10 +90,13 @@ describe "RBatch" do
     expect(RBatch.ctrl.journal.journals[2]).to match /batchrc/
     expect(RBatch.ctrl.journal.journals[3]).to match /common.yaml/
     expect(RBatch.ctrl.journal.journals[4]).to match /rspec.yaml/
-    expect(RBatch.ctrl.journal.journals[5]).to match /Start Script/
-    expect(RBatch.ctrl.journal.journals[6]).to match /Logging Start/
-    expect(RBatch.ctrl.journal.journals[7]).to match /var1/
-    expect(RBatch.ctrl.journal.journals[8]).to match /var0/
+    expect(RBatch.ctrl.journal.journals[5]).to match /Load Library.*hoge.rb/
+    expect(RBatch.ctrl.journal.journals[6]).to match /Load Library.*bar.rb/
+    expect(RBatch.ctrl.journal.journals[7]).to match /Load Library.*huga.rb/
+    expect(RBatch.ctrl.journal.journals[8]).to match /Start Script/
+    expect(RBatch.ctrl.journal.journals[9]).to match /Logging Start/
+    expect(RBatch.ctrl.journal.journals[10]).to match /var1/
+    expect(RBatch.ctrl.journal.journals[11]).to match /var0/
 
     # check log
     f = open(File.join(@home,"log","hoge.log")).read
@@ -88,12 +107,15 @@ describe "RBatch" do
     expect(lines[2]).to match /batchrc/
     expect(lines[3]).to match /common.yaml/
     expect(lines[4]).to match /rspec.yaml/
-    expect(lines[5]).to match /Start Script/
-    expect(lines[6]).to match /Logging Start/
-    expect(lines[7]).to match /test_string/
-    expect(lines[8]).to match /var1/
-    expect(lines[9]).to match /var0/
-    expect(lines[10]).to match /FATAL/
+    expect(lines[5]).to match /Load Library.*hoge.rb/
+    expect(lines[6]).to match /Load Library.*bar.rb/
+    expect(lines[7]).to match /Load Library.*huga.rb/
+    expect(lines[8]).to match /Start Script/
+    expect(lines[9]).to match /Logging Start/
+    expect(lines[10]).to match /test_string/
+    expect(lines[11]).to match /var1/
+    expect(lines[12]).to match /var0/
+    expect(lines[13]).to match /FATAL/
 
   end
 end
