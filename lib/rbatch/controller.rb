@@ -50,10 +50,11 @@ module RBatch
       end
       # load_lib
       if @vars[:auto_lib_load] && Dir.exist?(@vars[:lib_dir])
-        Dir::foreach(@vars[:lib_dir]) do |file|
-          if /.*rb/ =~ file
-            require File.join(@vars[:lib_dir],File.basename(file,".rb"))
-            @journal.put 1, "Load Library : \"#{File.join(@vars[:lib_dir],file)}\" "
+        $LOAD_PATH.push(@vars[:lib_dir])
+        Dir.glob(File.join(@vars[:lib_dir],"**","*")) do |file|
+          if file =~ /\.rb$/
+            require File.expand_path(file)
+            @journal.put 1, "Load Library : \"#{File.expand_path(file)}\" "
           end
         end
       end
