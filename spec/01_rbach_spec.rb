@@ -90,9 +90,9 @@ describe "RBatch" do
     expect(RBatch.ctrl.journal.journals[2]).to match /batchrc/
     expect(RBatch.ctrl.journal.journals[3]).to match /common.yaml/
     expect(RBatch.ctrl.journal.journals[4]).to match /rspec.yaml/
-    expect(RBatch.ctrl.journal.journals[5]).to match /Load Library.*hoge.rb/
-    expect(RBatch.ctrl.journal.journals[6]).to match /Load Library.*bar.rb/
-    expect(RBatch.ctrl.journal.journals[7]).to match /Load Library.*huga.rb/
+    expect(RBatch.ctrl.journal.journals[5]).to match /Load Library.*.rb/
+    expect(RBatch.ctrl.journal.journals[6]).to match /Load Library.*.rb/
+    expect(RBatch.ctrl.journal.journals[7]).to match /Load Library.*.rb/
     expect(RBatch.ctrl.journal.journals[8]).to match /Start Script/
     expect(RBatch.ctrl.journal.journals[9]).to match /Logging Start/
     expect(RBatch.ctrl.journal.journals[10]).to match /var1/
@@ -107,9 +107,9 @@ describe "RBatch" do
     expect(lines[2]).to match /batchrc/
     expect(lines[3]).to match /common.yaml/
     expect(lines[4]).to match /rspec.yaml/
-    expect(lines[5]).to match /Load Library.*hoge.rb/
-    expect(lines[6]).to match /Load Library.*bar.rb/
-    expect(lines[7]).to match /Load Library.*huga.rb/
+    expect(lines[5]).to match /Load Library.*.rb/
+    expect(lines[6]).to match /Load Library.*.rb/
+    expect(lines[7]).to match /Load Library.*.rb/
     expect(lines[8]).to match /Start Script/
     expect(lines[9]).to match /Logging Start/
     expect(lines[10]).to match /test_string/
