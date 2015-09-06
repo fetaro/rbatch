@@ -9,6 +9,12 @@ If you want to know about bug fix, please see commit logs of https://github.com/
 version 2
 ===================
 
+2.6.0 (2015/09/06)
+----
+* [change] ${RB_HOME}/lib is added to $LOAD_PATH by default.
+* [change] Before auto-library-loading only load lib/*.rb, now it can load recursively.
+* [change] auto-library-loading ignore files whose name begin with the "." .
+
 2.5.0 (2015/06/14)
 ----
 * [add] support erb format config.

@@ -22,6 +22,7 @@ module RBatch
       @journal.put 1, "RB_HOME : \"#{@vars[:home_dir]}\""
       @journal.put 1, "Load Run-Conf: \"#{@vars[:run_conf_path]}\""
       @journal.put 2, "RBatch Variables : #{@vars.inspect}"
+      # Load common_config
       if File.exist?(@vars[:common_config_path])
         @common_config = RBatch::Config.new(@vars[:common_config_path],false)
       elsif File.exist?(@vars[:common_config_erb_path])
@@ -32,6 +33,7 @@ module RBatch
         @common_config = RBatch::Config.new(@vars[:common_config_path],false)
       end
       @journal.put 1, "Load Config  : \"#{@common_config.path}\"" if @common_config.exist?
+      # Load config
       if File.exist?(@vars[:config_path])
         @config = RBatch::Config.new(@vars[:config_path],false)
       elsif File.exist?(@vars[:config_erb_path])
@@ -42,19 +44,18 @@ module RBatch
         @config = RBatch::Config.new(@vars[:config_path],false)
       end
       @journal.put 1, "Load Config  : \"#{@config.path}\"" if @config.exist?
-
       # double_run_check
       if ( @vars[:forbid_double_run])
         RBatch::DoubleRunChecker.check(@vars[:program_base]) #raise error if check is NG
         RBatch::DoubleRunChecker.make_lock_file(@vars[:program_base])
       end
       # load_lib
+      $LOAD_PATH.push(@vars[:lib_dir])
       if @vars[:auto_lib_load] && Dir.exist?(@vars[:lib_dir])
-        $LOAD_PATH.push(@vars[:lib_dir])
-        Dir.glob(File.join(@vars[:lib_dir],"**","*")) do |file|
-          if file =~ /\.rb$/
-            require File.expand_path(file)
-            @journal.put 1, "Load Library : \"#{File.expand_path(file)}\" "
+        Dir.glob(File.join(@vars[:lib_dir],"**","*")) do |path|
+          if File::basename(path) =~ /^[^\.].*\.rb$/
+            require File.expand_path(path)
+            @journal.put 1, "Load Library : \"#{File.expand_path(path)}\" "
           end
         end
       end
