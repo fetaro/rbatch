@@ -29,6 +29,9 @@ describe "RBatch" do
       f.write("require 'hoge'\nrequire 'tmp/bar'\nrequire 'tmp/tmp/huga'\n")
     }
 
+    # this library shold not be loaded
+    open( File.join(@lib_dir,".hoge.rb.swp") , "a" ){|f|}
+
     Dir.mkdir(File.join(@lib_dir,"tmp"))
     open( File.join(@lib_dir,"tmp","bar.rb") , "a" ){|f|
       f.write("require 'hoge'\nrequire 'tmp/bar'\nrequire 'tmp/tmp/huga'\n")
