@@ -1,11 +1,6 @@
 language: ruby
-ruby:
-  - "1.9"
-before_install:
-  - gem install rbatch rspec
-before_script:
-script:
-  - rake spec
+rvm:
+  - "2.0"
 notifications:
   emails:
     - fetaro@gmail.com

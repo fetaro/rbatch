@@ -1,6 +1,3 @@
-require 'simplecov'
-SimpleCov.start
-
 require 'rbatch/journal'
 
 describe RBatch::Journal do

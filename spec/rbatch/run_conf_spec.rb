@@ -1,6 +1,3 @@
-require 'simplecov'
-SimpleCov.start
-
 require 'rbatch/run_conf'
 require 'tmpdir'
 

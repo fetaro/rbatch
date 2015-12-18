@@ -3,3 +3,4 @@ sample/log/*.log
 coverage/
 .yardoc/
 **/*flymake*
+Gemfile.lock
