@@ -11,6 +11,7 @@ module RBatch
   # @private
   def init
     @@ctrl = RBatch::Controller.new
+    @@ctrl.load_lib
   end
 
   # @private
