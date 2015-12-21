@@ -24,10 +24,15 @@ describe "RBatch" do
     open( File.join(@conf_dir,"common.yaml") , "a" ){|f|
       f.write("key2 : value2")
     }
-
     open( File.join(@lib_dir,"hoge.rb") , "a" ){|f|
-      f.write("require 'hoge'\nrequire 'tmp/bar'\nrequire 'tmp/tmp/huga'\n")
-    }
+      f.write(<<EOF
+require 'hoge'
+require 'tmp/bar'
+require 'tmp/tmp/huga'
+RBatch.config['key1']
+RBatch.common_config['key2']
+EOF
+)    }
 
     # this library shold not be loaded
     open( File.join(@lib_dir,".hoge.rb.swp") , "a" ){|f|}
