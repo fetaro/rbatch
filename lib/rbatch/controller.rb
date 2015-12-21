@@ -49,7 +49,8 @@ module RBatch
         RBatch::DoubleRunChecker.check(@vars[:program_base]) #raise error if check is NG
         RBatch::DoubleRunChecker.make_lock_file(@vars[:program_base])
       end
-      # load_lib
+    end #end def
+    def load_lib
       $LOAD_PATH.push(@vars[:lib_dir])
       if @vars[:auto_lib_load] && Dir.exist?(@vars[:lib_dir])
         Dir.glob(File.join(@vars[:lib_dir],"**","*")) do |path|
@@ -60,7 +61,7 @@ module RBatch
         end
       end
       @journal.put 1, "Start Script : \"#{@vars[:program_path]}\""
-    end #end def
+    end
     def config ; @config ; end
     def common_config ; @common_config ; end
     def cmd(cmd_str,opt)
